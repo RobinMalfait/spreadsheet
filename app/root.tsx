@@ -1,11 +1,5 @@
-import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
-import "./tailwind.css";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
+import './tailwind.css'
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -22,9 +16,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
-  );
+  )
 }
 
 export default function App() {
-  return <Outlet />;
+  return <Outlet />
 }
