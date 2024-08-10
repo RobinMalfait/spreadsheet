@@ -6,15 +6,15 @@ type CellRange = `${Cell}:${Cell}`
 type Argument = number | Cell | CellRange
 
 function* expandRange(range: CellRange) {
-  const [lhs, rhs] = segment(range, ':')
-  const [, lhsCol, lhsRow] = /([A-Z]*)([0-9]*)/g.exec(lhs)!
-  const [, rhsCol, rhsRow] = /([A-Z]*)([0-9]*)/g.exec(rhs)!
+  let [lhs, rhs] = segment(range, ':')
+  let [, lhsCol, lhsRow] = /([A-Z]*)([0-9]*)/g.exec(lhs)!
+  let [, rhsCol, rhsRow] = /([A-Z]*)([0-9]*)/g.exec(rhs)!
 
-  const startCol = lhsCol.charCodeAt(0)
-  const endCol = rhsCol.charCodeAt(0)
+  let startCol = lhsCol.charCodeAt(0)
+  let endCol = rhsCol.charCodeAt(0)
 
-  const startRow = Number(lhsRow)
-  const endRow = Number(rhsRow)
+  let startRow = Number(lhsRow)
+  let endRow = Number(rhsRow)
 
   for (let col = startCol; col <= endCol; col++) {
     for (let row = startRow; row <= endRow; row++) {
@@ -26,11 +26,11 @@ function* expandRange(range: CellRange) {
 const functions = {
   SUM(spreadsheet: Spreadsheet, ...args: Argument[]) {
     let out = 0
-    for (const arg of args) {
+    for (let arg of args) {
       if (!Number.isNaN(Number(arg))) {
         out += Number(arg)
       } else if (typeof arg === 'string' && arg.includes(':')) {
-        for (const cell of expandRange(arg as CellRange)) {
+        for (let cell of expandRange(arg as CellRange)) {
           out += Number(spreadsheet.compute(cell))
         }
       } else {
@@ -41,11 +41,11 @@ const functions = {
   },
   PRODUCT(spreadsheet: Spreadsheet, ...args: Argument[]) {
     let out = 1
-    for (const arg of args) {
+    for (let arg of args) {
       if (!Number.isNaN(Number(arg))) {
         out *= Number(arg)
       } else if (typeof arg === 'string' && arg.includes(':')) {
-        for (const cell of expandRange(arg as CellRange)) {
+        for (let cell of expandRange(arg as CellRange)) {
           out *= Number(spreadsheet.compute(cell))
         }
       } else {
@@ -82,8 +82,8 @@ export class Expression {
 
   parse() {
     // @ts-expect-error todo
-    const [, fn, args] = /^(.*?)\((.*?)\)$/.exec(this.expression)
-    const argList = segment(args, ',')
+    let [, fn, args] = /^(.*?)\((.*?)\)$/.exec(this.expression)
+    let argList = segment(args, ',')
     this.fn = fn
     this.args = argList as Argument[]
   }

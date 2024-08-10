@@ -1,6 +1,6 @@
 import type { MetaFunction } from '@remix-run/node'
 import clsx from 'clsx'
-import { CSSProperties, useState } from 'react'
+import { type CSSProperties, useState } from 'react'
 import { Expression, Spreadsheet, Value } from '~/domain/spreadsheet'
 
 export const meta: MetaFunction = () => {
@@ -14,7 +14,7 @@ const WIDTH = 26
 const HEIGHT = 26
 
 export default function Index() {
-  const [spreadsheet] = useState(() => new Spreadsheet())
+  let [spreadsheet] = useState(() => new Spreadsheet())
 
   spreadsheet.set('A1', Value.of(2))
   spreadsheet.set('B1', Expression.of('SUM(A1,A1)'))
@@ -23,7 +23,7 @@ export default function Index() {
 
   spreadsheet.set('A2', Expression.of('PRODUCT(A1:D1)'))
 
-  const cells = Array.from({
+  let cells = Array.from({
     length: (WIDTH + 1) * (HEIGHT + 1),
   }).fill(0)
 
@@ -39,12 +39,12 @@ export default function Index() {
         className="text-sm grid border border-gray-300 w-full grid-rows-[auto_repeat(var(--rows),minmax(0,1fr))] grid-cols-[var(--spacing-16)_repeat(var(--rows),minmax(var(--spacing-32),1fr))]"
       >
         {cells.map((_, idx) => {
-          const row = Math.floor(idx / (WIDTH + 1))
-          const col = idx % (WIDTH + 1)
+          let row = Math.floor(idx / (WIDTH + 1))
+          let col = idx % (WIDTH + 1)
 
-          const id = `${String.fromCharCode(64 + col)}${row}`
+          let id = `${String.fromCharCode(64 + col)}${row}`
 
-          const contents = (() => {
+          let contents = (() => {
             if (row === 0 && col === 0) {
               return ''
             }
@@ -57,12 +57,14 @@ export default function Index() {
               return row
             }
 
-            const out = spreadsheet.compute(id)
+            let out = spreadsheet.compute(id)
             if (out) {
               return (
                 <div>
                   <div>{out}</div>
-                  <small className="text-gray-500 font-mono">={spreadsheet.get(id)}</small>
+                  <small className="text-gray-500 font-mono">
+                    ={spreadsheet.get(id)}
+                  </small>
                 </div>
               )
             }
