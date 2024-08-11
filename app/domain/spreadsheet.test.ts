@@ -174,4 +174,86 @@ describe('expressions', () => {
       expect(spreadsheet.compute('A4')).toEqual(100 * 200)
     })
   })
+
+  describe('AVERAGE', () => {
+    it('should AVERAGE a list of numbers', () => {
+      let spreadsheet = new Spreadsheet()
+      spreadsheet.set('A1', '=AVERAGE(1, 2, 3)')
+
+      expect(spreadsheet.compute('A1')).toEqual((1 + 2 + 3) / 3)
+    })
+
+    it('should AVERAGE a list of cells', () => {
+      let spreadsheet = new Spreadsheet()
+      spreadsheet.set('A1', '100')
+      spreadsheet.set('A2', '200')
+      spreadsheet.set('A3', '=AVERAGE(A1, A2)')
+
+      expect(spreadsheet.compute('A3')).toEqual((100 + 200) / 2)
+    })
+
+    it('should AVERAGE a range of cells (vertical)', () => {
+      let spreadsheet = new Spreadsheet()
+      spreadsheet.set('A1', '100')
+      spreadsheet.set('A2', '200')
+      spreadsheet.set('A3', '300')
+      spreadsheet.set('A4', '=AVERAGE(A1:A3)')
+
+      expect(spreadsheet.compute('A4')).toEqual((100 + 200 + 300) / 3)
+    })
+
+    it('should AVERAGE a range of cells (horizontal)', () => {
+      let spreadsheet = new Spreadsheet()
+      spreadsheet.set('A1', '100')
+      spreadsheet.set('B1', '200')
+      spreadsheet.set('C1', '300')
+      spreadsheet.set('A2', '=AVERAGE(A1:C1)')
+
+      expect(spreadsheet.compute('A2')).toEqual((100 + 200 + 300) / 3)
+    })
+
+    it('should AVERAGE a range of cells (block)', () => {
+      let spreadsheet = new Spreadsheet()
+      spreadsheet.set('A1', '100')
+      spreadsheet.set('B1', '200')
+      spreadsheet.set('C1', '300')
+      spreadsheet.set('A2', '400')
+      spreadsheet.set('B2', '500')
+      spreadsheet.set('C2', '600')
+
+      spreadsheet.set('A3', '=AVERAGE(A1:C2)')
+
+      expect(spreadsheet.compute('A3')).toEqual((100 + 200 + 300 + 400 + 500 + 600) / 6)
+    })
+
+    it('should AVERAGE a range of cells (block, overlapping ranges)', () => {
+      let spreadsheet = new Spreadsheet()
+      spreadsheet.set('A1', '100')
+      spreadsheet.set('B1', '200')
+      spreadsheet.set('C1', '300')
+      spreadsheet.set('A2', '400')
+      spreadsheet.set('A3', '500')
+      spreadsheet.set('A4', '600')
+
+      spreadsheet.set('A5', '=AVERAGE(A1:C1, A1:A4)')
+
+      // A1:C1
+      let horizontal = 100 + 200 + 300
+      // A1:A4
+      let vertical = 100 + 400 + 500 + 600
+
+      expect(spreadsheet.compute('A5')).toEqual((horizontal + vertical) / 7)
+    })
+
+    it('should be possible to calculate a simple expression', () => {
+      let spreadsheet = new Spreadsheet()
+      spreadsheet.set('A1', '100')
+      spreadsheet.set('A2', '200')
+      spreadsheet.set('A3', '=AVERAGE(A1,A2)')
+      spreadsheet.set('A4', '=AVERAGE(A1:A2)')
+
+      expect(spreadsheet.compute('A3')).toEqual((100 + 200) / 2)
+      expect(spreadsheet.compute('A4')).toEqual((100 + 200) / 2)
+    })
+  })
 })

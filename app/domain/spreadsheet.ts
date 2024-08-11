@@ -50,6 +50,21 @@ const functions = {
 
     return { kind: EvaluationResultKind.NUMBER, value: out }
   },
+  AVERAGE(...args: EvaluationResult[]): EvaluationResult {
+    let sum = 0
+    let count = 0
+
+    for (let arg of args) {
+      if (arg.kind === EvaluationResultKind.NUMBER) {
+        count += 1
+        sum += arg.value
+      }
+    }
+
+    let out = sum / count
+
+    return { kind: EvaluationResultKind.NUMBER, value: out }
+  },
 }
 
 enum EvaluationResultKind {
