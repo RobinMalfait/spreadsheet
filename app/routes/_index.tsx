@@ -75,8 +75,11 @@ export default function Index() {
     spreadsheet.set('A11', 'Unknown fn:')
     spreadsheet.set('B11', '=FOOBAR(1, 2, 3)')
 
-    spreadsheet.set('A12', 'Circular ref:')
-    spreadsheet.set('B12', '=B12')
+    spreadsheet.set('A12', 'Circular refs:')
+    spreadsheet.set('B12', '=SUM(C12, 1)')
+    spreadsheet.set('C12', '=SUM(C13, 1)')
+    spreadsheet.set('C13', '=SUM(B13, 1)')
+    spreadsheet.set('B13', '=SUM(B12, 1)')
 
     spreadsheet.set('D6', '\u03C0')
     spreadsheet.set('E6', '=PI()')

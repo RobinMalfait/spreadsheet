@@ -241,7 +241,17 @@ export class Spreadsheet {
   evaluate(cell: string): EvaluationResult[] {
     let result = this.cells.get(cell)
     if (result) {
-      return evaluateExpression(result[1], this)
+      try {
+        return evaluateExpression(result[1], this)
+      } catch (e) {
+        // TODO: Add proper circular reference detection
+        if (e instanceof RangeError) {
+          throw Object.assign(new Error(`Circular reference detected in cell ${cell}`), {
+            short: '#REF!',
+          })
+        }
+        throw e
+      }
     }
     return []
   }
