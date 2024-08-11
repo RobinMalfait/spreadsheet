@@ -39,20 +39,29 @@ export default function Index() {
   let [spreadsheet] = useState(() => {
     let spreadsheet = new Spreadsheet()
 
-    spreadsheet.set('A1', '2')
-    spreadsheet.set('B1', '=SUM(A1, A1)')
-    spreadsheet.set('C1', '=SUM(B1, A1)')
-    spreadsheet.set('D1', '=SUM(C1, A1)')
-    spreadsheet.set('E1', '=SUM(C1, PRODUCT(A1:D1))')
-    spreadsheet.set('B2', '=CONCAT("2+2=", SUM(2, 2))')
-    spreadsheet.set('A2', '=CONCAT(A1, "+", B1, "=", SUM(A1:B1))')
-    spreadsheet.set('A3', '=CONCAT(A1, "*", B1, "=", PRODUCT(A1:B1))')
-    spreadsheet.set('C3', '=CONCAT("Hello", " ", "World", "!")')
-    spreadsheet.set('B3', '=AVERAGE(A1:E1)')
-    spreadsheet.set('C4', '=LOWER(C3)')
-    spreadsheet.set('C5', '=UPPER(C3)')
+    spreadsheet.set('A1', 'Double it:')
+    spreadsheet.set('B1', '2')
+    spreadsheet.set('C1', '=PRODUCT(B1, 2)')
+    spreadsheet.set('D1', '=PRODUCT(C1, 2)')
+    spreadsheet.set('E1', '=PRODUCT(D1, 2)')
+    spreadsheet.set('F1', 'Sum:')
+    spreadsheet.set('G1', '=SUM(B1:E1)')
+    spreadsheet.set('F2', 'Product:')
+    spreadsheet.set('G2', '=PRODUCT(B1:E1)')
+    spreadsheet.set('F3', 'Average:')
+    spreadsheet.set('G3', '=AVERAGE(B1:E1)')
 
-    spreadsheet.set('A4', '=PRODUCT(A1:E1)')
+    spreadsheet.set('A3', 'Word 1:')
+    spreadsheet.set('A4', 'Word 2:')
+    spreadsheet.set('B3', 'Hello')
+    spreadsheet.set('B4', 'World!')
+
+    spreadsheet.set('A6', 'Concatenation:')
+    spreadsheet.set('B6', '=CONCAT(B3, " ", B4)')
+    spreadsheet.set('A7', 'Lowercase:')
+    spreadsheet.set('B7', '=LOWER(B6)')
+    spreadsheet.set('A8', 'Uppercase:')
+    spreadsheet.set('B8', '=UPPER(B6)')
 
     return spreadsheet
   })
@@ -298,11 +307,10 @@ export default function Index() {
                   // Active row/column header
                   ((row === 0 && location.col === col) ||
                     (col === 0 && location.row === row)) &&
-                    'force:bg-blue-500/20',
+                    'force:bg-blue-100',
 
                   // Active cell
-                  cell === id &&
-                    'inset-ring-2 inset-ring-blue-500 z-10 force:border-blue-500',
+                  cell === id && 'inset-ring-2 inset-ring-blue-500 force:border-blue-500',
                 )}
                 title={alt ?? undefined}
               >
