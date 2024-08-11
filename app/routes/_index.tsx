@@ -56,7 +56,7 @@ export default function Index() {
     spreadsheet.set('F3', 'Average:')
     spreadsheet.set('G3', '=AVERAGE(B1:E1)')
 
-    spreadsheet.set('A2', 'References B1:')
+    spreadsheet.set('A2', 'Ref B1:')
     spreadsheet.set('B2', '=B1')
 
     spreadsheet.set('A3', 'Word 1:')
@@ -86,6 +86,14 @@ export default function Index() {
 
     spreadsheet.set('D7', '\u03C4')
     spreadsheet.set('E7', '=PRODUCT(PI(), 2)')
+
+    spreadsheet.set('A14', 'Ref self')
+    spreadsheet.set('B14', '=B14')
+    spreadsheet.set('C14', '=SUM(C14, 1)')
+    spreadsheet.set('D14', '=SUM(D13:D15)')
+
+    spreadsheet.set('A15', 'Ref range B1:C1')
+    spreadsheet.set('B15', '=B1:C1')
 
     return spreadsheet
   })
@@ -191,7 +199,7 @@ export default function Index() {
         />
         {out?.kind === ComputationResultKind.ERROR && (
           <span className="inline-flex items-center gap-1 rounded-md bg-red-50 px-1.5 py-0.5 font-medium text-red-700 text-xs ring-1 ring-red-600/10 ring-inset">
-            <ExclamationTriangleIcon className="size-4 text-red-600" />
+            <ExclamationTriangleIcon className="size-4 shrink-0 text-red-600" />
             <span>{out.message}</span>
           </span>
         )}
@@ -248,7 +256,7 @@ export default function Index() {
                     key="error"
                     className="inline-flex items-center gap-1 rounded-md bg-red-50 px-1.5 py-0.5 font-medium text-red-700 text-xs ring-1 ring-red-600/10 ring-inset"
                   >
-                    <ExclamationTriangleIcon className="size-4 text-red-600" />
+                    <ExclamationTriangleIcon className="size-4 shrink-0 text-red-600" />
                     <span>{out.short}</span>
                   </span>,
                   out.message,

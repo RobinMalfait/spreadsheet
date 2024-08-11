@@ -241,6 +241,13 @@ export class Spreadsheet {
   evaluate(cell: string): EvaluationResult[] {
     let result = this.cells.get(cell)
     if (result) {
+      // TODO: Should this be moved to the `set` method?
+      if (result[1].kind === AstKind.RANGE) {
+        throw Object.assign(new Error('Cannot reference a range to a cell'), {
+          short: '#VALUE!',
+        })
+      }
+
       try {
         return evaluateExpression(result[1], this)
       } catch (e) {
