@@ -150,13 +150,15 @@ export default function Index() {
             forceRerender()
           }}
         />
-        <button
-          type="button"
-          onClick={() => setDebugView((v) => !v)}
-          className="px-2 py-1.5 text-sm"
-        >
-          DEBUG
-        </button>
+        <div className="px-2">
+          <button
+            type="button"
+            onClick={() => setDebugView((v) => !v)}
+            className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 font-medium text-gray-600 text-xs ring-1 ring-gray-500/10 ring-inset"
+          >
+            <span>DEBUG</span>
+          </button>
+        </div>
       </div>
       <div className="flex flex-1 overflow-hidden">
         <div
