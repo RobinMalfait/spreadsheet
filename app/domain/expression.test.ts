@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { parseColNumber, parseExpression, tokenizeExpression } from './expression'
+import {
+  parseColNumber,
+  parseExpression,
+  parseLocation,
+  printLocation,
+  tokenizeExpression,
+} from './expression'
 
 const json = String.raw
 
@@ -15,6 +21,20 @@ it('should parse the column number', () => {
 
   expect(parseColNumber('ZA')).toEqual(677)
   expect(parseColNumber('ZZ')).toEqual(702)
+})
+
+it('should print the cell after parsing', () => {
+  expect(printLocation(parseLocation('A1'))).toEqual('A1')
+  expect(printLocation(parseLocation('A10'))).toEqual('A10')
+
+  expect(printLocation(parseLocation('Z1'))).toEqual('Z1')
+  expect(printLocation(parseLocation('Z10'))).toEqual('Z10')
+
+  expect(printLocation(parseLocation('AA1'))).toEqual('AA1')
+  expect(printLocation(parseLocation('AA10'))).toEqual('AA10')
+
+  expect(printLocation(parseLocation('AZ1'))).toEqual('AZ1')
+  expect(printLocation(parseLocation('AZ10'))).toEqual('AZ10')
 })
 
 describe('tokenization', () => {

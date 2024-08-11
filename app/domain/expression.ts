@@ -310,11 +310,9 @@ function printColNumber(input: number) {
   let col = ''
 
   while (remaining > 0) {
-    let remainder = remaining % 26
-
-    let char = remainder === 0 ? 'Z' : String.fromCharCode(UPPER_A + remainder - 1)
-    col = char + col
-    remaining = Math.floor(remaining / 26)
+    let mod = (remaining - 1) % 26
+    col = String.fromCharCode(UPPER_A + mod) + col
+    remaining = Math.floor((remaining - mod) / 26)
   }
 
   return col
