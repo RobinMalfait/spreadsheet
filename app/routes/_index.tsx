@@ -26,7 +26,7 @@ export const meta: MetaFunction = () => {
 }
 
 const WIDTH = 26
-const HEIGHT = 26
+const HEIGHT = 30
 
 export default function Index() {
   let [cell, setActiveCell] = useState('A1')
@@ -57,7 +57,12 @@ export default function Index() {
   // Move active cell
   let moveRight = useCallback(() => {
     let parsed = parseLocation(cell)
-    parsed.col += 1
+    parsed.col = Math.min(WIDTH, parsed.col + 1)
+    setActiveCell(printLocation(parsed))
+  }, [cell])
+  let moveLeftFirst = useCallback(() => {
+    let parsed = parseLocation(cell)
+    parsed.col = 1
     setActiveCell(printLocation(parsed))
   }, [cell])
   let moveLeft = useCallback(() => {
@@ -65,14 +70,29 @@ export default function Index() {
     parsed.col = Math.max(1, parsed.col - 1)
     setActiveCell(printLocation(parsed))
   }, [cell])
+  let moveRightLast = useCallback(() => {
+    let parsed = parseLocation(cell)
+    parsed.col = WIDTH
+    setActiveCell(printLocation(parsed))
+  }, [cell])
   let moveUp = useCallback(() => {
     let parsed = parseLocation(cell)
     parsed.row = Math.max(1, parsed.row - 1)
     setActiveCell(printLocation(parsed))
   }, [cell])
+  let moveUpFirst = useCallback(() => {
+    let parsed = parseLocation(cell)
+    parsed.row = 1
+    setActiveCell(printLocation(parsed))
+  }, [cell])
   let moveDown = useCallback(() => {
     let parsed = parseLocation(cell)
-    parsed.row += 1
+    parsed.row = Math.min(HEIGHT, parsed.row + 1)
+    setActiveCell(printLocation(parsed))
+  }, [cell])
+  let moveDownLast = useCallback(() => {
+    let parsed = parseLocation(cell)
+    parsed.row = HEIGHT
     setActiveCell(printLocation(parsed))
   }, [cell])
 
@@ -90,7 +110,7 @@ export default function Index() {
   let location = useMemo(() => parseLocation(cell), [cell])
 
   return (
-    <div className="overflow-hidden font-sans">
+    <div className="flex h-screen w-screen flex-col overflow-hidden font-sans">
       <div className="flex items-center border-gray-300 border-b">
         <div className="w-16 py-1.5 text-center">{cell}</div>
         <div className="font-thin text-gray-300">|</div>
@@ -101,8 +121,28 @@ export default function Index() {
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              spreadsheet.set(cell, e.currentTarget.value)
-              forceRerender()
+              // Submit the new value
+              flushSync(() => {
+                spreadsheet.set(cell, e.currentTarget.value)
+                forceRerender()
+              })
+
+              // Move focus back to the grid
+              let btn = document.querySelector(`button[data-cell=${cell}]`)
+              if (btn && btn.tagName === 'BUTTON') {
+                ;(btn as HTMLButtonElement).focus()
+              }
+            } else if (e.key === 'Escape') {
+              // Reset the value
+              flushSync(() => {
+                setValue(spreadsheet.get(cell))
+              })
+
+              // Move focus back to the grid
+              let btn = document.querySelector(`button[data-cell=${cell}]`)
+              if (btn && btn.tagName === 'BUTTON') {
+                ;(btn as HTMLButtonElement).focus()
+              }
             }
           }}
           onBlur={(e) => {
@@ -118,15 +158,22 @@ export default function Index() {
           DEBUG
         </button>
       </div>
-      <div className="flex overflow-hidden">
+      <div className="flex flex-1 overflow-hidden">
         <div
           style={
             {
               '--columns': WIDTH,
               '--rows': HEIGHT,
+              '--row-header-width': 'var(--spacing-16)',
+              '--col-header-height': 'var(--spacing-8)',
             } as CSSProperties
           }
-          className="grid w-full grid-cols-[var(--spacing-16)_repeat(var(--rows),minmax(var(--spacing-32),1fr))] grid-rows-[auto_repeat(var(--rows),minmax(0,1fr))] overflow-auto text-sm"
+          className={clsx(
+            'grid',
+            'grid-cols-[var(--row-header-width)_repeat(var(--columns),minmax(calc(var(--row-header-width)*2),1fr))]',
+            'grid-rows-[var(--col-header-height)_repeat(var(--rows),minmax(var(--col-header-height),1fr))]',
+            'w-full overflow-auto text-sm',
+          )}
         >
           {cells.map((_, idx) => {
             let row = Math.floor(idx / (WIDTH + 1))
@@ -167,6 +214,7 @@ export default function Index() {
               <button
                 disabled={row === 0 || col === 0}
                 key={id}
+                data-cell={id}
                 type="button"
                 onClick={() => setActiveCell(id)}
                 onFocus={() => setActiveCell(id)}
@@ -185,6 +233,7 @@ export default function Index() {
                 ref={(e) => {
                   if (e && cell === id) {
                     e.scrollIntoView({
+                      behavior: 'instant',
                       block: 'nearest',
                       inline: 'nearest',
                     })
@@ -203,6 +252,22 @@ export default function Index() {
                   } else if (e.key === 'ArrowDown') {
                     e.preventDefault()
                     moveDown()
+                  } else if (e.key === 'PageUp') {
+                    e.preventDefault()
+                    moveUpFirst()
+                  } else if (e.key === 'PageDown') {
+                    e.preventDefault()
+                    moveDownLast()
+                  } else if (e.key === 'Home') {
+                    e.preventDefault()
+                    moveLeftFirst()
+                  } else if (e.key === 'End') {
+                    e.preventDefault()
+                    moveRightLast()
+                  } else {
+                    // Move focus to the input, and start editing
+                    inputRef.current?.focus()
+                    inputRef.current?.select()
                   }
                 }}
                 className={clsx(
@@ -210,11 +275,16 @@ export default function Index() {
                   'px-2 py-1.5',
                   'border-0.5 border-gray-200',
 
+                  // Scrollable area offsets for sticky headers
+                  '[--offset-padding:var(--spacing-2)]',
+                  'scroll-mt-[calc(var(--col-header-height)+var(--offset-padding))]',
+                  'scroll-ml-[calc(var(--row-header-width)+var(--offset-padding))]',
+
                   // Top left corner
-                  row === 0 && col === 0 && 'z-20 border-r-1 border-b-1',
+                  row === 0 && col === 0 && 'z-30 border-r-1 border-b-1',
 
                   // Column or row header
-                  row === 0 || col === 0 ? 'bg-gray-100 text-center' : 'bg-white',
+                  row === 0 || col === 0 ? 'z-20 bg-gray-100 text-center' : 'bg-white',
 
                   // Column header
                   col === 0 && 'sticky left-0',
@@ -257,10 +327,17 @@ export default function Index() {
 
               return (
                 <>
-                  <div className="flex items-center gap-2 p-2">
-                    <label>Cell:</label>
-                    <small>{cell}</small>
+                  <div className="grid grid-cols-2">
+                    <div className="flex items-center gap-2 p-2">
+                      <label>Cell:</label>
+                      <small>{cell}</small>
+                    </div>
+                    <div className="flex items-center gap-2 p-2">
+                      <label>Result:</label>
+                      <small>{result}</small>
+                    </div>
                   </div>
+                  <hr className="border-gray-200" />
                   <div className="flex flex-col gap-2 p-2">
                     <label>Expression:</label>
                     <small>{value}</small>
@@ -285,9 +362,7 @@ export default function Index() {
                   </div>
                   <div className="flex items-center gap-2 p-2">
                     <label>Result:</label>
-                    <pre className="font-mono text-xs">
-                      {JSON.stringify(result, null, 2)}
-                    </pre>
+                    <small>{result}</small>
                   </div>
                 </>
               )
