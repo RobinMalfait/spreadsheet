@@ -13,6 +13,7 @@ import { flushSync } from 'react-dom'
 import {
   parseExpression,
   parseLocation,
+  printExpression,
   printLocation,
   tokenizeExpression,
 } from '~/domain/expression'
@@ -326,6 +327,7 @@ export default function Index() {
               let expression = value[0] === '=' ? value.slice(1) : `"${value}"`
               let tokens = tokenizeExpression(expression)
               let ast = parseExpression(tokens)
+              let stringifiedAST = `=${printExpression(ast)}`
               let evaluation = spreadsheet.evaluate(cell)
               let result = spreadsheet.compute(cell)
 
@@ -346,6 +348,13 @@ export default function Index() {
                     <label>Expression:</label>
                     <small>{value}</small>
                   </div>
+                  {value !== stringifiedAST && (
+                    <div className="flex flex-col gap-2 p-2">
+                      <label>Interpreted expression:</label>
+                      <small>{stringifiedAST}</small>
+                    </div>
+                  )}
+
                   <div className="flex flex-col gap-2 p-2">
                     <label>Tokenization:</label>
                     <pre className="font-mono text-xs">
