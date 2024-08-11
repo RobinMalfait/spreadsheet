@@ -21,6 +21,9 @@
     "rules": {
       "style": {
         "useConst": "off"
+      },
+      "nursery": {
+        "useSortedClasses": "warn"
       }
     }
   },
