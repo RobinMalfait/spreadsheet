@@ -51,6 +51,9 @@ export default function Index() {
     spreadsheet.set('F3', 'Average:')
     spreadsheet.set('G3', '=AVERAGE(B1:E1)')
 
+    spreadsheet.set('A2', 'References B1:')
+    spreadsheet.set('B2', '=B1')
+
     spreadsheet.set('A3', 'Word 1:')
     spreadsheet.set('A4', 'Word 2:')
     spreadsheet.set('B3', 'Hello')
