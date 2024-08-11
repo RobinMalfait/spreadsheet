@@ -1,18 +1,13 @@
+import { DefaultMap } from '~/utils/default-map'
 import {
   type AST,
+  type AstCell,
   type AstCellRange,
   AstKind,
   parseExpression,
+  parseLocation,
   tokenizeExpression,
 } from './expression'
-
-function* expandRange(range: AstCellRange) {
-  for (let col = range.start.loc.col; col <= range.end.loc.col; col++) {
-    for (let row = range.start.loc.row; row <= range.end.loc.row; row++) {
-      yield `${String.fromCharCode(col + 65 - 1)}${row}`
-    }
-  }
-}
 
 const functions = {
   // Text functions
@@ -180,7 +175,11 @@ type ComputationError = {
 }
 
 export class Spreadsheet {
-  private cells: Map<string, [raw: string, ast: AST]> = new Map()
+  // Track each individual cell and it's contents. AST is pre-parsed.
+  private cells = new Map<string, [raw: string, ast: AST]>()
+
+  // Track all dependencies for each cell.
+  private dependencies = new DefaultMap<string, Set<string>>(() => new Set<string>())
 
   has(cell: string): boolean {
     return this.cells.has(cell)
@@ -203,6 +202,20 @@ export class Spreadsheet {
     let expression = value[0] === '=' ? value.slice(1) : `"${value}"`
     let tokens = tokenizeExpression(expression)
     let ast = parseExpression(tokens)
+
+    let dependencies = this.dependencies.get(cell)
+
+    // Clear existing dependencies for this cell
+    dependencies.clear()
+
+    // Track all references in the AST
+    walk([ast], (node) => {
+      if (node.kind === AstKind.CELL) {
+        dependencies.add(node.name)
+      }
+
+      return WalkAction.Continue
+    })
 
     this.cells.set(cell, [value, ast])
   }
@@ -248,18 +261,109 @@ export class Spreadsheet {
         })
       }
 
-      try {
-        return evaluateExpression(result[1], this)
-      } catch (e) {
-        // TODO: Add proper circular reference detection
-        if (e instanceof RangeError) {
-          throw Object.assign(new Error(`Circular reference detected in cell ${cell}`), {
-            short: '#REF!',
-          })
+      // Verify references
+      let dependencies = this.dependencies.get(cell)
+      if (dependencies.size > 0) {
+        let handled = new Set<string>()
+        let todo = Array.from(dependencies)
+
+        // Track where we came from
+        let previous = cell
+
+        while (todo.length > 0) {
+          // biome-ignore lint/style/noNonNullAssertion: We verified that there is at least a single element in the while condition above.
+          let next = todo.shift()!
+
+          // No need to re-verify cells we've already handled
+          if (handled.has(next)) continue
+          handled.add(next)
+
+          if (next === cell) {
+            throw Object.assign(
+              new Error(`Circular reference detected in cell ${previous}`),
+              { short: '#REF!' },
+            )
+          }
+
+          // Track where we came from
+          previous = next
+
+          for (let other of this.dependencies.get(next)) {
+            if (!handled.has(other)) {
+              todo.push(other)
+            }
+          }
         }
-        throw e
       }
+
+      return evaluateExpression(result[1], this)
     }
+
     return []
+  }
+}
+
+enum WalkAction {
+  /** Continue walking, which is the default */
+  Continue = 0,
+
+  /** Skip visiting the children of this node */
+  Skip = 1,
+
+  /** Stop the walk entirely */
+  Stop = 2,
+}
+
+function walk(ast: AST[], visit: (node: AST) => WalkAction): WalkAction {
+  for (let i = 0; i < ast.length; i++) {
+    let node = ast[i]
+    let status = visit(node)
+
+    // Stop the walk entirely
+    if (status === WalkAction.Stop) return status
+
+    // Skip visiting the children of this node
+    if (status === WalkAction.Skip) continue
+
+    switch (node.kind) {
+      case AstKind.CELL:
+      case AstKind.NUMBER_LITERAL:
+      case AstKind.STRING_LITERAL:
+        break
+
+      case AstKind.RANGE:
+        for (let cell of expandRange(node)) {
+          let cellNode: AstCell = {
+            kind: AstKind.CELL,
+            name: cell,
+            loc: parseLocation(cell),
+          }
+
+          if (walk([cellNode], visit) === WalkAction.Stop) {
+            return WalkAction.Stop
+          }
+        }
+        break
+
+      case AstKind.FUNCTION:
+        if (walk(node.args, visit) === WalkAction.Stop) {
+          return WalkAction.Stop
+        }
+        break
+
+      default:
+        // @ts-expect-error This should never happen. If it does, let's crash.
+        throw new Error(`Unknown AST node kind: ${node.kind}`)
+    }
+  }
+
+  return WalkAction.Continue
+}
+
+function* expandRange(range: AstCellRange) {
+  for (let col = range.start.loc.col; col <= range.end.loc.col; col++) {
+    for (let row = range.start.loc.row; row <= range.end.loc.row; row++) {
+      yield `${String.fromCharCode(col + 65 - 1)}${row}`
+    }
   }
 }

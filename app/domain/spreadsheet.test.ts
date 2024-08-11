@@ -461,3 +461,85 @@ describe('expressions', () => {
     })
   })
 })
+
+describe('errors', () => {
+  it('should not be possible to reference yourself directly', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=A1')
+
+    expect(spreadsheet.compute('A1')).toMatchInlineSnapshot(json`
+      {
+        "kind": "ERROR",
+        "message": "Circular reference detected in cell A1",
+        "short": "#REF!",
+      }
+    `)
+  })
+
+  it('should not be possible to reference a range directly', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=B1:C3')
+
+    expect(spreadsheet.compute('A1')).toMatchInlineSnapshot(json`
+      {
+        "kind": "ERROR",
+        "message": "Cannot reference a range to a cell",
+        "short": "#VALUE!",
+      }
+    `)
+  })
+
+  it('should not be possible to reference yourself indirectly', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=SUM(A1, 1)')
+
+    expect(spreadsheet.compute('A1')).toMatchInlineSnapshot(json`
+      {
+        "kind": "ERROR",
+        "message": "Circular reference detected in cell A1",
+        "short": "#REF!",
+      }
+    `)
+  })
+
+  it('should not be possible to reference yourself indirectly via a range', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A2', '=SUM(A1:A3)')
+
+    expect(spreadsheet.compute('A2')).toMatchInlineSnapshot(json`
+      {
+        "kind": "ERROR",
+        "message": "Circular reference detected in cell A1",
+        "short": "#REF!",
+      }
+    `)
+  })
+
+  it('should not be possible to reference yourself indirectly via a range', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A2', '=SUM(A1:A3)')
+
+    expect(spreadsheet.compute('A2')).toMatchInlineSnapshot(json`
+      {
+        "kind": "ERROR",
+        "message": "Circular reference detected in cell A1",
+        "short": "#REF!",
+      }
+    `)
+  })
+
+  it('should not be possible to reference yourself via another cell', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=SUM(A2, 1)')
+    spreadsheet.set('A2', '=SUM(A3, 1)')
+    spreadsheet.set('A3', '=SUM(A1, 1)')
+
+    expect(spreadsheet.compute('A1')).toMatchInlineSnapshot(json`
+      {
+        "kind": "ERROR",
+        "message": "Circular reference detected in cell A3",
+        "short": "#REF!",
+      }
+    `)
+  })
+})
