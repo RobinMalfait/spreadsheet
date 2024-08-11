@@ -54,8 +54,12 @@ describe('tokenization', () => {
       expect(tokenizeExpression('-123')).toMatchInlineSnapshot(json`
         [
           {
+            "kind": "OPERATOR",
+            "value": "-",
+          },
+          {
             "kind": "NUMBER",
-            "value": -123,
+            "value": 123,
           },
         ]
       `)
@@ -76,8 +80,12 @@ describe('tokenization', () => {
       expect(tokenizeExpression('-123.456')).toMatchInlineSnapshot(json`
         [
           {
+            "kind": "OPERATOR",
+            "value": "-",
+          },
+          {
             "kind": "NUMBER",
-            "value": -123.456,
+            "value": 123.456,
           },
         ]
       `)
@@ -156,6 +164,51 @@ describe('tokenization', () => {
           },
           {
             "kind": "CLOSE_PAREN",
+          },
+        ]
+      `)
+    })
+  })
+
+  describe('math operators', () => {
+    it('should tokenize a function call with cell references, ranges and literals', () => {
+      expect(tokenizeExpression('1 + 2 * 3 - 4 / 2')).toMatchInlineSnapshot(json`
+        [
+          {
+            "kind": "NUMBER",
+            "value": 1,
+          },
+          {
+            "kind": "OPERATOR",
+            "value": "+",
+          },
+          {
+            "kind": "NUMBER",
+            "value": 2,
+          },
+          {
+            "kind": "OPERATOR",
+            "value": "*",
+          },
+          {
+            "kind": "NUMBER",
+            "value": 3,
+          },
+          {
+            "kind": "OPERATOR",
+            "value": "-",
+          },
+          {
+            "kind": "NUMBER",
+            "value": 4,
+          },
+          {
+            "kind": "OPERATOR",
+            "value": "/",
+          },
+          {
+            "kind": "NUMBER",
+            "value": 2,
           },
         ]
       `)

@@ -5,9 +5,12 @@ const SPACE = 32 // ' '
 const DOUBLE_QUOTE = 34 // "
 const OPEN_PAREN = 40 // (
 const CLOSE_PAREN = 41 // )
+const ASTERISK = 42 // *
+const PLUS = 43 // +
 const COMMA = 44 // ,
 const MINUS = 45 // -
 const POINT = 46 // .
+const SLASH = 47 // /
 const ZERO = 48 // 0
 const NINE = 57 // 9
 const COLON = 58 // :
@@ -28,6 +31,7 @@ enum TokenKind {
   COLON = 'COLON',
   OPEN_PAREN = 'OPEN_PAREN',
   CLOSE_PAREN = 'CLOSE_PAREN',
+  OPERATOR = 'OPERATOR',
 }
 
 type Token =
@@ -38,6 +42,7 @@ type Token =
   | { kind: TokenKind.COLON }
   | { kind: TokenKind.OPEN_PAREN }
   | { kind: TokenKind.CLOSE_PAREN }
+  | { kind: TokenKind.OPERATOR; value: string }
 
 export function tokenizeExpression(input: string): Token[] {
   let tokens: Token[] = []
@@ -68,7 +73,7 @@ export function tokenizeExpression(input: string): Token[] {
     }
 
     // Number literal
-    if ((char >= ZERO && char <= NINE) || char === MINUS) {
+    if (char >= ZERO && char <= NINE) {
       let start = idx
       do {
         char = input.charCodeAt(++idx)
@@ -79,6 +84,12 @@ export function tokenizeExpression(input: string): Token[] {
         kind: TokenKind.NUMBER_LITERAL,
         value: Number(input.slice(start, end)),
       })
+      continue
+    }
+
+    // Math operators
+    if (char === ASTERISK || char === PLUS || char === MINUS || char === SLASH) {
+      tokens.push({ kind: TokenKind.OPERATOR, value: input[idx] })
       continue
     }
 
@@ -179,11 +190,42 @@ export type AST =
   | AstNumberLiteral
   | AstStringLiteral
 
+enum Operator {
+  UnaryPlus = 0,
+  UnaryMinus = 1,
+
+  Addition = 2,
+  Subtraction = 3,
+
+  Multiplication = 4,
+  Division = 5,
+}
+
 export function parseExpression(tokens: Token[]): AST {
   for (let idx = 0; idx < tokens.length; idx++) {
     let token = tokens[idx]
 
     switch (token.kind) {
+      case TokenKind.OPERATOR: {
+        let next = tokens[idx + 1]
+
+        if (!next) {
+          throw new Error('Invalid expression')
+        }
+
+        if (next.kind === TokenKind.NUMBER_LITERAL) {
+          if (token.value === '-') {
+            return { kind: AstKind.NUMBER_LITERAL, value: -next.value }
+          }
+
+          if (token.value === '+') {
+            return { kind: AstKind.NUMBER_LITERAL, value: +next.value }
+          }
+        }
+
+        throw new Error('Invalid expression')
+      }
+
       case TokenKind.NUMBER_LITERAL:
         return { kind: AstKind.NUMBER_LITERAL, value: token.value }
 
