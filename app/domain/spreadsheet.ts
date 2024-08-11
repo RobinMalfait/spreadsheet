@@ -196,6 +196,7 @@ export class Spreadsheet {
   set(cell: string, value: string) {
     if (value.trim() === '') {
       this.cells.delete(cell)
+      this.dependencies.delete(cell)
       return
     }
 
