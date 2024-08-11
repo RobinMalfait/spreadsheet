@@ -300,7 +300,8 @@ export default function Index() {
                     'force:bg-blue-500/20',
 
                   // Active cell
-                  cell === id && 'z-10 ring-2 ring-blue-500',
+                  cell === id &&
+                    'inset-ring-2 inset-ring-blue-500 z-10 force:border-blue-500',
                 )}
               >
                 {contents}
