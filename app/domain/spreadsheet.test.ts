@@ -509,7 +509,7 @@ describe('errors', () => {
     expect(spreadsheet.compute('A2')).toMatchInlineSnapshot(json`
       {
         "kind": "ERROR",
-        "message": "Circular reference detected in cell A1",
+        "message": "Circular reference detected in cell A2",
         "short": "#REF!",
       }
     `)
@@ -522,7 +522,7 @@ describe('errors', () => {
     expect(spreadsheet.compute('A2')).toMatchInlineSnapshot(json`
       {
         "kind": "ERROR",
-        "message": "Circular reference detected in cell A1",
+        "message": "Circular reference detected in cell A2",
         "short": "#REF!",
       }
     `)

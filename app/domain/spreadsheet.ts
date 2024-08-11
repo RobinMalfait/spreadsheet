@@ -285,12 +285,15 @@ export class Spreadsheet {
             )
           }
 
-          // Track where we came from
-          previous = next
+          if (this.cells.has(next)) {
+            // Track where we came from
+            previous = next
 
-          for (let other of this.dependencies.get(next)) {
-            if (!handled.has(other)) {
-              todo.push(other)
+            // Check transitive dependencies
+            for (let other of this.dependencies.get(next)) {
+              if (!handled.has(other)) {
+                todo.push(other)
+              }
             }
           }
         }
