@@ -29,8 +29,6 @@ export default function Index() {
 
     spreadsheet.set('A4', '=PRODUCT(A1:E1)')
 
-    console.dir(spreadsheet, { depth: null })
-
     return spreadsheet
   })
 

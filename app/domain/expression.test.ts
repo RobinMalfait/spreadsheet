@@ -23,7 +23,7 @@ describe('tokenization', () => {
       expect(tokenizeExpression('123')).toMatchInlineSnapshot(json`
         [
           {
-            "kind": "number",
+            "kind": "NUMBER",
             "value": 123,
           },
         ]
@@ -34,7 +34,7 @@ describe('tokenization', () => {
       expect(tokenizeExpression('-123')).toMatchInlineSnapshot(json`
         [
           {
-            "kind": "number",
+            "kind": "NUMBER",
             "value": -123,
           },
         ]
@@ -45,7 +45,7 @@ describe('tokenization', () => {
       expect(tokenizeExpression('123.456')).toMatchInlineSnapshot(json`
         [
           {
-            "kind": "number",
+            "kind": "NUMBER",
             "value": 123.456,
           },
         ]
@@ -56,7 +56,7 @@ describe('tokenization', () => {
       expect(tokenizeExpression('-123.456')).toMatchInlineSnapshot(json`
         [
           {
-            "kind": "number",
+            "kind": "NUMBER",
             "value": -123.456,
           },
         ]
@@ -69,7 +69,7 @@ describe('tokenization', () => {
       expect(tokenizeExpression('"hello world"')).toMatchInlineSnapshot(json`
         [
           {
-            "kind": "string",
+            "kind": "STRING",
             "value": "hello world",
           },
         ]
@@ -82,18 +82,18 @@ describe('tokenization', () => {
       expect(tokenizeExpression('SUM(1)')).toMatchInlineSnapshot(json`
         [
           {
-            "kind": "identifier",
+            "kind": "IDENTIFIER",
             "value": "SUM",
           },
           {
-            "kind": "open_paren",
+            "kind": "OPEN_PAREN",
           },
           {
-            "kind": "number",
+            "kind": "NUMBER",
             "value": 1,
           },
           {
-            "kind": "close_paren",
+            "kind": "CLOSE_PAREN",
           },
         ]
       `)
@@ -103,39 +103,39 @@ describe('tokenization', () => {
       expect(tokenizeExpression('SUM(1, A1, A8:B4)')).toMatchInlineSnapshot(json`
         [
           {
-            "kind": "identifier",
+            "kind": "IDENTIFIER",
             "value": "SUM",
           },
           {
-            "kind": "open_paren",
+            "kind": "OPEN_PAREN",
           },
           {
-            "kind": "number",
+            "kind": "NUMBER",
             "value": 1,
           },
           {
-            "kind": "comma",
+            "kind": "COMMA",
           },
           {
-            "kind": "identifier",
+            "kind": "IDENTIFIER",
             "value": "A1",
           },
           {
-            "kind": "comma",
+            "kind": "COMMA",
           },
           {
-            "kind": "identifier",
+            "kind": "IDENTIFIER",
             "value": "A8",
           },
           {
-            "kind": "colon",
+            "kind": "COLON",
           },
           {
-            "kind": "identifier",
+            "kind": "IDENTIFIER",
             "value": "B4",
           },
           {
-            "kind": "close_paren",
+            "kind": "CLOSE_PAREN",
           },
         ]
       `)
@@ -148,7 +148,7 @@ describe('parsing', () => {
     it('should parse a static number value', () => {
       expect(parseExpression(tokenizeExpression('123'))).toMatchInlineSnapshot(json`
         {
-          "kind": "number",
+          "kind": "NUMBER",
           "value": 123,
         }
       `)
@@ -157,7 +157,7 @@ describe('parsing', () => {
     it('should parse a static negative number value', () => {
       expect(parseExpression(tokenizeExpression('-123'))).toMatchInlineSnapshot(json`
         {
-          "kind": "number",
+          "kind": "NUMBER",
           "value": -123,
         }
       `)
@@ -166,7 +166,7 @@ describe('parsing', () => {
     it('should parse a static float value', () => {
       expect(parseExpression(tokenizeExpression('123.456'))).toMatchInlineSnapshot(json`
         {
-          "kind": "number",
+          "kind": "NUMBER",
           "value": 123.456,
         }
       `)
@@ -175,7 +175,7 @@ describe('parsing', () => {
     it('should parse a static negative float value', () => {
       expect(parseExpression(tokenizeExpression('-123.456'))).toMatchInlineSnapshot(json`
         {
-          "kind": "number",
+          "kind": "NUMBER",
           "value": -123.456,
         }
       `)
@@ -188,7 +188,7 @@ describe('parsing', () => {
         parseExpression(tokenizeExpression('"hello world"')),
       ).toMatchInlineSnapshot(json`
         {
-          "kind": "string",
+          "kind": "STRING",
           "value": "hello world",
         }
       `)
@@ -199,7 +199,7 @@ describe('parsing', () => {
     it('should parse a cell reference', () => {
       expect(parseExpression(tokenizeExpression('A1'))).toMatchInlineSnapshot(json`
         {
-          "kind": "cell",
+          "kind": "CELL",
           "loc": {
             "col": 1,
             "row": 1,
@@ -209,7 +209,7 @@ describe('parsing', () => {
       `)
       expect(parseExpression(tokenizeExpression('A23'))).toMatchInlineSnapshot(json`
         {
-          "kind": "cell",
+          "kind": "CELL",
           "loc": {
             "col": 1,
             "row": 23,
@@ -219,7 +219,7 @@ describe('parsing', () => {
       `)
       expect(parseExpression(tokenizeExpression('AZ99'))).toMatchInlineSnapshot(json`
         {
-          "kind": "cell",
+          "kind": "CELL",
           "loc": {
             "col": 52,
             "row": 99,
@@ -235,16 +235,16 @@ describe('parsing', () => {
       expect(parseExpression(tokenizeExpression('A1:B2'))).toMatchInlineSnapshot(json`
         {
           "end": {
-            "kind": "cell",
+            "kind": "CELL",
             "loc": {
               "col": 2,
               "row": 2,
             },
             "name": "B2",
           },
-          "kind": "range",
+          "kind": "RANGE",
           "start": {
-            "kind": "cell",
+            "kind": "CELL",
             "loc": {
               "col": 1,
               "row": 1,
@@ -256,16 +256,16 @@ describe('parsing', () => {
       expect(parseExpression(tokenizeExpression('A1:B20'))).toMatchInlineSnapshot(json`
         {
           "end": {
-            "kind": "cell",
+            "kind": "CELL",
             "loc": {
               "col": 2,
               "row": 20,
             },
             "name": "B20",
           },
-          "kind": "range",
+          "kind": "RANGE",
           "start": {
-            "kind": "cell",
+            "kind": "CELL",
             "loc": {
               "col": 1,
               "row": 1,
@@ -277,16 +277,16 @@ describe('parsing', () => {
       expect(parseExpression(tokenizeExpression('A20:B2'))).toMatchInlineSnapshot(json`
         {
           "end": {
-            "kind": "cell",
+            "kind": "CELL",
             "loc": {
               "col": 2,
               "row": 2,
             },
             "name": "B2",
           },
-          "kind": "range",
+          "kind": "RANGE",
           "start": {
-            "kind": "cell",
+            "kind": "CELL",
             "loc": {
               "col": 1,
               "row": 20,
@@ -298,16 +298,16 @@ describe('parsing', () => {
       expect(parseExpression(tokenizeExpression('AA10:ZZ99'))).toMatchInlineSnapshot(json`
         {
           "end": {
-            "kind": "cell",
+            "kind": "CELL",
             "loc": {
               "col": 702,
               "row": 99,
             },
             "name": "ZZ99",
           },
-          "kind": "range",
+          "kind": "RANGE",
           "start": {
-            "kind": "cell",
+            "kind": "CELL",
             "loc": {
               "col": 27,
               "row": 10,
@@ -326,19 +326,19 @@ describe('parsing', () => {
         {
           "args": [
             {
-              "kind": "number",
+              "kind": "NUMBER",
               "value": 1,
             },
             {
-              "kind": "number",
+              "kind": "NUMBER",
               "value": 2,
             },
             {
-              "kind": "number",
+              "kind": "NUMBER",
               "value": 3,
             },
           ],
-          "kind": "function",
+          "kind": "FUNCTION",
           "name": "SUM",
         }
       `,
@@ -352,11 +352,11 @@ describe('parsing', () => {
         {
           "args": [
             {
-              "kind": "number",
+              "kind": "NUMBER",
               "value": 1,
             },
             {
-              "kind": "cell",
+              "kind": "CELL",
               "loc": {
                 "col": 1,
                 "row": 1,
@@ -365,16 +365,16 @@ describe('parsing', () => {
             },
             {
               "end": {
-                "kind": "cell",
+                "kind": "CELL",
                 "loc": {
                   "col": 2,
                   "row": 8,
                 },
                 "name": "B8",
               },
-              "kind": "range",
+              "kind": "RANGE",
               "start": {
-                "kind": "cell",
+                "kind": "CELL",
                 "loc": {
                   "col": 1,
                   "row": 3,
@@ -383,7 +383,7 @@ describe('parsing', () => {
               },
             },
           ],
-          "kind": "function",
+          "kind": "FUNCTION",
           "name": "SUM",
         }
       `)
@@ -396,33 +396,33 @@ describe('parsing', () => {
         {
           "args": [
             {
-              "kind": "number",
+              "kind": "NUMBER",
               "value": 1,
             },
             {
               "args": [
                 {
-                  "kind": "number",
+                  "kind": "NUMBER",
                   "value": 2,
                 },
                 {
-                  "kind": "number",
+                  "kind": "NUMBER",
                   "value": 3,
                 },
                 {
-                  "kind": "number",
+                  "kind": "NUMBER",
                   "value": 4,
                 },
               ],
-              "kind": "function",
+              "kind": "FUNCTION",
               "name": "SUM",
             },
             {
-              "kind": "number",
+              "kind": "NUMBER",
               "value": 5,
             },
           ],
-          "kind": "function",
+          "kind": "FUNCTION",
           "name": "SUM",
         }
       `)

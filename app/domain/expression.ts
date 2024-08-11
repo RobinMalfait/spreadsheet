@@ -21,13 +21,13 @@ const LOWER_Z = 122 // z
  */
 
 enum TokenKind {
-  IDENTIFIER = 'identifier',
-  NUMBER_LITERAL = 'number',
-  STRING_LITERAL = 'string',
-  COMMA = 'comma',
-  COLON = 'colon',
-  OPEN_PAREN = 'open_paren',
-  CLOSE_PAREN = 'close_paren',
+  IDENTIFIER = 'IDENTIFIER',
+  NUMBER_LITERAL = 'NUMBER',
+  STRING_LITERAL = 'STRING',
+  COMMA = 'COMMA',
+  COLON = 'COLON',
+  OPEN_PAREN = 'OPEN_PAREN',
+  CLOSE_PAREN = 'CLOSE_PAREN',
 }
 
 type Token =
@@ -134,11 +134,11 @@ export function tokenizeExpression(input: string): Token[] {
 // ---
 
 export enum AstKind {
-  CELL = 'cell',
-  RANGE = 'range',
-  FUNCTION = 'function',
-  NUMBER_LITERAL = 'number',
-  STRING_LITERAL = 'string',
+  CELL = 'CELL',
+  RANGE = 'RANGE',
+  FUNCTION = 'FUNCTION',
+  NUMBER_LITERAL = 'NUMBER',
+  STRING_LITERAL = 'STRING',
 }
 
 export type AstCell = {

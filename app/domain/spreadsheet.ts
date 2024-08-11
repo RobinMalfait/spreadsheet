@@ -53,8 +53,8 @@ const functions = {
 }
 
 enum EvaluationResultKind {
-  NUMBER = 'number',
-  STRING = 'string',
+  NUMBER = 'NUMBER',
+  STRING = 'STRING',
 }
 
 type EvaluationResult =
