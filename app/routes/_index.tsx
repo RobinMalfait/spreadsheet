@@ -78,6 +78,12 @@ export default function Index() {
     spreadsheet.set('A12', 'Circular ref:')
     spreadsheet.set('B12', '=B12')
 
+    spreadsheet.set('D6', '\u03C0')
+    spreadsheet.set('E6', '=PI()')
+
+    spreadsheet.set('D7', '\u03C4')
+    spreadsheet.set('E7', '=PRODUCT(PI(), 2)')
+
     return spreadsheet
   })
 

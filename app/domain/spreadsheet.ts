@@ -53,6 +53,15 @@ const functions = {
   },
 
   // Math functions
+  PI(...args: EvaluationResult[]): EvaluationResult {
+    if (args.length > 0) {
+      throw Object.assign(new Error('PI() does not take any arguments'), {
+        short: '#VALUE!',
+      })
+    }
+
+    return { kind: EvaluationResultKind.NUMBER, value: Math.PI }
+  },
   SUM(...args: EvaluationResult[]): EvaluationResult {
     let out = 0
 

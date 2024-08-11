@@ -289,7 +289,10 @@ export function parseExpression(tokens: Token[]): AST {
               // call
               case TokenKind.CLOSE_PAREN:
                 if (stack === 0) {
-                  args.push(tokens.slice(start, j))
+                  let argTokens = tokens.slice(start, j)
+                  if (argTokens.length > 0) {
+                    args.push(argTokens)
+                  }
                   break loop
                 }
                 stack--
@@ -298,7 +301,10 @@ export function parseExpression(tokens: Token[]): AST {
               // Argument separator
               case TokenKind.COMMA:
                 if (stack === 0) {
-                  args.push(tokens.slice(start, j))
+                  let argTokens = tokens.slice(start, j)
+                  if (argTokens.length > 0) {
+                    args.push(argTokens)
+                  }
                   start = j + 1
                 }
                 break

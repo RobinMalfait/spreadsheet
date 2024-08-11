@@ -443,4 +443,21 @@ describe('expressions', () => {
       `)
     })
   })
+
+  describe('PI()', () => {
+    it('should be possible to use PI())', () => {
+      let spreadsheet = new Spreadsheet()
+      spreadsheet.set('A1', '=PI()')
+
+      expect(spreadsheet.compute('A1')).toMatchInlineSnapshot(json`
+        {
+          "kind": "VALUE",
+          "value": {
+            "kind": "NUMBER",
+            "value": 3.141592653589793,
+          },
+        }
+      `)
+    })
+  })
 })
