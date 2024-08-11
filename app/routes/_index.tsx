@@ -48,6 +48,8 @@ export default function Index() {
     spreadsheet.set('A3', '=CONCAT(A1, "*", B1, "=", PRODUCT(A1:B1))')
     spreadsheet.set('C3', '=CONCAT("Hello", " ", "World", "!")')
     spreadsheet.set('B3', '=AVERAGE(A1:E1)')
+    spreadsheet.set('C4', '=LOWER(C3)')
+    spreadsheet.set('C5', '=UPPER(C3)')
 
     spreadsheet.set('A4', '=PRODUCT(A1:E1)')
 
@@ -183,33 +185,31 @@ export default function Index() {
 
             let id = `${String.fromCharCode(64 + col)}${row}`
 
-            let contents = (() => {
+            let [contents, alt] = (() => {
               // Top left corner
-              if (row === 0 && col === 0) {
-                return ''
-              }
+              if (row === 0 && col === 0) return [null, null]
 
               // Column labels
-              if (row === 0) {
-                return String.fromCharCode(64 + col)
-              }
+              if (row === 0) return [String.fromCharCode(64 + col), null]
 
               // Row labels
-              if (col === 0) {
-                return row
-              }
+              if (col === 0) return [row, null]
 
               // Cell
               let out = spreadsheet.compute(id)
-              if (out === null) return null
+              if (out === null) return [null, null]
 
-              return (
+              return [
                 <div
-                  className={clsx(typeof out === 'number' ? 'text-right' : 'text-left')}
+                  key={out}
+                  className={clsx(
+                    typeof out === 'number' ? 'text-right' : 'truncate text-left',
+                  )}
                 >
                   {out}
-                </div>
-              )
+                </div>,
+                out.toString(),
+              ] as const
             })()
 
             return (
@@ -303,6 +303,7 @@ export default function Index() {
                   cell === id &&
                     'inset-ring-2 inset-ring-blue-500 z-10 force:border-blue-500',
                 )}
+                title={alt ?? undefined}
               >
                 {contents}
               </button>
