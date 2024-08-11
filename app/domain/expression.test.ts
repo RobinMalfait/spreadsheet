@@ -14,7 +14,7 @@ it('should parse the column number', () => {
   expect(parseColNumber('BZ')).toEqual(78)
 
   expect(parseColNumber('ZA')).toEqual(677)
-  expect(parseColNumber('ZZ')).toEqual(26 * 26 + 26)
+  expect(parseColNumber('ZZ')).toEqual(702)
 })
 
 describe('tokenization', () => {

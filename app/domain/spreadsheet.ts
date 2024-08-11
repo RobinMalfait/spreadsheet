@@ -71,6 +71,8 @@ function evaluateExpression(ast: AST, spreadsheet: Spreadsheet): EvaluationResul
         return [{ kind: EvaluationResultKind.STRING, value: ast.value }]
       }
 
+      // Try to coerce the string to a number, and if it works, return a number
+      // instead of a string
       let asNumber = Number(ast.value)
       if (!Number.isNaN(asNumber)) {
         return [{ kind: EvaluationResultKind.NUMBER, value: asNumber }]
