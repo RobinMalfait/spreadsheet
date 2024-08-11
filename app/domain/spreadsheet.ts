@@ -123,6 +123,10 @@ function evaluateExpression(ast: AST, spreadsheet: Spreadsheet): EvaluationResul
 export class Spreadsheet {
   private cells: Map<string, [raw: string, ast: AST]> = new Map()
 
+  has(cell: string): boolean {
+    return this.cells.has(cell)
+  }
+
   get(cell: string): string {
     let result = this.cells.get(cell)
     if (result) {
@@ -132,6 +136,11 @@ export class Spreadsheet {
   }
 
   set(cell: string, value: string) {
+    if (value.trim() === '') {
+      this.cells.delete(cell)
+      return
+    }
+
     let expression = value[0] === '=' ? value.slice(1) : `"${value}"`
     let tokens = tokenizeExpression(expression)
     let ast = parseExpression(tokens)
