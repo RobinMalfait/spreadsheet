@@ -97,7 +97,7 @@ enum EvaluationResultKind {
   STRING = 'STRING',
 }
 
-type EvaluationResult =
+export type EvaluationResult =
   | { kind: EvaluationResultKind.NUMBER; value: number }
   | { kind: EvaluationResultKind.STRING; value: string }
 
@@ -134,7 +134,9 @@ function evaluateExpression(ast: AST, spreadsheet: Spreadsheet): EvaluationResul
 
     case AstKind.FUNCTION: {
       if (!Object.hasOwn(functions, ast.name)) {
-        throw new Error(`Unknown function: ${ast.name}`)
+        throw Object.assign(new Error(`Unknown function: ${ast.name}`), {
+          short: '#NAME?',
+        })
       }
 
       let fn = functions[ast.name as keyof typeof functions]
@@ -143,6 +145,29 @@ function evaluateExpression(ast: AST, spreadsheet: Spreadsheet): EvaluationResul
       return [result]
     }
   }
+}
+
+export enum ComputationResultKind {
+  VALUE = 'VALUE',
+  ERROR = 'ERROR',
+}
+
+export enum ComputationValueKind {
+  NUMBER = 'NUMBER',
+  STRING = 'STRING',
+}
+
+type ComputationValue = {
+  kind: ComputationResultKind.VALUE
+  value:
+    | { kind: ComputationValueKind.NUMBER; value: number }
+    | { kind: ComputationValueKind.STRING; value: string }
+}
+
+type ComputationError = {
+  kind: ComputationResultKind.ERROR
+  short: string
+  message: string
 }
 
 export class Spreadsheet {
@@ -173,17 +198,35 @@ export class Spreadsheet {
     this.cells.set(cell, [value, ast])
   }
 
-  compute(cell: string): number | string | null {
-    let evaluationResult = this.evaluate(cell)
-    if (evaluationResult.length > 1) {
-      throw new Error(`Expected a single result, got ${evaluationResult.length}`)
-    }
+  compute(cell: string): ComputationValue | ComputationError | null {
+    try {
+      let evaluationResult = this.evaluate(cell)
+      if (evaluationResult.length > 1) {
+        throw Object.assign(
+          new Error(`Expected a single result, got ${evaluationResult.length}`),
+          { short: '#VALUE!' },
+        )
+      }
 
-    if (evaluationResult.length === 1) {
-      return evaluationResult[0].value
-    }
+      if (evaluationResult.length === 1) {
+        return {
+          kind: ComputationResultKind.VALUE,
+          value:
+            evaluationResult[0].kind === EvaluationResultKind.NUMBER
+              ? { kind: ComputationValueKind.NUMBER, value: evaluationResult[0].value }
+              : { kind: ComputationValueKind.STRING, value: evaluationResult[0].value },
+        }
+      }
 
-    return null
+      return null
+    } catch (err: unknown) {
+      return {
+        kind: ComputationResultKind.ERROR,
+        // @ts-expect-error This is fine…
+        short: err?.short ?? 'Error',
+        message: (err as Error).message,
+      }
+    }
   }
 
   evaluate(cell: string): EvaluationResult[] {

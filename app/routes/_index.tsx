@@ -1,3 +1,4 @@
+import { ExclamationTriangleIcon } from '@heroicons/react/16/solid'
 import type { MetaFunction } from '@remix-run/node'
 import clsx from 'clsx'
 import {
@@ -17,7 +18,11 @@ import {
   printLocation,
   tokenizeExpression,
 } from '~/domain/expression'
-import { Spreadsheet } from '~/domain/spreadsheet'
+import {
+  ComputationResultKind,
+  type EvaluationResult,
+  Spreadsheet,
+} from '~/domain/spreadsheet'
 
 export const meta: MetaFunction = () => {
   return [
@@ -65,6 +70,13 @@ export default function Index() {
     spreadsheet.set('B7', '=LOWER(B6)')
     spreadsheet.set('A8', 'Uppercase:')
     spreadsheet.set('B8', '=UPPER(B6)')
+
+    spreadsheet.set('A10', 'Error handling:')
+    spreadsheet.set('A11', 'Unknown fn:')
+    spreadsheet.set('B11', '=FOOBAR(1, 2, 3)')
+
+    spreadsheet.set('A12', 'Circular ref:')
+    spreadsheet.set('B12', '=B12')
 
     return spreadsheet
   })
@@ -124,6 +136,9 @@ export default function Index() {
   // Active cell location
   let location = useMemo(() => parseLocation(cell), [cell])
 
+  // Evaluation of the current cell
+  let out = useMemo(() => spreadsheet.compute(cell), [spreadsheet, cell])
+
   return (
     <div className="flex h-screen w-screen flex-col overflow-hidden font-sans">
       <div className="flex items-center border-gray-300 border-b">
@@ -165,6 +180,12 @@ export default function Index() {
             forceRerender()
           }}
         />
+        {out?.kind === ComputationResultKind.ERROR && (
+          <span className="inline-flex items-center gap-1 rounded-md bg-red-50 px-1.5 py-0.5 font-medium text-red-700 text-xs ring-1 ring-red-600/10 ring-inset">
+            <ExclamationTriangleIcon className="size-4 text-red-600" />
+            <span>{out.message}</span>
+          </span>
+        )}
         <div className="px-2">
           <button
             type="button"
@@ -212,17 +233,35 @@ export default function Index() {
               let out = spreadsheet.compute(id)
               if (out === null) return [null, null]
 
-              return [
-                <div
-                  key={out}
-                  className={clsx(
-                    typeof out === 'number' ? 'text-right' : 'truncate text-left',
-                  )}
-                >
-                  {out}
-                </div>,
-                out.toString(),
-              ] as const
+              if (out.kind === ComputationResultKind.ERROR) {
+                return [
+                  <span
+                    key="error"
+                    className="inline-flex items-center gap-1 rounded-md bg-red-50 px-1.5 py-0.5 font-medium text-red-700 text-xs ring-1 ring-red-600/10 ring-inset"
+                  >
+                    <ExclamationTriangleIcon className="size-4 text-red-600" />
+                    <span>{out.short}</span>
+                  </span>,
+                  out.message,
+                ]
+              }
+
+              if (out.kind === ComputationResultKind.VALUE) {
+                return [
+                  <div
+                    key="value"
+                    className={clsx(
+                      out.value.kind === 'NUMBER' && 'text-right',
+                      out.value.kind === 'STRING' && 'truncate text-left',
+                    )}
+                  >
+                    {out.value.value}
+                  </div>,
+                  out.toString(),
+                ] as const
+              }
+
+              return [null, null]
             })()
 
             return (
@@ -339,7 +378,10 @@ export default function Index() {
               let tokens = tokenizeExpression(expression)
               let ast = parseExpression(tokens)
               let stringifiedAST = `=${printExpression(ast)}`
-              let evaluation = spreadsheet.evaluate(cell)
+              let evaluation: EvaluationResult[] | null = null
+              try {
+                evaluation = spreadsheet.evaluate(cell)
+              } catch {}
               let result = spreadsheet.compute(cell)
 
               return (
@@ -349,10 +391,16 @@ export default function Index() {
                       <label>Cell:</label>
                       <small>{cell}</small>
                     </div>
-                    <div className="flex items-center gap-2 p-2">
-                      <label>Result:</label>
-                      <small>{result}</small>
-                    </div>
+                    {(result === null || result.kind === ComputationResultKind.VALUE) && (
+                      <div className="flex items-center gap-2 p-2">
+                        <label>Result:</label>
+                        {result === null ? (
+                          <small>N/A</small>
+                        ) : (
+                          <small>{result.value.value}</small>
+                        )}
+                      </div>
+                    )}
                   </div>
                   <hr className="border-gray-200" />
                   <div className="flex flex-col gap-2 p-2">
@@ -365,7 +413,6 @@ export default function Index() {
                       <small>{stringifiedAST}</small>
                     </div>
                   )}
-
                   <div className="flex flex-col gap-2 p-2">
                     <label>Tokenization:</label>
                     <pre className="font-mono text-xs">
@@ -378,16 +425,24 @@ export default function Index() {
                       {JSON.stringify(ast, null, 2)}
                     </pre>
                   </div>
-                  <div className="flex flex-col gap-2 p-2">
-                    <label>Evaluation:</label>
-                    <pre className="font-mono text-xs">
-                      {JSON.stringify(evaluation, null, 2)}
-                    </pre>
-                  </div>
-                  <div className="flex items-center gap-2 p-2">
-                    <label>Result:</label>
-                    <small>{result}</small>
-                  </div>
+                  {evaluation !== null && (
+                    <div className="flex flex-col gap-2 p-2">
+                      <label>Evaluation:</label>
+                      <pre className="font-mono text-xs">
+                        {JSON.stringify(evaluation, null, 2)}
+                      </pre>
+                    </div>
+                  )}
+                  {result?.kind !== ComputationResultKind.ERROR && (
+                    <div className="flex items-center gap-2 p-2">
+                      <label>Result:</label>
+                      {result === null ? (
+                        <small>N/A</small>
+                      ) : (
+                        <small>{result.value.value}</small>
+                      )}
+                    </div>
+                  )}
                 </>
               )
             })()}
