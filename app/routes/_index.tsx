@@ -16,12 +16,13 @@ const HEIGHT = 26
 export default function Index() {
   let [spreadsheet] = useState(() => new Spreadsheet())
 
-  spreadsheet.set('A1', Value.of(2))
-  spreadsheet.set('B1', Expression.of('SUM(A1,A1)'))
-  spreadsheet.set('C1', Expression.of('SUM(B1,A1)'))
-  spreadsheet.set('D1', Expression.of('SUM(C1,A1)'))
+  spreadsheet.set('A1', Value.of(5))
+  spreadsheet.set('B1', Expression.of('SUM(A1, A1)'))
+  spreadsheet.set('C1', Expression.of('SUM(B1, A1)'))
+  spreadsheet.set('D1', Expression.of('SUM(C1, A1)'))
+  spreadsheet.set('E1', Expression.of('SUM(C1, PRODUCT(A1:D1))'))
 
-  spreadsheet.set('A2', Expression.of('PRODUCT(A1:D1)'))
+  spreadsheet.set('A2', Expression.of('PRODUCT(A1:E1)'))
 
   let cells = Array.from({
     length: (WIDTH + 1) * (HEIGHT + 1),

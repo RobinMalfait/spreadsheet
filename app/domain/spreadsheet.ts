@@ -1,57 +1,56 @@
-import { segment } from '~/utils/segment'
+import {
+  type AST,
+  type AstCellRange,
+  AstKind,
+  parseExpression,
+  tokenizeExpression,
+} from './expression'
 
-type Cell = `${string}${number}`
-type CellRange = `${Cell}:${Cell}`
-
-type Argument = number | Cell | CellRange
-
-function* expandRange(range: CellRange) {
-  let [lhs, rhs] = segment(range, ':')
-  let [, lhsCol, lhsRow] = /([A-Z]*)([0-9]*)/g.exec(lhs)!
-  let [, rhsCol, rhsRow] = /([A-Z]*)([0-9]*)/g.exec(rhs)!
-
-  let startCol = lhsCol.charCodeAt(0)
-  let endCol = rhsCol.charCodeAt(0)
-
-  let startRow = Number(lhsRow)
-  let endRow = Number(rhsRow)
-
-  for (let col = startCol; col <= endCol; col++) {
-    for (let row = startRow; row <= endRow; row++) {
-      yield `${String.fromCharCode(col)}${row}`
+function* expandRange(range: AstCellRange) {
+  for (let col = range.start.loc.col; col <= range.end.loc.col; col++) {
+    for (let row = range.start.loc.row; row <= range.end.loc.row; row++) {
+      yield `${String.fromCharCode(col + 65 - 1)}${row}`
     }
   }
 }
 
 const functions = {
-  SUM(spreadsheet: Spreadsheet, ...args: Argument[]) {
+  SUM(spreadsheet: Spreadsheet, ...args: AST[]) {
     let out = 0
+
     for (let arg of args) {
-      if (!Number.isNaN(Number(arg))) {
-        out += Number(arg)
-      } else if (typeof arg === 'string' && arg.includes(':')) {
-        for (let cell of expandRange(arg as CellRange)) {
+      if (arg.kind === AstKind.NUMBER_LITERAL) {
+        out += arg.value
+      } else if (arg.kind === AstKind.FUNCTION && Object.hasOwn(functions, arg.name)) {
+        out += functions[arg.name as keyof typeof functions](spreadsheet, ...arg.args)
+      } else if (arg.kind === AstKind.CELL) {
+        out += Number(spreadsheet.compute(arg.name))
+      } else if (arg.kind === AstKind.RANGE) {
+        for (let cell of expandRange(arg as AstCellRange)) {
           out += Number(spreadsheet.compute(cell))
         }
-      } else {
-        out += Number(spreadsheet.compute(arg as Cell))
       }
     }
+
     return out
   },
-  PRODUCT(spreadsheet: Spreadsheet, ...args: Argument[]) {
+  PRODUCT(spreadsheet: Spreadsheet, ...args: AST[]) {
     let out = 1
+
     for (let arg of args) {
-      if (!Number.isNaN(Number(arg))) {
-        out *= Number(arg)
-      } else if (typeof arg === 'string' && arg.includes(':')) {
-        for (let cell of expandRange(arg as CellRange)) {
+      if (arg.kind === AstKind.NUMBER_LITERAL) {
+        out *= arg.value
+      } else if (arg.kind === AstKind.FUNCTION && Object.hasOwn(functions, arg.name)) {
+        out *= functions[arg.name as keyof typeof functions](spreadsheet, ...arg.args)
+      } else if (arg.kind === AstKind.CELL) {
+        out *= Number(spreadsheet.compute(arg.name))
+      } else if (arg.kind === AstKind.RANGE) {
+        for (let cell of expandRange(arg as AstCellRange)) {
           out *= Number(spreadsheet.compute(cell))
         }
-      } else {
-        out *= Number(spreadsheet.compute(arg as Cell))
       }
     }
+
     return out
   },
 }
@@ -73,19 +72,12 @@ export class Value {
 }
 
 export class Expression {
-  private fn: keyof typeof functions | null = null
-  private args: Argument[] = []
+  private ast: AST | null = null
 
   private constructor(private expression: string) {
-    this.parse()
-  }
-
-  parse() {
-    // @ts-expect-error todo
-    let [, fn, args] = /^(.*?)\((.*?)\)$/.exec(this.expression)
-    let argList = segment(args, ',')
-    this.fn = fn
-    this.args = argList as Argument[]
+    let tokens = tokenizeExpression(expression)
+    let ast = parseExpression(tokens)
+    this.ast = ast
   }
 
   static of(expression: string) {
@@ -97,10 +89,22 @@ export class Expression {
   }
 
   compute(spreadsheet: Spreadsheet) {
-    if (this.fn === null) throw new Error('Invalid expression')
-    if (!Object.hasOwn(functions, this.fn)) throw new Error('Invalid expression')
+    if (!this.ast) throw new Error('Invalid expression')
 
-    return functions[this.fn](spreadsheet, ...this.args)
+    // TODO: Evaluate all expressions
+
+    if (this.ast.kind !== AstKind.FUNCTION) {
+      throw new Error('Invalid expression, expected function')
+    }
+
+    if (!Object.hasOwn(functions, this.ast.name)) {
+      throw new Error('Invalid expression, expected function')
+    }
+
+    return functions[this.ast.name as keyof typeof functions](
+      spreadsheet,
+      ...this.ast.args,
+    )
   }
 }
 

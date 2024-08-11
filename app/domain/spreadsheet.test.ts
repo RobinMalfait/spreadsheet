@@ -4,9 +4,9 @@ import { Expression, Spreadsheet, Value } from './spreadsheet'
 describe('value', () => {
   it('should be possible to set and read a static value', () => {
     let spreadsheet = new Spreadsheet()
-    spreadsheet.set('A1', Value.of(100))
+    spreadsheet.set('A1', Value.of(123))
 
-    expect(spreadsheet.compute('A1')).toEqual(100)
+    expect(spreadsheet.compute('A1')).toEqual(123)
   })
 })
 
@@ -14,7 +14,7 @@ describe('expressions', () => {
   describe('SUM', () => {
     it('should SUM a list of numbers', () => {
       let spreadsheet = new Spreadsheet()
-      spreadsheet.set('A1', Expression.of('SUM(1,2,3)'))
+      spreadsheet.set('A1', Expression.of('SUM(1, 2, 3)'))
 
       expect(spreadsheet.compute('A1')).toEqual(1 + 2 + 3)
     })
@@ -23,7 +23,7 @@ describe('expressions', () => {
       let spreadsheet = new Spreadsheet()
       spreadsheet.set('A1', Value.of(100))
       spreadsheet.set('A2', Value.of(200))
-      spreadsheet.set('A3', Expression.of('SUM(A1,A2)'))
+      spreadsheet.set('A3', Expression.of('SUM(A1, A2)'))
 
       expect(spreadsheet.compute('A3')).toEqual(100 + 200)
     })
@@ -71,7 +71,7 @@ describe('expressions', () => {
       spreadsheet.set('A3', Value.of(500))
       spreadsheet.set('A4', Value.of(600))
 
-      spreadsheet.set('A5', Expression.of('SUM(A1:C1,A1:A4)'))
+      spreadsheet.set('A5', Expression.of('SUM(A1:C1, A1:A4)'))
 
       // A1:C1
       let horizontal = 100 + 200 + 300
@@ -85,7 +85,7 @@ describe('expressions', () => {
       let spreadsheet = new Spreadsheet()
       spreadsheet.set('A1', Value.of(100))
       spreadsheet.set('A2', Value.of(200))
-      spreadsheet.set('A3', Expression.of('SUM(A1,A2)'))
+      spreadsheet.set('A3', Expression.of('SUM(A1, A2)'))
       spreadsheet.set('A4', Expression.of('SUM(A1:A2)'))
 
       expect(spreadsheet.compute('A3')).toEqual(300)
@@ -96,7 +96,7 @@ describe('expressions', () => {
   describe('PRODUCT', () => {
     it('should PRODUCT a list of numbers', () => {
       let spreadsheet = new Spreadsheet()
-      spreadsheet.set('A1', Expression.of('PRODUCT(1,2,3)'))
+      spreadsheet.set('A1', Expression.of('PRODUCT(1, 2, 3)'))
 
       expect(spreadsheet.compute('A1')).toEqual(1 * 2 * 3)
     })
@@ -105,7 +105,7 @@ describe('expressions', () => {
       let spreadsheet = new Spreadsheet()
       spreadsheet.set('A1', Value.of(100))
       spreadsheet.set('A2', Value.of(200))
-      spreadsheet.set('A3', Expression.of('PRODUCT(A1,A2)'))
+      spreadsheet.set('A3', Expression.of('PRODUCT(A1, A2)'))
 
       expect(spreadsheet.compute('A3')).toEqual(100 * 200)
     })
@@ -153,7 +153,7 @@ describe('expressions', () => {
       spreadsheet.set('A3', Value.of(500))
       spreadsheet.set('A4', Value.of(600))
 
-      spreadsheet.set('A5', Expression.of('PRODUCT(A1:C1,A1:A4)'))
+      spreadsheet.set('A5', Expression.of('PRODUCT(A1:C1, A1:A4)'))
 
       // A1:C1
       let horizontal = 100 * 200 * 300
