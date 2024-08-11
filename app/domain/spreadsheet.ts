@@ -15,6 +15,7 @@ function* expandRange(range: AstCellRange) {
 }
 
 const functions = {
+  // Text functions
   CONCAT(...args: EvaluationResult[]): EvaluationResult {
     let out = ''
 
@@ -28,6 +29,30 @@ const functions = {
 
     return { kind: EvaluationResultKind.STRING, value: out }
   },
+  LOWER(...args: EvaluationResult[]): EvaluationResult {
+    let out = ''
+
+    for (let arg of args) {
+      if (arg.kind === EvaluationResultKind.STRING) {
+        out += arg.value.toLowerCase()
+      }
+    }
+
+    return { kind: EvaluationResultKind.STRING, value: out }
+  },
+  UPPER(...args: EvaluationResult[]): EvaluationResult {
+    let out = ''
+
+    for (let arg of args) {
+      if (arg.kind === EvaluationResultKind.STRING) {
+        out += arg.value.toUpperCase()
+      }
+    }
+
+    return { kind: EvaluationResultKind.STRING, value: out }
+  },
+
+  // Math functions
   SUM(...args: EvaluationResult[]): EvaluationResult {
     let out = 0
 
