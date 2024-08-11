@@ -15,6 +15,25 @@ function* expandRange(range: AstCellRange) {
 }
 
 const functions = {
+  CONCAT(spreadsheet: Spreadsheet, ...args: AST[]) {
+    let out = ''
+    for (let arg of args) {
+      if (arg.kind === AstKind.NUMBER_LITERAL) {
+        out += arg.value
+      } else if (arg.kind === AstKind.STRING_LITERAL) {
+        out += arg.value
+      } else if (arg.kind === AstKind.FUNCTION && Object.hasOwn(functions, arg.name)) {
+        out += functions[arg.name as keyof typeof functions](spreadsheet, ...arg.args)
+      } else if (arg.kind === AstKind.CELL) {
+        out += Number(spreadsheet.compute(arg.name))
+      } else if (arg.kind === AstKind.RANGE) {
+        for (let cell of expandRange(arg as AstCellRange)) {
+          out += Number(spreadsheet.compute(cell))
+        }
+      }
+    }
+    return out
+  },
   SUM(spreadsheet: Spreadsheet, ...args: AST[]) {
     let out = 0
 
@@ -22,7 +41,13 @@ const functions = {
       if (arg.kind === AstKind.NUMBER_LITERAL) {
         out += arg.value
       } else if (arg.kind === AstKind.FUNCTION && Object.hasOwn(functions, arg.name)) {
-        out += functions[arg.name as keyof typeof functions](spreadsheet, ...arg.args)
+        let result = functions[arg.name as keyof typeof functions](
+          spreadsheet,
+          ...arg.args,
+        )
+        if (typeof result === 'number') {
+          out += result
+        }
       } else if (arg.kind === AstKind.CELL) {
         out += Number(spreadsheet.compute(arg.name))
       } else if (arg.kind === AstKind.RANGE) {
@@ -41,7 +66,13 @@ const functions = {
       if (arg.kind === AstKind.NUMBER_LITERAL) {
         out *= arg.value
       } else if (arg.kind === AstKind.FUNCTION && Object.hasOwn(functions, arg.name)) {
-        out *= functions[arg.name as keyof typeof functions](spreadsheet, ...arg.args)
+        let result = functions[arg.name as keyof typeof functions](
+          spreadsheet,
+          ...arg.args,
+        )
+        if (typeof result === 'number') {
+          out += result
+        }
       } else if (arg.kind === AstKind.CELL) {
         out *= Number(spreadsheet.compute(arg.name))
       } else if (arg.kind === AstKind.RANGE) {

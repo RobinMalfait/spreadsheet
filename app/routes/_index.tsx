@@ -14,15 +14,23 @@ const WIDTH = 26
 const HEIGHT = 26
 
 export default function Index() {
-  let [spreadsheet] = useState(() => new Spreadsheet())
+  let [spreadsheet] = useState(() => {
+    let spreadsheet = new Spreadsheet()
 
-  spreadsheet.set('A1', Value.of(5))
-  spreadsheet.set('B1', Expression.of('SUM(A1, A1)'))
-  spreadsheet.set('C1', Expression.of('SUM(B1, A1)'))
-  spreadsheet.set('D1', Expression.of('SUM(C1, A1)'))
-  spreadsheet.set('E1', Expression.of('SUM(C1, PRODUCT(A1:D1))'))
+    spreadsheet.set('A1', Value.of(2))
+    spreadsheet.set('B1', Expression.of('SUM(A1, A1)'))
+    spreadsheet.set('C1', Expression.of('SUM(B1, A1)'))
+    spreadsheet.set('D1', Expression.of('SUM(C1, A1)'))
+    spreadsheet.set('E1', Expression.of('SUM(C1, PRODUCT(A1:D1))'))
+    // spreadsheet.set('B2', Expression.of('CONCAT("2+2=", SUM(2, 2))'))
+    // spreadsheet.set('A2', Expression.of('CONCAT(A1, "+", B1, "=", SUM(A1:B1))'))
+    // spreadsheet.set('A3', Expression.of('CONCAT(A1, "*", B1, "=", PRODUCT(A1:B1))'))
+    // spreadsheet.set('C3', Expression.of('CONCAT("Hello", " ", "World", "!")'))
 
-  spreadsheet.set('A2', Expression.of('PRODUCT(A1:E1)'))
+    spreadsheet.set('A4', Expression.of('PRODUCT(A1:E1)'))
+
+    return spreadsheet
+  })
 
   let cells = Array.from({
     length: (WIDTH + 1) * (HEIGHT + 1),
@@ -59,6 +67,7 @@ export default function Index() {
             }
 
             let out = spreadsheet.compute(id)
+
             if (out) {
               return (
                 <div>
@@ -73,7 +82,7 @@ export default function Index() {
 
           return (
             <div
-              key={idx}
+              key={id}
               className={clsx(
                 'px-2 py-1.5',
                 'border-0.5 border-gray-200',
