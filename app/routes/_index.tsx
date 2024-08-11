@@ -115,7 +115,7 @@ export default function Index() {
     <div className="flex h-screen w-screen flex-col overflow-hidden font-sans">
       <div className="flex items-center border-gray-300 border-b">
         <div className="w-16 py-1.5 text-center">{cell}</div>
-        <div className="font-thin text-gray-300">|</div>
+        <div className="-ml-[2px] font-thin text-gray-300">|</div>
         <input
           ref={inputRef}
           className="flex-1 border-none px-2 py-1.5 focus:outline-none"
