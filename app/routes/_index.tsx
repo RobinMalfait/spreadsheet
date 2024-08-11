@@ -1,7 +1,7 @@
 import type { MetaFunction } from '@remix-run/node'
 import clsx from 'clsx'
 import { type CSSProperties, useState } from 'react'
-import { Expression, Spreadsheet, Value } from '~/domain/spreadsheet'
+import { Spreadsheet } from '~/domain/spreadsheet'
 
 export const meta: MetaFunction = () => {
   return [
@@ -17,17 +17,19 @@ export default function Index() {
   let [spreadsheet] = useState(() => {
     let spreadsheet = new Spreadsheet()
 
-    spreadsheet.set('A1', Value.of(2))
-    spreadsheet.set('B1', Expression.of('SUM(A1, A1)'))
-    spreadsheet.set('C1', Expression.of('SUM(B1, A1)'))
-    spreadsheet.set('D1', Expression.of('SUM(C1, A1)'))
-    spreadsheet.set('E1', Expression.of('SUM(C1, PRODUCT(A1:D1))'))
-    // spreadsheet.set('B2', Expression.of('CONCAT("2+2=", SUM(2, 2))'))
-    // spreadsheet.set('A2', Expression.of('CONCAT(A1, "+", B1, "=", SUM(A1:B1))'))
-    // spreadsheet.set('A3', Expression.of('CONCAT(A1, "*", B1, "=", PRODUCT(A1:B1))'))
-    // spreadsheet.set('C3', Expression.of('CONCAT("Hello", " ", "World", "!")'))
+    spreadsheet.set('A1', '2')
+    spreadsheet.set('B1', '=SUM(A1, A1)')
+    spreadsheet.set('C1', '=SUM(B1, A1)')
+    spreadsheet.set('D1', '=SUM(C1, A1)')
+    spreadsheet.set('E1', '=SUM(C1, PRODUCT(A1:D1))')
+    spreadsheet.set('B2', '=CONCAT("2+2=", SUM(2, 2))')
+    spreadsheet.set('A2', '=CONCAT(A1, "+", B1, "=", SUM(A1:B1))')
+    spreadsheet.set('A3', '=CONCAT(A1, "*", B1, "=", PRODUCT(A1:B1))')
+    spreadsheet.set('C3', '=CONCAT("Hello", " ", "World", "!")')
 
-    spreadsheet.set('A4', Expression.of('PRODUCT(A1:E1)'))
+    spreadsheet.set('A4', '=PRODUCT(A1:E1)')
+
+    console.dir(spreadsheet, { depth: null })
 
     return spreadsheet
   })
@@ -54,30 +56,31 @@ export default function Index() {
           let id = `${String.fromCharCode(64 + col)}${row}`
 
           let contents = (() => {
+            // Top left corner
             if (row === 0 && col === 0) {
               return ''
             }
 
+            // Column labels
             if (row === 0) {
               return String.fromCharCode(64 + col)
             }
 
+            // Row labels
             if (col === 0) {
               return row
             }
 
+            // Cell
             let out = spreadsheet.compute(id)
+            if (out === null) return null
 
-            if (out) {
-              return (
-                <div>
-                  <div>{out}</div>
-                  <small className="text-gray-500 font-mono">
-                    ={spreadsheet.get(id)}
-                  </small>
-                </div>
-              )
-            }
+            return (
+              <div>
+                <div>{out}</div>
+                <small className="text-gray-500 font-mono">{spreadsheet.get(id)}</small>
+              </div>
+            )
           })()
 
           return (

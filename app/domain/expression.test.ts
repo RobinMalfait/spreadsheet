@@ -1,10 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import {
-  parseColNumber,
-  parseExpression,
-  printExpression,
-  tokenizeExpression,
-} from './expression'
+import { parseColNumber, parseExpression, tokenizeExpression } from './expression'
 
 const json = String.raw
 

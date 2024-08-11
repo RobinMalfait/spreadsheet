@@ -132,6 +132,7 @@ export function tokenizeExpression(input: string): Token[] {
 }
 
 // ---
+
 export enum AstKind {
   CELL = 'cell',
   RANGE = 'range',

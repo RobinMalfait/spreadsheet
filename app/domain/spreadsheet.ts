@@ -15,142 +15,131 @@ function* expandRange(range: AstCellRange) {
 }
 
 const functions = {
-  CONCAT(spreadsheet: Spreadsheet, ...args: AST[]) {
+  CONCAT(...args: EvaluationResult[]): EvaluationResult {
     let out = ''
+
     for (let arg of args) {
-      if (arg.kind === AstKind.NUMBER_LITERAL) {
+      if (arg.kind === EvaluationResultKind.NUMBER) {
+        out += arg.value.toString()
+      } else if (arg.kind === EvaluationResultKind.STRING) {
         out += arg.value
-      } else if (arg.kind === AstKind.STRING_LITERAL) {
-        out += arg.value
-      } else if (arg.kind === AstKind.FUNCTION && Object.hasOwn(functions, arg.name)) {
-        out += functions[arg.name as keyof typeof functions](spreadsheet, ...arg.args)
-      } else if (arg.kind === AstKind.CELL) {
-        out += Number(spreadsheet.compute(arg.name))
-      } else if (arg.kind === AstKind.RANGE) {
-        for (let cell of expandRange(arg as AstCellRange)) {
-          out += Number(spreadsheet.compute(cell))
-        }
       }
     }
-    return out
+
+    return { kind: EvaluationResultKind.STRING, value: out }
   },
-  SUM(spreadsheet: Spreadsheet, ...args: AST[]) {
+  SUM(...args: EvaluationResult[]): EvaluationResult {
     let out = 0
 
     for (let arg of args) {
-      if (arg.kind === AstKind.NUMBER_LITERAL) {
+      if (arg.kind === EvaluationResultKind.NUMBER) {
         out += arg.value
-      } else if (arg.kind === AstKind.FUNCTION && Object.hasOwn(functions, arg.name)) {
-        let result = functions[arg.name as keyof typeof functions](
-          spreadsheet,
-          ...arg.args,
-        )
-        if (typeof result === 'number') {
-          out += result
-        }
-      } else if (arg.kind === AstKind.CELL) {
-        out += Number(spreadsheet.compute(arg.name))
-      } else if (arg.kind === AstKind.RANGE) {
-        for (let cell of expandRange(arg as AstCellRange)) {
-          out += Number(spreadsheet.compute(cell))
-        }
       }
     }
 
-    return out
+    return { kind: EvaluationResultKind.NUMBER, value: out }
   },
-  PRODUCT(spreadsheet: Spreadsheet, ...args: AST[]) {
+  PRODUCT(...args: EvaluationResult[]): EvaluationResult {
     let out = 1
 
     for (let arg of args) {
-      if (arg.kind === AstKind.NUMBER_LITERAL) {
+      if (arg.kind === EvaluationResultKind.NUMBER) {
         out *= arg.value
-      } else if (arg.kind === AstKind.FUNCTION && Object.hasOwn(functions, arg.name)) {
-        let result = functions[arg.name as keyof typeof functions](
-          spreadsheet,
-          ...arg.args,
-        )
-        if (typeof result === 'number') {
-          out += result
-        }
-      } else if (arg.kind === AstKind.CELL) {
-        out *= Number(spreadsheet.compute(arg.name))
-      } else if (arg.kind === AstKind.RANGE) {
-        for (let cell of expandRange(arg as AstCellRange)) {
-          out *= Number(spreadsheet.compute(cell))
-        }
       }
     }
 
-    return out
+    return { kind: EvaluationResultKind.NUMBER, value: out }
   },
 }
 
-export class Value {
-  private constructor(private value: number) {}
-
-  static of(value: number) {
-    return new Value(value)
-  }
-
-  text() {
-    return this.value
-  }
-
-  compute() {
-    return this.value
-  }
+enum EvaluationResultKind {
+  NUMBER = 'number',
+  STRING = 'string',
 }
 
-export class Expression {
-  private ast: AST | null = null
+type EvaluationResult =
+  | { kind: EvaluationResultKind.NUMBER; value: number }
+  | { kind: EvaluationResultKind.STRING; value: string }
 
-  private constructor(private expression: string) {
-    let tokens = tokenizeExpression(expression)
-    let ast = parseExpression(tokens)
-    this.ast = ast
-  }
+function evaluateExpression(ast: AST, spreadsheet: Spreadsheet): EvaluationResult[] {
+  switch (ast.kind) {
+    case AstKind.NUMBER_LITERAL:
+      return [{ kind: EvaluationResultKind.NUMBER, value: ast.value }]
 
-  static of(expression: string) {
-    return new Expression(expression)
-  }
+    case AstKind.STRING_LITERAL: {
+      if (ast.value.trim() === '') {
+        return [{ kind: EvaluationResultKind.STRING, value: ast.value }]
+      }
 
-  text() {
-    return this.expression
-  }
+      let asNumber = Number(ast.value)
+      if (!Number.isNaN(asNumber)) {
+        return [{ kind: EvaluationResultKind.NUMBER, value: asNumber }]
+      }
 
-  compute(spreadsheet: Spreadsheet) {
-    if (!this.ast) throw new Error('Invalid expression')
-
-    // TODO: Evaluate all expressions
-
-    if (this.ast.kind !== AstKind.FUNCTION) {
-      throw new Error('Invalid expression, expected function')
+      return [{ kind: EvaluationResultKind.STRING, value: ast.value }]
     }
 
-    if (!Object.hasOwn(functions, this.ast.name)) {
-      throw new Error('Invalid expression, expected function')
+    case AstKind.CELL:
+      return spreadsheet.evaluate(ast.name)
+
+    case AstKind.RANGE: {
+      let out = []
+      for (let cell of expandRange(ast)) {
+        out.push(...spreadsheet.evaluate(cell))
+      }
+      return out
     }
 
-    return functions[this.ast.name as keyof typeof functions](
-      spreadsheet,
-      ...this.ast.args,
-    )
+    case AstKind.FUNCTION: {
+      if (!Object.hasOwn(functions, ast.name)) {
+        throw new Error(`Unknown function: ${ast.name}`)
+      }
+
+      let fn = functions[ast.name as keyof typeof functions]
+      let args = ast.args.flatMap((arg) => evaluateExpression(arg, spreadsheet))
+      let result = fn(...args)
+      return [result]
+    }
   }
 }
 
 export class Spreadsheet {
-  private cells: Map<string, Value | Expression> = new Map()
+  private cells: Map<string, [raw: string, ast: AST]> = new Map()
 
-  get(cell: string) {
-    return this.cells.get(cell)?.text()
+  get(cell: string): string {
+    let result = this.cells.get(cell)
+    if (result) {
+      return result[0]
+    }
+    return ''
   }
 
-  compute(cell: string) {
-    return this.cells.get(cell)?.compute(this)
+  set(cell: string, value: string) {
+    let expression = value[0] === '=' ? value.slice(1) : `"${value}"`
+    let tokens = tokenizeExpression(expression)
+    let ast = parseExpression(tokens)
+
+    this.cells.set(cell, [value, ast])
   }
 
-  set(cell: string, value: Value | Expression) {
-    this.cells.set(cell, value)
+  compute(cell: string): number | string | null {
+    let evaluationResult = this.evaluate(cell)
+    if (evaluationResult.length > 1) {
+      throw new Error(`Expected a single result, got ${evaluationResult.length}`)
+    }
+
+    if (evaluationResult.length === 1) {
+      return evaluationResult[0].value
+    }
+
+    return null
+  }
+
+  evaluate(cell: string): EvaluationResult[] {
+    let result = this.cells.get(cell)
+    if (result) {
+      return evaluateExpression(result[1], this)
+    }
+    return []
   }
 }
