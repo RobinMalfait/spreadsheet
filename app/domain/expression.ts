@@ -283,7 +283,12 @@ export function parseExpression(tokens: Token[]): AST {
   throw new Error('Not implemented')
 }
 
-function parseLocation(input: string) {
+type Location = {
+  col: number
+  row: number
+}
+
+export function parseLocation(input: string): Location {
   let idx = 0
   let char = input.charCodeAt(idx)
   do {
@@ -294,6 +299,25 @@ function parseLocation(input: string) {
     col: parseColNumber(input.slice(0, idx)),
     row: Number(input.slice(idx)),
   }
+}
+
+export function printLocation(location: Location) {
+  return `${printColNumber(location.col)}${location.row}`
+}
+
+function printColNumber(input: number) {
+  let remaining = input
+  let col = ''
+
+  while (remaining > 0) {
+    let remainder = remaining % 26
+
+    let char = remainder === 0 ? 'Z' : String.fromCharCode(UPPER_A + remainder - 1)
+    col = char + col
+    remaining = Math.floor(remaining / 26)
+  }
+
+  return col
 }
 
 export function parseColNumber(input: string) {
