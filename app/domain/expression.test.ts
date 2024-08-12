@@ -54,8 +54,7 @@ describe('tokenization', () => {
       expect(tokenizeExpression('-123')).toMatchInlineSnapshot(json`
         [
           {
-            "kind": "OPERATOR",
-            "value": "-",
+            "kind": "MINUS",
           },
           {
             "kind": "NUMBER",
@@ -80,8 +79,7 @@ describe('tokenization', () => {
       expect(tokenizeExpression('-123.456')).toMatchInlineSnapshot(json`
         [
           {
-            "kind": "OPERATOR",
-            "value": "-",
+            "kind": "MINUS",
           },
           {
             "kind": "NUMBER",
@@ -179,32 +177,28 @@ describe('tokenization', () => {
             "value": 1,
           },
           {
-            "kind": "OPERATOR",
-            "value": "+",
+            "kind": "PLUS",
           },
           {
             "kind": "NUMBER",
             "value": 2,
           },
           {
-            "kind": "OPERATOR",
-            "value": "*",
+            "kind": "ASTERISK",
           },
           {
             "kind": "NUMBER",
             "value": 3,
           },
           {
-            "kind": "OPERATOR",
-            "value": "-",
+            "kind": "MINUS",
           },
           {
             "kind": "NUMBER",
             "value": 4,
           },
           {
-            "kind": "OPERATOR",
-            "value": "/",
+            "kind": "FORWARD_SLASH",
           },
           {
             "kind": "NUMBER",

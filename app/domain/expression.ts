@@ -10,10 +10,13 @@ const PLUS = 43 // +
 const COMMA = 44 // ,
 const MINUS = 45 // -
 const POINT = 46 // .
-const SLASH = 47 // /
+const FORWARD_SLASH = 47 // /
 const ZERO = 48 // 0
 const NINE = 57 // 9
 const COLON = 58 // :
+const ANGLE_LEFT = 60 // <
+const EQUALS = 61 // =
+const ANGLE_RIGHT = 62 // >
 const UPPER_A = 65 // A
 const UPPER_Z = 90 // Z
 const LOWER_A = 97 // a
@@ -31,7 +34,14 @@ enum TokenKind {
   COLON = 'COLON',
   OPEN_PAREN = 'OPEN_PAREN',
   CLOSE_PAREN = 'CLOSE_PAREN',
-  OPERATOR = 'OPERATOR',
+  EXCLAMATION = 'EXCLAMATION',
+  ASTERISK = 'ASTERISK',
+  PLUS = 'PLUS',
+  MINUS = 'MINUS',
+  FORWARD_SLASH = 'FORWARD_SLASH',
+  ANGLE_LEFT = 'ANGLE_LEFT',
+  EQUALS = 'EQUALS',
+  ANGLE_RIGHT = 'ANGLE_RIGHT',
 }
 
 type Token =
@@ -42,7 +52,13 @@ type Token =
   | { kind: TokenKind.COLON }
   | { kind: TokenKind.OPEN_PAREN }
   | { kind: TokenKind.CLOSE_PAREN }
-  | { kind: TokenKind.OPERATOR; value: string }
+  | { kind: TokenKind.ASTERISK }
+  | { kind: TokenKind.PLUS }
+  | { kind: TokenKind.MINUS }
+  | { kind: TokenKind.FORWARD_SLASH }
+  | { kind: TokenKind.ANGLE_LEFT }
+  | { kind: TokenKind.EQUALS }
+  | { kind: TokenKind.ANGLE_RIGHT }
 
 export function tokenizeExpression(input: string): Token[] {
   let tokens: Token[] = []
@@ -88,8 +104,38 @@ export function tokenizeExpression(input: string): Token[] {
     }
 
     // Math operators
-    if (char === ASTERISK || char === PLUS || char === MINUS || char === SLASH) {
-      tokens.push({ kind: TokenKind.OPERATOR, value: input[idx] })
+    if (char === ASTERISK) {
+      tokens.push({ kind: TokenKind.ASTERISK })
+      continue
+    }
+
+    if (char === PLUS) {
+      tokens.push({ kind: TokenKind.PLUS })
+      continue
+    }
+
+    if (char === MINUS) {
+      tokens.push({ kind: TokenKind.MINUS })
+      continue
+    }
+
+    if (char === FORWARD_SLASH) {
+      tokens.push({ kind: TokenKind.FORWARD_SLASH })
+      continue
+    }
+
+    if (char === ANGLE_LEFT) {
+      tokens.push({ kind: TokenKind.ANGLE_LEFT })
+      continue
+    }
+
+    if (char === EQUALS) {
+      tokens.push({ kind: TokenKind.EQUALS })
+      continue
+    }
+
+    if (char === ANGLE_RIGHT) {
+      tokens.push({ kind: TokenKind.ANGLE_RIGHT })
       continue
     }
 
@@ -190,37 +236,26 @@ export type AST =
   | AstNumberLiteral
   | AstStringLiteral
 
-enum Operator {
-  UnaryPlus = 0,
-  UnaryMinus = 1,
-
-  Addition = 2,
-  Subtraction = 3,
-
-  Multiplication = 4,
-  Division = 5,
-}
-
 export function parseExpression(tokens: Token[]): AST {
   for (let idx = 0; idx < tokens.length; idx++) {
     let token = tokens[idx]
 
     switch (token.kind) {
-      case TokenKind.OPERATOR: {
+      case TokenKind.PLUS: {
         let next = tokens[idx + 1]
 
-        if (!next) {
-          throw new Error('Invalid expression')
+        if (next?.kind === TokenKind.NUMBER_LITERAL) {
+          return { kind: AstKind.NUMBER_LITERAL, value: +next.value }
         }
 
-        if (next.kind === TokenKind.NUMBER_LITERAL) {
-          if (token.value === '-') {
-            return { kind: AstKind.NUMBER_LITERAL, value: -next.value }
-          }
+        throw new Error('Invalid expression')
+      }
 
-          if (token.value === '+') {
-            return { kind: AstKind.NUMBER_LITERAL, value: +next.value }
-          }
+      case TokenKind.MINUS: {
+        let next = tokens[idx + 1]
+
+        if (next?.kind === TokenKind.NUMBER_LITERAL) {
+          return { kind: AstKind.NUMBER_LITERAL, value: -next.value }
         }
 
         throw new Error('Invalid expression')
