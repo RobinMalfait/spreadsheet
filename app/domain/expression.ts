@@ -477,10 +477,6 @@ class ExpressionParser {
             }
           }
 
-          if (argTokens.length > 0) {
-            args.push(argTokens)
-          }
-
           return {
             kind: AstKind.FUNCTION,
             name: token.value,
@@ -532,23 +528,6 @@ export function parseLocation(input: string): Location {
   }
 }
 
-export function printLocation(location: Location) {
-  return `${printColNumber(location.col)}${location.row}`
-}
-
-function printColNumber(input: number) {
-  let remaining = input
-  let col = ''
-
-  while (remaining > 0) {
-    let mod = (remaining - 1) % 26
-    col = String.fromCharCode(UPPER_A + mod) + col
-    remaining = Math.floor((remaining - mod) / 26)
-  }
-
-  return col
-}
-
 export function parseColNumber(input: string) {
   let col = 0
 
@@ -581,12 +560,12 @@ export function printExpression(input: AST): string {
     case AstKind.STRING_LITERAL:
       return `"${input.value}"`
     case AstKind.BINARY_EXPRESSION:
-      return `(${printExpression(input.lhs)} ${toOperatorSymbol(input.operator)} ${printExpression(input.rhs)})`
+      return `(${printExpression(input.lhs)} ${printBinaryOperator(input.operator)} ${printExpression(input.rhs)})`
   }
 }
 
-function toOperatorSymbol(bin: BinaryExpressionOperator) {
-  switch (bin) {
+function printBinaryOperator(operator: BinaryExpressionOperator) {
+  switch (operator) {
     case BinaryExpressionOperator.TIMES:
       return '*'
     case BinaryExpressionOperator.ADD:
@@ -602,4 +581,21 @@ function toOperatorSymbol(bin: BinaryExpressionOperator) {
     case BinaryExpressionOperator.GREATER_THAN:
       return '>'
   }
+}
+
+export function printLocation(location: Location) {
+  return `${printColNumber(location.col)}${location.row}`
+}
+
+function printColNumber(input: number) {
+  let remaining = input
+  let col = ''
+
+  while (remaining > 0) {
+    let mod = (remaining - 1) % 26
+    col = String.fromCharCode(UPPER_A + mod) + col
+    remaining = Math.floor((remaining - mod) / 26)
+  }
+
+  return col
 }

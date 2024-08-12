@@ -98,6 +98,15 @@ export default function Index() {
     spreadsheet.set('F5', 'Math:')
     spreadsheet.set('G5', '=1 + 2 * B2 / C1')
 
+    spreadsheet.set('F9', 'Value:')
+    spreadsheet.set('G9', 'Even or odd?')
+
+    spreadsheet.set('F10', '5')
+    spreadsheet.set('G10', '=IF(MOD(F10, 2) = 0, "Even", "Odd")')
+
+    spreadsheet.set('F11', '8')
+    spreadsheet.set('G11', '=IF(MOD(F11, 2) = 0, "Even", "Odd")')
+
     return spreadsheet
   })
 
@@ -296,7 +305,7 @@ export default function Index() {
                   >
                     {out.value.value}
                   </div>,
-                  out.toString(),
+                  out.value.value.toString(),
                 ] as const
               }
 

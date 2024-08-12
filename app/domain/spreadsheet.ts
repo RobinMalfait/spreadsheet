@@ -95,6 +95,44 @@ const functions = {
 
     return { kind: EvaluationResultKind.NUMBER, value: out }
   },
+  MOD(num: EvaluationResult, divisor: EvaluationResult): EvaluationResult {
+    if (num.kind !== EvaluationResultKind.NUMBER) {
+      throw Object.assign(
+        new Error(`MOD() expects a number as the number, got ${num.value}`),
+        {
+          short: '#VALUE!',
+        },
+      )
+    }
+
+    if (divisor.kind !== EvaluationResultKind.NUMBER) {
+      throw Object.assign(
+        new Error(`MOD() expects a number as the divisor, got ${num.value}`),
+        {
+          short: '#VALUE!',
+        },
+      )
+    }
+
+    if (divisor.value === 0) {
+      throw Object.assign(new Error('MOD() cannot divide by zero'), {
+        short: '#DIV/0!',
+      })
+    }
+
+    let out = num.value % divisor.value
+
+    return { kind: EvaluationResultKind.NUMBER, value: out }
+  },
+
+  // Logical functions
+  IF(
+    test: EvaluationResult,
+    consequent: EvaluationResult,
+    alternate: EvaluationResult,
+  ): EvaluationResult {
+    return test.value !== 0 ? consequent : alternate
+  },
 }
 
 enum EvaluationResultKind {
