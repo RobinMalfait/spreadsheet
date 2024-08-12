@@ -44,6 +44,15 @@ export default function Index() {
   let [spreadsheet] = useState(() => {
     let spreadsheet = new Spreadsheet()
 
+    if (typeof window !== 'undefined') {
+      // @ts-expect-error
+      window.spreadsheet = spreadsheet
+
+      if (window.location.search !== '?demo') {
+        return spreadsheet
+      }
+    }
+
     spreadsheet.set('A1', 'Double it:')
     spreadsheet.set('B1', '2')
     spreadsheet.set('C1', '=PRODUCT(B1, 2)')
