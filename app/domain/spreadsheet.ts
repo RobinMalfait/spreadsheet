@@ -4,6 +4,7 @@ import {
   type AstCell,
   type AstCellRange,
   AstKind,
+  BinaryExpressionOperator,
   parseExpression,
   parseLocation,
   tokenizeExpression,
@@ -131,14 +132,79 @@ function evaluateExpression(ast: AST, spreadsheet: Spreadsheet): EvaluationResul
     case AstKind.RANGE: {
       let out = []
       for (let cell of expandRange(ast)) {
-        out.push(...spreadsheet.evaluate(cell))
+        for (let child of spreadsheet.evaluate(cell)) {
+          out.push(child)
+        }
       }
       return out
     }
 
+    case AstKind.BINARY_EXPRESSION: {
+      let lhs = evaluateExpression(ast.lhs, spreadsheet)
+      let rhs = evaluateExpression(ast.rhs, spreadsheet)
+
+      if (lhs.length !== 1 || rhs.length !== 1) {
+        throw Object.assign(new Error('Expected a single result from each side'), {
+          short: '#VALUE!',
+        })
+      }
+
+      let left = lhs[0]
+      let right = rhs[0]
+
+      if (
+        left.kind === EvaluationResultKind.NUMBER &&
+        right.kind === EvaluationResultKind.NUMBER
+      ) {
+        switch (ast.operator) {
+          case BinaryExpressionOperator.ADD:
+            return [
+              { kind: EvaluationResultKind.NUMBER, value: left.value + right.value },
+            ]
+          case BinaryExpressionOperator.SUBTRACT:
+            return [
+              { kind: EvaluationResultKind.NUMBER, value: left.value - right.value },
+            ]
+          case BinaryExpressionOperator.TIMES:
+            return [
+              { kind: EvaluationResultKind.NUMBER, value: left.value * right.value },
+            ]
+          case BinaryExpressionOperator.DIVIDE:
+            return [
+              { kind: EvaluationResultKind.NUMBER, value: left.value / right.value },
+            ]
+          case BinaryExpressionOperator.EQUALS:
+            return [
+              {
+                kind: EvaluationResultKind.NUMBER,
+                value: left.value === right.value ? 1 : 0,
+              },
+            ]
+          case BinaryExpressionOperator.LESS_THAN:
+            return [
+              {
+                kind: EvaluationResultKind.NUMBER,
+                value: left.value < right.value ? 1 : 0,
+              },
+            ]
+          case BinaryExpressionOperator.GREATER_THAN:
+            return [
+              {
+                kind: EvaluationResultKind.NUMBER,
+                value: left.value > right.value ? 1 : 0,
+              },
+            ]
+        }
+      }
+
+      throw Object.assign(new Error(`Invalid operation \`${ast.kind}\``), {
+        short: '#VALUE!',
+      })
+    }
+
     case AstKind.FUNCTION: {
       if (!Object.hasOwn(functions, ast.name)) {
-        throw Object.assign(new Error(`Unknown function: ${ast.name}`), {
+        throw Object.assign(new Error(`Unknown function \`${ast.name}\``), {
           short: '#NAME?',
         })
       }
@@ -353,6 +419,12 @@ function walk(ast: AST[], visit: (node: AST) => WalkAction): WalkAction {
 
       case AstKind.FUNCTION:
         if (walk(node.args, visit) === WalkAction.Stop) {
+          return WalkAction.Stop
+        }
+        break
+
+      case AstKind.BINARY_EXPRESSION:
+        if (walk([node.lhs, node.rhs], visit) === WalkAction.Stop) {
           return WalkAction.Stop
         }
         break

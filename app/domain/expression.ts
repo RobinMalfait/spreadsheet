@@ -224,14 +224,14 @@ export type AstNumberLiteral = {
   value: number
 }
 
-enum BinaryExpressionOperator {
-  ASTERISK = 'ASTERISK',
-  PLUS = 'PLUS',
-  MINUS = 'MINUS',
-  FORWARD_SLASH = 'FORWARD_SLASH',
-  ANGLE_LEFT = 'ANGLE_LEFT',
+export enum BinaryExpressionOperator {
+  TIMES = 'TIMES',
+  ADD = 'ADD',
+  SUBTRACT = 'SUBTRACT',
+  DIVIDE = 'DIVIDE',
+  LESS_THAN = 'LESS_THAN',
   EQUALS = 'EQUALS',
-  ANGLE_RIGHT = 'ANGLE_RIGHT',
+  GREATER_THAN = 'GREATER_THAN',
 }
 
 export type AstBinaryExpression = {
@@ -255,12 +255,106 @@ export type AST =
   | AstBinaryExpression
 
 export function parseExpression(tokens: Token[]): AST {
-  for (let idx = 0; idx < tokens.length; idx++) {
-    let token = tokens[idx]
+  return new ExpressionParser(tokens).parseExpression(Number.NEGATIVE_INFINITY)
+}
+
+class ExpressionParser {
+  private tokens: Token[]
+
+  constructor(tokens: Token[]) {
+    this.tokens = tokens.slice()
+  }
+
+  isBinaryOperator(token: Token) {
+    return (
+      token.kind === TokenKind.ASTERISK ||
+      token.kind === TokenKind.PLUS ||
+      token.kind === TokenKind.MINUS ||
+      token.kind === TokenKind.FORWARD_SLASH ||
+      token.kind === TokenKind.ANGLE_LEFT ||
+      token.kind === TokenKind.EQUALS ||
+      token.kind === TokenKind.ANGLE_RIGHT
+    )
+  }
+
+  toBinaryOperator(token: Token) {
+    switch (token.kind) {
+      case TokenKind.ASTERISK:
+        return BinaryExpressionOperator.TIMES
+      case TokenKind.PLUS:
+        return BinaryExpressionOperator.ADD
+      case TokenKind.MINUS:
+        return BinaryExpressionOperator.SUBTRACT
+      case TokenKind.FORWARD_SLASH:
+        return BinaryExpressionOperator.DIVIDE
+      case TokenKind.ANGLE_LEFT:
+        return BinaryExpressionOperator.LESS_THAN
+      case TokenKind.EQUALS:
+        return BinaryExpressionOperator.EQUALS
+      case TokenKind.ANGLE_RIGHT:
+        return BinaryExpressionOperator.GREATER_THAN
+      default:
+        throw new Error(`Invalid binary operator: ${JSON.stringify(token, null, 2)}`)
+    }
+  }
+
+  getPrecedence(token: Token) {
+    if (token.kind === TokenKind.EQUALS) {
+      return 4
+    }
+
+    if (token.kind === TokenKind.ANGLE_LEFT || token.kind === TokenKind.ANGLE_RIGHT) {
+      return 3
+    }
+
+    if (token.kind === TokenKind.ASTERISK || token.kind === TokenKind.FORWARD_SLASH) {
+      return 2
+    }
+
+    if (token.kind === TokenKind.PLUS || token.kind === TokenKind.MINUS) {
+      return 1
+    }
+
+    return 0
+  }
+
+  parseIncreasingPrecedence(lhs: AST, precedence: number): AST {
+    let next = this.tokens.shift()
+    if (!next) return lhs
+
+    let nextPrecedence = this.getPrecedence(next)
+    if (nextPrecedence <= precedence) {
+      this.tokens.unshift(next)
+      return lhs
+    }
+
+    if (!this.isBinaryOperator(next)) return lhs
+
+    return {
+      kind: AstKind.BINARY_EXPRESSION,
+      operator: this.toBinaryOperator(next),
+      lhs,
+      rhs: this.parseExpression(nextPrecedence),
+    }
+  }
+
+  parseExpression(precedence: number): AST {
+    let lhs = this.parseLeaf()
+    while (true) {
+      let node = this.parseIncreasingPrecedence(lhs, precedence)
+      if (node === lhs) break
+      lhs = node
+    }
+    return lhs
+  }
+
+  parseLeaf(): AST {
+    let token = this.tokens.shift()
+    if (!token) throw new Error('Invalid expression')
 
     switch (token.kind) {
       case TokenKind.PLUS: {
-        let next = tokens[idx + 1]
+        let next = this.tokens[0]
 
         if (next?.kind === TokenKind.NUMBER_LITERAL) {
           return { kind: AstKind.NUMBER_LITERAL, value: +next.value }
@@ -270,7 +364,7 @@ export function parseExpression(tokens: Token[]): AST {
       }
 
       case TokenKind.MINUS: {
-        let next = tokens[idx + 1]
+        let next = this.tokens[0]
 
         if (next?.kind === TokenKind.NUMBER_LITERAL) {
           return { kind: AstKind.NUMBER_LITERAL, value: -next.value }
@@ -286,8 +380,8 @@ export function parseExpression(tokens: Token[]): AST {
         return { kind: AstKind.STRING_LITERAL, value: token.value }
 
       case TokenKind.IDENTIFIER: {
-        let next = tokens[idx + 1]
-        if (!next) {
+        let peek = this.tokens[0]
+        if (!peek) {
           // Cell reference
           return {
             kind: AstKind.CELL,
@@ -297,8 +391,9 @@ export function parseExpression(tokens: Token[]): AST {
         }
 
         // Cell range
-        if (next.kind === TokenKind.COLON) {
-          let end = tokens[idx + 2]
+        if (peek.kind === TokenKind.COLON) {
+          this.tokens.shift() // :
+          let end = this.tokens.shift() // End
           if (!end || end.kind !== TokenKind.IDENTIFIER) {
             throw new Error('Invalid cell range')
           }
@@ -319,7 +414,13 @@ export function parseExpression(tokens: Token[]): AST {
         }
 
         // Function call
-        if (next.kind === TokenKind.OPEN_PAREN) {
+        if (peek.kind === TokenKind.OPEN_PAREN) {
+          // Skip open paren
+          let open = this.tokens.shift()
+          if (open?.kind !== TokenKind.OPEN_PAREN) {
+            throw new Error('Invalid function call')
+          }
+
           // Each argument is separated by a comma, it could be that multiple
           // tokens are required for a single expression
           let args: Token[][] = []
@@ -327,14 +428,18 @@ export function parseExpression(tokens: Token[]): AST {
           // Track paren stack
           let stack = 0
 
-          // Start of current arguments list
-          let start = idx + 2
+          // Track tokens for next argument
+          let argTokens: Token[] = []
 
           // Find closing paren
-          loop: for (let j = idx + 2; j < tokens.length; j++) {
-            switch (tokens[j].kind) {
-              // Nested function call
+          loop: while (this.tokens.length > 0) {
+            // biome-ignore lint/style/noNonNullAssertion: We already verified that there is at least 1 remaining token
+            let next = this.tokens.shift()!
+
+            switch (next.kind) {
+              // Nested function call, or just a parenthesized expression
               case TokenKind.OPEN_PAREN:
+                argTokens.push(next)
                 stack++
                 break
 
@@ -342,26 +447,38 @@ export function parseExpression(tokens: Token[]): AST {
               // call
               case TokenKind.CLOSE_PAREN:
                 if (stack === 0) {
-                  let argTokens = tokens.slice(start, j)
                   if (argTokens.length > 0) {
-                    args.push(argTokens)
+                    args.push(argTokens.splice(0))
                   }
+
                   break loop
                 }
+
+                // Close paren for nested parenthesized expression
+                argTokens.push(next)
                 stack--
                 break
 
               // Argument separator
               case TokenKind.COMMA:
-                if (stack === 0) {
-                  let argTokens = tokens.slice(start, j)
-                  if (argTokens.length > 0) {
-                    args.push(argTokens)
-                  }
-                  start = j + 1
+                if (stack === 0 && argTokens.length > 0) {
+                  args.push(argTokens.splice(0))
+                }
+
+                if (stack !== 0) {
+                  argTokens.push(next)
                 }
                 break
+
+              // Token belongs to the current argument
+              default:
+                argTokens.push(next)
+                break
             }
+          }
+
+          if (argTokens.length > 0) {
+            args.push(argTokens)
           }
 
           return {
@@ -378,10 +495,23 @@ export function parseExpression(tokens: Token[]): AST {
           loc: parseLocation(token.value),
         }
       }
-    }
-  }
 
-  throw new Error('Not implemented')
+      // Parenthesized expression
+      case TokenKind.OPEN_PAREN: {
+        let expression = this.parseExpression(0)
+
+        let close = this.tokens.shift()
+
+        if (close?.kind !== TokenKind.CLOSE_PAREN) {
+          throw new Error('Invalid expression')
+        }
+
+        return expression
+      }
+    }
+
+    throw new Error('Invalid expression')
+  }
 }
 
 type Location = {
@@ -451,6 +581,25 @@ export function printExpression(input: AST): string {
     case AstKind.STRING_LITERAL:
       return `"${input.value}"`
     case AstKind.BINARY_EXPRESSION:
-      return `(${printExpression(input.lhs)} ${input.operator} ${printExpression(input.rhs)})`
+      return `(${printExpression(input.lhs)} ${toOperatorSymbol(input.operator)} ${printExpression(input.rhs)})`
+  }
+}
+
+function toOperatorSymbol(bin: BinaryExpressionOperator) {
+  switch (bin) {
+    case BinaryExpressionOperator.TIMES:
+      return '*'
+    case BinaryExpressionOperator.ADD:
+      return '+'
+    case BinaryExpressionOperator.SUBTRACT:
+      return '-'
+    case BinaryExpressionOperator.DIVIDE:
+      return '/'
+    case BinaryExpressionOperator.LESS_THAN:
+      return '<'
+    case BinaryExpressionOperator.EQUALS:
+      return '='
+    case BinaryExpressionOperator.GREATER_THAN:
+      return '>'
   }
 }

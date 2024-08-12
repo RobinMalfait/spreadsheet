@@ -262,7 +262,7 @@ describe('parsing', () => {
     })
   })
 
-  describe.only('math operators', () => {
+  describe('math operators', () => {
     it('should parse the unary minus operator', () => {
       expect(parseExpression(tokenizeExpression('-123'))).toMatchInlineSnapshot(json`
         {
@@ -282,7 +282,173 @@ describe('parsing', () => {
     })
 
     it('should parse a simple binary math expression', () => {
-      expect(parseExpression(tokenizeExpression('1 + 2'))).toMatchInlineSnapshot(json``)
+      expect(parseExpression(tokenizeExpression('1 + 2'))).toMatchInlineSnapshot(json`
+        {
+          "kind": "BINARY_EXPRESSION",
+          "lhs": {
+            "kind": "NUMBER",
+            "value": 1,
+          },
+          "operator": "ADD",
+          "rhs": {
+            "kind": "NUMBER",
+            "value": 2,
+          },
+        }
+      `)
+    })
+
+    it('should parse a simple binary math expression with cell references', () => {
+      expect(parseExpression(tokenizeExpression('A1 + 2'))).toMatchInlineSnapshot(json`
+        {
+          "kind": "BINARY_EXPRESSION",
+          "lhs": {
+            "kind": "CELL",
+            "loc": {
+              "col": 1,
+              "row": 1,
+            },
+            "name": "A1",
+          },
+          "operator": "ADD",
+          "rhs": {
+            "kind": "NUMBER",
+            "value": 2,
+          },
+        }
+      `)
+    })
+
+    it('should parse a simple binary match expression with 3 arguments', () => {
+      expect(parseExpression(tokenizeExpression('1 + 2 + 3'))).toMatchInlineSnapshot(
+        json`
+        {
+          "kind": "BINARY_EXPRESSION",
+          "lhs": {
+            "kind": "BINARY_EXPRESSION",
+            "lhs": {
+              "kind": "NUMBER",
+              "value": 1,
+            },
+            "operator": "ADD",
+            "rhs": {
+              "kind": "NUMBER",
+              "value": 2,
+            },
+          },
+          "operator": "ADD",
+          "rhs": {
+            "kind": "NUMBER",
+            "value": 3,
+          },
+        }
+      `,
+      )
+    })
+
+    it('should parse a math expression with the correct operator precedence', () => {
+      expect(parseExpression(tokenizeExpression('1 + 2 * 3 / 4'))).toMatchInlineSnapshot(
+        json`
+        {
+          "kind": "BINARY_EXPRESSION",
+          "lhs": {
+            "kind": "NUMBER",
+            "value": 1,
+          },
+          "operator": "ADD",
+          "rhs": {
+            "kind": "BINARY_EXPRESSION",
+            "lhs": {
+              "kind": "BINARY_EXPRESSION",
+              "lhs": {
+                "kind": "NUMBER",
+                "value": 2,
+              },
+              "operator": "TIMES",
+              "rhs": {
+                "kind": "NUMBER",
+                "value": 3,
+              },
+            },
+            "operator": "DIVIDE",
+            "rhs": {
+              "kind": "NUMBER",
+              "value": 4,
+            },
+          },
+        }
+      `,
+      )
+    })
+
+    it('should parse a math expression with parenthesis', () => {
+      expect(parseExpression(tokenizeExpression('(1 + 2) * 3'))).toMatchInlineSnapshot(
+        json`
+        {
+          "kind": "BINARY_EXPRESSION",
+          "lhs": {
+            "kind": "BINARY_EXPRESSION",
+            "lhs": {
+              "kind": "NUMBER",
+              "value": 1,
+            },
+            "operator": "ADD",
+            "rhs": {
+              "kind": "NUMBER",
+              "value": 2,
+            },
+          },
+          "operator": "TIMES",
+          "rhs": {
+            "kind": "NUMBER",
+            "value": 3,
+          },
+        }
+      `,
+      )
+    })
+
+    it('should parse a math expression with parentheses and multiple arguments', () => {
+      expect(
+        parseExpression(tokenizeExpression('(1 + 2) * 3 + (4 + 5)')),
+      ).toMatchInlineSnapshot(json`
+        {
+          "kind": "BINARY_EXPRESSION",
+          "lhs": {
+            "kind": "BINARY_EXPRESSION",
+            "lhs": {
+              "kind": "BINARY_EXPRESSION",
+              "lhs": {
+                "kind": "NUMBER",
+                "value": 1,
+              },
+              "operator": "ADD",
+              "rhs": {
+                "kind": "NUMBER",
+                "value": 2,
+              },
+            },
+            "operator": "TIMES",
+            "rhs": {
+              "kind": "NUMBER",
+              "value": 3,
+            },
+          },
+          "operator": "ADD",
+          "rhs": {
+            "kind": "BINARY_EXPRESSION",
+            "lhs": {
+              "kind": "NUMBER",
+              "value": 4,
+            },
+            "operator": "ADD",
+            "rhs": {
+              "kind": "NUMBER",
+              "value": 5,
+            },
+          },
+        }
+      `)
     })
   })
 

@@ -95,6 +95,9 @@ export default function Index() {
     spreadsheet.set('A15', 'Ref range B1:C1')
     spreadsheet.set('B15', '=B1:C1')
 
+    spreadsheet.set('F5', 'Math:')
+    spreadsheet.set('G5', '=1 + 2 * B2 / C1')
+
     return spreadsheet
   })
 
