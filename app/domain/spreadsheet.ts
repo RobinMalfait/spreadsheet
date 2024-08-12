@@ -179,7 +179,7 @@ export class Spreadsheet {
   private cells = new Map<string, [raw: string, ast: AST]>()
 
   // Track all dependencies for each cell.
-  private dependencies = new DefaultMap<string, Set<string>>(() => new Set<string>())
+  private _dependencies = new DefaultMap<string, Set<string>>(() => new Set<string>())
 
   has(cell: string): boolean {
     return this.cells.has(cell)
@@ -196,7 +196,7 @@ export class Spreadsheet {
   set(cell: string, value: string) {
     if (value.trim() === '') {
       this.cells.delete(cell)
-      this.dependencies.delete(cell)
+      this._dependencies.delete(cell)
       return
     }
 
@@ -204,7 +204,7 @@ export class Spreadsheet {
     let tokens = tokenizeExpression(expression)
     let ast = parseExpression(tokens)
 
-    let dependencies = this.dependencies.get(cell)
+    let dependencies = this._dependencies.get(cell)
 
     // Clear existing dependencies for this cell
     dependencies.clear()
@@ -219,6 +219,10 @@ export class Spreadsheet {
     })
 
     this.cells.set(cell, [value, ast])
+  }
+
+  dependencies(cell: string): Set<string> {
+    return new Set(this._dependencies.get(cell))
   }
 
   compute(cell: string): ComputationValue | ComputationError | null {
@@ -264,7 +268,7 @@ export class Spreadsheet {
     }
 
     // Verify references
-    let dependencies = this.dependencies.get(cell)
+    let dependencies = this._dependencies.get(cell)
     if (dependencies.size > 0) {
       let handled = new Set<string>()
       let todo = Array.from(dependencies)
@@ -292,7 +296,7 @@ export class Spreadsheet {
           previous = next
 
           // Check transitive dependencies
-          for (let other of this.dependencies.get(next)) {
+          for (let other of this._dependencies.get(next)) {
             if (!handled.has(other)) {
               todo.push(other)
             }

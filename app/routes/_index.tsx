@@ -156,6 +156,9 @@ export default function Index() {
   // Evaluation of the current cell
   let out = useMemo(() => spreadsheet.compute(cell), [spreadsheet, cell])
 
+  // Dependencies of the current cell
+  let dependencies = useMemo(() => spreadsheet.dependencies(cell), [spreadsheet, cell])
+
   return (
     <div className="flex h-screen w-screen flex-col overflow-hidden font-sans">
       <div className="flex items-center border-gray-300 border-b">
@@ -365,7 +368,7 @@ export default function Index() {
                   }
                 }}
                 className={clsx(
-                  'focus:outline-none',
+                  'relative focus:outline-none',
                   'px-2 py-1.5',
                   'border-0.5 border-gray-200',
 
@@ -393,6 +396,11 @@ export default function Index() {
 
                   // Active cell
                   cell === id && 'inset-ring-2 inset-ring-blue-500 force:border-blue-500',
+
+                  // Dependency of the current cell
+                  cell !== id &&
+                    dependencies.has(id) &&
+                    'before:absolute before:inset-0 before:border-2 before:border-yellow-500 before:border-dashed before:bg-yellow-200/20',
                 )}
                 title={alt ?? undefined}
               >
