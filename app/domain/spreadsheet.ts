@@ -254,56 +254,54 @@ export class Spreadsheet {
 
   evaluate(cell: string): EvaluationResult[] {
     let result = this.cells.get(cell)
-    if (result) {
-      // TODO: Should this be moved to the `set` method?
-      if (result[1].kind === AstKind.RANGE) {
-        throw Object.assign(new Error('Cannot reference a range to a cell'), {
-          short: '#VALUE!',
-        })
-      }
+    if (!result) return []
 
-      // Verify references
-      let dependencies = this.dependencies.get(cell)
-      if (dependencies.size > 0) {
-        let handled = new Set<string>()
-        let todo = Array.from(dependencies)
+    // TODO: Should this be moved to the `set` method?
+    if (result[1].kind === AstKind.RANGE) {
+      throw Object.assign(new Error('Cannot reference a range to a cell'), {
+        short: '#VALUE!',
+      })
+    }
 
-        // Track where we came from
-        let previous = cell
+    // Verify references
+    let dependencies = this.dependencies.get(cell)
+    if (dependencies.size > 0) {
+      let handled = new Set<string>()
+      let todo = Array.from(dependencies)
 
-        while (todo.length > 0) {
-          // biome-ignore lint/style/noNonNullAssertion: We verified that there is at least a single element in the while condition above.
-          let next = todo.shift()!
+      // Track where we came from
+      let previous = cell
 
-          // No need to re-verify cells we've already handled
-          if (handled.has(next)) continue
-          handled.add(next)
+      while (todo.length > 0) {
+        // biome-ignore lint/style/noNonNullAssertion: We verified that there is at least a single element in the while condition above.
+        let next = todo.shift()!
 
-          if (next === cell) {
-            throw Object.assign(
-              new Error(`Circular reference detected in cell ${previous}`),
-              { short: '#REF!' },
-            )
-          }
+        // No need to re-verify cells we've already handled
+        if (handled.has(next)) continue
+        handled.add(next)
 
-          if (this.cells.has(next)) {
-            // Track where we came from
-            previous = next
+        if (next === cell) {
+          throw Object.assign(
+            new Error(`Circular reference detected in cell ${previous}`),
+            { short: '#REF!' },
+          )
+        }
 
-            // Check transitive dependencies
-            for (let other of this.dependencies.get(next)) {
-              if (!handled.has(other)) {
-                todo.push(other)
-              }
+        if (this.cells.has(next)) {
+          // Track where we came from
+          previous = next
+
+          // Check transitive dependencies
+          for (let other of this.dependencies.get(next)) {
+            if (!handled.has(other)) {
+              todo.push(other)
             }
           }
         }
       }
-
-      return evaluateExpression(result[1], this)
     }
 
-    return []
+    return evaluateExpression(result[1], this)
   }
 }
 
