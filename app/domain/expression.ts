@@ -255,7 +255,7 @@ export type AST =
   | AstBinaryExpression
 
 export function parseExpression(tokens: Token[]): AST {
-  return new ExpressionParser(tokens).parseExpression(Number.NEGATIVE_INFINITY)
+  return new ExpressionParser(tokens).parseExpression(0)
 }
 
 class ExpressionParser {
@@ -495,7 +495,6 @@ class ExpressionParser {
       // Parenthesized expression
       case TokenKind.OPEN_PAREN: {
         let expression = this.parseExpression(0)
-
         let close = this.tokens.shift()
 
         if (close?.kind !== TokenKind.CLOSE_PAREN) {

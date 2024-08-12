@@ -207,10 +207,16 @@ function evaluateExpression(ast: AST, spreadsheet: Spreadsheet): EvaluationResul
             return [
               { kind: EvaluationResultKind.NUMBER, value: left.value * right.value },
             ]
-          case BinaryExpressionOperator.DIVIDE:
+          case BinaryExpressionOperator.DIVIDE: {
+            if (right.value === 0) {
+              throw Object.assign(new Error('Cannot divide by zero'), {
+                short: '#DIV/0!',
+              })
+            }
             return [
               { kind: EvaluationResultKind.NUMBER, value: left.value / right.value },
             ]
+          }
           case BinaryExpressionOperator.EQUALS:
             return [
               {
@@ -249,6 +255,8 @@ function evaluateExpression(ast: AST, spreadsheet: Spreadsheet): EvaluationResul
 
       let fn = functions[ast.name as keyof typeof functions]
       let args = ast.args.flatMap((arg) => evaluateExpression(arg, spreadsheet))
+      // @ts-expect-error Some functions have a different arity, but we're not
+      // checking that here.
       let result = fn(...args)
       return [result]
     }
