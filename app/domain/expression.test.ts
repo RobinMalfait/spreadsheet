@@ -262,6 +262,30 @@ describe('parsing', () => {
     })
   })
 
+  describe.only('math operators', () => {
+    it('should parse the unary minus operator', () => {
+      expect(parseExpression(tokenizeExpression('-123'))).toMatchInlineSnapshot(json`
+        {
+          "kind": "NUMBER",
+          "value": -123,
+        }
+      `)
+    })
+
+    it('should parse the unary plus operator', () => {
+      expect(parseExpression(tokenizeExpression('+123'))).toMatchInlineSnapshot(json`
+        {
+          "kind": "NUMBER",
+          "value": 123,
+        }
+      `)
+    })
+
+    it('should parse a simple binary math expression', () => {
+      expect(parseExpression(tokenizeExpression('1 + 2'))).toMatchInlineSnapshot(json``)
+    })
+  })
+
   describe('cell reference', () => {
     it('should parse a cell reference', () => {
       expect(parseExpression(tokenizeExpression('A1'))).toMatchInlineSnapshot(json`

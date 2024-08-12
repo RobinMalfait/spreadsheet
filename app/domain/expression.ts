@@ -34,7 +34,6 @@ enum TokenKind {
   COLON = 'COLON',
   OPEN_PAREN = 'OPEN_PAREN',
   CLOSE_PAREN = 'CLOSE_PAREN',
-  EXCLAMATION = 'EXCLAMATION',
   ASTERISK = 'ASTERISK',
   PLUS = 'PLUS',
   MINUS = 'MINUS',
@@ -196,6 +195,7 @@ export enum AstKind {
   FUNCTION = 'FUNCTION',
   NUMBER_LITERAL = 'NUMBER',
   STRING_LITERAL = 'STRING',
+  BINARY_EXPRESSION = 'BINARY_EXPRESSION',
 }
 
 export type AstCell = {
@@ -224,6 +224,23 @@ export type AstNumberLiteral = {
   value: number
 }
 
+enum BinaryExpressionOperator {
+  ASTERISK = 'ASTERISK',
+  PLUS = 'PLUS',
+  MINUS = 'MINUS',
+  FORWARD_SLASH = 'FORWARD_SLASH',
+  ANGLE_LEFT = 'ANGLE_LEFT',
+  EQUALS = 'EQUALS',
+  ANGLE_RIGHT = 'ANGLE_RIGHT',
+}
+
+export type AstBinaryExpression = {
+  kind: AstKind.BINARY_EXPRESSION
+  operator: BinaryExpressionOperator
+  lhs: AST
+  rhs: AST
+}
+
 export type AstStringLiteral = {
   kind: AstKind.STRING_LITERAL
   value: string
@@ -235,6 +252,7 @@ export type AST =
   | AstFunction
   | AstNumberLiteral
   | AstStringLiteral
+  | AstBinaryExpression
 
 export function parseExpression(tokens: Token[]): AST {
   for (let idx = 0; idx < tokens.length; idx++) {
@@ -432,5 +450,7 @@ export function printExpression(input: AST): string {
       return input.value.toString()
     case AstKind.STRING_LITERAL:
       return `"${input.value}"`
+    case AstKind.BINARY_EXPRESSION:
+      return `(${printExpression(input.lhs)} ${input.operator} ${printExpression(input.rhs)})`
   }
 }
