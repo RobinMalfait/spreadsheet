@@ -165,7 +165,23 @@ export default function Index() {
           ref={inputRef}
           className="flex-1 border-none px-2 py-1.5 focus:outline-none"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => {
+            flushSync(() => {
+              setValue(e.target.value)
+            })
+
+            // When the cell is empty, move focus back to the grid If you
+            // continue typing, the focus will be in the `input` again. But this
+            // allows us to immediately use arrow keys once you hit backspace
+            // (which cleared the input).
+            if (e.target.value === '') {
+              // Move focus back to the grid
+              let btn = document.querySelector(`button[data-cell=${cell}]`)
+              if (btn && btn.tagName === 'BUTTON') {
+                ;(btn as HTMLButtonElement).focus()
+              }
+            }
+          }}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               // Submit the new value
@@ -335,6 +351,13 @@ export default function Index() {
                   } else if (e.key === 'End') {
                     e.preventDefault()
                     moveRightLast()
+                  } else if (e.key === 'Enter' && spreadsheet.has(cell)) {
+                    e.preventDefault()
+                    // Move focus to the input, and start editing
+                    inputRef.current?.focus()
+                    inputRef.current?.select()
+                  } else if (e.key === 'Enter' || e.key === 'Escape') {
+                    e.preventDefault()
                   } else {
                     // Move focus to the input, and start editing
                     inputRef.current?.focus()
