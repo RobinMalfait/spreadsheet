@@ -470,7 +470,7 @@ export default function Index() {
 
               return (
                 <>
-                  <div className="grid grid-cols-2">
+                  <div className="sticky top-0 grid grid-cols-2 border-gray-200 border-b bg-white">
                     <div className="flex items-center gap-2 p-2">
                       <label>Cell:</label>
                       <small>{cell}</small>
@@ -486,15 +486,14 @@ export default function Index() {
                       </div>
                     )}
                   </div>
-                  <hr className="border-gray-200" />
                   <div className="flex flex-col gap-2 p-2">
                     <label>Expression:</label>
-                    <small>{value}</small>
+                    <small className="whitespace-pre">{value}</small>
                   </div>
                   {value !== stringifiedAST && (
                     <div className="flex flex-col gap-2 p-2">
                       <label>Interpreted expression:</label>
-                      <small>{stringifiedAST}</small>
+                      <small className="whitespace-pre">{stringifiedAST}</small>
                     </div>
                   )}
                   <div className="flex flex-col gap-2 p-2">
