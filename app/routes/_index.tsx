@@ -32,7 +32,7 @@ export const meta: MetaFunction = () => {
 }
 
 const WIDTH = 26
-const HEIGHT = 30
+const HEIGHT = 50
 
 export default function Index() {
   let [cell, setActiveCell] = useState('A1')
@@ -248,7 +248,7 @@ export default function Index() {
           </button>
         </div>
       </div>
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex overflow-hidden">
         <div
           style={
             {
