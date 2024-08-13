@@ -175,10 +175,10 @@ export default function Index() {
   let location = useMemo(() => parseLocation(cell), [cell])
 
   // Evaluation of the current cell
-  let out = useMemo(() => spreadsheet.compute(cell), [spreadsheet, cell])
+  let out = spreadsheet.compute(cell)
 
   // Dependencies of the current cell
-  let dependencies = useMemo(() => spreadsheet.dependencies(cell), [spreadsheet, cell])
+  let dependencies = spreadsheet.dependencies(cell)
 
   return (
     <div className="flex h-screen w-screen flex-col overflow-hidden font-sans">
