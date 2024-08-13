@@ -124,6 +124,57 @@ const functions = {
 
     return { kind: EvaluationResultKind.NUMBER, value: out }
   },
+  FLOOR(arg: EvaluationResult, other: EvaluationResult | undefined): EvaluationResult {
+    if (other !== undefined) {
+      throw Object.assign(
+        new Error(`FLOOR() does not take a second argument, got ${other.value}`),
+        { short: '#VALUE!' },
+      )
+    }
+
+    if (arg.kind !== EvaluationResultKind.NUMBER) {
+      throw Object.assign(
+        new Error(`FLOOR() expects a number as the first argument, got ${arg.value}`),
+        { short: '#VALUE!' },
+      )
+    }
+
+    return { kind: EvaluationResultKind.NUMBER, value: Math.floor(arg.value) }
+  },
+  CEIL(arg: EvaluationResult, other: EvaluationResult | undefined): EvaluationResult {
+    if (other !== undefined) {
+      throw Object.assign(
+        new Error(`CEIL() does not take a second argument, got ${other.value}`),
+        { short: '#VALUE!' },
+      )
+    }
+
+    if (arg.kind !== EvaluationResultKind.NUMBER) {
+      throw Object.assign(
+        new Error(`CEIL() expects a number as the first argument, got ${arg.value}`),
+        { short: '#VALUE!' },
+      )
+    }
+
+    return { kind: EvaluationResultKind.NUMBER, value: Math.ceil(arg.value) }
+  },
+  ROUND(arg: EvaluationResult, other: EvaluationResult | undefined): EvaluationResult {
+    if (other !== undefined) {
+      throw Object.assign(
+        new Error(`ROUND() does not take a second argument, got ${other.value}`),
+        { short: '#VALUE!' },
+      )
+    }
+
+    if (arg.kind !== EvaluationResultKind.NUMBER) {
+      throw Object.assign(
+        new Error(`ROUND() expects a number as the first argument, got ${arg.value}`),
+        { short: '#VALUE!' },
+      )
+    }
+
+    return { kind: EvaluationResultKind.NUMBER, value: Math.round(arg.value) }
+  },
 
   // Logical functions
   IF(
@@ -352,8 +403,14 @@ export class Spreadsheet {
           kind: ComputationResultKind.VALUE,
           value:
             evaluationResult[0].kind === EvaluationResultKind.NUMBER
-              ? { kind: ComputationValueKind.NUMBER, value: evaluationResult[0].value }
-              : { kind: ComputationValueKind.STRING, value: evaluationResult[0].value },
+              ? {
+                  kind: ComputationValueKind.NUMBER,
+                  value: evaluationResult[0].value,
+                }
+              : {
+                  kind: ComputationValueKind.STRING,
+                  value: evaluationResult[0].value,
+                },
         }
       }
 
