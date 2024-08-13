@@ -327,7 +327,13 @@ export default function Index() {
                 key={id}
                 data-cell={id}
                 type="button"
-                onClick={() => setActiveCell(id)}
+                onClick={(e) => {
+                  flushSync(() => {
+                    setActiveCell(id)
+                  })
+
+                  e.currentTarget.focus()
+                }}
                 onFocus={() => setActiveCell(id)}
                 onDoubleClick={() => {
                   // Ensure the cell is active
@@ -343,6 +349,13 @@ export default function Index() {
                 }}
                 ref={(e) => {
                   if (e && cell === id) {
+                    // Ensure the cell is focused (buttons don't receive focus
+                    // on Safari by default)
+                    if (document.activeElement?.tagName === 'BODY') {
+                      e.focus()
+                    }
+
+                    // Ensure it's visible
                     e.scrollIntoView({
                       behavior: 'instant',
                       block: 'nearest',
@@ -351,7 +364,9 @@ export default function Index() {
                   }
                 }}
                 onKeyDown={(e) => {
-                  if (e.key === 'ArrowRight') {
+                  if (e.key === 'Tab' || e.key === 'Shift') {
+                    // Default browser behavior
+                  } else if (e.key === 'ArrowRight') {
                     e.preventDefault()
                     moveRight()
                   } else if (e.key === 'ArrowLeft') {
