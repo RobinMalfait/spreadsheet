@@ -47,10 +47,10 @@ export default function Index() {
     if (typeof window !== 'undefined') {
       // @ts-expect-error
       window.spreadsheet = spreadsheet
+    }
 
-      if (window.location.search !== '?demo') {
-        return spreadsheet
-      }
+    if (typeof window === 'undefined' || window.location.search !== '?demo') {
+      return spreadsheet
     }
 
     spreadsheet.set('A1', 'Double it:')
