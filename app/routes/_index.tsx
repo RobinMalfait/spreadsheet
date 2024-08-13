@@ -41,18 +41,15 @@ export default function Index() {
   let [, forceRerender] = useReducer(() => ({}), {})
   let inputRef = useRef<HTMLInputElement | null>(null)
 
-  let [spreadsheet] = useState(() => {
-    let spreadsheet = new Spreadsheet()
+  let [spreadsheet] = useState(() => new Spreadsheet())
 
-    if (typeof window !== 'undefined') {
-      // @ts-expect-error
-      window.spreadsheet = spreadsheet
-    }
+  useEffect(() => {
+    // @ts-expect-error
+    window.spreadsheet = spreadsheet
 
-    if (typeof window === 'undefined' || window.location.search !== '?demo') {
-      return spreadsheet
-    }
+    if (window.location.search !== '?demo') return
 
+    // Demo mode
     spreadsheet.set('A1', 'Double it:')
     spreadsheet.set('B1', '2')
     spreadsheet.set('C1', '=PRODUCT(B1, 2)')
@@ -115,9 +112,7 @@ export default function Index() {
 
     spreadsheet.set('F11', '8')
     spreadsheet.set('G11', '=IF(MOD(F11, 2) = 0, "Even", "Odd")')
-
-    return spreadsheet
-  })
+  }, [spreadsheet])
 
   // Move active cell
   let moveRight = useCallback(() => {
