@@ -225,7 +225,7 @@ export type AstNumberLiteral = {
 }
 
 export enum BinaryExpressionOperator {
-  TIMES = 'TIMES',
+  MULTIPLY = 'MULTIPLY',
   ADD = 'ADD',
   SUBTRACT = 'SUBTRACT',
   DIVIDE = 'DIVIDE',
@@ -280,7 +280,7 @@ class ExpressionParser {
   toBinaryOperator(token: Token) {
     switch (token.kind) {
       case TokenKind.ASTERISK:
-        return BinaryExpressionOperator.TIMES
+        return BinaryExpressionOperator.MULTIPLY
       case TokenKind.PLUS:
         return BinaryExpressionOperator.ADD
       case TokenKind.MINUS:
@@ -565,7 +565,7 @@ export function printExpression(input: AST): string {
 
 function printBinaryOperator(operator: BinaryExpressionOperator) {
   switch (operator) {
-    case BinaryExpressionOperator.TIMES:
+    case BinaryExpressionOperator.MULTIPLY:
       return '*'
     case BinaryExpressionOperator.ADD:
       return '+'

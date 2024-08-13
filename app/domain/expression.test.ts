@@ -364,7 +364,7 @@ describe('parsing', () => {
                 "kind": "NUMBER",
                 "value": 2,
               },
-              "operator": "TIMES",
+              "operator": "MULTIPLY",
               "rhs": {
                 "kind": "NUMBER",
                 "value": 3,
@@ -398,7 +398,7 @@ describe('parsing', () => {
               "value": 2,
             },
           },
-          "operator": "TIMES",
+          "operator": "MULTIPLY",
           "rhs": {
             "kind": "NUMBER",
             "value": 3,
@@ -428,7 +428,7 @@ describe('parsing', () => {
                 "value": 2,
               },
             },
-            "operator": "TIMES",
+            "operator": "MULTIPLY",
             "rhs": {
               "kind": "NUMBER",
               "value": 3,

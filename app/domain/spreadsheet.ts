@@ -203,7 +203,7 @@ function evaluateExpression(ast: AST, spreadsheet: Spreadsheet): EvaluationResul
             return [
               { kind: EvaluationResultKind.NUMBER, value: left.value - right.value },
             ]
-          case BinaryExpressionOperator.TIMES:
+          case BinaryExpressionOperator.MULTIPLY:
             return [
               { kind: EvaluationResultKind.NUMBER, value: left.value * right.value },
             ]
