@@ -3,6 +3,10 @@ import { tokenize } from './tokenizer'
 
 const json = String.raw
 
+it('should tokenize an empty string', () => {
+  expect(tokenize('')).toMatchInlineSnapshot(json`[]`)
+})
+
 describe('number literal', () => {
   it('should tokenize a number literal (unsigned integer)', () => {
     expect(tokenize('123')).toMatchInlineSnapshot(json`
@@ -82,6 +86,21 @@ describe('number literal', () => {
 describe('string literal', () => {
   it('should tokenize a string literal', () => {
     expect(tokenize('"hello world"')).toMatchInlineSnapshot(json`
+      [
+        {
+          "kind": "STRING",
+          "span": {
+            "end": 13,
+            "start": 0,
+          },
+          "value": "hello world",
+        },
+      ]
+    `)
+  })
+
+  it('should tokenize a string literal that is incomplete', () => {
+    expect(tokenize('"hello world')).toMatchInlineSnapshot(json`
       [
         {
           "kind": "STRING",

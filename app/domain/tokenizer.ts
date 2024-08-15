@@ -62,6 +62,7 @@ export type Token =
 
 export function tokenize(input: string): Token[] {
   let tokens: Token[] = []
+  let eol = input.length
 
   for (let idx = 0; idx < input.length; idx++) {
     let char = input.charCodeAt(idx)
@@ -78,7 +79,7 @@ export function tokenize(input: string): Token[] {
       let start = idx
       do {
         char = input.charCodeAt(++idx)
-      } while (char !== DOUBLE_QUOTE)
+      } while (char !== DOUBLE_QUOTE && idx < eol)
       let end = idx
 
       tokens.push({
@@ -94,7 +95,7 @@ export function tokenize(input: string): Token[] {
       let start = idx
       do {
         char = input.charCodeAt(++idx)
-      } while ((char >= ZERO && char <= NINE) || char === POINT)
+      } while (((char >= ZERO && char <= NINE) || char === POINT) && idx < eol)
       let end = idx--
 
       tokens.push({
@@ -150,9 +151,10 @@ export function tokenize(input: string): Token[] {
       do {
         char = input.charCodeAt(++idx)
       } while (
-        (char >= UPPER_A && char <= UPPER_Z) ||
-        (char >= LOWER_A && char <= LOWER_Z) ||
-        (char >= ZERO && char <= NINE)
+        ((char >= UPPER_A && char <= UPPER_Z) ||
+          (char >= LOWER_A && char <= LOWER_Z) ||
+          (char >= ZERO && char <= NINE)) &&
+        idx < eol
       )
       let end = idx--
 
