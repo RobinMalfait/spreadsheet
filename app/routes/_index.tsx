@@ -253,7 +253,10 @@ export default function Index() {
           </div>
           <input
             ref={inputRef}
-            className="flex-1 border-none px-2 py-1.5 font-mono focus:outline-none"
+            className={clsx(
+              'flex-1 border-none px-2 py-1.5 focus:outline-none',
+              value[0] === '=' && 'font-mono',
+            )}
             value={value}
             onChange={(e) => {
               flushSync(() => setValue(e.target.value))
