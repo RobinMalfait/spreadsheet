@@ -16,13 +16,13 @@ import {
   parseLocation,
   printExpression,
   printLocation,
-  tokenizeExpression,
 } from '~/domain/expression'
 import {
   ComputationResultKind,
   type EvaluationResult,
   Spreadsheet,
 } from '~/domain/spreadsheet'
+import { tokenize } from '~/domain/tokenizer'
 
 export const meta: MetaFunction = () => {
   return [
@@ -454,7 +454,7 @@ export default function Index() {
 
               let value = spreadsheet.get(cell)
               let expression = value[0] === '=' ? value.slice(1) : `"${value}"`
-              let tokens = tokenizeExpression(expression)
+              let tokens = tokenize(expression)
               let ast = parseExpression(tokens)
               let stringifiedAST = `=${printExpression(ast)}`
               let evaluation: EvaluationResult[] | null = null

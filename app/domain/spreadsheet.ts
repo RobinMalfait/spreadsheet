@@ -7,8 +7,8 @@ import {
   BinaryExpressionOperator,
   parseExpression,
   parseLocation,
-  tokenizeExpression,
 } from './expression'
+import { tokenize } from './tokenizer'
 
 const functions = {
   // Text functions
@@ -364,7 +364,7 @@ export class Spreadsheet {
     }
 
     let expression = value[0] === '=' ? value.slice(1) : `"${value}"`
-    let tokens = tokenizeExpression(expression)
+    let tokens = tokenize(expression)
     let ast = parseExpression(tokens)
 
     let dependencies = this._dependencies.get(cell)
