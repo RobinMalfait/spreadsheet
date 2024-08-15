@@ -333,7 +333,7 @@ export default function Index() {
               '--columns': WIDTH,
               '--rows': HEIGHT,
               '--row-header-width': 'var(--spacing-16)',
-              '--col-header-height': 'var(--spacing-8)',
+              '--col-header-height': 'var(--spacing-9)',
             } as CSSProperties
           }
           className={clsx(
