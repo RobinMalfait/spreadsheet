@@ -137,6 +137,8 @@ export class Spreadsheet {
   // Track all dependencies for each cell.
   private _dependencies = new DefaultMap<string, Set<string>>(() => new Set<string>())
 
+  private evaluationCache = new Map<string, EvaluationResult[]>()
+
   has(cell: string): boolean {
     return this.cells.has(cell)
   }
@@ -164,6 +166,10 @@ export class Spreadsheet {
 
     // Clear existing dependencies for this cell
     dependencies.clear()
+
+    // Clear the full evaluation cache. Very naive, but let's re-compute
+    // everything the moment _something_ changes.
+    this.evaluationCache.clear()
 
     // Track all references in the AST
     walk([ast], (node) => {
@@ -213,6 +219,9 @@ export class Spreadsheet {
     let result = this.cells.get(cell)
     if (!result) return []
 
+    let cached = this.evaluationCache.get(cell)
+    if (cached) return cached
+
     // TODO: Should this be moved to the `set` method?
     if (result[1].kind === AstKind.RANGE) {
       throw Object.assign(new Error('Cannot reference a range to a cell'), {
@@ -258,7 +267,9 @@ export class Spreadsheet {
       }
     }
 
-    return evaluateExpression(result[1], this)
+    let out = evaluateExpression(result[1], this)
+    this.evaluationCache.set(cell, out)
+    return out
   }
 }
 
