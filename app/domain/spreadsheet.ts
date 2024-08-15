@@ -159,6 +159,12 @@ export class Spreadsheet {
     }
 
     let expression = value[0] === '=' ? value.slice(1) : `"${value}"`
+    if (!expression.trim()) {
+      this.cells.delete(cell)
+      this._dependencies.delete(cell)
+      return
+    }
+
     let tokens = tokenize(expression)
     let ast = parseExpression(tokens)
 
