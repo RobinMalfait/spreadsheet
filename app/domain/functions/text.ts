@@ -11,6 +11,9 @@ export function CONCAT(...args: EvaluationResult[]): EvaluationResult {
       case EvaluationResultKind.STRING:
         out += arg.value
         break
+      case EvaluationResultKind.BOOLEAN:
+        out += arg.string
+        break
       default:
         arg satisfies never
     }
@@ -40,6 +43,9 @@ export function JOIN(
       case EvaluationResultKind.STRING:
         out.push(arg.value)
         break
+      case EvaluationResultKind.BOOLEAN:
+        out.push(arg.string)
+        break
       default:
         arg satisfies never
     }
@@ -55,6 +61,9 @@ export function LOWER(...args: EvaluationResult[]): EvaluationResult {
     switch (arg.kind) {
       case EvaluationResultKind.STRING:
         out += arg.value.toLowerCase()
+        break
+      case EvaluationResultKind.BOOLEAN:
+        out += arg.string.toLowerCase()
         break
       case EvaluationResultKind.NUMBER:
         // Explicitly ignored
@@ -74,6 +83,9 @@ export function UPPER(...args: EvaluationResult[]): EvaluationResult {
     switch (arg.kind) {
       case EvaluationResultKind.STRING:
         out += arg.value.toUpperCase()
+        break
+      case EvaluationResultKind.BOOLEAN:
+        out += arg.string.toUpperCase()
         break
       case EvaluationResultKind.NUMBER:
         // Explicitly ignored

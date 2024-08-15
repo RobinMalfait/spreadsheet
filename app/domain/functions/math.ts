@@ -18,6 +18,7 @@ export function SUM(...args: EvaluationResult[]): EvaluationResult {
       case EvaluationResultKind.NUMBER:
         out += arg.value
         break
+      case EvaluationResultKind.BOOLEAN:
       case EvaluationResultKind.STRING:
         // Explicitly ignored
         break
@@ -38,6 +39,7 @@ export function PRODUCT(...args: EvaluationResult[]): EvaluationResult {
         out *= arg.value
         break
       case EvaluationResultKind.STRING:
+      case EvaluationResultKind.BOOLEAN:
         // Explicitly ignored
         break
       default:
@@ -58,6 +60,7 @@ export function AVERAGE(...args: EvaluationResult[]): EvaluationResult {
         count += 1
         sum += arg.value
         break
+      case EvaluationResultKind.BOOLEAN:
       case EvaluationResultKind.STRING:
         // Explicitly ignored
         break

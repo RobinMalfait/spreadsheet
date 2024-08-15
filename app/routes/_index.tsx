@@ -300,9 +300,10 @@ export default function Index() {
                     className={clsx(
                       out.value.kind === 'NUMBER' && 'text-right',
                       out.value.kind === 'STRING' && 'truncate text-left',
+                      out.value.kind === 'BOOLEAN' && 'text-center uppercase',
                     )}
                   >
-                    {out.value.value}
+                    {out.value.value.toString()}
                   </div>,
                   out.value.value.toString(),
                 ] as const

@@ -14,11 +14,13 @@ import { tokenize } from './tokenizer'
 export enum EvaluationResultKind {
   NUMBER = 'NUMBER',
   STRING = 'STRING',
+  BOOLEAN = 'BOOLEAN',
 }
 
 export type EvaluationResult =
   | { kind: EvaluationResultKind.NUMBER; value: number }
   | { kind: EvaluationResultKind.STRING; value: string }
+  | { kind: EvaluationResultKind.BOOLEAN; value: boolean; string: 'TRUE' | 'FALSE' }
 
 function evaluateExpression(ast: AST, spreadsheet: Spreadsheet): EvaluationResult[] {
   switch (ast.kind) {
