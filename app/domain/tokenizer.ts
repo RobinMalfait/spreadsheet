@@ -182,3 +182,34 @@ export function tokenize(input: string): Token[] {
 
   return tokens
 }
+
+export function printToken(token: Token) {
+  switch (token.kind) {
+    case TokenKind.IDENTIFIER:
+    case TokenKind.NUMBER_LITERAL:
+    case TokenKind.STRING_LITERAL:
+      return token.value.toString()
+    case TokenKind.COMMA:
+      return ','
+    case TokenKind.COLON:
+      return ':'
+    case TokenKind.OPEN_PAREN:
+      return '('
+    case TokenKind.CLOSE_PAREN:
+      return ')'
+    case TokenKind.ASTERISK:
+      return '*'
+    case TokenKind.PLUS:
+      return '+'
+    case TokenKind.MINUS:
+      return '-'
+    case TokenKind.FORWARD_SLASH:
+      return '/'
+    case TokenKind.ANGLE_LEFT:
+      return '<'
+    case TokenKind.EQUALS:
+      return '='
+    case TokenKind.ANGLE_RIGHT:
+      return '>'
+  }
+}

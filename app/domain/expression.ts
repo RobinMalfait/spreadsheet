@@ -1,4 +1,4 @@
-import { type Token, TokenKind } from './tokenizer'
+import { type Token, TokenKind, printToken } from './tokenizer'
 
 const UPPER_A = 65 // A
 const UPPER_Z = 90 // Z
@@ -108,7 +108,7 @@ class ExpressionParser {
       case TokenKind.ANGLE_RIGHT:
         return BinaryExpressionOperator.GREATER_THAN
       default:
-        throw new Error(`Invalid binary operator: ${JSON.stringify(token, null, 2)}`)
+        throw new Error(`Invalid binary operator: ${printToken(token)}`)
     }
   }
 
@@ -164,7 +164,7 @@ class ExpressionParser {
 
   parseLeaf(): AST {
     let token = this.tokens.shift()
-    if (!token) throw new Error('Invalid expression')
+    if (!token) throw new Error('Unexpected end of input')
 
     switch (token.kind) {
       case TokenKind.PLUS: {
@@ -174,7 +174,9 @@ class ExpressionParser {
           return { kind: AstKind.NUMBER_LITERAL, value: +next.value }
         }
 
-        throw new Error('Invalid expression')
+        throw new Error(
+          `Invalid expression, expected number literal, got ${printToken(next)}`,
+        )
       }
 
       case TokenKind.MINUS: {
@@ -184,7 +186,9 @@ class ExpressionParser {
           return { kind: AstKind.NUMBER_LITERAL, value: -next.value }
         }
 
-        throw new Error('Invalid expression')
+        throw new Error(
+          `Invalid expression, expected number literal, got ${printToken(next)}`,
+        )
       }
 
       case TokenKind.NUMBER_LITERAL:
@@ -312,14 +316,16 @@ class ExpressionParser {
         let close = this.tokens.shift()
 
         if (close?.kind !== TokenKind.CLOSE_PAREN) {
-          throw new Error('Invalid expression')
+          throw new Error(
+            `Invalid expression, expected \`)\` got \`${printToken(token)}\``,
+          )
         }
 
         return expression
       }
     }
 
-    throw new Error('Invalid expression')
+    throw new Error(`Invalid expression, unexpected token: ${printToken(token)}`)
   }
 }
 
