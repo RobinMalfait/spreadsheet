@@ -13,6 +13,13 @@ export function IF(
   consequent: EvaluationResult,
   alternate: EvaluationResult,
 ): EvaluationResult {
+  if (test.kind === EvaluationResultKind.STRING) {
+    throw Object.assign(
+      new Error(`IF() expects a boolean as the first argument, got ${test.value}`),
+      { short: '#VALUE!' },
+    )
+  }
+
   return test.value ? consequent : alternate
 }
 
