@@ -10,6 +10,16 @@ export function PI(...args: EvaluationResult[]): EvaluationResult {
   return { kind: EvaluationResultKind.NUMBER, value: Math.PI }
 }
 
+export function TAU(...args: EvaluationResult[]): EvaluationResult {
+  if (args.length > 0) {
+    throw Object.assign(new Error('TAU() does not take any arguments'), {
+      short: '#VALUE!',
+    })
+  }
+
+  return { kind: EvaluationResultKind.NUMBER, value: 2 * Math.PI }
+}
+
 function exposeMathFunction(name: string, fn: (input: number) => number) {
   return (arg: EvaluationResult): EvaluationResult => {
     if (arg.kind !== EvaluationResultKind.NUMBER) {
@@ -61,6 +71,67 @@ export function SUM(...args: EvaluationResult[]): EvaluationResult {
   return { kind: EvaluationResultKind.NUMBER, value: out }
 }
 
+export function SUBTRACT(...args: EvaluationResult[]): EvaluationResult {
+  let out: number | null = null
+
+  for (let arg of args) {
+    switch (arg.kind) {
+      case EvaluationResultKind.NUMBER:
+        if (out === null) {
+          out = arg.value
+        } else {
+          out -= arg.value
+        }
+        break
+      case EvaluationResultKind.BOOLEAN:
+      case EvaluationResultKind.STRING:
+        // Explicitly ignored
+        break
+      default:
+        arg satisfies never
+    }
+  }
+
+  if (out === null) {
+    throw Object.assign(new Error('SUBTRACT() requires at least one argument'), {
+      short: '#VALUE!',
+    })
+  }
+
+  return { kind: EvaluationResultKind.NUMBER, value: out }
+}
+
+export function MULTIPLY(
+  lhs: EvaluationResult,
+  rhs: EvaluationResult,
+  extra?: EvaluationResult,
+): EvaluationResult {
+  if (extra) {
+    throw Object.assign(
+      new Error(`MULTIPLY() does not take a third argument, got ${extra.value}`),
+      { short: '#VALUE!' },
+    )
+  }
+
+  if (lhs.kind !== EvaluationResultKind.NUMBER) {
+    throw Object.assign(
+      new Error(`MULTIPLY() expects a number as the first argument, got ${lhs.value}`),
+      { short: '#VALUE!' },
+    )
+  }
+
+  if (rhs.kind !== EvaluationResultKind.NUMBER) {
+    throw Object.assign(
+      new Error(`MULTIPLY() expects a number as the second argument, got ${rhs.value}`),
+      { short: '#VALUE!' },
+    )
+  }
+
+  let out = lhs.value * rhs.value
+
+  return { kind: EvaluationResultKind.NUMBER, value: out }
+}
+
 export function PRODUCT(...args: EvaluationResult[]): EvaluationResult {
   let out = 1
 
@@ -77,6 +148,34 @@ export function PRODUCT(...args: EvaluationResult[]): EvaluationResult {
         arg satisfies never
     }
   }
+
+  return { kind: EvaluationResultKind.NUMBER, value: out }
+}
+
+export function DIVIDE(lhs: EvaluationResult, rhs: EvaluationResult): EvaluationResult {
+  if (lhs.kind !== EvaluationResultKind.NUMBER) {
+    throw Object.assign(
+      new Error(`DIVIDE() expects a number as the dividend, got ${lhs.value}`),
+      {
+        short: '#VALUE!',
+      },
+    )
+  }
+
+  if (rhs.kind !== EvaluationResultKind.NUMBER) {
+    throw Object.assign(
+      new Error(`DIVIDE() expects a number as the divisor, got ${rhs.value}`),
+      {
+        short: '#VALUE!',
+      },
+    )
+  }
+
+  if (rhs.value === 0) {
+    throw Object.assign(new Error('DIVIDE() cannot divide by zero'), { short: '#DIV/0!' })
+  }
+
+  let out = lhs.value / rhs.value
 
   return { kind: EvaluationResultKind.NUMBER, value: out }
 }

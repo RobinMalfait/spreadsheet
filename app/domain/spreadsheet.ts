@@ -74,48 +74,21 @@ function evaluateExpression(ast: AST, spreadsheet: Spreadsheet): EvaluationResul
       ) {
         switch (ast.operator) {
           case BinaryExpressionOperator.ADD:
-            return [
-              { kind: EvaluationResultKind.NUMBER, value: left.value + right.value },
-            ]
+            return [functions.SUM(left, right)]
           case BinaryExpressionOperator.SUBTRACT:
-            return [
-              { kind: EvaluationResultKind.NUMBER, value: left.value - right.value },
-            ]
+            return [functions.SUBTRACT(left, right)]
           case BinaryExpressionOperator.MULTIPLY:
-            return [
-              { kind: EvaluationResultKind.NUMBER, value: left.value * right.value },
-            ]
-          case BinaryExpressionOperator.DIVIDE: {
-            if (right.value === 0) {
-              throw Object.assign(new Error('Cannot divide by zero'), {
-                short: '#DIV/0!',
-              })
-            }
-            return [
-              { kind: EvaluationResultKind.NUMBER, value: left.value / right.value },
-            ]
-          }
+            return [functions.MULTIPLY(left, right)]
+          case BinaryExpressionOperator.DIVIDE:
+            return [functions.DIVIDE(left, right)]
           case BinaryExpressionOperator.EQUALS:
-            return [
-              {
-                kind: EvaluationResultKind.NUMBER,
-                value: left.value === right.value ? 1 : 0,
-              },
-            ]
+            return left.value === right.value ? [functions.TRUE()] : [functions.FALSE()]
           case BinaryExpressionOperator.LESS_THAN:
-            return [
-              {
-                kind: EvaluationResultKind.NUMBER,
-                value: left.value < right.value ? 1 : 0,
-              },
-            ]
+            return left.value < right.value ? [functions.TRUE()] : [functions.FALSE()]
           case BinaryExpressionOperator.GREATER_THAN:
-            return [
-              {
-                kind: EvaluationResultKind.NUMBER,
-                value: left.value > right.value ? 1 : 0,
-              },
-            ]
+            return left.value > right.value ? [functions.TRUE()] : [functions.FALSE()]
+          default:
+            ast.operator satisfies never
         }
       }
 
