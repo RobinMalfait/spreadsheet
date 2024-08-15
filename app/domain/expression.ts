@@ -73,9 +73,7 @@ export function parseExpression(tokens: Token[]): AST {
 }
 
 class ExpressionParser {
-  private tokens: Token[]
-
-  constructor(tokens: Token[]) {
+  constructor(private tokens: Token[]) {
     this.tokens = tokens.slice()
   }
 
