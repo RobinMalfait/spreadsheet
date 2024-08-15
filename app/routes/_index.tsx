@@ -1,4 +1,4 @@
-import { ExclamationTriangleIcon } from '@heroicons/react/16/solid'
+import { ExclamationTriangleIcon, PlusIcon } from '@heroicons/react/16/solid'
 import type { MetaFunction } from '@remix-run/node'
 import clsx from 'clsx'
 import {
@@ -40,6 +40,7 @@ export default function Index() {
   let [debugView, setDebugView] = useState(false)
   let [, forceRerender] = useReducer(() => ({}), {})
   let inputRef = useRef<HTMLInputElement | null>(null)
+  let [editingExpression, setEditingExpression] = useState(false)
 
   let [spreadsheet] = useState(() => new Spreadsheet())
 
@@ -259,7 +260,10 @@ export default function Index() {
             )}
             value={value}
             onChange={(e) => {
-              flushSync(() => setValue(e.target.value))
+              flushSync(() => {
+                setValue(e.target.value)
+                setEditingExpression(e.target.value[0] === '=')
+              })
 
               // When the cell is empty, move focus back to the grid If you
               // continue typing, the focus will be in the `input` again. But this
@@ -296,7 +300,11 @@ export default function Index() {
                 }
               }
             }}
+            onFocus={(e) => {
+              setEditingExpression(e.currentTarget.value[0] === '=')
+            }}
             onBlur={(e) => {
+              setEditingExpression(false)
               spreadsheet.set(cell, e.target.value)
               forceRerender()
             }}
@@ -359,6 +367,7 @@ export default function Index() {
                 return [
                   <span
                     key="error"
+                    data-error=""
                     className="inline-flex items-center gap-1 rounded-md bg-red-50 px-1.5 py-0.5 font-medium text-red-700 text-xs ring-1 ring-red-600/10 ring-inset"
                   >
                     <ExclamationTriangleIcon className="size-4 shrink-0 text-red-600" />
@@ -388,122 +397,170 @@ export default function Index() {
             })()
 
             return (
-              <button
-                disabled={row === 0 || col === 0}
-                key={id}
-                data-cell={id}
-                type="button"
-                onClick={(e) => {
-                  flushSync(() => setActiveCell(id))
+              <div key={id} className="group/cell relative grid">
+                <button
+                  disabled={row === 0 || col === 0}
+                  data-cell={id}
+                  type="button"
+                  onClick={(e) => {
+                    // Move focus to the button, otherwise the button won't
+                    // receive focus on Safari
+                    e.currentTarget.focus()
+                  }}
+                  onFocus={() => {
+                    setActiveCell(id)
+                  }}
+                  onDoubleClick={() => {
+                    // Ensure the cell is active
+                    flushSync(() => setActiveCell(id))
 
-                  e.currentTarget.focus()
-                }}
-                onFocus={() => setActiveCell(id)}
-                onDoubleClick={() => {
-                  // Ensure the cell is active
-                  flushSync(() => setActiveCell(id))
+                    // Move focus to the input
+                    inputRef.current?.focus()
 
-                  // Move focus to the input
-                  inputRef.current?.focus()
+                    // Move cursor to the end
+                    inputRef.current?.setSelectionRange(value.length, value.length)
+                  }}
+                  ref={(e) => {
+                    if (e && cell === id) {
+                      // Ensure the cell is focused (buttons don't receive focus
+                      // on Safari by default)
+                      if (document.activeElement?.tagName === 'BODY') {
+                        e.focus()
+                      }
 
-                  // Move cursor to the end
-                  inputRef.current?.setSelectionRange(value.length, value.length)
-                }}
-                ref={(e) => {
-                  if (e && cell === id) {
-                    // Ensure the cell is focused (buttons don't receive focus
-                    // on Safari by default)
-                    if (document.activeElement?.tagName === 'BODY') {
-                      e.focus()
+                      // Ensure it's visible
+                      e.scrollIntoView({
+                        behavior: 'instant',
+                        block: 'nearest',
+                        inline: 'nearest',
+                      })
                     }
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Tab' || e.key === 'Shift') {
+                      // Default browser behavior
+                    } else if (e.key === 'ArrowRight') {
+                      e.preventDefault()
+                      moveRight()
+                    } else if (e.key === 'ArrowLeft') {
+                      e.preventDefault()
+                      moveLeft()
+                    } else if (e.key === 'ArrowUp') {
+                      e.preventDefault()
+                      moveUp()
+                    } else if (e.key === 'ArrowDown') {
+                      e.preventDefault()
+                      moveDown()
+                    } else if (e.key === 'PageUp') {
+                      e.preventDefault()
+                      moveUpFirst()
+                    } else if (e.key === 'PageDown') {
+                      e.preventDefault()
+                      moveDownLast()
+                    } else if (e.key === 'Home') {
+                      e.preventDefault()
+                      moveLeftFirst()
+                    } else if (e.key === 'End') {
+                      e.preventDefault()
+                      moveRightLast()
+                    } else if (e.key === 'Enter' && spreadsheet.has(cell)) {
+                      e.preventDefault()
+                      // Move focus to the input, and start editing
+                      inputRef.current?.focus()
+                      inputRef.current?.select()
+                    } else if (e.key === 'Enter' || e.key === 'Escape') {
+                      e.preventDefault()
+                    } else {
+                      // Move focus to the input, and start editing
+                      inputRef.current?.focus()
+                      inputRef.current?.select()
+                    }
+                  }}
+                  className={clsx(
+                    'relative focus:outline-none',
+                    'has-data-error:p-0',
+                    'px-2 py-1.5',
+                    'border-0.5 border-gray-200',
 
-                    // Ensure it's visible
-                    e.scrollIntoView({
-                      behavior: 'instant',
-                      block: 'nearest',
-                      inline: 'nearest',
-                    })
-                  }
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Tab' || e.key === 'Shift') {
-                    // Default browser behavior
-                  } else if (e.key === 'ArrowRight') {
-                    e.preventDefault()
-                    moveRight()
-                  } else if (e.key === 'ArrowLeft') {
-                    e.preventDefault()
-                    moveLeft()
-                  } else if (e.key === 'ArrowUp') {
-                    e.preventDefault()
-                    moveUp()
-                  } else if (e.key === 'ArrowDown') {
-                    e.preventDefault()
-                    moveDown()
-                  } else if (e.key === 'PageUp') {
-                    e.preventDefault()
-                    moveUpFirst()
-                  } else if (e.key === 'PageDown') {
-                    e.preventDefault()
-                    moveDownLast()
-                  } else if (e.key === 'Home') {
-                    e.preventDefault()
-                    moveLeftFirst()
-                  } else if (e.key === 'End') {
-                    e.preventDefault()
-                    moveRightLast()
-                  } else if (e.key === 'Enter' && spreadsheet.has(cell)) {
-                    e.preventDefault()
-                    // Move focus to the input, and start editing
-                    inputRef.current?.focus()
-                    inputRef.current?.select()
-                  } else if (e.key === 'Enter' || e.key === 'Escape') {
-                    e.preventDefault()
-                  } else {
-                    // Move focus to the input, and start editing
-                    inputRef.current?.focus()
-                    inputRef.current?.select()
-                  }
-                }}
-                className={clsx(
-                  'relative focus:outline-none',
-                  'px-2 py-1.5',
-                  'border-0.5 border-gray-200',
+                    // Scrollable area offsets for sticky headers
+                    '[--offset-padding:var(--spacing-2)]',
+                    'scroll-mt-[calc(var(--col-header-height)+var(--offset-padding))]',
+                    'scroll-ml-[calc(var(--row-header-width)+var(--offset-padding))]',
 
-                  // Scrollable area offsets for sticky headers
-                  '[--offset-padding:var(--spacing-2)]',
-                  'scroll-mt-[calc(var(--col-header-height)+var(--offset-padding))]',
-                  'scroll-ml-[calc(var(--row-header-width)+var(--offset-padding))]',
+                    // Top left corner
+                    row === 0 && col === 0 && 'z-30 border-r-1 border-b-1',
 
-                  // Top left corner
-                  row === 0 && col === 0 && 'z-30 border-r-1 border-b-1',
+                    // Column or row header
+                    row === 0 || col === 0 ? 'z-20 bg-gray-100 text-center' : 'bg-white',
 
-                  // Column or row header
-                  row === 0 || col === 0 ? 'z-20 bg-gray-100 text-center' : 'bg-white',
+                    // Column header
+                    col === 0 && 'sticky left-0',
 
-                  // Column header
-                  col === 0 && 'sticky left-0',
+                    // Row header
+                    row === 0 && 'sticky top-0',
 
-                  // Row header
-                  row === 0 && 'sticky top-0',
+                    // Active row/column header
+                    ((row === 0 && location.col === col) ||
+                      (col === 0 && location.row === row)) &&
+                      'force:bg-blue-100',
 
-                  // Active row/column header
-                  ((row === 0 && location.col === col) ||
-                    (col === 0 && location.row === row)) &&
-                    'force:bg-blue-100',
+                    // Active cell
+                    cell === id &&
+                      'inset-ring-2 inset-ring-blue-500 force:border-blue-500',
 
-                  // Active cell
-                  cell === id && 'inset-ring-2 inset-ring-blue-500 force:border-blue-500',
+                    // Dependency of the current cell
+                    cell !== id &&
+                      dependencies.has(id) &&
+                      'before:absolute before:inset-0 before:border-2 before:border-yellow-500 before:border-dashed before:bg-yellow-200/20',
+                  )}
+                  title={alt ?? undefined}
+                >
+                  {contents}
+                </button>
+                <div className="absolute z-10 flex group-not-has-hover/cell:hidden">
+                  <button
+                    type="button"
+                    hidden={!editingExpression || cell === id}
+                    onMouseDown={(e) => {
+                      let input = inputRef.current
 
-                  // Dependency of the current cell
-                  cell !== id &&
-                    dependencies.has(id) &&
-                    'before:absolute before:inset-0 before:border-2 before:border-yellow-500 before:border-dashed before:bg-yellow-200/20',
-                )}
-                title={alt ?? undefined}
-              >
-                {contents}
-              </button>
+                      // Inject current cell into the input at the cursor position
+                      // or instead of the selection.
+                      if (editingExpression && input) {
+                        e.preventDefault()
+
+                        let start = input.selectionStart
+                        if (start === null) return
+
+                        let end = input.selectionEnd
+                        if (end === null) return
+
+                        // Set input value to the new value
+                        flushSync(() => {
+                          setValue((value) => {
+                            let before = value.slice(0, start)
+                            let after = value.slice(end)
+                            let next = `${before}${id}${after}`
+                            return next
+                          })
+                        })
+
+                        // Restore focus to the input
+                        inputRef.current?.focus()
+
+                        // Restore cursor position
+                        inputRef.current?.setSelectionRange(
+                          start + id.length,
+                          start + id.length,
+                        )
+                      }
+                    }}
+                    className="inset-ring inset-ring-gray-500/20 m-1 rounded-md rounded-md bg-white p-1"
+                  >
+                    <PlusIcon className="size-4 shrink-0 text-gray-400" />
+                  </button>
+                </div>
+              </div>
             )
           })}
         </div>
