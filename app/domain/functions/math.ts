@@ -14,8 +14,15 @@ export function SUM(...args: EvaluationResult[]): EvaluationResult {
   let out = 0
 
   for (let arg of args) {
-    if (arg.kind === EvaluationResultKind.NUMBER) {
-      out += arg.value
+    switch (arg.kind) {
+      case EvaluationResultKind.NUMBER:
+        out += arg.value
+        break
+      case EvaluationResultKind.STRING:
+        // Explicitly ignored
+        break
+      default:
+        arg satisfies never
     }
   }
 
@@ -26,8 +33,15 @@ export function PRODUCT(...args: EvaluationResult[]): EvaluationResult {
   let out = 1
 
   for (let arg of args) {
-    if (arg.kind === EvaluationResultKind.NUMBER) {
-      out *= arg.value
+    switch (arg.kind) {
+      case EvaluationResultKind.NUMBER:
+        out *= arg.value
+        break
+      case EvaluationResultKind.STRING:
+        // Explicitly ignored
+        break
+      default:
+        arg satisfies never
     }
   }
 
@@ -39,9 +53,16 @@ export function AVERAGE(...args: EvaluationResult[]): EvaluationResult {
   let count = 0
 
   for (let arg of args) {
-    if (arg.kind === EvaluationResultKind.NUMBER) {
-      count += 1
-      sum += arg.value
+    switch (arg.kind) {
+      case EvaluationResultKind.NUMBER:
+        count += 1
+        sum += arg.value
+        break
+      case EvaluationResultKind.STRING:
+        // Explicitly ignored
+        break
+      default:
+        arg satisfies never
     }
   }
 
