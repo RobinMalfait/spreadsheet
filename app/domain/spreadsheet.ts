@@ -146,16 +146,9 @@ export enum ComputationResultKind {
   ERROR = 'ERROR',
 }
 
-export enum ComputationValueKind {
-  NUMBER = 'NUMBER',
-  STRING = 'STRING',
-}
-
 type ComputationValue = {
   kind: ComputationResultKind.VALUE
-  value:
-    | { kind: ComputationValueKind.NUMBER; value: number }
-    | { kind: ComputationValueKind.STRING; value: string }
+  value: EvaluationResult
 }
 
 type ComputationError = {
@@ -228,16 +221,7 @@ export class Spreadsheet {
       if (evaluationResult.length === 1) {
         return {
           kind: ComputationResultKind.VALUE,
-          value:
-            evaluationResult[0].kind === EvaluationResultKind.NUMBER
-              ? {
-                  kind: ComputationValueKind.NUMBER,
-                  value: evaluationResult[0].value,
-                }
-              : {
-                  kind: ComputationValueKind.STRING,
-                  value: evaluationResult[0].value,
-                },
+          value: evaluationResult[0],
         }
       }
 
