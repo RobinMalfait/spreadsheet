@@ -42,7 +42,7 @@ describe('parsing', () => {
     it('should parse a static number value', () => {
       expect(parseExpression(tokenize('123'))).toMatchInlineSnapshot(json`
         {
-          "kind": "NUMBER",
+          "kind": "NUMBER_LITERAL",
           "value": 123,
         }
       `)
@@ -51,7 +51,7 @@ describe('parsing', () => {
     it('should parse a static negative number value', () => {
       expect(parseExpression(tokenize('-123'))).toMatchInlineSnapshot(json`
         {
-          "kind": "NUMBER",
+          "kind": "NUMBER_LITERAL",
           "value": -123,
         }
       `)
@@ -60,7 +60,7 @@ describe('parsing', () => {
     it('should parse a static float value', () => {
       expect(parseExpression(tokenize('123.456'))).toMatchInlineSnapshot(json`
         {
-          "kind": "NUMBER",
+          "kind": "NUMBER_LITERAL",
           "value": 123.456,
         }
       `)
@@ -69,7 +69,7 @@ describe('parsing', () => {
     it('should parse a static negative float value', () => {
       expect(parseExpression(tokenize('-123.456'))).toMatchInlineSnapshot(json`
         {
-          "kind": "NUMBER",
+          "kind": "NUMBER_LITERAL",
           "value": -123.456,
         }
       `)
@@ -80,7 +80,7 @@ describe('parsing', () => {
     it('should parse a static string value', () => {
       expect(parseExpression(tokenize('"hello world"'))).toMatchInlineSnapshot(json`
         {
-          "kind": "STRING",
+          "kind": "STRING_LITERAL",
           "value": "hello world",
         }
       `)
@@ -91,7 +91,7 @@ describe('parsing', () => {
     it('should parse the unary minus operator', () => {
       expect(parseExpression(tokenize('-123'))).toMatchInlineSnapshot(json`
         {
-          "kind": "NUMBER",
+          "kind": "NUMBER_LITERAL",
           "value": -123,
         }
       `)
@@ -100,7 +100,7 @@ describe('parsing', () => {
     it('should parse the unary plus operator', () => {
       expect(parseExpression(tokenize('+123'))).toMatchInlineSnapshot(json`
         {
-          "kind": "NUMBER",
+          "kind": "NUMBER_LITERAL",
           "value": 123,
         }
       `)
@@ -111,12 +111,12 @@ describe('parsing', () => {
         {
           "kind": "BINARY_EXPRESSION",
           "lhs": {
-            "kind": "NUMBER",
+            "kind": "NUMBER_LITERAL",
             "value": 1,
           },
           "operator": "ADD",
           "rhs": {
-            "kind": "NUMBER",
+            "kind": "NUMBER_LITERAL",
             "value": 2,
           },
         }
@@ -137,7 +137,7 @@ describe('parsing', () => {
           },
           "operator": "ADD",
           "rhs": {
-            "kind": "NUMBER",
+            "kind": "NUMBER_LITERAL",
             "value": 2,
           },
         }
@@ -152,18 +152,18 @@ describe('parsing', () => {
           "lhs": {
             "kind": "BINARY_EXPRESSION",
             "lhs": {
-              "kind": "NUMBER",
+              "kind": "NUMBER_LITERAL",
               "value": 1,
             },
             "operator": "ADD",
             "rhs": {
-              "kind": "NUMBER",
+              "kind": "NUMBER_LITERAL",
               "value": 2,
             },
           },
           "operator": "ADD",
           "rhs": {
-            "kind": "NUMBER",
+            "kind": "NUMBER_LITERAL",
             "value": 3,
           },
         }
@@ -177,7 +177,7 @@ describe('parsing', () => {
         {
           "kind": "BINARY_EXPRESSION",
           "lhs": {
-            "kind": "NUMBER",
+            "kind": "NUMBER_LITERAL",
             "value": 1,
           },
           "operator": "ADD",
@@ -186,18 +186,18 @@ describe('parsing', () => {
             "lhs": {
               "kind": "BINARY_EXPRESSION",
               "lhs": {
-                "kind": "NUMBER",
+                "kind": "NUMBER_LITERAL",
                 "value": 2,
               },
               "operator": "MULTIPLY",
               "rhs": {
-                "kind": "NUMBER",
+                "kind": "NUMBER_LITERAL",
                 "value": 3,
               },
             },
             "operator": "DIVIDE",
             "rhs": {
-              "kind": "NUMBER",
+              "kind": "NUMBER_LITERAL",
               "value": 4,
             },
           },
@@ -214,18 +214,18 @@ describe('parsing', () => {
           "lhs": {
             "kind": "BINARY_EXPRESSION",
             "lhs": {
-              "kind": "NUMBER",
+              "kind": "NUMBER_LITERAL",
               "value": 1,
             },
             "operator": "ADD",
             "rhs": {
-              "kind": "NUMBER",
+              "kind": "NUMBER_LITERAL",
               "value": 2,
             },
           },
           "operator": "MULTIPLY",
           "rhs": {
-            "kind": "NUMBER",
+            "kind": "NUMBER_LITERAL",
             "value": 3,
           },
         }
@@ -244,18 +244,18 @@ describe('parsing', () => {
             "lhs": {
               "kind": "BINARY_EXPRESSION",
               "lhs": {
-                "kind": "NUMBER",
+                "kind": "NUMBER_LITERAL",
                 "value": 1,
               },
               "operator": "ADD",
               "rhs": {
-                "kind": "NUMBER",
+                "kind": "NUMBER_LITERAL",
                 "value": 2,
               },
             },
             "operator": "MULTIPLY",
             "rhs": {
-              "kind": "NUMBER",
+              "kind": "NUMBER_LITERAL",
               "value": 3,
             },
           },
@@ -263,12 +263,12 @@ describe('parsing', () => {
           "rhs": {
             "kind": "BINARY_EXPRESSION",
             "lhs": {
-              "kind": "NUMBER",
+              "kind": "NUMBER_LITERAL",
               "value": 4,
             },
             "operator": "ADD",
             "rhs": {
-              "kind": "NUMBER",
+              "kind": "NUMBER_LITERAL",
               "value": 5,
             },
           },
@@ -408,15 +408,15 @@ describe('parsing', () => {
         {
           "args": [
             {
-              "kind": "NUMBER",
+              "kind": "NUMBER_LITERAL",
               "value": 1,
             },
             {
-              "kind": "NUMBER",
+              "kind": "NUMBER_LITERAL",
               "value": 2,
             },
             {
-              "kind": "NUMBER",
+              "kind": "NUMBER_LITERAL",
               "value": 3,
             },
           ],
@@ -432,7 +432,7 @@ describe('parsing', () => {
         {
           "args": [
             {
-              "kind": "NUMBER",
+              "kind": "NUMBER_LITERAL",
               "value": 1,
             },
             {
@@ -476,21 +476,21 @@ describe('parsing', () => {
         {
           "args": [
             {
-              "kind": "NUMBER",
+              "kind": "NUMBER_LITERAL",
               "value": 1,
             },
             {
               "args": [
                 {
-                  "kind": "NUMBER",
+                  "kind": "NUMBER_LITERAL",
                   "value": 2,
                 },
                 {
-                  "kind": "NUMBER",
+                  "kind": "NUMBER_LITERAL",
                   "value": 3,
                 },
                 {
-                  "kind": "NUMBER",
+                  "kind": "NUMBER_LITERAL",
                   "value": 4,
                 },
               ],
@@ -498,7 +498,7 @@ describe('parsing', () => {
               "name": "SUM",
             },
             {
-              "kind": "NUMBER",
+              "kind": "NUMBER_LITERAL",
               "value": 5,
             },
           ],
