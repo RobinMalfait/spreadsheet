@@ -44,21 +44,22 @@ export enum TokenKind {
   ANGLE_RIGHT = 'ANGLE_RIGHT',
 }
 
-export type Token =
-  | { kind: TokenKind.IDENTIFIER; value: string; span: Span }
-  | { kind: TokenKind.NUMBER_LITERAL; value: number; span: Span }
-  | { kind: TokenKind.STRING_LITERAL; value: string; span: Span }
-  | { kind: TokenKind.COMMA; span: Span }
-  | { kind: TokenKind.COLON; span: Span }
-  | { kind: TokenKind.OPEN_PAREN; span: Span }
-  | { kind: TokenKind.CLOSE_PAREN; span: Span }
-  | { kind: TokenKind.ASTERISK; span: Span }
-  | { kind: TokenKind.PLUS; span: Span }
-  | { kind: TokenKind.MINUS; span: Span }
-  | { kind: TokenKind.FORWARD_SLASH; span: Span }
-  | { kind: TokenKind.ANGLE_LEFT; span: Span }
-  | { kind: TokenKind.EQUALS; span: Span }
-  | { kind: TokenKind.ANGLE_RIGHT; span: Span }
+export type Token = (
+  | { kind: TokenKind.IDENTIFIER; value: string }
+  | { kind: TokenKind.NUMBER_LITERAL; value: number }
+  | { kind: TokenKind.STRING_LITERAL; value: string }
+  | { kind: TokenKind.COMMA }
+  | { kind: TokenKind.COLON }
+  | { kind: TokenKind.OPEN_PAREN }
+  | { kind: TokenKind.CLOSE_PAREN }
+  | { kind: TokenKind.ASTERISK }
+  | { kind: TokenKind.PLUS }
+  | { kind: TokenKind.MINUS }
+  | { kind: TokenKind.FORWARD_SLASH }
+  | { kind: TokenKind.ANGLE_LEFT }
+  | { kind: TokenKind.EQUALS }
+  | { kind: TokenKind.ANGLE_RIGHT }
+) & { raw: string; span: Span }
 
 export function tokenize(input: string): Token[] {
   let tokens: Token[] = []
@@ -85,6 +86,7 @@ export function tokenize(input: string): Token[] {
       tokens.push({
         kind: TokenKind.STRING_LITERAL,
         value: input.slice(start, end),
+        raw: input.slice(start - 1, end + 1),
         span: { start: start - 1, end: end + 1 },
       })
       continue
@@ -101,6 +103,7 @@ export function tokenize(input: string): Token[] {
       tokens.push({
         kind: TokenKind.NUMBER_LITERAL,
         value: Number(input.slice(start, end)),
+        raw: input.slice(start, end),
         span: { start, end },
       })
       continue
@@ -110,38 +113,55 @@ export function tokenize(input: string): Token[] {
     if (char === ASTERISK) {
       tokens.push({
         kind: TokenKind.ASTERISK,
+        raw: '*',
         span: { start: idx, end: idx + 1 },
       })
       continue
     }
 
     if (char === PLUS) {
-      tokens.push({ kind: TokenKind.PLUS, span: { start: idx, end: idx + 1 } })
+      tokens.push({ kind: TokenKind.PLUS, raw: '+', span: { start: idx, end: idx + 1 } })
       continue
     }
 
     if (char === MINUS) {
-      tokens.push({ kind: TokenKind.MINUS, span: { start: idx, end: idx + 1 } })
+      tokens.push({ kind: TokenKind.MINUS, raw: '-', span: { start: idx, end: idx + 1 } })
       continue
     }
 
     if (char === FORWARD_SLASH) {
-      tokens.push({ kind: TokenKind.FORWARD_SLASH, span: { start: idx, end: idx + 1 } })
+      tokens.push({
+        kind: TokenKind.FORWARD_SLASH,
+        raw: '/',
+        span: { start: idx, end: idx + 1 },
+      })
       continue
     }
 
     if (char === ANGLE_LEFT) {
-      tokens.push({ kind: TokenKind.ANGLE_LEFT, span: { start: idx, end: idx + 1 } })
+      tokens.push({
+        kind: TokenKind.ANGLE_LEFT,
+        raw: '<',
+        span: { start: idx, end: idx + 1 },
+      })
       continue
     }
 
     if (char === EQUALS) {
-      tokens.push({ kind: TokenKind.EQUALS, span: { start: idx, end: idx + 1 } })
+      tokens.push({
+        kind: TokenKind.EQUALS,
+        raw: '=',
+        span: { start: idx, end: idx + 1 },
+      })
       continue
     }
 
     if (char === ANGLE_RIGHT) {
-      tokens.push({ kind: TokenKind.ANGLE_RIGHT, span: { start: idx, end: idx + 1 } })
+      tokens.push({
+        kind: TokenKind.ANGLE_RIGHT,
+        raw: '>',
+        span: { start: idx, end: idx + 1 },
+      })
       continue
     }
 
@@ -161,6 +181,7 @@ export function tokenize(input: string): Token[] {
       tokens.push({
         kind: TokenKind.IDENTIFIER,
         value: input.slice(start, end),
+        raw: input.slice(start, end),
         span: { start, end },
       })
       continue
@@ -168,25 +189,33 @@ export function tokenize(input: string): Token[] {
 
     // Colon
     if (char === COLON) {
-      tokens.push({ kind: TokenKind.COLON, span: { start: idx, end: idx + 1 } })
+      tokens.push({ kind: TokenKind.COLON, raw: ':', span: { start: idx, end: idx + 1 } })
       continue
     }
 
     // Comma
     if (char === COMMA) {
-      tokens.push({ kind: TokenKind.COMMA, span: { start: idx, end: idx + 1 } })
+      tokens.push({ kind: TokenKind.COMMA, raw: ',', span: { start: idx, end: idx + 1 } })
       continue
     }
 
     // Open paren
     if (char === OPEN_PAREN) {
-      tokens.push({ kind: TokenKind.OPEN_PAREN, span: { start: idx, end: idx + 1 } })
+      tokens.push({
+        kind: TokenKind.OPEN_PAREN,
+        raw: '(',
+        span: { start: idx, end: idx + 1 },
+      })
       continue
     }
 
     // Close paren
     if (char === CLOSE_PAREN) {
-      tokens.push({ kind: TokenKind.CLOSE_PAREN, span: { start: idx, end: idx + 1 } })
+      tokens.push({
+        kind: TokenKind.CLOSE_PAREN,
+        raw: ')',
+        span: { start: idx, end: idx + 1 },
+      })
       continue
     }
 
@@ -194,35 +223,4 @@ export function tokenize(input: string): Token[] {
   }
 
   return tokens
-}
-
-export function printToken(token: Token) {
-  switch (token.kind) {
-    case TokenKind.IDENTIFIER:
-    case TokenKind.NUMBER_LITERAL:
-    case TokenKind.STRING_LITERAL:
-      return token.value.toString()
-    case TokenKind.COMMA:
-      return ','
-    case TokenKind.COLON:
-      return ':'
-    case TokenKind.OPEN_PAREN:
-      return '('
-    case TokenKind.CLOSE_PAREN:
-      return ')'
-    case TokenKind.ASTERISK:
-      return '*'
-    case TokenKind.PLUS:
-      return '+'
-    case TokenKind.MINUS:
-      return '-'
-    case TokenKind.FORWARD_SLASH:
-      return '/'
-    case TokenKind.ANGLE_LEFT:
-      return '<'
-    case TokenKind.EQUALS:
-      return '='
-    case TokenKind.ANGLE_RIGHT:
-      return '>'
-  }
 }

@@ -22,7 +22,7 @@ import {
   type EvaluationResult,
   Spreadsheet,
 } from '~/domain/spreadsheet'
-import { tokenize } from '~/domain/tokenizer'
+import { type Token, TokenKind, tokenize } from '~/domain/tokenizer'
 
 export const meta: MetaFunction = () => {
   return [
@@ -171,6 +171,8 @@ export default function Index() {
 
   // Evaluation of the current cell
   let out = spreadsheet.compute(cell)
+  let tokens: Token[] =
+    value.length > 0 ? tokenize(value[0] === '=' ? value.slice(1) : `"${value}"`) : []
 
   // Dependencies of the current cell
   let dependencies = spreadsheet.dependencies(cell)
@@ -178,55 +180,125 @@ export default function Index() {
   return (
     <div className="flex h-screen w-screen flex-col overflow-hidden font-sans">
       <div className="flex items-center border-gray-300 border-b">
-        <div className="w-16 py-1.5 text-center">{cell}</div>
+        <div className="w-16 py-1.5 text-center text-xs">{cell}</div>
         <div className="-ml-[2px] font-thin text-gray-300">|</div>
-        <input
-          ref={inputRef}
-          className="flex-1 border-none px-2 py-1.5 focus:outline-none"
-          value={value}
-          onChange={(e) => {
-            flushSync(() => setValue(e.target.value))
+        <div className="relative flex flex-1 text-xs">
+          <div
+            hidden={value[0] !== '='}
+            className="pointer-events-none absolute top-1.5 left-2 font-mono"
+          >
+            {tokens.map((token, idx) => {
+              let key = idx
 
-            // When the cell is empty, move focus back to the grid If you
-            // continue typing, the focus will be in the `input` again. But this
-            // allows us to immediately use arrow keys once you hit backspace
-            // (which cleared the input).
-            if (e.target.value === '') {
-              // Move focus back to the grid
-              let btn = document.querySelector(`button[data-cell=${cell}]`)
-              if (btn && btn.tagName === 'BUTTON') {
-                ;(btn as HTMLButtonElement).focus()
+              // Cell / Cell range
+              if (
+                // Cell
+                (token.kind === TokenKind.IDENTIFIER &&
+                  // Next token is an open paren. This means that the identifier
+                  // is a function call, not a cell reference.
+                  tokens[idx + 1]?.kind !== TokenKind.OPEN_PAREN) ||
+                // Cell range, the identifiers are highlighted already, but the
+                // colon is not yet.
+                (token.kind === TokenKind.COLON &&
+                  tokens[idx - 1]?.kind === TokenKind.IDENTIFIER &&
+                  tokens[idx + 1]?.kind === TokenKind.IDENTIFIER)
+              ) {
+                return (
+                  <div
+                    key={key}
+                    style={{ '--start': `${token.span.start}ch` } as CSSProperties}
+                    className="absolute translate-x-[calc(1ch+var(--start))] whitespace-pre text-amber-500"
+                  >
+                    {token.raw}
+                  </div>
+                )
               }
-            }
-          }}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              // Submit the new value
-              spreadsheet.set(cell, e.currentTarget.value)
 
-              flushSync(() => forceRerender())
-
-              // Move focus back to the grid
-              let btn = document.querySelector(`button[data-cell=${cell}]`)
-              if (btn && btn.tagName === 'BUTTON') {
-                ;(btn as HTMLButtonElement).focus()
+              // Numbers
+              if (token.kind === TokenKind.NUMBER_LITERAL) {
+                return (
+                  <div
+                    key={key}
+                    style={{ '--start': `${token.span.start}ch` } as CSSProperties}
+                    className="absolute translate-x-[calc(1ch+var(--start))] whitespace-pre text-blue-500"
+                  >
+                    {token.raw}
+                  </div>
+                )
               }
-            } else if (e.key === 'Escape') {
-              // Reset the value
-              flushSync(() => setValue(spreadsheet.get(cell)))
 
-              // Move focus back to the grid
-              let btn = document.querySelector(`button[data-cell=${cell}]`)
-              if (btn && btn.tagName === 'BUTTON') {
-                ;(btn as HTMLButtonElement).focus()
+              // Strings
+              if (token.kind === TokenKind.STRING_LITERAL) {
+                return (
+                  <div
+                    key={key}
+                    style={{ '--start': `${token.span.start}ch` } as CSSProperties}
+                    className="absolute translate-x-[calc(1ch+var(--start))] whitespace-pre text-green-500"
+                  >
+                    {token.raw}
+                  </div>
+                )
               }
-            }
-          }}
-          onBlur={(e) => {
-            spreadsheet.set(cell, e.target.value)
-            forceRerender()
-          }}
-        />
+
+              return (
+                <div
+                  key={key}
+                  style={{ '--start': `${token.span.start}ch` } as CSSProperties}
+                  className="absolute translate-x-[calc(1ch+var(--start))] whitespace-pre"
+                >
+                  {token.raw}
+                </div>
+              )
+            })}
+          </div>
+          <input
+            ref={inputRef}
+            className="flex-1 border-none px-2 py-1.5 font-mono focus:outline-none"
+            value={value}
+            onChange={(e) => {
+              flushSync(() => setValue(e.target.value))
+
+              // When the cell is empty, move focus back to the grid If you
+              // continue typing, the focus will be in the `input` again. But this
+              // allows us to immediately use arrow keys once you hit backspace
+              // (which cleared the input).
+              if (e.target.value === '') {
+                // Move focus back to the grid
+                let btn = document.querySelector(`button[data-cell=${cell}]`)
+                if (btn && btn.tagName === 'BUTTON') {
+                  ;(btn as HTMLButtonElement).focus()
+                }
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                // Submit the new value
+                spreadsheet.set(cell, e.currentTarget.value)
+
+                flushSync(() => forceRerender())
+
+                // Move focus back to the grid
+                let btn = document.querySelector(`button[data-cell=${cell}]`)
+                if (btn && btn.tagName === 'BUTTON') {
+                  ;(btn as HTMLButtonElement).focus()
+                }
+              } else if (e.key === 'Escape') {
+                // Reset the value
+                flushSync(() => setValue(spreadsheet.get(cell)))
+
+                // Move focus back to the grid
+                let btn = document.querySelector(`button[data-cell=${cell}]`)
+                if (btn && btn.tagName === 'BUTTON') {
+                  ;(btn as HTMLButtonElement).focus()
+                }
+              }
+            }}
+            onBlur={(e) => {
+              spreadsheet.set(cell, e.target.value)
+              forceRerender()
+            }}
+          />
+        </div>
         {out?.kind === ComputationResultKind.ERROR && (
           <span className="inline-flex items-center gap-1 rounded-md bg-red-50 px-1.5 py-0.5 font-medium text-red-700 text-xs ring-1 ring-red-600/10 ring-inset">
             <ExclamationTriangleIcon className="size-4 shrink-0 text-red-600" />

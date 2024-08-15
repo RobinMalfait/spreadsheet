@@ -13,6 +13,7 @@ describe('number literal', () => {
       [
         {
           "kind": "NUMBER",
+          "raw": "123",
           "span": {
             "end": 3,
             "start": 0,
@@ -28,6 +29,7 @@ describe('number literal', () => {
       [
         {
           "kind": "MINUS",
+          "raw": "-",
           "span": {
             "end": 1,
             "start": 0,
@@ -35,6 +37,7 @@ describe('number literal', () => {
         },
         {
           "kind": "NUMBER",
+          "raw": "123",
           "span": {
             "end": 4,
             "start": 1,
@@ -50,6 +53,7 @@ describe('number literal', () => {
       [
         {
           "kind": "NUMBER",
+          "raw": "123.456",
           "span": {
             "end": 7,
             "start": 0,
@@ -65,6 +69,7 @@ describe('number literal', () => {
       [
         {
           "kind": "MINUS",
+          "raw": "-",
           "span": {
             "end": 1,
             "start": 0,
@@ -72,6 +77,7 @@ describe('number literal', () => {
         },
         {
           "kind": "NUMBER",
+          "raw": "123.456",
           "span": {
             "end": 8,
             "start": 1,
@@ -89,6 +95,7 @@ describe('string literal', () => {
       [
         {
           "kind": "STRING",
+          "raw": ""hello world"",
           "span": {
             "end": 13,
             "start": 0,
@@ -104,6 +111,7 @@ describe('string literal', () => {
       [
         {
           "kind": "STRING",
+          "raw": ""hello world",
           "span": {
             "end": 13,
             "start": 0,
@@ -121,6 +129,7 @@ describe('function call', () => {
       [
         {
           "kind": "IDENTIFIER",
+          "raw": "SUM",
           "span": {
             "end": 3,
             "start": 0,
@@ -129,6 +138,7 @@ describe('function call', () => {
         },
         {
           "kind": "OPEN_PAREN",
+          "raw": "(",
           "span": {
             "end": 4,
             "start": 3,
@@ -136,6 +146,7 @@ describe('function call', () => {
         },
         {
           "kind": "NUMBER",
+          "raw": "1",
           "span": {
             "end": 5,
             "start": 4,
@@ -144,6 +155,7 @@ describe('function call', () => {
         },
         {
           "kind": "CLOSE_PAREN",
+          "raw": ")",
           "span": {
             "end": 6,
             "start": 5,
@@ -158,6 +170,7 @@ describe('function call', () => {
       [
         {
           "kind": "IDENTIFIER",
+          "raw": "SUM",
           "span": {
             "end": 3,
             "start": 0,
@@ -166,6 +179,7 @@ describe('function call', () => {
         },
         {
           "kind": "OPEN_PAREN",
+          "raw": "(",
           "span": {
             "end": 4,
             "start": 3,
@@ -173,6 +187,7 @@ describe('function call', () => {
         },
         {
           "kind": "NUMBER",
+          "raw": "1",
           "span": {
             "end": 5,
             "start": 4,
@@ -181,6 +196,7 @@ describe('function call', () => {
         },
         {
           "kind": "COMMA",
+          "raw": ",",
           "span": {
             "end": 6,
             "start": 5,
@@ -188,6 +204,7 @@ describe('function call', () => {
         },
         {
           "kind": "IDENTIFIER",
+          "raw": "A1",
           "span": {
             "end": 9,
             "start": 7,
@@ -196,6 +213,7 @@ describe('function call', () => {
         },
         {
           "kind": "COMMA",
+          "raw": ",",
           "span": {
             "end": 10,
             "start": 9,
@@ -203,6 +221,7 @@ describe('function call', () => {
         },
         {
           "kind": "IDENTIFIER",
+          "raw": "A8",
           "span": {
             "end": 13,
             "start": 11,
@@ -211,6 +230,7 @@ describe('function call', () => {
         },
         {
           "kind": "COLON",
+          "raw": ":",
           "span": {
             "end": 14,
             "start": 13,
@@ -218,6 +238,7 @@ describe('function call', () => {
         },
         {
           "kind": "IDENTIFIER",
+          "raw": "B4",
           "span": {
             "end": 16,
             "start": 14,
@@ -226,6 +247,7 @@ describe('function call', () => {
         },
         {
           "kind": "CLOSE_PAREN",
+          "raw": ")",
           "span": {
             "end": 17,
             "start": 16,
@@ -242,6 +264,7 @@ describe('math operators', () => {
       [
         {
           "kind": "NUMBER",
+          "raw": "1",
           "span": {
             "end": 1,
             "start": 0,
@@ -250,6 +273,7 @@ describe('math operators', () => {
         },
         {
           "kind": "PLUS",
+          "raw": "+",
           "span": {
             "end": 3,
             "start": 2,
@@ -257,6 +281,7 @@ describe('math operators', () => {
         },
         {
           "kind": "NUMBER",
+          "raw": "2",
           "span": {
             "end": 5,
             "start": 4,
@@ -265,6 +290,7 @@ describe('math operators', () => {
         },
         {
           "kind": "ASTERISK",
+          "raw": "*",
           "span": {
             "end": 7,
             "start": 6,
@@ -272,6 +298,7 @@ describe('math operators', () => {
         },
         {
           "kind": "NUMBER",
+          "raw": "3",
           "span": {
             "end": 9,
             "start": 8,
@@ -280,6 +307,7 @@ describe('math operators', () => {
         },
         {
           "kind": "MINUS",
+          "raw": "-",
           "span": {
             "end": 11,
             "start": 10,
@@ -287,6 +315,7 @@ describe('math operators', () => {
         },
         {
           "kind": "NUMBER",
+          "raw": "4",
           "span": {
             "end": 13,
             "start": 12,
@@ -295,6 +324,7 @@ describe('math operators', () => {
         },
         {
           "kind": "FORWARD_SLASH",
+          "raw": "/",
           "span": {
             "end": 15,
             "start": 14,
@@ -302,6 +332,7 @@ describe('math operators', () => {
         },
         {
           "kind": "NUMBER",
+          "raw": "2",
           "span": {
             "end": 17,
             "start": 16,
