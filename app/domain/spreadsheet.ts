@@ -99,25 +99,19 @@ const functions = {
     if (num.kind !== EvaluationResultKind.NUMBER) {
       throw Object.assign(
         new Error(`MOD() expects a number as the number, got ${num.value}`),
-        {
-          short: '#VALUE!',
-        },
+        { short: '#VALUE!' },
       )
     }
 
     if (divisor.kind !== EvaluationResultKind.NUMBER) {
       throw Object.assign(
         new Error(`MOD() expects a number as the divisor, got ${num.value}`),
-        {
-          short: '#VALUE!',
-        },
+        { short: '#VALUE!' },
       )
     }
 
     if (divisor.value === 0) {
-      throw Object.assign(new Error('MOD() cannot divide by zero'), {
-        short: '#DIV/0!',
-      })
+      throw Object.assign(new Error('MOD() cannot divide by zero'), { short: '#DIV/0!' })
     }
 
     let out = num.value % divisor.value

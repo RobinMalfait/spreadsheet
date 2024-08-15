@@ -185,9 +185,7 @@ export default function Index() {
           className="flex-1 border-none px-2 py-1.5 focus:outline-none"
           value={value}
           onChange={(e) => {
-            flushSync(() => {
-              setValue(e.target.value)
-            })
+            flushSync(() => setValue(e.target.value))
 
             // When the cell is empty, move focus back to the grid If you
             // continue typing, the focus will be in the `input` again. But this
@@ -204,10 +202,9 @@ export default function Index() {
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               // Submit the new value
-              flushSync(() => {
-                spreadsheet.set(cell, e.currentTarget.value)
-                forceRerender()
-              })
+              spreadsheet.set(cell, e.currentTarget.value)
+
+              flushSync(() => forceRerender())
 
               // Move focus back to the grid
               let btn = document.querySelector(`button[data-cell=${cell}]`)
@@ -216,9 +213,7 @@ export default function Index() {
               }
             } else if (e.key === 'Escape') {
               // Reset the value
-              flushSync(() => {
-                setValue(spreadsheet.get(cell))
-              })
+              flushSync(() => setValue(spreadsheet.get(cell)))
 
               // Move focus back to the grid
               let btn = document.querySelector(`button[data-cell=${cell}]`)
@@ -323,18 +318,14 @@ export default function Index() {
                 data-cell={id}
                 type="button"
                 onClick={(e) => {
-                  flushSync(() => {
-                    setActiveCell(id)
-                  })
+                  flushSync(() => setActiveCell(id))
 
                   e.currentTarget.focus()
                 }}
                 onFocus={() => setActiveCell(id)}
                 onDoubleClick={() => {
                   // Ensure the cell is active
-                  flushSync(() => {
-                    setActiveCell(id)
-                  })
+                  flushSync(() => setActiveCell(id))
 
                   // Move focus to the input
                   inputRef.current?.focus()
