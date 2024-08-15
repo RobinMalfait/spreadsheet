@@ -10,6 +10,37 @@ export function PI(...args: EvaluationResult[]): EvaluationResult {
   return { kind: EvaluationResultKind.NUMBER, value: Math.PI }
 }
 
+function exposeMathFunction(name: string, fn: (input: number) => number) {
+  return (arg: EvaluationResult): EvaluationResult => {
+    if (arg.kind !== EvaluationResultKind.NUMBER) {
+      throw Object.assign(new Error(`${name}() expects a number, got ${arg.value}`), {
+        short: '#VALUE!',
+      })
+    }
+
+    return { kind: EvaluationResultKind.NUMBER, value: fn(arg.value) }
+  }
+}
+
+export const ABS = exposeMathFunction('ABS', Math.abs)
+export const ACOS = exposeMathFunction('ACOS', Math.acos)
+export const ACOSH = exposeMathFunction('ACOSH', Math.acosh)
+export const ASIN = exposeMathFunction('ASIN', Math.asin)
+export const ASINH = exposeMathFunction('ASINH', Math.asinh)
+export const ATAN = exposeMathFunction('ATAN', Math.atan)
+export const ATANH = exposeMathFunction('ATANH', Math.atanh)
+export const CBRT = exposeMathFunction('CBRT', Math.cbrt)
+export const COS = exposeMathFunction('COS', Math.cos)
+export const COSH = exposeMathFunction('COSH', Math.cosh)
+export const EXP = exposeMathFunction('EXP', Math.exp)
+export const LOG = exposeMathFunction('LOG', Math.log)
+export const LOG10 = exposeMathFunction('LOG10', Math.log10)
+export const SIN = exposeMathFunction('SIN', Math.sin)
+export const SINH = exposeMathFunction('SINH', Math.sinh)
+export const SQRT = exposeMathFunction('SQRT', Math.sqrt)
+export const TAN = exposeMathFunction('TAN', Math.tan)
+export const TANH = exposeMathFunction('TANH', Math.tanh)
+
 export function SUM(...args: EvaluationResult[]): EvaluationResult {
   let out = 0
 
