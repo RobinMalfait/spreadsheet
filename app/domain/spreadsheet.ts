@@ -279,7 +279,7 @@ export class Spreadsheet {
   }
 }
 
-enum WalkAction {
+export enum WalkAction {
   /** Continue walking, which is the default */
   Continue = 0,
 
@@ -290,10 +290,15 @@ enum WalkAction {
   Stop = 2,
 }
 
-function walk(ast: AST[], visit: (node: AST) => WalkAction): WalkAction {
+export function walk(
+  ast: AST[],
+  visit: (node: AST, parent: AST | null, depth: number) => WalkAction,
+  parent: AST | null = null,
+  depth = 0,
+): WalkAction {
   for (let i = 0; i < ast.length; i++) {
     let node = ast[i]
-    let status = visit(node)
+    let status = visit(node, parent, depth)
 
     // Stop the walk entirely
     if (status === WalkAction.Stop) return status
@@ -313,22 +318,23 @@ function walk(ast: AST[], visit: (node: AST) => WalkAction): WalkAction {
             kind: AstKind.CELL,
             name: cell,
             loc: parseLocation(cell),
+            span: node.span,
           }
 
-          if (walk([cellNode], visit) === WalkAction.Stop) {
+          if (walk([cellNode], visit, node, depth + 1) === WalkAction.Stop) {
             return WalkAction.Stop
           }
         }
         break
 
       case AstKind.FUNCTION:
-        if (walk(node.args, visit) === WalkAction.Stop) {
+        if (walk(node.args, visit, node, depth + 1) === WalkAction.Stop) {
           return WalkAction.Stop
         }
         break
 
       case AstKind.BINARY_EXPRESSION:
-        if (walk([node.lhs, node.rhs], visit) === WalkAction.Stop) {
+        if (walk([node.lhs, node.rhs], visit, node, depth + 1) === WalkAction.Stop) {
           return WalkAction.Stop
         }
         break

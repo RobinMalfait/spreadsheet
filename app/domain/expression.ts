@@ -12,7 +12,14 @@ export enum AstKind {
   BINARY_EXPRESSION = 'BINARY_EXPRESSION',
 }
 
-export type AstCell = {
+interface Span {
+  span: {
+    start: number
+    end: number
+  }
+}
+
+export interface AstCell extends Span {
   kind: AstKind.CELL
   name: string
   loc: {
@@ -21,21 +28,26 @@ export type AstCell = {
   }
 }
 
-export type AstCellRange = {
+export interface AstCellRange extends Span {
   kind: AstKind.RANGE
   start: AstCell
   end: AstCell
 }
 
-export type AstFunction = {
+export interface AstFunction extends Span {
   kind: AstKind.FUNCTION
   name: string
   args: AST[]
 }
 
-export type AstNumberLiteral = {
+export interface AstNumberLiteral extends Span {
   kind: AstKind.NUMBER_LITERAL
   value: number
+}
+
+export interface AstStringLiteral extends Span {
+  kind: AstKind.STRING_LITERAL
+  value: string
 }
 
 export enum BinaryExpressionOperator {
@@ -48,16 +60,11 @@ export enum BinaryExpressionOperator {
   GREATER_THAN = 'GREATER_THAN',
 }
 
-export type AstBinaryExpression = {
+export interface AstBinaryExpression extends Span {
   kind: AstKind.BINARY_EXPRESSION
   operator: BinaryExpressionOperator
   lhs: AST
   rhs: AST
-}
-
-export type AstStringLiteral = {
-  kind: AstKind.STRING_LITERAL
-  value: string
 }
 
 export type AST =
@@ -142,11 +149,17 @@ class ExpressionParser {
 
     if (!this.isBinaryOperator(next)) return lhs
 
+    let rhs = this.parseExpression(nextPrecedence)
+
     return {
       kind: AstKind.BINARY_EXPRESSION,
       operator: this.toBinaryOperator(next),
       lhs,
-      rhs: this.parseExpression(nextPrecedence),
+      rhs,
+      span: {
+        start: lhs.span.start,
+        end: rhs.span.end,
+      },
     }
   }
 
@@ -169,7 +182,14 @@ class ExpressionParser {
         let next = this.tokens[0]
 
         if (next?.kind === TokenKind.NUMBER_LITERAL) {
-          return { kind: AstKind.NUMBER_LITERAL, value: +next.value }
+          return {
+            kind: AstKind.NUMBER_LITERAL,
+            value: +next.value,
+            span: {
+              start: token.span.start,
+              end: next.span.end,
+            },
+          }
         }
 
         throw new Error(`Invalid expression, expected number literal, got ${next.raw}`)
@@ -179,17 +199,24 @@ class ExpressionParser {
         let next = this.tokens[0]
 
         if (next?.kind === TokenKind.NUMBER_LITERAL) {
-          return { kind: AstKind.NUMBER_LITERAL, value: -next.value }
+          return {
+            kind: AstKind.NUMBER_LITERAL,
+            value: -next.value,
+            span: {
+              start: token.span.start,
+              end: next.span.end,
+            },
+          }
         }
 
         throw new Error(`Invalid expression, expected number literal, got ${next.raw}`)
       }
 
       case TokenKind.NUMBER_LITERAL:
-        return { kind: AstKind.NUMBER_LITERAL, value: token.value }
+        return { kind: AstKind.NUMBER_LITERAL, value: token.value, span: token.span }
 
       case TokenKind.STRING_LITERAL:
-        return { kind: AstKind.STRING_LITERAL, value: token.value }
+        return { kind: AstKind.STRING_LITERAL, value: token.value, span: token.span }
 
       case TokenKind.IDENTIFIER: {
         let peek = this.tokens[0]
@@ -199,6 +226,7 @@ class ExpressionParser {
             kind: AstKind.CELL,
             name: token.value,
             loc: parseLocation(token.value),
+            span: token.span,
           }
         }
 
@@ -216,11 +244,17 @@ class ExpressionParser {
               kind: AstKind.CELL,
               name: token.value,
               loc: parseLocation(token.value),
+              span: token.span,
             },
             end: {
               kind: AstKind.CELL,
               name: end.value,
               loc: parseLocation(end.value),
+              span: end.span,
+            },
+            span: {
+              start: token.span.start,
+              end: end.span.end,
             },
           }
         }
@@ -228,8 +262,8 @@ class ExpressionParser {
         // Function call
         if (peek.kind === TokenKind.OPEN_PAREN) {
           // Skip open paren
-          let open = this.tokens.shift()
-          if (open?.kind !== TokenKind.OPEN_PAREN) {
+          let openParen = this.tokens.shift()
+          if (openParen?.kind !== TokenKind.OPEN_PAREN) {
             throw new Error('Invalid function call')
           }
 
@@ -242,6 +276,8 @@ class ExpressionParser {
 
           // Track tokens for next argument
           let argTokens: Token[] = []
+
+          let closeParen: Token | null = null
 
           // Find closing paren
           loop: while (this.tokens.length > 0) {
@@ -263,6 +299,7 @@ class ExpressionParser {
                     args.push(argTokens.splice(0))
                   }
 
+                  closeParen = next
                   break loop
                 }
 
@@ -289,10 +326,18 @@ class ExpressionParser {
             }
           }
 
+          if (!closeParen) {
+            throw new Error('Invalid function call, missing closing paren')
+          }
+
           return {
             kind: AstKind.FUNCTION,
             name: token.value,
             args: args.map((list) => parseExpression(list)),
+            span: {
+              start: token.span.start,
+              end: closeParen.span.end,
+            },
           }
         }
 
@@ -301,6 +346,7 @@ class ExpressionParser {
           kind: AstKind.CELL,
           name: token.value,
           loc: parseLocation(token.value),
+          span: token.span,
         }
       }
 

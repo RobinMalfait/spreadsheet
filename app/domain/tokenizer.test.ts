@@ -343,3 +343,14 @@ describe('math operators', () => {
     `)
   })
 })
+
+describe('span', () => {
+  it('should have the correct span for a token', () => {
+    let input = '1 + 2 * 3 - 40 / B1 + SUM(A1:B2, PI())'
+    let tokens = tokenize(input)
+
+    for (let token of tokens) {
+      expect(input.slice(token.span.start, token.span.end)).toBe(token.raw)
+    }
+  })
+})

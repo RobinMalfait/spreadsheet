@@ -5,6 +5,7 @@ import {
   parseLocation,
   printLocation,
 } from './expression'
+import { WalkAction, walk } from './spreadsheet'
 import { tokenize } from './tokenizer'
 
 const json = String.raw
@@ -43,6 +44,10 @@ describe('parsing', () => {
       expect(parseExpression(tokenize('123'))).toMatchInlineSnapshot(json`
         {
           "kind": "NUMBER_LITERAL",
+          "span": {
+            "end": 3,
+            "start": 0,
+          },
           "value": 123,
         }
       `)
@@ -52,6 +57,10 @@ describe('parsing', () => {
       expect(parseExpression(tokenize('-123'))).toMatchInlineSnapshot(json`
         {
           "kind": "NUMBER_LITERAL",
+          "span": {
+            "end": 4,
+            "start": 0,
+          },
           "value": -123,
         }
       `)
@@ -61,6 +70,10 @@ describe('parsing', () => {
       expect(parseExpression(tokenize('123.456'))).toMatchInlineSnapshot(json`
         {
           "kind": "NUMBER_LITERAL",
+          "span": {
+            "end": 7,
+            "start": 0,
+          },
           "value": 123.456,
         }
       `)
@@ -70,6 +83,10 @@ describe('parsing', () => {
       expect(parseExpression(tokenize('-123.456'))).toMatchInlineSnapshot(json`
         {
           "kind": "NUMBER_LITERAL",
+          "span": {
+            "end": 8,
+            "start": 0,
+          },
           "value": -123.456,
         }
       `)
@@ -81,6 +98,10 @@ describe('parsing', () => {
       expect(parseExpression(tokenize('"hello world"'))).toMatchInlineSnapshot(json`
         {
           "kind": "STRING_LITERAL",
+          "span": {
+            "end": 13,
+            "start": 0,
+          },
           "value": "hello world",
         }
       `)
@@ -92,6 +113,10 @@ describe('parsing', () => {
       expect(parseExpression(tokenize('-123'))).toMatchInlineSnapshot(json`
         {
           "kind": "NUMBER_LITERAL",
+          "span": {
+            "end": 4,
+            "start": 0,
+          },
           "value": -123,
         }
       `)
@@ -101,6 +126,10 @@ describe('parsing', () => {
       expect(parseExpression(tokenize('+123'))).toMatchInlineSnapshot(json`
         {
           "kind": "NUMBER_LITERAL",
+          "span": {
+            "end": 4,
+            "start": 0,
+          },
           "value": 123,
         }
       `)
@@ -112,12 +141,24 @@ describe('parsing', () => {
           "kind": "BINARY_EXPRESSION",
           "lhs": {
             "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 1,
+              "start": 0,
+            },
             "value": 1,
           },
           "operator": "ADD",
           "rhs": {
             "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 5,
+              "start": 4,
+            },
             "value": 2,
+          },
+          "span": {
+            "end": 5,
+            "start": 0,
           },
         }
       `)
@@ -134,11 +175,23 @@ describe('parsing', () => {
               "row": 1,
             },
             "name": "A1",
+            "span": {
+              "end": 2,
+              "start": 0,
+            },
           },
           "operator": "ADD",
           "rhs": {
             "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 6,
+              "start": 5,
+            },
             "value": 2,
+          },
+          "span": {
+            "end": 6,
+            "start": 0,
           },
         }
       `)
@@ -153,18 +206,38 @@ describe('parsing', () => {
             "kind": "BINARY_EXPRESSION",
             "lhs": {
               "kind": "NUMBER_LITERAL",
+              "span": {
+                "end": 1,
+                "start": 0,
+              },
               "value": 1,
             },
             "operator": "ADD",
             "rhs": {
               "kind": "NUMBER_LITERAL",
+              "span": {
+                "end": 5,
+                "start": 4,
+              },
               "value": 2,
+            },
+            "span": {
+              "end": 5,
+              "start": 0,
             },
           },
           "operator": "ADD",
           "rhs": {
             "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 9,
+              "start": 8,
+            },
             "value": 3,
+          },
+          "span": {
+            "end": 9,
+            "start": 0,
           },
         }
       `,
@@ -178,6 +251,10 @@ describe('parsing', () => {
           "kind": "BINARY_EXPRESSION",
           "lhs": {
             "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 1,
+              "start": 0,
+            },
             "value": 1,
           },
           "operator": "ADD",
@@ -187,19 +264,43 @@ describe('parsing', () => {
               "kind": "BINARY_EXPRESSION",
               "lhs": {
                 "kind": "NUMBER_LITERAL",
+                "span": {
+                  "end": 5,
+                  "start": 4,
+                },
                 "value": 2,
               },
               "operator": "MULTIPLY",
               "rhs": {
                 "kind": "NUMBER_LITERAL",
+                "span": {
+                  "end": 9,
+                  "start": 8,
+                },
                 "value": 3,
+              },
+              "span": {
+                "end": 9,
+                "start": 4,
               },
             },
             "operator": "DIVIDE",
             "rhs": {
               "kind": "NUMBER_LITERAL",
+              "span": {
+                "end": 13,
+                "start": 12,
+              },
               "value": 4,
             },
+            "span": {
+              "end": 13,
+              "start": 4,
+            },
+          },
+          "span": {
+            "end": 13,
+            "start": 0,
           },
         }
       `,
@@ -215,18 +316,38 @@ describe('parsing', () => {
             "kind": "BINARY_EXPRESSION",
             "lhs": {
               "kind": "NUMBER_LITERAL",
+              "span": {
+                "end": 2,
+                "start": 1,
+              },
               "value": 1,
             },
             "operator": "ADD",
             "rhs": {
               "kind": "NUMBER_LITERAL",
+              "span": {
+                "end": 6,
+                "start": 5,
+              },
               "value": 2,
+            },
+            "span": {
+              "end": 6,
+              "start": 1,
             },
           },
           "operator": "MULTIPLY",
           "rhs": {
             "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 11,
+              "start": 10,
+            },
             "value": 3,
+          },
+          "span": {
+            "end": 11,
+            "start": 1,
           },
         }
       `,
@@ -245,18 +366,38 @@ describe('parsing', () => {
               "kind": "BINARY_EXPRESSION",
               "lhs": {
                 "kind": "NUMBER_LITERAL",
+                "span": {
+                  "end": 2,
+                  "start": 1,
+                },
                 "value": 1,
               },
               "operator": "ADD",
               "rhs": {
                 "kind": "NUMBER_LITERAL",
+                "span": {
+                  "end": 6,
+                  "start": 5,
+                },
                 "value": 2,
+              },
+              "span": {
+                "end": 6,
+                "start": 1,
               },
             },
             "operator": "MULTIPLY",
             "rhs": {
               "kind": "NUMBER_LITERAL",
+              "span": {
+                "end": 11,
+                "start": 10,
+              },
               "value": 3,
+            },
+            "span": {
+              "end": 11,
+              "start": 1,
             },
           },
           "operator": "ADD",
@@ -264,13 +405,29 @@ describe('parsing', () => {
             "kind": "BINARY_EXPRESSION",
             "lhs": {
               "kind": "NUMBER_LITERAL",
+              "span": {
+                "end": 16,
+                "start": 15,
+              },
               "value": 4,
             },
             "operator": "ADD",
             "rhs": {
               "kind": "NUMBER_LITERAL",
+              "span": {
+                "end": 20,
+                "start": 19,
+              },
               "value": 5,
             },
+            "span": {
+              "end": 20,
+              "start": 15,
+            },
+          },
+          "span": {
+            "end": 20,
+            "start": 1,
           },
         }
       `)
@@ -287,6 +444,10 @@ describe('parsing', () => {
             "row": 1,
           },
           "name": "A1",
+          "span": {
+            "end": 2,
+            "start": 0,
+          },
         }
       `)
       expect(parseExpression(tokenize('A23'))).toMatchInlineSnapshot(json`
@@ -297,6 +458,10 @@ describe('parsing', () => {
             "row": 23,
           },
           "name": "A23",
+          "span": {
+            "end": 3,
+            "start": 0,
+          },
         }
       `)
       expect(parseExpression(tokenize('AZ99'))).toMatchInlineSnapshot(json`
@@ -307,6 +472,10 @@ describe('parsing', () => {
             "row": 99,
           },
           "name": "AZ99",
+          "span": {
+            "end": 4,
+            "start": 0,
+          },
         }
       `)
     })
@@ -323,8 +492,16 @@ describe('parsing', () => {
               "row": 2,
             },
             "name": "B2",
+            "span": {
+              "end": 5,
+              "start": 3,
+            },
           },
           "kind": "RANGE",
+          "span": {
+            "end": 5,
+            "start": 0,
+          },
           "start": {
             "kind": "CELL",
             "loc": {
@@ -332,6 +509,10 @@ describe('parsing', () => {
               "row": 1,
             },
             "name": "A1",
+            "span": {
+              "end": 2,
+              "start": 0,
+            },
           },
         }
       `)
@@ -344,8 +525,16 @@ describe('parsing', () => {
               "row": 20,
             },
             "name": "B20",
+            "span": {
+              "end": 6,
+              "start": 3,
+            },
           },
           "kind": "RANGE",
+          "span": {
+            "end": 6,
+            "start": 0,
+          },
           "start": {
             "kind": "CELL",
             "loc": {
@@ -353,6 +542,10 @@ describe('parsing', () => {
               "row": 1,
             },
             "name": "A1",
+            "span": {
+              "end": 2,
+              "start": 0,
+            },
           },
         }
       `)
@@ -365,8 +558,16 @@ describe('parsing', () => {
               "row": 2,
             },
             "name": "B2",
+            "span": {
+              "end": 6,
+              "start": 4,
+            },
           },
           "kind": "RANGE",
+          "span": {
+            "end": 6,
+            "start": 0,
+          },
           "start": {
             "kind": "CELL",
             "loc": {
@@ -374,6 +575,10 @@ describe('parsing', () => {
               "row": 20,
             },
             "name": "A20",
+            "span": {
+              "end": 3,
+              "start": 0,
+            },
           },
         }
       `)
@@ -386,8 +591,16 @@ describe('parsing', () => {
               "row": 99,
             },
             "name": "ZZ99",
+            "span": {
+              "end": 9,
+              "start": 5,
+            },
           },
           "kind": "RANGE",
+          "span": {
+            "end": 9,
+            "start": 0,
+          },
           "start": {
             "kind": "CELL",
             "loc": {
@@ -395,6 +608,10 @@ describe('parsing', () => {
               "row": 10,
             },
             "name": "AA10",
+            "span": {
+              "end": 4,
+              "start": 0,
+            },
           },
         }
       `)
@@ -409,19 +626,35 @@ describe('parsing', () => {
           "args": [
             {
               "kind": "NUMBER_LITERAL",
+              "span": {
+                "end": 5,
+                "start": 4,
+              },
               "value": 1,
             },
             {
               "kind": "NUMBER_LITERAL",
+              "span": {
+                "end": 8,
+                "start": 7,
+              },
               "value": 2,
             },
             {
               "kind": "NUMBER_LITERAL",
+              "span": {
+                "end": 11,
+                "start": 10,
+              },
               "value": 3,
             },
           ],
           "kind": "FUNCTION",
           "name": "SUM",
+          "span": {
+            "end": 12,
+            "start": 0,
+          },
         }
       `,
       )
@@ -433,6 +666,10 @@ describe('parsing', () => {
           "args": [
             {
               "kind": "NUMBER_LITERAL",
+              "span": {
+                "end": 5,
+                "start": 4,
+              },
               "value": 1,
             },
             {
@@ -442,6 +679,10 @@ describe('parsing', () => {
                 "row": 1,
               },
               "name": "A1",
+              "span": {
+                "end": 9,
+                "start": 7,
+              },
             },
             {
               "end": {
@@ -451,8 +692,16 @@ describe('parsing', () => {
                   "row": 8,
                 },
                 "name": "B8",
+                "span": {
+                  "end": 16,
+                  "start": 14,
+                },
               },
               "kind": "RANGE",
+              "span": {
+                "end": 16,
+                "start": 11,
+              },
               "start": {
                 "kind": "CELL",
                 "loc": {
@@ -460,11 +709,19 @@ describe('parsing', () => {
                   "row": 3,
                 },
                 "name": "A3",
+                "span": {
+                  "end": 13,
+                  "start": 11,
+                },
               },
             },
           ],
           "kind": "FUNCTION",
           "name": "SUM",
+          "span": {
+            "end": 17,
+            "start": 0,
+          },
         }
       `)
     })
@@ -477,35 +734,92 @@ describe('parsing', () => {
           "args": [
             {
               "kind": "NUMBER_LITERAL",
+              "span": {
+                "end": 5,
+                "start": 4,
+              },
               "value": 1,
             },
             {
               "args": [
                 {
                   "kind": "NUMBER_LITERAL",
+                  "span": {
+                    "end": 12,
+                    "start": 11,
+                  },
                   "value": 2,
                 },
                 {
                   "kind": "NUMBER_LITERAL",
+                  "span": {
+                    "end": 15,
+                    "start": 14,
+                  },
                   "value": 3,
                 },
                 {
                   "kind": "NUMBER_LITERAL",
+                  "span": {
+                    "end": 18,
+                    "start": 17,
+                  },
                   "value": 4,
                 },
               ],
               "kind": "FUNCTION",
               "name": "SUM",
+              "span": {
+                "end": 19,
+                "start": 7,
+              },
             },
             {
               "kind": "NUMBER_LITERAL",
+              "span": {
+                "end": 22,
+                "start": 21,
+              },
               "value": 5,
             },
           ],
           "kind": "FUNCTION",
           "name": "SUM",
+          "span": {
+            "end": 23,
+            "start": 0,
+          },
         }
       `)
     })
+  })
+
+  it('should have the correct spans', () => {
+    let input = 'JOIN(" + ", SUM(A1:B1, PRODUCT(A1:B1)), PI())'
+    let ast = parseExpression(tokenize(input))
+
+    let parts: string[] = []
+    walk([ast], (node, _parent, depth) => {
+      parts.push(
+        `${depth.toString().padStart(2, ' ')} | ${'  '.repeat(depth)}${input.slice(node.span.start, node.span.end)}`,
+      )
+      return WalkAction.Continue
+    })
+
+    expect(`\n${parts.join('\n')}\n`).toMatchInlineSnapshot(`
+      "
+       0 | JOIN(" + ", SUM(A1:B1, PRODUCT(A1:B1)), PI())
+       1 |   " + "
+       1 |   SUM(A1:B1, PRODUCT(A1:B1))
+       2 |     A1:B1
+       3 |       A1:B1
+       3 |       A1:B1
+       2 |     PRODUCT(A1:B1)
+       3 |       A1:B1
+       4 |         A1:B1
+       4 |         A1:B1
+       1 |   PI()
+      "
+    `)
   })
 })
