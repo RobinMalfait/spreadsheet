@@ -32,7 +32,7 @@ export const meta: MetaFunction = () => {
 }
 
 const WIDTH = 26
-const HEIGHT = 50
+const HEIGHT = 26
 
 export default function Index() {
   let [cell, setActiveCell] = useState('A1')
@@ -271,7 +271,7 @@ export default function Index() {
               // (which cleared the input).
               if (e.target.value === '') {
                 // Move focus back to the grid
-                let btn = document.querySelector(`button[data-cell=${cell}]`)
+                let btn = document.querySelector(`button[data-cell-button=${cell}]`)
                 if (btn && btn.tagName === 'BUTTON') {
                   ;(btn as HTMLButtonElement).focus()
                 }
@@ -285,7 +285,7 @@ export default function Index() {
                 flushSync(() => forceRerender())
 
                 // Move focus back to the grid
-                let btn = document.querySelector(`button[data-cell=${cell}]`)
+                let btn = document.querySelector(`button[data-cell-button=${cell}]`)
                 if (btn && btn.tagName === 'BUTTON') {
                   ;(btn as HTMLButtonElement).focus()
                 }
@@ -294,7 +294,7 @@ export default function Index() {
                 flushSync(() => setValue(spreadsheet.get(cell)))
 
                 // Move focus back to the grid
-                let btn = document.querySelector(`button[data-cell=${cell}]`)
+                let btn = document.querySelector(`button[data-cell-button=${cell}]`)
                 if (btn && btn.tagName === 'BUTTON') {
                   ;(btn as HTMLButtonElement).focus()
                 }
@@ -397,10 +397,106 @@ export default function Index() {
             })()
 
             return (
-              <div key={id} className="group/cell relative grid">
+              <div
+                key={id}
+                data-cell={id}
+                className={clsx(
+                  'group/cell relative grid',
+                  'border-0.5 border-gray-200',
+
+                  // Scrollable area offsets for sticky headers
+                  '[--offset-padding:var(--spacing-2)]',
+                  'scroll-mt-[calc(var(--col-header-height)+var(--offset-padding))]',
+                  'scroll-ml-[calc(var(--row-header-width)+var(--offset-padding))]',
+
+                  // Top left corner
+                  row === 0 && col === 0 && 'z-30 border-r-1 border-b-1',
+
+                  // Column or row header
+                  row === 0 || col === 0 ? 'z-20 bg-gray-100 text-center' : 'bg-white',
+
+                  // Column header
+                  col === 0 && 'sticky left-0',
+
+                  // Row header
+                  row === 0 && 'sticky top-0',
+
+                  // Active row/column header
+                  ((row === 0 && location.col === col) ||
+                    (col === 0 && location.row === row)) &&
+                    'force:bg-blue-100',
+
+                  // Active cell
+                  cell === id && 'inset-ring-2 inset-ring-blue-500 force:border-blue-500',
+
+                  // Dependency of the current cell
+                  cell !== id &&
+                    dependencies.has(id) &&
+                    'before:pointer-events-none before:absolute before:inset-0 before:border-2 before:border-yellow-500 before:border-dashed before:bg-yellow-200/20',
+                )}
+                ref={(e) => {
+                  if (e && cell === id) {
+                    // Ensure the cell is focused (buttons don't receive focus
+                    // on Safari by default)
+                    if (document.activeElement?.tagName === 'BODY') {
+                      let btn = document.querySelector(`button[data-cell-button=${cell}]`)
+                      if (btn && btn.tagName === 'BUTTON') {
+                        ;(btn as HTMLButtonElement).focus()
+                      }
+                    }
+
+                    // Ensure it's visible
+                    e.scrollIntoView({
+                      behavior: 'instant',
+                      block: 'nearest',
+                      inline: 'nearest',
+                    })
+                  }
+                }}
+              >
+                <div className="absolute top-0 bottom-0 left-0 z-10 flex group-not-hover/cell:hidden">
+                  <button
+                    type="button"
+                    hidden={!editingExpression || cell === id}
+                    onMouseDown={(e) => {
+                      // Inject current cell into the input at the cursor
+                      // position or instead of the selection.
+                      e.preventDefault()
+                      e.stopPropagation()
+
+                      let start = inputRef.current?.selectionStart
+                      if (start == null) return
+
+                      let end = inputRef.current?.selectionEnd
+                      if (end == null) return
+
+                      // Set input value to the new value
+                      flushSync(() => {
+                        setValue((value) => {
+                          let before = value.slice(0, start)
+                          let after = value.slice(end)
+                          let next = `${before}${id}${after}`
+                          return next
+                        })
+                      })
+
+                      // Restore focus to the input
+                      inputRef.current?.focus()
+
+                      // Restore cursor position
+                      inputRef.current?.setSelectionRange(
+                        start + id.length,
+                        start + id.length,
+                      )
+                    }}
+                    className="inset-ring inset-ring-gray-500/20 m-1 rounded-md rounded-md bg-white p-1"
+                  >
+                    <PlusIcon className="size-4 shrink-0 text-gray-400" />
+                  </button>
+                </div>
                 <button
                   disabled={row === 0 || col === 0}
-                  data-cell={id}
+                  data-cell-button={id}
                   type="button"
                   onClick={(e) => {
                     // Move focus to the button, otherwise the button won't
@@ -419,22 +515,6 @@ export default function Index() {
 
                     // Move cursor to the end
                     inputRef.current?.setSelectionRange(value.length, value.length)
-                  }}
-                  ref={(e) => {
-                    if (e && cell === id) {
-                      // Ensure the cell is focused (buttons don't receive focus
-                      // on Safari by default)
-                      if (document.activeElement?.tagName === 'BODY') {
-                        e.focus()
-                      }
-
-                      // Ensure it's visible
-                      e.scrollIntoView({
-                        behavior: 'instant',
-                        block: 'nearest',
-                        inline: 'nearest',
-                      })
-                    }
                   }}
                   onKeyDown={(e) => {
                     if (e.key === 'Tab' || e.key === 'Shift') {
@@ -476,90 +556,11 @@ export default function Index() {
                       inputRef.current?.select()
                     }
                   }}
-                  className={clsx(
-                    'relative focus:outline-none',
-                    'has-data-error:p-0',
-                    'px-2 py-1.5',
-                    'border-0.5 border-gray-200',
-
-                    // Scrollable area offsets for sticky headers
-                    '[--offset-padding:var(--spacing-2)]',
-                    'scroll-mt-[calc(var(--col-header-height)+var(--offset-padding))]',
-                    'scroll-ml-[calc(var(--row-header-width)+var(--offset-padding))]',
-
-                    // Top left corner
-                    row === 0 && col === 0 && 'z-30 border-r-1 border-b-1',
-
-                    // Column or row header
-                    row === 0 || col === 0 ? 'z-20 bg-gray-100 text-center' : 'bg-white',
-
-                    // Column header
-                    col === 0 && 'sticky left-0',
-
-                    // Row header
-                    row === 0 && 'sticky top-0',
-
-                    // Active row/column header
-                    ((row === 0 && location.col === col) ||
-                      (col === 0 && location.row === row)) &&
-                      'force:bg-blue-100',
-
-                    // Active cell
-                    cell === id &&
-                      'inset-ring-2 inset-ring-blue-500 force:border-blue-500',
-
-                    // Dependency of the current cell
-                    cell !== id &&
-                      dependencies.has(id) &&
-                      'before:absolute before:inset-0 before:border-2 before:border-yellow-500 before:border-dashed before:bg-yellow-200/20',
-                  )}
+                  className="px-2 py-1.5 focus:outline-none has-data-error:p-0"
                   title={alt ?? undefined}
                 >
                   {contents}
                 </button>
-                <div className="absolute z-10 flex group-not-has-hover/cell:hidden">
-                  <button
-                    type="button"
-                    hidden={!editingExpression || cell === id}
-                    onMouseDown={(e) => {
-                      let input = inputRef.current
-
-                      // Inject current cell into the input at the cursor position
-                      // or instead of the selection.
-                      if (editingExpression && input) {
-                        e.preventDefault()
-
-                        let start = input.selectionStart
-                        if (start === null) return
-
-                        let end = input.selectionEnd
-                        if (end === null) return
-
-                        // Set input value to the new value
-                        flushSync(() => {
-                          setValue((value) => {
-                            let before = value.slice(0, start)
-                            let after = value.slice(end)
-                            let next = `${before}${id}${after}`
-                            return next
-                          })
-                        })
-
-                        // Restore focus to the input
-                        inputRef.current?.focus()
-
-                        // Restore cursor position
-                        inputRef.current?.setSelectionRange(
-                          start + id.length,
-                          start + id.length,
-                        )
-                      }
-                    }}
-                    className="inset-ring inset-ring-gray-500/20 m-1 rounded-md rounded-md bg-white p-1"
-                  >
-                    <PlusIcon className="size-4 shrink-0 text-gray-400" />
-                  </button>
-                </div>
               </div>
             )
           })}
