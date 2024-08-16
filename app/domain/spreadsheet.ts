@@ -152,30 +152,26 @@ export class Spreadsheet {
   }
 
   set(cell: string, value: string) {
-    if (value.trim() === '') {
-      this.cells.delete(cell)
-      this._dependencies.delete(cell)
-      return
-    }
-
-    let expression = value[0] === '=' ? value.slice(1) : `"${value}"`
-    if (!expression.trim()) {
-      this.cells.delete(cell)
-      this._dependencies.delete(cell)
-      return
-    }
-
-    let tokens = tokenize(expression)
-    let ast = parseExpression(tokens)
-
-    let dependencies = this._dependencies.get(cell)
+    // Reset state
+    this.cells.delete(cell)
 
     // Clear existing dependencies for this cell
+    let dependencies = this._dependencies.get(cell)
     dependencies.clear()
 
     // Clear the full evaluation cache. Very naive, but let's re-compute
     // everything the moment _something_ changes.
     this.evaluationCache.clear()
+
+    // Value must be filled in
+    if (value.trim() === '') return
+
+    // Expression should exist
+    let expression = value[0] === '=' ? value.slice(1) : `"${value}"`
+    if (expression.trim() === '') return
+
+    let tokens = tokenize(expression)
+    let ast = parseExpression(tokens)
 
     // Track all references in the AST
     walk([ast], (node) => {
