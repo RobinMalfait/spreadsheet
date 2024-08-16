@@ -326,16 +326,18 @@ export default function Index() {
           </button>
         </div>
       </div>
-      <div className="flex overflow-hidden">
+      <div
+        className="flex overflow-hidden"
+        style={
+          {
+            '--columns': WIDTH,
+            '--rows': HEIGHT,
+            '--row-header-width': 'var(--spacing-16)',
+            '--col-header-height': 'var(--spacing-9)',
+          } as CSSProperties
+        }
+      >
         <div
-          style={
-            {
-              '--columns': WIDTH,
-              '--rows': HEIGHT,
-              '--row-header-width': 'var(--spacing-16)',
-              '--col-header-height': 'var(--spacing-9)',
-            } as CSSProperties
-          }
           className={clsx(
             'grid',
             'grid-cols-[var(--row-header-width)_repeat(var(--columns),minmax(calc(var(--row-header-width)*2),1fr))]',
@@ -590,13 +592,13 @@ export default function Index() {
 
               return (
                 <>
-                  <div className="sticky top-0 grid grid-cols-2 border-gray-200 border-b bg-white">
-                    <div className="flex items-center gap-2 p-2">
+                  <div className="sticky top-0 grid h-[var(--col-header-height)] grid-cols-2 border-gray-200 border-b bg-white">
+                    <div className="flex items-center gap-2 px-2">
                       <label>Cell:</label>
                       <small>{cell}</small>
                     </div>
                     {(result === null || result.kind === ComputationResultKind.VALUE) && (
-                      <div className="flex items-center gap-2 p-2">
+                      <div className="flex items-center gap-2 px-2">
                         <label>Result:</label>
                         {result === null ? (
                           <small>N/A</small>
