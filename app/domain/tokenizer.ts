@@ -42,6 +42,7 @@ export enum TokenKind {
   ANGLE_LEFT = 'ANGLE_LEFT',
   EQUALS = 'EQUALS',
   ANGLE_RIGHT = 'ANGLE_RIGHT',
+  UNKNOWN = 'UNKNOWN',
 }
 
 export type Token = (
@@ -59,6 +60,7 @@ export type Token = (
   | { kind: TokenKind.ANGLE_LEFT }
   | { kind: TokenKind.EQUALS }
   | { kind: TokenKind.ANGLE_RIGHT }
+  | { kind: TokenKind.UNKNOWN }
 ) & { raw: string; span: Span }
 
 export function tokenize(input: string): Token[] {
@@ -219,7 +221,12 @@ export function tokenize(input: string): Token[] {
       continue
     }
 
-    throw new Error(`Invalid token: ${input[idx]}`)
+    // Unknown token
+    tokens.push({
+      kind: TokenKind.UNKNOWN,
+      raw: input[idx],
+      span: { start: idx, end: idx + 1 },
+    })
   }
 
   return tokens

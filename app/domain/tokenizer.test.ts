@@ -7,6 +7,21 @@ it('should tokenize an empty string', () => {
   expect(tokenize('')).toMatchInlineSnapshot(json`[]`)
 })
 
+it('should tokenize unknown characters', () => {
+  expect(tokenize('…')).toMatchInlineSnapshot(json`
+    [
+      {
+        "kind": "UNKNOWN",
+        "raw": "…",
+        "span": {
+          "end": 1,
+          "start": 0,
+        },
+      },
+    ]
+  `)
+})
+
 describe('number literal', () => {
   it('should tokenize a number literal (unsigned integer)', () => {
     expect(tokenize('123')).toMatchInlineSnapshot(json`

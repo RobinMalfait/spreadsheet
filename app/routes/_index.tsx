@@ -241,6 +241,19 @@ export default function Index() {
                 )
               }
 
+              // Unknown
+              if (token.kind === TokenKind.UNKNOWN) {
+                return (
+                  <div
+                    key={key}
+                    style={{ '--start': `${token.span.start}ch` } as CSSProperties}
+                    className="absolute translate-x-[calc(1ch+var(--start))] whitespace-pre text-red-500"
+                  >
+                    {token.raw}
+                  </div>
+                )
+              }
+
               return (
                 <div
                   key={key}
