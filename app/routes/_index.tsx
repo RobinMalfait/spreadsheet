@@ -5,6 +5,9 @@ import {
   ComboboxOptions,
 } from '@headlessui/react'
 import {
+  ArrowLeftCircleIcon,
+  ArrowUturnLeftIcon,
+  ArrowUturnRightIcon,
   CalendarIcon,
   ClockIcon,
   ExclamationTriangleIcon,
@@ -12,6 +15,7 @@ import {
 } from '@heroicons/react/16/solid'
 import type { MetaFunction } from '@remix-run/node'
 import clsx from 'clsx'
+import { format, formatDistanceToNowStrict } from 'date-fns'
 import {
   type CSSProperties,
   type MutableRefObject,
@@ -37,6 +41,7 @@ import {
   printEvaluationResult,
 } from '~/domain/spreadsheet'
 import { type Token, TokenKind, tokenize } from '~/domain/tokenizer'
+import { VersionControl } from '~/domain/version-control'
 
 export const meta: MetaFunction = () => {
   return [
@@ -52,11 +57,20 @@ export default function Index() {
   let [cell, setActiveCell] = useState('A1')
   let [value, setValue] = useState('')
   let [debugView, setDebugView] = useState(false)
+  let [historyView, setHistoryView] = useState(false)
   let [, forceRerender] = useReducer(() => ({}), {})
   let inputRef = useRef<HTMLInputElement | null>(null)
   let [editingExpression, setEditingExpression] = useState(false)
 
   let [spreadsheet] = useState(() => new Spreadsheet())
+  let [vcs] = useState(() => {
+    return new VersionControl((cell: string, value: string) => {
+      let current = spreadsheet.get(cell)
+      spreadsheet.set(cell, value)
+      forceRerender()
+      return [cell, current]
+    })
+  })
   let functions = useMemo(() => spreadsheet.functions(), [spreadsheet])
 
   useEffect(() => {
@@ -66,95 +80,95 @@ export default function Index() {
     if (window.location.search !== '?demo') return
 
     // Demo mode
-    spreadsheet.set('A1', 'Double it:')
-    spreadsheet.set('B1', '2')
-    spreadsheet.set('C1', '=PRODUCT(B1, 2)')
-    spreadsheet.set('D1', '=PRODUCT(C1, 2)')
-    spreadsheet.set('E1', '=PRODUCT(D1, 2)')
-    spreadsheet.set('F1', 'Sum:')
-    spreadsheet.set('G1', '=SUM(B1:E1)')
-    spreadsheet.set('F2', 'Product:')
-    spreadsheet.set('G2', '=PRODUCT(B1:E1)')
-    spreadsheet.set('F3', 'Average:')
-    spreadsheet.set('G3', '=AVERAGE(B1:E1)')
+    vcs.commit('A1', 'Double it:')
+    vcs.commit('B1', '2')
+    vcs.commit('C1', '=PRODUCT(B1, 2)')
+    vcs.commit('D1', '=PRODUCT(C1, 2)')
+    vcs.commit('E1', '=PRODUCT(D1, 2)')
+    vcs.commit('F1', 'Sum:')
+    vcs.commit('G1', '=SUM(B1:E1)')
+    vcs.commit('F2', 'Product:')
+    vcs.commit('G2', '=PRODUCT(B1:E1)')
+    vcs.commit('F3', 'Average:')
+    vcs.commit('G3', '=AVERAGE(B1:E1)')
 
-    spreadsheet.set('A2', 'Ref B1:')
-    spreadsheet.set('B2', '=B1')
+    vcs.commit('A2', 'Ref B1:')
+    vcs.commit('B2', '=B1')
 
-    spreadsheet.set('A3', 'Word 1:')
-    spreadsheet.set('A4', 'Word 2:')
-    spreadsheet.set('B3', 'Hello')
-    spreadsheet.set('B4', 'World!')
+    vcs.commit('A3', 'Word 1:')
+    vcs.commit('A4', 'Word 2:')
+    vcs.commit('B3', 'Hello')
+    vcs.commit('B4', 'World!')
 
-    spreadsheet.set('A6', 'Concatenation:')
-    spreadsheet.set('B6', '=CONCAT(B3, " ", B4)')
-    spreadsheet.set('A7', 'Lowercase:')
-    spreadsheet.set('B7', '=LOWER(B6)')
-    spreadsheet.set('A8', 'Uppercase:')
-    spreadsheet.set('B8', '=UPPER(B6)')
+    vcs.commit('A6', 'Concatenation:')
+    vcs.commit('B6', '=CONCAT(B3, " ", B4)')
+    vcs.commit('A7', 'Lowercase:')
+    vcs.commit('B7', '=LOWER(B6)')
+    vcs.commit('A8', 'Uppercase:')
+    vcs.commit('B8', '=UPPER(B6)')
 
-    spreadsheet.set('A10', 'Error handling:')
-    spreadsheet.set('A11', 'Unknown fn:')
-    spreadsheet.set('B11', '=FOOBAR(1, 2, 3)')
+    vcs.commit('A10', 'Error handling:')
+    vcs.commit('A11', 'Unknown fn:')
+    vcs.commit('B11', '=FOOBAR(1, 2, 3)')
 
-    spreadsheet.set('A12', 'Circular refs:')
-    spreadsheet.set('B12', '=SUM(C12, 1)')
-    spreadsheet.set('C12', '=SUM(C13, 1)')
-    spreadsheet.set('C13', '=SUM(B13, 1)')
-    spreadsheet.set('B13', '=SUM(B12, 1)')
+    vcs.commit('A12', 'Circular refs:')
+    vcs.commit('B12', '=SUM(C12, 1)')
+    vcs.commit('C12', '=SUM(C13, 1)')
+    vcs.commit('C13', '=SUM(B13, 1)')
+    vcs.commit('B13', '=SUM(B12, 1)')
 
-    spreadsheet.set('D6', '\u03C0')
-    spreadsheet.set('E6', '=PI()')
+    vcs.commit('D6', '\u03C0')
+    vcs.commit('E6', '=PI()')
 
-    spreadsheet.set('D7', '\u03C4')
-    spreadsheet.set('E7', '=PRODUCT(PI(), 2)')
+    vcs.commit('D7', '\u03C4')
+    vcs.commit('E7', '=PRODUCT(PI(), 2)')
 
-    spreadsheet.set('A14', 'Ref self')
-    spreadsheet.set('B14', '=B14')
-    spreadsheet.set('C14', '=SUM(C14, 1)')
-    spreadsheet.set('D14', '=SUM(D13:D15)')
+    vcs.commit('A14', 'Ref self')
+    vcs.commit('B14', '=B14')
+    vcs.commit('C14', '=SUM(C14, 1)')
+    vcs.commit('D14', '=SUM(D13:D15)')
 
-    spreadsheet.set('A15', 'Ref range B1:C1')
-    spreadsheet.set('B15', '=B1:C1')
+    vcs.commit('A15', 'Ref range B1:C1')
+    vcs.commit('B15', '=B1:C1')
 
-    spreadsheet.set('F5', 'Math:')
-    spreadsheet.set('G5', '=1 + 2 * B2 / C1')
+    vcs.commit('F5', 'Math:')
+    vcs.commit('G5', '=1 + 2 * B2 / C1')
 
-    spreadsheet.set('F9', 'Value:')
-    spreadsheet.set('G9', 'Even or odd?')
+    vcs.commit('F9', 'Value:')
+    vcs.commit('G9', 'Even or odd?')
 
-    spreadsheet.set('F10', '5')
-    spreadsheet.set('G10', '=IF(MOD(F10, 2) = 0, "Even", "Odd")')
+    vcs.commit('F10', '5')
+    vcs.commit('G10', '=IF(MOD(F10, 2) = 0, "Even", "Odd")')
 
-    spreadsheet.set('F11', '8')
-    spreadsheet.set('G11', '=IF(MOD(F11, 2) = 0, "Even", "Odd")')
+    vcs.commit('F11', '8')
+    vcs.commit('G11', '=IF(MOD(F11, 2) = 0, "Even", "Odd")')
 
-    spreadsheet.set('F12', 'Date:')
-    spreadsheet.set('G12', 'Today is:')
-    spreadsheet.set('H12', '=TODAY()')
+    vcs.commit('F12', 'Date:')
+    vcs.commit('G12', 'Today is:')
+    vcs.commit('H12', '=TODAY()')
 
-    spreadsheet.set('I12', 'Time:')
-    spreadsheet.set('J12', '=TIME()')
+    vcs.commit('I12', 'Time:')
+    vcs.commit('J12', '=TIME()')
 
-    spreadsheet.set('G13', 'Now is:')
-    spreadsheet.set('H13', '=NOW()')
-    spreadsheet.set('G14', 'Day:')
-    spreadsheet.set('H14', '=DAY(H12)')
-    spreadsheet.set('G15', 'Month:')
-    spreadsheet.set('H15', '=MONTH(H12)')
-    spreadsheet.set('G16', 'Year:')
-    spreadsheet.set('H16', '=YEAR(H12)')
-    spreadsheet.set('G17', 'Hour:')
-    spreadsheet.set('H17', '=HOUR(H13)')
-    spreadsheet.set('G18', 'Minute:')
-    spreadsheet.set('H18', '=MINUTE(H13)')
-    spreadsheet.set('G19', 'Second:')
-    spreadsheet.set('H19', '=SECOND(H13)')
-    spreadsheet.set('I13', 'Tomorrow is:')
-    spreadsheet.set('J13', '=ADD_DAYS(H12, 1)')
-    spreadsheet.set('I14', 'Yesterday was:')
-    spreadsheet.set('J14', '=SUB_DAYS(H12, 1)')
-  }, [spreadsheet])
+    vcs.commit('G13', 'Now is:')
+    vcs.commit('H13', '=NOW()')
+    vcs.commit('G14', 'Day:')
+    vcs.commit('H14', '=DAY(H12)')
+    vcs.commit('G15', 'Month:')
+    vcs.commit('H15', '=MONTH(H12)')
+    vcs.commit('G16', 'Year:')
+    vcs.commit('H16', '=YEAR(H12)')
+    vcs.commit('G17', 'Hour:')
+    vcs.commit('H17', '=HOUR(H13)')
+    vcs.commit('G18', 'Minute:')
+    vcs.commit('H18', '=MINUTE(H13)')
+    vcs.commit('G19', 'Second:')
+    vcs.commit('H19', '=SECOND(H13)')
+    vcs.commit('I13', 'Tomorrow is:')
+    vcs.commit('J13', '=ADD_DAYS(H12, 1)')
+    vcs.commit('I14', 'Yesterday was:')
+    vcs.commit('J14', '=SUB_DAYS(H12, 1)')
+  }, [vcs, spreadsheet])
 
   // Move active cell
   let moveRight = useCallback(() => {
@@ -383,7 +397,7 @@ export default function Index() {
 
                   // Submit the new value
                   flushSync(() => {
-                    spreadsheet.set(cell, e.currentTarget.value)
+                    vcs.commit(cell, e.currentTarget.value)
                     forceRerender()
                   })
 
@@ -408,8 +422,10 @@ export default function Index() {
               }}
               onBlur={(e) => {
                 setEditingExpression(false)
-                spreadsheet.set(cell, e.target.value)
-                forceRerender()
+                if (spreadsheet.get(cell) !== e.currentTarget.value) {
+                  vcs.commit(cell, e.target.value)
+                  forceRerender()
+                }
               }}
             />
             <ComboboxOptions
@@ -434,7 +450,28 @@ export default function Index() {
             <span>{out.message}</span>
           </span>
         )}
-        <div className="px-2">
+        <div className="flex gap-1 px-2">
+          <button
+            type="button"
+            onClick={() => vcs.undo()}
+            className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 font-medium text-gray-600 text-xs ring-1 ring-gray-500/10 ring-inset"
+          >
+            <ArrowUturnLeftIcon className="size-4 shrink-0 text-gray-400" />
+          </button>
+          <button
+            type="button"
+            onClick={() => vcs.redo()}
+            className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 font-medium text-gray-600 text-xs ring-1 ring-gray-500/10 ring-inset"
+          >
+            <ArrowUturnRightIcon className="size-4 shrink-0 text-gray-400" />
+          </button>
+          <button
+            type="button"
+            onClick={() => setHistoryView((v) => !v)}
+            className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 font-medium text-gray-600 text-xs ring-1 ring-gray-500/10 ring-inset"
+          >
+            <ClockIcon className="size-4 shrink-0 text-gray-400" />
+          </button>
           <button
             type="button"
             onClick={() => setDebugView((v) => !v)}
@@ -595,7 +632,7 @@ export default function Index() {
 
                     // Ensure it's visible
                     e.scrollIntoView({
-                      behavior: 'instant',
+                      behavior: 'auto',
                       block: 'nearest',
                       inline: 'nearest',
                     })
@@ -713,6 +750,37 @@ export default function Index() {
             )
           })}
         </div>
+        {historyView && (
+          <div className="min-w-sm overflow-auto border-gray-200 border-l p-2">
+            {vcs.history().map((commit, _, all) => {
+              let cell = commit.undoArgs[0]
+
+              return (
+                <button
+                  key={commit.id}
+                  type="button"
+                  onMouseMove={() => {
+                    vcs.checkout(commit.id)
+
+                    // Mark the cell as active
+                    setActiveCell(cell)
+                  }}
+                  className={clsx(
+                    'flex w-full items-center justify-between rounded-md bg-white p-2 hover:bg-gray-100',
+                  )}
+                >
+                  <span className="font-mono text-xs">
+                    {commit.id + 1}/{all.length}
+                  </span>
+                  <span className="font-mono">{cell}</span>
+                  <div className="font-mono text-xs">
+                    {format(commit.at, 'yyyy-MM-dd HH:mm:ss')}
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+        )}
         {debugView && (
           <div className="min-w-sm overflow-auto border-gray-200 border-l">
             {(() => {

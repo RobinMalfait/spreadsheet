@@ -1,4 +1,5 @@
 interface Commit<T> {
+  id: number
   at: Date
   redoArgs: T[]
   undoArgs: T[]
@@ -10,9 +11,13 @@ export class VersionControl<Args> {
 
   constructor(private onApply: (...args: Args[]) => Args[]) {}
 
+  history() {
+    return this.commits.slice().reverse()
+  }
+
   commit(...args: NoInfer<Args>[]): number {
     let undoArgs = this.onApply(...args)
-    let commit = { redoArgs: args, undoArgs, at: new Date() }
+    let commit = { id: this.commits.length, redoArgs: args, undoArgs, at: new Date() }
     this.HEAD = this.commits.push(commit) - 1
     return this.HEAD
   }
