@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { visualizeSpreadsheet } from '~/test/utils'
 import { Spreadsheet } from './spreadsheet'
 
 const json = String.raw
@@ -8,14 +9,14 @@ describe('value', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', '123')
 
-    expect(spreadsheet.compute('A1')).toMatchInlineSnapshot(json`
-      {
-        "kind": "VALUE",
-        "value": {
-          "kind": "NUMBER",
-          "value": 123,
-        },
-      }
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────┐
+      │   │ A   │
+      ├───┼─────┤
+      │ 1 │ 123 │
+      └───┴─────┘
+      "
     `)
   })
 })
@@ -26,14 +27,14 @@ describe('expressions', () => {
       let spreadsheet = new Spreadsheet()
       spreadsheet.set('A1', '=SUM(1, 2, 3)')
 
-      expect(spreadsheet.compute('A1')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 6,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬───┐
+        │   │ A │
+        ├───┼───┤
+        │ 1 │ 6 │
+        └───┴───┘
+        "
       `)
     })
 
@@ -43,14 +44,18 @@ describe('expressions', () => {
       spreadsheet.set('A2', '200')
       spreadsheet.set('A3', '=SUM(A1, A2)')
 
-      expect(spreadsheet.compute('A3')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 300,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬─────┐
+        │   │ A   │
+        ├───┼─────┤
+        │ 1 │ 100 │
+        ├───┼─────┤
+        │ 2 │ 200 │
+        ├───┼─────┤
+        │ 3 │ 300 │
+        └───┴─────┘
+        "
       `)
     })
 
@@ -61,14 +66,20 @@ describe('expressions', () => {
       spreadsheet.set('A3', '300')
       spreadsheet.set('A4', '=SUM(A1:A3)')
 
-      expect(spreadsheet.compute('A4')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 600,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬─────┐
+        │   │ A   │
+        ├───┼─────┤
+        │ 1 │ 100 │
+        ├───┼─────┤
+        │ 2 │ 200 │
+        ├───┼─────┤
+        │ 3 │ 300 │
+        ├───┼─────┤
+        │ 4 │ 600 │
+        └───┴─────┘
+        "
       `)
     })
 
@@ -79,14 +90,16 @@ describe('expressions', () => {
       spreadsheet.set('C1', '300')
       spreadsheet.set('A2', '=SUM(A1:C1)')
 
-      expect(spreadsheet.compute('A2')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 600,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬─────┬─────┬─────┐
+        │   │ A   │ B   │ C   │
+        ├───┼─────┼─────┼─────┤
+        │ 1 │ 100 │ 200 │ 300 │
+        ├───┼─────┼─────┼─────┤
+        │ 2 │ 600 │     │     │
+        └───┴─────┴─────┴─────┘
+        "
       `)
     })
 
@@ -101,14 +114,18 @@ describe('expressions', () => {
 
       spreadsheet.set('A3', '=SUM(A1:C2)')
 
-      expect(spreadsheet.compute('A3')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 2100,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬──────┬─────┬─────┐
+        │   │ A    │ B   │ C   │
+        ├───┼──────┼─────┼─────┤
+        │ 1 │ 100  │ 200 │ 300 │
+        ├───┼──────┼─────┼─────┤
+        │ 2 │ 400  │ 500 │ 600 │
+        ├───┼──────┼─────┼─────┤
+        │ 3 │ 2100 │     │     │
+        └───┴──────┴─────┴─────┘
+        "
       `)
     })
 
@@ -121,16 +138,22 @@ describe('expressions', () => {
       spreadsheet.set('A3', '500')
       spreadsheet.set('A4', '600')
 
-      spreadsheet.set('A5', '=SUM(A1:C1, A1:A4)')
+      spreadsheet.set('C4', '=SUM(A1:C1, A1:A4)')
 
-      expect(spreadsheet.compute('A5')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 2200,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬─────┬─────┬──────┐
+        │   │ A   │ B   │ C    │
+        ├───┼─────┼─────┼──────┤
+        │ 1 │ 100 │ 200 │ 300  │
+        ├───┼─────┼─────┼──────┤
+        │ 2 │ 400 │     │      │
+        ├───┼─────┼─────┼──────┤
+        │ 3 │ 500 │     │      │
+        ├───┼─────┼─────┼──────┤
+        │ 4 │ 600 │     │ 2200 │
+        └───┴─────┴─────┴──────┘
+        "
       `)
     })
 
@@ -141,23 +164,20 @@ describe('expressions', () => {
       spreadsheet.set('A3', '=SUM(A1, A2)')
       spreadsheet.set('A4', '=SUM(A1:A2)')
 
-      expect(spreadsheet.compute('A3')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 300,
-          },
-        }
-      `)
-      expect(spreadsheet.compute('A4')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 300,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬─────┐
+        │   │ A   │
+        ├───┼─────┤
+        │ 1 │ 100 │
+        ├───┼─────┤
+        │ 2 │ 200 │
+        ├───┼─────┤
+        │ 3 │ 300 │
+        ├───┼─────┤
+        │ 4 │ 300 │
+        └───┴─────┘
+        "
       `)
     })
   })
@@ -167,14 +187,14 @@ describe('expressions', () => {
       let spreadsheet = new Spreadsheet()
       spreadsheet.set('A1', '=PRODUCT(1, 2, 3)')
 
-      expect(spreadsheet.compute('A1')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 6,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬───┐
+        │   │ A │
+        ├───┼───┤
+        │ 1 │ 6 │
+        └───┴───┘
+        "
       `)
     })
 
@@ -184,14 +204,18 @@ describe('expressions', () => {
       spreadsheet.set('A2', '200')
       spreadsheet.set('A3', '=PRODUCT(A1, A2)')
 
-      expect(spreadsheet.compute('A3')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 20000,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬───────┐
+        │   │ A     │
+        ├───┼───────┤
+        │ 1 │ 100   │
+        ├───┼───────┤
+        │ 2 │ 200   │
+        ├───┼───────┤
+        │ 3 │ 20000 │
+        └───┴───────┘
+        "
       `)
     })
 
@@ -202,14 +226,20 @@ describe('expressions', () => {
       spreadsheet.set('A3', '300')
       spreadsheet.set('A4', '=PRODUCT(A1:A3)')
 
-      expect(spreadsheet.compute('A4')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 6000000,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬─────────┐
+        │   │ A       │
+        ├───┼─────────┤
+        │ 1 │ 100     │
+        ├───┼─────────┤
+        │ 2 │ 200     │
+        ├───┼─────────┤
+        │ 3 │ 300     │
+        ├───┼─────────┤
+        │ 4 │ 6000000 │
+        └───┴─────────┘
+        "
       `)
     })
 
@@ -220,14 +250,16 @@ describe('expressions', () => {
       spreadsheet.set('C1', '300')
       spreadsheet.set('A2', '=PRODUCT(A1:C1)')
 
-      expect(spreadsheet.compute('A2')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 6000000,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬─────────┬─────┬─────┐
+        │   │ A       │ B   │ C   │
+        ├───┼─────────┼─────┼─────┤
+        │ 1 │ 100     │ 200 │ 300 │
+        ├───┼─────────┼─────┼─────┤
+        │ 2 │ 6000000 │     │     │
+        └───┴─────────┴─────┴─────┘
+        "
       `)
     })
 
@@ -242,14 +274,18 @@ describe('expressions', () => {
 
       spreadsheet.set('A3', '=PRODUCT(A1:C2)')
 
-      expect(spreadsheet.compute('A3')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 720000000000000,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬─────────────────┬─────┬─────┐
+        │   │ A               │ B   │ C   │
+        ├───┼─────────────────┼─────┼─────┤
+        │ 1 │ 100             │ 200 │ 300 │
+        ├───┼─────────────────┼─────┼─────┤
+        │ 2 │ 400             │ 500 │ 600 │
+        ├───┼─────────────────┼─────┼─────┤
+        │ 3 │ 720000000000000 │     │     │
+        └───┴─────────────────┴─────┴─────┘
+        "
       `)
     })
 
@@ -264,14 +300,22 @@ describe('expressions', () => {
 
       spreadsheet.set('A5', '=PRODUCT(A1:C1, A1:A4)')
 
-      expect(spreadsheet.compute('A5')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 72000000000000000,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬───────────────────┬─────┬─────┐
+        │   │ A                 │ B   │ C   │
+        ├───┼───────────────────┼─────┼─────┤
+        │ 1 │ 100               │ 200 │ 300 │
+        ├───┼───────────────────┼─────┼─────┤
+        │ 2 │ 400               │     │     │
+        ├───┼───────────────────┼─────┼─────┤
+        │ 3 │ 500               │     │     │
+        ├───┼───────────────────┼─────┼─────┤
+        │ 4 │ 600               │     │     │
+        ├───┼───────────────────┼─────┼─────┤
+        │ 5 │ 72000000000000000 │     │     │
+        └───┴───────────────────┴─────┴─────┘
+        "
       `)
     })
 
@@ -282,23 +326,20 @@ describe('expressions', () => {
       spreadsheet.set('A3', '=PRODUCT(A1,A2)')
       spreadsheet.set('A4', '=PRODUCT(A1:A2)')
 
-      expect(spreadsheet.compute('A3')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 20000,
-          },
-        }
-      `)
-      expect(spreadsheet.compute('A4')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 20000,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬───────┐
+        │   │ A     │
+        ├───┼───────┤
+        │ 1 │ 100   │
+        ├───┼───────┤
+        │ 2 │ 200   │
+        ├───┼───────┤
+        │ 3 │ 20000 │
+        ├───┼───────┤
+        │ 4 │ 20000 │
+        └───┴───────┘
+        "
       `)
     })
   })
@@ -308,14 +349,14 @@ describe('expressions', () => {
       let spreadsheet = new Spreadsheet()
       spreadsheet.set('A1', '=AVERAGE(1, 2, 3)')
 
-      expect(spreadsheet.compute('A1')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 2,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬───┐
+        │   │ A │
+        ├───┼───┤
+        │ 1 │ 2 │
+        └───┴───┘
+        "
       `)
     })
 
@@ -325,14 +366,18 @@ describe('expressions', () => {
       spreadsheet.set('A2', '200')
       spreadsheet.set('A3', '=AVERAGE(A1, A2)')
 
-      expect(spreadsheet.compute('A3')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 150,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬─────┐
+        │   │ A   │
+        ├───┼─────┤
+        │ 1 │ 100 │
+        ├───┼─────┤
+        │ 2 │ 200 │
+        ├───┼─────┤
+        │ 3 │ 150 │
+        └───┴─────┘
+        "
       `)
     })
 
@@ -343,14 +388,20 @@ describe('expressions', () => {
       spreadsheet.set('A3', '300')
       spreadsheet.set('A4', '=AVERAGE(A1:A3)')
 
-      expect(spreadsheet.compute('A4')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 200,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬─────┐
+        │   │ A   │
+        ├───┼─────┤
+        │ 1 │ 100 │
+        ├───┼─────┤
+        │ 2 │ 200 │
+        ├───┼─────┤
+        │ 3 │ 300 │
+        ├───┼─────┤
+        │ 4 │ 200 │
+        └───┴─────┘
+        "
       `)
     })
 
@@ -361,14 +412,16 @@ describe('expressions', () => {
       spreadsheet.set('C1', '300')
       spreadsheet.set('A2', '=AVERAGE(A1:C1)')
 
-      expect(spreadsheet.compute('A2')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 200,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬─────┬─────┬─────┐
+        │   │ A   │ B   │ C   │
+        ├───┼─────┼─────┼─────┤
+        │ 1 │ 100 │ 200 │ 300 │
+        ├───┼─────┼─────┼─────┤
+        │ 2 │ 200 │     │     │
+        └───┴─────┴─────┴─────┘
+        "
       `)
     })
 
@@ -383,14 +436,18 @@ describe('expressions', () => {
 
       spreadsheet.set('A3', '=AVERAGE(A1:C2)')
 
-      expect(spreadsheet.compute('A3')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 350,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬─────┬─────┬─────┐
+        │   │ A   │ B   │ C   │
+        ├───┼─────┼─────┼─────┤
+        │ 1 │ 100 │ 200 │ 300 │
+        ├───┼─────┼─────┼─────┤
+        │ 2 │ 400 │ 500 │ 600 │
+        ├───┼─────┼─────┼─────┤
+        │ 3 │ 350 │     │     │
+        └───┴─────┴─────┴─────┘
+        "
       `)
     })
 
@@ -405,14 +462,22 @@ describe('expressions', () => {
 
       spreadsheet.set('A5', '=AVERAGE(A1:C1, A1:A4)')
 
-      expect(spreadsheet.compute('A5')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 314.2857142857143,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬───────────────────┬─────┬─────┐
+        │   │ A                 │ B   │ C   │
+        ├───┼───────────────────┼─────┼─────┤
+        │ 1 │ 100               │ 200 │ 300 │
+        ├───┼───────────────────┼─────┼─────┤
+        │ 2 │ 400               │     │     │
+        ├───┼───────────────────┼─────┼─────┤
+        │ 3 │ 500               │     │     │
+        ├───┼───────────────────┼─────┼─────┤
+        │ 4 │ 600               │     │     │
+        ├───┼───────────────────┼─────┼─────┤
+        │ 5 │ 314.2857142857143 │     │     │
+        └───┴───────────────────┴─────┴─────┘
+        "
       `)
     })
 
@@ -423,23 +488,20 @@ describe('expressions', () => {
       spreadsheet.set('A3', '=AVERAGE(A1,A2)')
       spreadsheet.set('A4', '=AVERAGE(A1:A2)')
 
-      expect(spreadsheet.compute('A3')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 150,
-          },
-        }
-      `)
-      expect(spreadsheet.compute('A4')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 150,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬─────┐
+        │   │ A   │
+        ├───┼─────┤
+        │ 1 │ 100 │
+        ├───┼─────┤
+        │ 2 │ 200 │
+        ├───┼─────┤
+        │ 3 │ 150 │
+        ├───┼─────┤
+        │ 4 │ 150 │
+        └───┴─────┘
+        "
       `)
     })
   })
@@ -449,14 +511,14 @@ describe('expressions', () => {
       let spreadsheet = new Spreadsheet()
       spreadsheet.set('A1', '=PI()')
 
-      expect(spreadsheet.compute('A1')).toMatchInlineSnapshot(json`
-        {
-          "kind": "VALUE",
-          "value": {
-            "kind": "NUMBER",
-            "value": 3.141592653589793,
-          },
-        }
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+        "
+        ┌───┬───────────────────┐
+        │   │ A                 │
+        ├───┼───────────────────┤
+        │ 1 │ 3.141592653589793 │
+        └───┴───────────────────┘
+        "
       `)
     })
   })

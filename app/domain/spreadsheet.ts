@@ -177,6 +177,10 @@ export class Spreadsheet {
 
   private evaluationCache = new Map<string, EvaluationResult[]>()
 
+  get cellNames() {
+    return Array.from(this.cells.keys())
+  }
+
   has(cell: string): boolean {
     return this.cells.has(cell)
   }

@@ -402,7 +402,7 @@ class ExpressionParser {
   }
 }
 
-type Location = {
+export type Location = {
   col: number
   row: number
 }
