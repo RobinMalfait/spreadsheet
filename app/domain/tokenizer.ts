@@ -19,6 +19,7 @@ const EQUALS = 61 // =
 const ANGLE_RIGHT = 62 // >
 const UPPER_A = 65 // A
 const UPPER_Z = 90 // Z
+const UNDERSCORE = 95 // _
 const LOWER_A = 97 // a
 const LOWER_Z = 122 // z
 
@@ -175,7 +176,8 @@ export function tokenize(input: string): Token[] {
       } while (
         ((char >= UPPER_A && char <= UPPER_Z) ||
           (char >= LOWER_A && char <= LOWER_Z) ||
-          (char >= ZERO && char <= NINE)) &&
+          (char >= ZERO && char <= NINE) ||
+          char === UNDERSCORE) &&
         idx < eol
       )
       let end = idx--

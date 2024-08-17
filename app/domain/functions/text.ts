@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import { type EvaluationResult, EvaluationResultKind } from '../spreadsheet'
 
 export function CONCAT(...args: EvaluationResult[]): EvaluationResult {
@@ -13,6 +14,10 @@ export function CONCAT(...args: EvaluationResult[]): EvaluationResult {
         break
       case EvaluationResultKind.BOOLEAN:
         out += arg.string
+        break
+      case EvaluationResultKind.DATE:
+        // TODO: Is this the correct behavior?
+        out += format(arg.value, 'PPPpp')
         break
       default:
         arg satisfies never
@@ -46,6 +51,9 @@ export function JOIN(
       case EvaluationResultKind.BOOLEAN:
         out.push(arg.string)
         break
+      case EvaluationResultKind.DATE:
+        out.push(format(arg.value, 'PPPpp'))
+        break
       default:
         arg satisfies never
     }
@@ -64,6 +72,9 @@ export function LOWER(...args: EvaluationResult[]): EvaluationResult {
         break
       case EvaluationResultKind.BOOLEAN:
         out += arg.string.toLowerCase()
+        break
+      case EvaluationResultKind.DATE:
+        out += format(arg.value, 'PPPpp').toLowerCase()
         break
       case EvaluationResultKind.NUMBER:
         // Explicitly ignored
@@ -86,6 +97,9 @@ export function UPPER(...args: EvaluationResult[]): EvaluationResult {
         break
       case EvaluationResultKind.BOOLEAN:
         out += arg.string.toUpperCase()
+        break
+      case EvaluationResultKind.DATE:
+        out += format(arg.value, 'PPPpp').toUpperCase()
         break
       case EvaluationResultKind.NUMBER:
         // Explicitly ignored

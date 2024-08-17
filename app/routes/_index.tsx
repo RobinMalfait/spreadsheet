@@ -4,9 +4,14 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from '@headlessui/react'
-import { ExclamationTriangleIcon, PlusIcon } from '@heroicons/react/16/solid'
+import {
+  CalendarIcon,
+  ExclamationTriangleIcon,
+  PlusIcon,
+} from '@heroicons/react/16/solid'
 import type { MetaFunction } from '@remix-run/node'
 import clsx from 'clsx'
+import { format } from 'date-fns'
 import {
   type CSSProperties,
   type MutableRefObject,
@@ -27,6 +32,7 @@ import {
 import {
   ComputationResultKind,
   type EvaluationResult,
+  EvaluationResultKind,
   Spreadsheet,
 } from '~/domain/spreadsheet'
 import { type Token, TokenKind, tokenize } from '~/domain/tokenizer'
@@ -121,6 +127,28 @@ export default function Index() {
 
     spreadsheet.set('F11', '8')
     spreadsheet.set('G11', '=IF(MOD(F11, 2) = 0, "Even", "Odd")')
+
+    spreadsheet.set('F12', 'Date:')
+    spreadsheet.set('G12', 'Today is:')
+    spreadsheet.set('H12', '=TODAY()')
+    spreadsheet.set('G13', 'Now is:')
+    spreadsheet.set('H13', '=NOW()')
+    spreadsheet.set('G14', 'Day:')
+    spreadsheet.set('H14', '=DAY(H12)')
+    spreadsheet.set('G15', 'Month:')
+    spreadsheet.set('H15', '=MONTH(H12)')
+    spreadsheet.set('G16', 'Year:')
+    spreadsheet.set('H16', '=YEAR(H12)')
+    spreadsheet.set('G17', 'Hour:')
+    spreadsheet.set('H17', '=HOUR(H13)')
+    spreadsheet.set('G18', 'Minute:')
+    spreadsheet.set('H18', '=MINUTE(H13)')
+    spreadsheet.set('G19', 'Second:')
+    spreadsheet.set('H19', '=SECOND(H13)')
+    spreadsheet.set('I13', 'Tomorrow is:')
+    spreadsheet.set('J13', '=ADD_DAYS(H12, 1)')
+    spreadsheet.set('I14', 'Yesterday was:')
+    spreadsheet.set('J14', '=SUB_DAYS(H12, 1)')
   }, [spreadsheet])
 
   // Move active cell
@@ -323,6 +351,7 @@ export default function Index() {
                 'flex-1 border-none px-2 py-1.5 focus:outline-none',
                 value[0] === '=' && 'font-mono',
               )}
+              autoComplete="off"
               value={value}
               onChange={(e) => {
                 flushSync(() => {
@@ -468,14 +497,29 @@ export default function Index() {
                   <div
                     key="value"
                     className={clsx(
-                      out.value.kind === 'NUMBER' && 'text-right',
-                      out.value.kind === 'STRING' && 'truncate text-left',
-                      out.value.kind === 'BOOLEAN' && 'text-center uppercase',
+                      'pointer-events-none',
+                      out.value.kind === EvaluationResultKind.NUMBER &&
+                        'truncate text-right',
+                      out.value.kind === EvaluationResultKind.STRING &&
+                        'truncate text-left',
+                      out.value.kind === EvaluationResultKind.BOOLEAN &&
+                        'text-center uppercase',
+                      out.value.kind === EvaluationResultKind.DATE &&
+                        'flex items-center justify-center gap-1 truncate text-left',
                     )}
                   >
-                    {out.value.value.toString()}
+                    {out.value.kind === EvaluationResultKind.DATE ? (
+                      <>
+                        <CalendarIcon className="size-4 shrink-0 text-gray-400" />
+                        {format(out.value.value, 'P')}
+                      </>
+                    ) : (
+                      out.value.value.toString()
+                    )}
                   </div>,
-                  out.value.value.toString(),
+                  out.value.kind === EvaluationResultKind.DATE
+                    ? format(out.value.value, 'PPPPp')
+                    : out.value.value.toString(),
                 ] as const
               }
 
@@ -642,7 +686,7 @@ export default function Index() {
                       inputRef.current?.select()
                     }
                   }}
-                  className="px-2 py-1.5 focus:outline-none has-data-error:p-0"
+                  className="min-w-0 px-2 py-1.5 focus:outline-none has-data-error:p-0"
                   title={alt ?? undefined}
                 >
                   {contents}
@@ -686,6 +730,8 @@ export default function Index() {
                         <label>Result:</label>
                         {result === null ? (
                           <small>N/A</small>
+                        ) : result.value.kind === EvaluationResultKind.DATE ? (
+                          <small>{format(result.value.value, 'PPPpp')}</small>
                         ) : (
                           <small>{result.value.value}</small>
                         )}
@@ -727,6 +773,8 @@ export default function Index() {
                       <label>Result:</label>
                       {result === null ? (
                         <small>N/A</small>
+                      ) : result.value.kind === EvaluationResultKind.DATE ? (
+                        <small>{format(result.value.value, 'PPPpp')}</small>
                       ) : (
                         <small>{result.value.value}</small>
                       )}

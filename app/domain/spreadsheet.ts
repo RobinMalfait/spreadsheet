@@ -15,12 +15,14 @@ export enum EvaluationResultKind {
   NUMBER = 'NUMBER',
   STRING = 'STRING',
   BOOLEAN = 'BOOLEAN',
+  DATE = 'DATE',
 }
 
 export type EvaluationResult =
   | { kind: EvaluationResultKind.NUMBER; value: number }
   | { kind: EvaluationResultKind.STRING; value: string }
   | { kind: EvaluationResultKind.BOOLEAN; value: boolean; string: 'TRUE' | 'FALSE' }
+  | { kind: EvaluationResultKind.DATE; value: Date }
 
 function evaluateExpression(ast: AST, spreadsheet: Spreadsheet): EvaluationResult[] {
   switch (ast.kind) {
@@ -186,7 +188,8 @@ export class Spreadsheet {
   }
 
   functions() {
-    return Object.keys(functions)
+    let collator = new Intl.Collator('en', { sensitivity: 'base' })
+    return Object.keys(functions).sort(collator.compare)
   }
 
   dependencies(cell: string): Set<string> {
