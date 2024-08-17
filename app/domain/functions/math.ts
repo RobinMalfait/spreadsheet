@@ -183,6 +183,28 @@ export function DIVIDE(lhs: EvaluationResult, rhs: EvaluationResult): Evaluation
   return { kind: EvaluationResultKind.NUMBER, value: out }
 }
 
+export function POWER(lhs: EvaluationResult, rhs: EvaluationResult): EvaluationResult {
+  if (lhs.kind !== EvaluationResultKind.NUMBER) {
+    throw Object.assign(
+      new Error(`POWER() expects a number as the base, got ${lhs.value}`),
+      {
+        short: '#VALUE!',
+      },
+    )
+  }
+
+  if (rhs.kind !== EvaluationResultKind.NUMBER) {
+    throw Object.assign(
+      new Error(`POWER() expects a number as the exponent, got ${rhs.value}`),
+      {
+        short: '#VALUE!',
+      },
+    )
+  }
+
+  return { kind: EvaluationResultKind.NUMBER, value: lhs.value ** rhs.value }
+}
+
 export function AVERAGE(...args: EvaluationResult[]): EvaluationResult {
   let sum = 0
   let count = 0

@@ -75,6 +75,9 @@ function evaluateExpression(ast: AST, spreadsheet: Spreadsheet): EvaluationResul
         right.kind === EvaluationResultKind.NUMBER
       ) {
         switch (ast.operator) {
+          // Math operators
+          case BinaryExpressionOperator.EXPONENT:
+            return [functions.POWER(left, right)]
           case BinaryExpressionOperator.ADD:
             return [functions.SUM(left, right)]
           case BinaryExpressionOperator.SUBTRACT:
@@ -83,6 +86,8 @@ function evaluateExpression(ast: AST, spreadsheet: Spreadsheet): EvaluationResul
             return [functions.MULTIPLY(left, right)]
           case BinaryExpressionOperator.DIVIDE:
             return [functions.DIVIDE(left, right)]
+
+          // Comparison operators
           case BinaryExpressionOperator.EQUALS:
             return left.value === right.value ? [functions.TRUE()] : [functions.FALSE()]
           case BinaryExpressionOperator.NOT_EQUALS:

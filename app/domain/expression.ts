@@ -51,10 +51,14 @@ export interface AstStringLiteral extends Span {
 }
 
 export enum BinaryExpressionOperator {
+  // Math operators
+  EXPONENT = 'EXPONENT',
   MULTIPLY = 'MULTIPLY',
   ADD = 'ADD',
   SUBTRACT = 'SUBTRACT',
   DIVIDE = 'DIVIDE',
+
+  // Comparison operators
   EQUALS = 'EQUALS',
   NOT_EQUALS = 'NOT_EQUALS',
   LESS_THAN = 'LESS_THAN',
@@ -89,10 +93,13 @@ class ExpressionParser {
 
   isBinaryOperator(token: Token) {
     return (
+      // Math operators
+      token.kind === TokenKind.EXPONENT ||
       token.kind === TokenKind.ASTERISK ||
       token.kind === TokenKind.PLUS ||
       token.kind === TokenKind.MINUS ||
       token.kind === TokenKind.DIVIDE ||
+      // Comparison operators
       token.kind === TokenKind.LESS_THAN ||
       token.kind === TokenKind.EQUALS ||
       token.kind === TokenKind.GREATER_THAN ||
@@ -104,6 +111,9 @@ class ExpressionParser {
 
   toBinaryOperator(token: Token) {
     switch (token.kind) {
+      // Math operators
+      case TokenKind.EXPONENT:
+        return BinaryExpressionOperator.EXPONENT
       case TokenKind.ASTERISK:
         return BinaryExpressionOperator.MULTIPLY
       case TokenKind.PLUS:
@@ -112,6 +122,8 @@ class ExpressionParser {
         return BinaryExpressionOperator.SUBTRACT
       case TokenKind.DIVIDE:
         return BinaryExpressionOperator.DIVIDE
+
+      // Comparison operators
       case TokenKind.LESS_THAN:
         return BinaryExpressionOperator.LESS_THAN
       case TokenKind.LESS_THAN_EQUALS:
@@ -130,6 +142,11 @@ class ExpressionParser {
   }
 
   getPrecedence(token: Token) {
+    // Exponentiation
+    if (token.kind === TokenKind.EXPONENT) {
+      return 4
+    }
+
     // Multiplication and division
     if (token.kind === TokenKind.ASTERISK || token.kind === TokenKind.DIVIDE) {
       return 3
@@ -442,6 +459,8 @@ export function printExpression(input: AST): string {
 function printBinaryOperator(operator: BinaryExpressionOperator) {
   switch (operator) {
     // Math operators
+    case BinaryExpressionOperator.EXPONENT:
+      return '^'
     case BinaryExpressionOperator.ADD:
       return '+'
     case BinaryExpressionOperator.SUBTRACT:

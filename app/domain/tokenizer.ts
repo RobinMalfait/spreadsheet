@@ -19,6 +19,7 @@ const EQUALS = 61 // =
 const ANGLE_RIGHT = 62 // >
 const UPPER_A = 65 // A
 const UPPER_Z = 90 // Z
+const CARET = 94 // ^
 const UNDERSCORE = 95 // _
 const LOWER_A = 97 // a
 const LOWER_Z = 122 // z
@@ -40,6 +41,7 @@ export enum TokenKind {
   PLUS = 'PLUS',
   MINUS = 'MINUS',
   DIVIDE = 'DIVIDE',
+  EXPONENT = 'EXPONENT',
   LESS_THAN = 'LESS_THAN',
   LESS_THAN_EQUALS = 'LESS_THAN_EQUALS',
   NOT_EQUALS = 'NOT_EQUALS',
@@ -61,6 +63,7 @@ export type Token = (
   | { kind: TokenKind.PLUS }
   | { kind: TokenKind.MINUS }
   | { kind: TokenKind.DIVIDE }
+  | { kind: TokenKind.EXPONENT }
   | { kind: TokenKind.LESS_THAN }
   | { kind: TokenKind.NOT_EQUALS }
   | { kind: TokenKind.LESS_THAN_EQUALS }
@@ -119,10 +122,28 @@ export function tokenize(input: string): Token[] {
     }
 
     // Math operators
+    if (char === CARET) {
+      tokens.push({
+        kind: TokenKind.EXPONENT,
+        raw: '^',
+        span: { start: idx, end: idx + 1 },
+      })
+      continue
+    }
+
     if (char === ASTERISK) {
       tokens.push({
         kind: TokenKind.ASTERISK,
         raw: '*',
+        span: { start: idx, end: idx + 1 },
+      })
+      continue
+    }
+
+    if (char === FORWARD_SLASH) {
+      tokens.push({
+        kind: TokenKind.DIVIDE,
+        raw: '/',
         span: { start: idx, end: idx + 1 },
       })
       continue
@@ -135,15 +156,6 @@ export function tokenize(input: string): Token[] {
 
     if (char === MINUS) {
       tokens.push({ kind: TokenKind.MINUS, raw: '-', span: { start: idx, end: idx + 1 } })
-      continue
-    }
-
-    if (char === FORWARD_SLASH) {
-      tokens.push({
-        kind: TokenKind.DIVIDE,
-        raw: '/',
-        span: { start: idx, end: idx + 1 },
-      })
       continue
     }
 

@@ -286,6 +286,151 @@ describe('parsing', () => {
   })
 
   describe('math operators', () => {
+    it('should parse the `^` operator', () => {
+      expect(parseExpression(tokenize('1 ^ 2'))).toMatchInlineSnapshot(json`
+        {
+          "kind": "BINARY_EXPRESSION",
+          "lhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 1,
+              "start": 0,
+            },
+            "value": 1,
+          },
+          "operator": "EXPONENT",
+          "rhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 5,
+              "start": 4,
+            },
+            "value": 2,
+          },
+          "span": {
+            "end": 5,
+            "start": 0,
+          },
+        }
+      `)
+    })
+
+    it('should parse the `*` operator', () => {
+      expect(parseExpression(tokenize('1 * 2'))).toMatchInlineSnapshot(json`
+        {
+          "kind": "BINARY_EXPRESSION",
+          "lhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 1,
+              "start": 0,
+            },
+            "value": 1,
+          },
+          "operator": "MULTIPLY",
+          "rhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 5,
+              "start": 4,
+            },
+            "value": 2,
+          },
+          "span": {
+            "end": 5,
+            "start": 0,
+          },
+        }
+      `)
+    })
+
+    it('should parse the `/` operator', () => {
+      expect(parseExpression(tokenize('1 / 2'))).toMatchInlineSnapshot(json`
+        {
+          "kind": "BINARY_EXPRESSION",
+          "lhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 1,
+              "start": 0,
+            },
+            "value": 1,
+          },
+          "operator": "DIVIDE",
+          "rhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 5,
+              "start": 4,
+            },
+            "value": 2,
+          },
+          "span": {
+            "end": 5,
+            "start": 0,
+          },
+        }
+      `)
+    })
+
+    it('should parse the `+` operator', () => {
+      expect(parseExpression(tokenize('1 + 2'))).toMatchInlineSnapshot(json`
+        {
+          "kind": "BINARY_EXPRESSION",
+          "lhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 1,
+              "start": 0,
+            },
+            "value": 1,
+          },
+          "operator": "ADD",
+          "rhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 5,
+              "start": 4,
+            },
+            "value": 2,
+          },
+          "span": {
+            "end": 5,
+            "start": 0,
+          },
+        }
+      `)
+    })
+
+    it('should parse the `-` operator', () => {
+      expect(parseExpression(tokenize('1 - 2'))).toMatchInlineSnapshot(json`
+        {
+          "kind": "BINARY_EXPRESSION",
+          "lhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 1,
+              "start": 0,
+            },
+            "value": 1,
+          },
+          "operator": "SUBTRACT",
+          "rhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 5,
+              "start": 4,
+            },
+            "value": 2,
+          },
+          "span": {
+            "end": 5,
+            "start": 0,
+          },
+        }
+      `)
+    })
+
     it('should parse the unary minus operator', () => {
       expect(parseExpression(tokenize('-123'))).toMatchInlineSnapshot(json`
         {
