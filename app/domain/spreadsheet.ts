@@ -38,11 +38,11 @@ export function printEvaluationResult(result: EvaluationResult): string {
     case EvaluationResultKind.BOOLEAN:
       return result.value ? 'TRUE' : 'FALSE'
     case EvaluationResultKind.DATETIME:
-      return format(result.value, 'Pp')
+      return format(result.value, 'yyyy-MM-dd HH:mm:ss')
     case EvaluationResultKind.DATE:
-      return format(result.value, 'P')
+      return format(result.value, 'yyyy-MM-dd')
     case EvaluationResultKind.TIME:
-      return format(result.value, 'p')
+      return format(result.value, 'HH:mm:ss')
     default:
       result satisfies never
       return ''

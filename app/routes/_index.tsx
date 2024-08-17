@@ -513,6 +513,7 @@ export default function Index() {
                         out.value.kind === EvaluationResultKind.DATE ||
                         out.value.kind === EvaluationResultKind.TIME) &&
                         'flex items-center justify-center gap-1 truncate text-left',
+                      out.value.kind === EvaluationResultKind.DATETIME && 'text-[8px]',
                     )}
                   >
                     {out.value.kind === EvaluationResultKind.DATETIME ||
@@ -737,7 +738,7 @@ export default function Index() {
 
               return (
                 <>
-                  <div className="sticky top-0 grid h-[var(--col-header-height)] grid-cols-2 border-gray-200 border-b bg-white">
+                  <div className="sticky top-0 flex h-[var(--col-header-height)] justify-between border-gray-200 border-b bg-white">
                     <div className="flex items-center gap-2 px-2">
                       <label>Cell:</label>
                       <small>{cell}</small>
@@ -748,7 +749,9 @@ export default function Index() {
                         {result === null ? (
                           <small>N/A</small>
                         ) : (
-                          <small>{printEvaluationResult(result.value)}</small>
+                          <small className="whitespace-pre">
+                            {printEvaluationResult(result.value)}
+                          </small>
                         )}
                       </div>
                     )}
