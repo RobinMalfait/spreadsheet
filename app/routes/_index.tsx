@@ -238,96 +238,51 @@ export default function Index() {
             {tokens.map((token, idx) => {
               let key = idx
 
-              // Function
-              if (
-                token.kind === TokenKind.IDENTIFIER &&
-                tokens[idx + 1]?.kind === TokenKind.OPEN_PAREN
-              ) {
-                return (
-                  <div
-                    key={key}
-                    data-kind={token.kind}
-                    style={{ '--start': `${token.span.start}ch` } as CSSProperties}
-                    className="absolute translate-x-[calc(1ch+var(--start))] whitespace-pre text-purple-500"
-                  >
-                    {token.raw}
-                  </div>
-                )
-              }
+              let color = (() => {
+                // Function
+                if (
+                  token.kind === TokenKind.IDENTIFIER &&
+                  tokens[idx + 1]?.kind === TokenKind.OPEN_PAREN
+                ) {
+                  return 'text-purple-500'
+                }
 
-              // Cell / Cell range
-              if (
-                // Cell
-                (token.kind === TokenKind.IDENTIFIER &&
-                  // Next token is an open paren. This means that the identifier
-                  // is a function call, not a cell reference.
-                  tokens[idx + 1]?.kind !== TokenKind.OPEN_PAREN) ||
-                // Cell range, the identifiers are highlighted already, but the
-                // colon is not yet.
-                (token.kind === TokenKind.COLON &&
-                  tokens[idx - 1]?.kind === TokenKind.IDENTIFIER &&
-                  tokens[idx + 1]?.kind === TokenKind.IDENTIFIER)
-              ) {
-                return (
-                  <div
-                    key={key}
-                    data-kind={token.kind}
-                    style={{ '--start': `${token.span.start}ch` } as CSSProperties}
-                    className="absolute translate-x-[calc(1ch+var(--start))] whitespace-pre text-amber-500"
-                  >
-                    {token.raw}
-                  </div>
-                )
-              }
+                // Cell / Cell range
+                if (
+                  // Cell
+                  (token.kind === TokenKind.IDENTIFIER &&
+                    // Next token is an open paren. This means that the identifier
+                    // is a function call, not a cell reference.
+                    tokens[idx + 1]?.kind !== TokenKind.OPEN_PAREN) ||
+                  // Cell range, the identifiers are highlighted already, but the
+                  // colon is not yet.
+                  (token.kind === TokenKind.COLON &&
+                    tokens[idx - 1]?.kind === TokenKind.IDENTIFIER &&
+                    tokens[idx + 1]?.kind === TokenKind.IDENTIFIER)
+                ) {
+                  return 'text-amber-500'
+                }
 
-              // Numbers
-              if (token.kind === TokenKind.NUMBER_LITERAL) {
-                return (
-                  <div
-                    key={key}
-                    data-kind={token.kind}
-                    style={{ '--start': `${token.span.start}ch` } as CSSProperties}
-                    className="absolute translate-x-[calc(1ch+var(--start))] whitespace-pre text-blue-500"
-                  >
-                    {token.raw}
-                  </div>
-                )
-              }
+                // Numbers
+                if (token.kind === TokenKind.NUMBER_LITERAL) return 'text-blue-500'
 
-              // Strings
-              if (token.kind === TokenKind.STRING_LITERAL) {
-                return (
-                  <div
-                    key={key}
-                    data-kind={token.kind}
-                    style={{ '--start': `${token.span.start}ch` } as CSSProperties}
-                    className="absolute translate-x-[calc(1ch+var(--start))] whitespace-pre text-green-500"
-                  >
-                    {token.raw}
-                  </div>
-                )
-              }
+                // Strings
+                if (token.kind === TokenKind.STRING_LITERAL) return 'text-green-500'
 
-              // Unknown
-              if (token.kind === TokenKind.UNKNOWN) {
-                return (
-                  <div
-                    key={key}
-                    data-kind={token.kind}
-                    style={{ '--start': `${token.span.start}ch` } as CSSProperties}
-                    className="absolute translate-x-[calc(1ch+var(--start))] whitespace-pre text-red-500"
-                  >
-                    {token.raw}
-                  </div>
-                )
-              }
+                // Unknown
+                if (token.kind === TokenKind.UNKNOWN) return 'text-red-500'
+
+                return ''
+              })()
 
               return (
                 <div
                   key={key}
-                  data-kind={token.kind}
                   style={{ '--start': `${token.span.start}ch` } as CSSProperties}
-                  className="absolute translate-x-[calc(1ch+var(--start))] whitespace-pre"
+                  className={clsx(
+                    'absolute translate-x-[calc(1ch+var(--start))] whitespace-pre',
+                    color,
+                  )}
                 >
                   {token.raw}
                 </div>
