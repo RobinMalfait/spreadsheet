@@ -562,7 +562,13 @@ export default function Index() {
                   // Dependency of the current cell
                   cell !== id &&
                     dependencies.has(id) &&
-                    'before:pointer-events-none before:absolute before:inset-0 before:border-2 before:border-yellow-500 before:border-dashed before:bg-yellow-200/20',
+                    clsx(
+                      'before:pointer-events-none before:absolute before:inset-0 before:border-yellow-500 before:border-dashed before:bg-yellow-200/20',
+                      !dependencies.has(leftCell(id)) && 'before:border-l-2',
+                      !dependencies.has(rightCell(id)) && 'before:border-r-2',
+                      !dependencies.has(topCell(id)) && 'before:border-t-2',
+                      !dependencies.has(bottomCell(id)) && 'before:border-b-2',
+                    ),
                 )}
                 ref={(e) => {
                   if (e && cell === id) {
@@ -788,6 +794,28 @@ export default function Index() {
       </div>
     </div>
   )
+}
+
+function topCell(cell: string) {
+  let { col, row } = parseLocation(cell)
+  return printLocation({ col, row: row - 1 })
+}
+
+function rightCell(cell: string) {
+  let { col, row } = parseLocation(cell)
+  return printLocation({ col: col + 1, row })
+}
+
+function bottomCell(cell: string) {
+  let { col, row } = parseLocation(cell)
+  return printLocation({ col, row: row + 1 })
+}
+
+function leftCell(cell: string) {
+  let { col, row } = parseLocation(cell)
+  let out = printLocation({ col: col - 1, row })
+  console.log(cell, out)
+  return out
 }
 
 function useCursorPosition(input: MutableRefObject<HTMLInputElement | null>) {
