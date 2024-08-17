@@ -185,6 +185,10 @@ export class Spreadsheet {
     this.cells.set(cell, [value, ast])
   }
 
+  functions() {
+    return Object.keys(functions)
+  }
+
   dependencies(cell: string): Set<string> {
     return new Set(this._dependencies.get(cell))
   }

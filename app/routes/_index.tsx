@@ -1,8 +1,15 @@
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxOption,
+  ComboboxOptions,
+} from '@headlessui/react'
 import { ExclamationTriangleIcon, PlusIcon } from '@heroicons/react/16/solid'
 import type { MetaFunction } from '@remix-run/node'
 import clsx from 'clsx'
 import {
   type CSSProperties,
+  type MutableRefObject,
   useCallback,
   useEffect,
   useMemo,
@@ -32,7 +39,7 @@ export const meta: MetaFunction = () => {
 }
 
 const WIDTH = 26
-const HEIGHT = 26
+const HEIGHT = 50
 
 export default function Index() {
   let [cell, setActiveCell] = useState('A1')
@@ -43,6 +50,7 @@ export default function Index() {
   let [editingExpression, setEditingExpression] = useState(false)
 
   let [spreadsheet] = useState(() => new Spreadsheet())
+  let functions = useMemo(() => spreadsheet.functions(), [spreadsheet])
 
   useEffect(() => {
     // @ts-expect-error
@@ -172,8 +180,47 @@ export default function Index() {
 
   // Evaluation of the current cell
   let out = spreadsheet.compute(cell)
-  let tokens: Token[] =
-    value.length > 0 ? tokenize(value[0] === '=' ? value.slice(1) : `"${value}"`) : []
+  let tokens: Token[] = useMemo(() => {
+    return value.length > 0
+      ? tokenize(value[0] === '=' ? value.slice(1) : `"${value}"`)
+      : []
+  }, [value])
+
+  // Cursor position
+  let cursor = useCursorPosition(inputRef)
+  if (value[0] === '=') {
+    cursor -= 1
+  }
+
+  // Autocomplete token at cursor position
+  let tokenAtPosition = useMemo(() => {
+    return (
+      tokens.find(
+        (token, idx) =>
+          // We want an identifier
+          token.kind === TokenKind.IDENTIFIER &&
+          // It should be a function call, the open paren might not be there
+          // yet. We do know that we definitely don't want a `:` right before
+          // it, because that would be a cell range.
+          tokens[idx - 1]?.kind !== TokenKind.COLON &&
+          // The cursor is within the token's span
+          cursor >= token.span.start &&
+          cursor <= token.span.end,
+      ) ?? null
+    )
+  }, [tokens, cursor])
+
+  // Autocomplete suggestions
+  let suggestions = useMemo(() => {
+    if (tokenAtPosition === null) return []
+
+    let prefix = tokenAtPosition.raw
+    let matches = functions.filter((fn) => {
+      return fn.toLowerCase().startsWith(prefix.toLowerCase())
+    })
+
+    return matches
+  }, [functions, tokenAtPosition])
 
   // Dependencies of the current cell
   let dependencies = spreadsheet.dependencies(cell)
@@ -191,6 +238,23 @@ export default function Index() {
             {tokens.map((token, idx) => {
               let key = idx
 
+              // Function
+              if (
+                token.kind === TokenKind.IDENTIFIER &&
+                tokens[idx + 1]?.kind === TokenKind.OPEN_PAREN
+              ) {
+                return (
+                  <div
+                    key={key}
+                    data-kind={token.kind}
+                    style={{ '--start': `${token.span.start}ch` } as CSSProperties}
+                    className="absolute translate-x-[calc(1ch+var(--start))] whitespace-pre text-purple-500"
+                  >
+                    {token.raw}
+                  </div>
+                )
+              }
+
               // Cell / Cell range
               if (
                 // Cell
@@ -207,6 +271,7 @@ export default function Index() {
                 return (
                   <div
                     key={key}
+                    data-kind={token.kind}
                     style={{ '--start': `${token.span.start}ch` } as CSSProperties}
                     className="absolute translate-x-[calc(1ch+var(--start))] whitespace-pre text-amber-500"
                   >
@@ -220,6 +285,7 @@ export default function Index() {
                 return (
                   <div
                     key={key}
+                    data-kind={token.kind}
                     style={{ '--start': `${token.span.start}ch` } as CSSProperties}
                     className="absolute translate-x-[calc(1ch+var(--start))] whitespace-pre text-blue-500"
                   >
@@ -233,6 +299,7 @@ export default function Index() {
                 return (
                   <div
                     key={key}
+                    data-kind={token.kind}
                     style={{ '--start': `${token.span.start}ch` } as CSSProperties}
                     className="absolute translate-x-[calc(1ch+var(--start))] whitespace-pre text-green-500"
                   >
@@ -246,6 +313,7 @@ export default function Index() {
                 return (
                   <div
                     key={key}
+                    data-kind={token.kind}
                     style={{ '--start': `${token.span.start}ch` } as CSSProperties}
                     className="absolute translate-x-[calc(1ch+var(--start))] whitespace-pre text-red-500"
                   >
@@ -257,6 +325,7 @@ export default function Index() {
               return (
                 <div
                   key={key}
+                  data-kind={token.kind}
                   style={{ '--start': `${token.span.start}ch` } as CSSProperties}
                   className="absolute translate-x-[calc(1ch+var(--start))] whitespace-pre"
                 >
@@ -265,63 +334,110 @@ export default function Index() {
               )
             })}
           </div>
-          <input
-            ref={inputRef}
-            className={clsx(
-              'flex-1 border-none px-2 py-1.5 focus:outline-none',
-              value[0] === '=' && 'font-mono',
-            )}
+          <Combobox
+            virtual={{ options: suggestions }}
+            immediate
             value={value}
-            onChange={(e) => {
+            onChange={(suggestion) => {
+              if (suggestion === null) return
+              if (tokenAtPosition === null) return
+
+              // Replace the current token with the selected suggestion
+              let prefix = tokenAtPosition
+              let expression = value.slice(1)
+              let newExpression =
+                expression.slice(0, prefix.span.start) +
+                suggestion +
+                expression.slice(prefix.span.end)
+
+              // Update the value
               flushSync(() => {
-                setValue(e.target.value)
-                setEditingExpression(e.target.value[0] === '=')
+                setValue(`=${newExpression}`)
               })
 
-              // When the cell is empty, move focus back to the grid If you
-              // continue typing, the focus will be in the `input` again. But this
-              // allows us to immediately use arrow keys once you hit backspace
-              // (which cleared the input).
-              if (e.target.value === '') {
-                // Move focus back to the grid
-                let btn = document.querySelector(`button[data-cell-button=${cell}]`)
-                if (btn && btn.tagName === 'BUTTON') {
-                  ;(btn as HTMLButtonElement).focus()
-                }
-              }
+              // Move cursor to the end of the suggestion
+              inputRef.current?.setSelectionRange(
+                prefix.span.start + suggestion.length + 1,
+                prefix.span.start + suggestion.length + 1,
+              )
             }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                // Submit the new value
-                spreadsheet.set(cell, e.currentTarget.value)
+          >
+            <ComboboxInput
+              ref={inputRef}
+              className={clsx(
+                'flex-1 border-none px-2 py-1.5 focus:outline-none',
+                value[0] === '=' && 'font-mono',
+              )}
+              value={value}
+              onChange={(e) => {
+                flushSync(() => {
+                  setValue(e.target.value)
+                  setEditingExpression(e.target.value[0] === '=')
+                })
 
-                flushSync(() => forceRerender())
-
-                // Move focus back to the grid
-                let btn = document.querySelector(`button[data-cell-button=${cell}]`)
-                if (btn && btn.tagName === 'BUTTON') {
-                  ;(btn as HTMLButtonElement).focus()
+                // When the cell is empty, move focus back to the grid If you
+                // continue typing, the focus will be in the `input` again. But this
+                // allows us to immediately use arrow keys once you hit backspace
+                // (which cleared the input).
+                if (e.target.value === '') {
+                  // Move focus back to the grid
+                  let btn = document.querySelector(`button[data-cell-button=${cell}]`)
+                  if (btn && btn.tagName === 'BUTTON') {
+                    ;(btn as HTMLButtonElement).focus()
+                  }
                 }
-              } else if (e.key === 'Escape') {
-                // Reset the value
-                flushSync(() => setValue(spreadsheet.get(cell)))
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  // Prevent submission when accepting a suggestion
+                  if (suggestions.length > 0) return
 
-                // Move focus back to the grid
-                let btn = document.querySelector(`button[data-cell-button=${cell}]`)
-                if (btn && btn.tagName === 'BUTTON') {
-                  ;(btn as HTMLButtonElement).focus()
+                  // Submit the new value
+                  flushSync(() => {
+                    spreadsheet.set(cell, e.currentTarget.value)
+                    forceRerender()
+                  })
+
+                  // Move focus back to the grid
+                  let btn = document.querySelector(`button[data-cell-button=${cell}]`)
+                  if (btn && btn.tagName === 'BUTTON') {
+                    ;(btn as HTMLButtonElement).focus()
+                  }
+                } else if (e.key === 'Escape') {
+                  // Reset the value
+                  flushSync(() => setValue(spreadsheet.get(cell)))
+
+                  // Move focus back to the grid
+                  let btn = document.querySelector(`button[data-cell-button=${cell}]`)
+                  if (btn && btn.tagName === 'BUTTON') {
+                    ;(btn as HTMLButtonElement).focus()
+                  }
                 }
-              }
-            }}
-            onFocus={(e) => {
-              setEditingExpression(e.currentTarget.value[0] === '=')
-            }}
-            onBlur={(e) => {
-              setEditingExpression(false)
-              spreadsheet.set(cell, e.target.value)
-              forceRerender()
-            }}
-          />
+              }}
+              onFocus={(e) => {
+                setEditingExpression(e.currentTarget.value[0] === '=')
+              }}
+              onBlur={(e) => {
+                setEditingExpression(false)
+                spreadsheet.set(cell, e.target.value)
+                forceRerender()
+              }}
+            />
+            <ComboboxOptions
+              modal={false}
+              anchor="bottom start"
+              className="inset-ring-1 inset-ring-black/10 z-20 w-96 overflow-auto rounded-md bg-white py-1.5 text-base shadow-lg [--anchor-gap:var(--spacing-2)] [--anchor-padding:var(--spacing-2)] empty:invisible focus:outline-none sm:text-sm"
+            >
+              {({ option }) => (
+                <ComboboxOption
+                  value={option}
+                  className="group relative w-full cursor-default select-none px-3 py-2 text-gray-900 data-focus:bg-slate-100"
+                >
+                  <span className="font-mono">{option}()</span>
+                </ComboboxOption>
+              )}
+            </ComboboxOptions>
+          </Combobox>
         </div>
         {out?.kind === ComputationResultKind.ERROR && (
           <span className="inline-flex items-center gap-1 rounded-md bg-red-50 px-1.5 py-0.5 font-medium text-red-700 text-xs ring-1 ring-red-600/10 ring-inset">
@@ -472,7 +588,7 @@ export default function Index() {
                 <div className="absolute top-0 bottom-0 left-0 z-10 flex group-not-hover/cell:hidden">
                   <button
                     type="button"
-                    hidden={!editingExpression || cell === id}
+                    hidden={row === 0 || col === 0 || !editingExpression || cell === id}
                     onMouseDown={(e) => {
                       // Inject current cell into the input at the cursor
                       // position or instead of the selection.
@@ -669,4 +785,31 @@ export default function Index() {
       </div>
     </div>
   )
+}
+
+function useCursorPosition(input: MutableRefObject<HTMLInputElement | null>) {
+  let [cursor, setCursor] = useState(0)
+
+  useEffect(() => {
+    let el = input.current
+    if (!el) return
+
+    let ac = new AbortController()
+
+    function handle() {
+      if (!el) return
+      setCursor(el.selectionStart ?? 0)
+    }
+
+    // el.addEventListener('input', handle, { signal: ac.signal, passive: true })
+    el.addEventListener('keydown', handle, { signal: ac.signal, passive: true })
+    el.addEventListener('keyup', handle, { signal: ac.signal, passive: true })
+    el.addEventListener('click', handle, { signal: ac.signal, passive: true })
+    el.addEventListener('focus', handle, { signal: ac.signal, passive: true })
+    el.addEventListener('blur', handle, { signal: ac.signal, passive: true })
+
+    return () => ac.abort()
+  }, [input])
+
+  return cursor
 }
