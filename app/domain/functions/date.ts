@@ -47,6 +47,17 @@ export function TODAY(...args: EvaluationResult[]): EvaluationResult {
   return { kind: EvaluationResultKind.DATE, value: startOfDay(new Date()) }
 }
 
+export function TIME(...args: EvaluationResult[]): EvaluationResult {
+  if (args.length !== 0) {
+    throw Object.assign(new Error('TIME() does not take any arguments'), {
+      short: '#VALUE!',
+    })
+  }
+
+  // TIME() – returns the current time
+  return { kind: EvaluationResultKind.TIME, value: new Date() }
+}
+
 export function DAY(date: EvaluationResult): EvaluationResult {
   if (!isDateLike(date)) {
     throw Object.assign(new Error('DAY() requires a date'), {

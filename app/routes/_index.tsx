@@ -132,6 +132,10 @@ export default function Index() {
     spreadsheet.set('F12', 'Date:')
     spreadsheet.set('G12', 'Today is:')
     spreadsheet.set('H12', '=TODAY()')
+
+    spreadsheet.set('I12', 'Time:')
+    spreadsheet.set('J12', '=TIME()')
+
     spreadsheet.set('G13', 'Now is:')
     spreadsheet.set('H13', '=NOW()')
     spreadsheet.set('G14', 'Day:')
