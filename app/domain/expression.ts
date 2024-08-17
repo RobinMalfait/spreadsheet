@@ -92,13 +92,13 @@ class ExpressionParser {
       token.kind === TokenKind.ASTERISK ||
       token.kind === TokenKind.PLUS ||
       token.kind === TokenKind.MINUS ||
-      token.kind === TokenKind.FORWARD_SLASH ||
-      token.kind === TokenKind.ANGLE_LEFT ||
+      token.kind === TokenKind.DIVIDE ||
+      token.kind === TokenKind.LESS_THAN ||
       token.kind === TokenKind.EQUALS ||
-      token.kind === TokenKind.ANGLE_RIGHT ||
-      token.kind === TokenKind.ANGLE_LEFT_EQUALS ||
-      token.kind === TokenKind.ANGLE_RIGHT_EQUALS ||
-      token.kind === TokenKind.ANGLE_LEFT_RIGHT
+      token.kind === TokenKind.GREATER_THAN ||
+      token.kind === TokenKind.LESS_THAN_EQUALS ||
+      token.kind === TokenKind.GREATER_THAN_EQUALS ||
+      token.kind === TokenKind.NOT_EQUALS
     )
   }
 
@@ -110,19 +110,19 @@ class ExpressionParser {
         return BinaryExpressionOperator.ADD
       case TokenKind.MINUS:
         return BinaryExpressionOperator.SUBTRACT
-      case TokenKind.FORWARD_SLASH:
+      case TokenKind.DIVIDE:
         return BinaryExpressionOperator.DIVIDE
-      case TokenKind.ANGLE_LEFT:
+      case TokenKind.LESS_THAN:
         return BinaryExpressionOperator.LESS_THAN
-      case TokenKind.ANGLE_LEFT_EQUALS:
+      case TokenKind.LESS_THAN_EQUALS:
         return BinaryExpressionOperator.LESS_THAN_EQUALS
       case TokenKind.EQUALS:
         return BinaryExpressionOperator.EQUALS
-      case TokenKind.ANGLE_LEFT_RIGHT:
+      case TokenKind.NOT_EQUALS:
         return BinaryExpressionOperator.NOT_EQUALS
-      case TokenKind.ANGLE_RIGHT:
+      case TokenKind.GREATER_THAN:
         return BinaryExpressionOperator.GREATER_THAN
-      case TokenKind.ANGLE_RIGHT_EQUALS:
+      case TokenKind.GREATER_THAN_EQUALS:
         return BinaryExpressionOperator.GREATER_THAN_EQUALS
       default:
         throw new Error(`Invalid binary operator: ${token.raw}`)
@@ -131,7 +131,7 @@ class ExpressionParser {
 
   getPrecedence(token: Token) {
     // Multiplication and division
-    if (token.kind === TokenKind.ASTERISK || token.kind === TokenKind.FORWARD_SLASH) {
+    if (token.kind === TokenKind.ASTERISK || token.kind === TokenKind.DIVIDE) {
       return 3
     }
 
@@ -143,11 +143,11 @@ class ExpressionParser {
     // Comparison operators
     if (
       token.kind === TokenKind.EQUALS ||
-      token.kind === TokenKind.ANGLE_LEFT_RIGHT ||
-      token.kind === TokenKind.ANGLE_LEFT ||
-      token.kind === TokenKind.ANGLE_LEFT_EQUALS ||
-      token.kind === TokenKind.ANGLE_RIGHT ||
-      token.kind === TokenKind.ANGLE_RIGHT_EQUALS
+      token.kind === TokenKind.NOT_EQUALS ||
+      token.kind === TokenKind.LESS_THAN ||
+      token.kind === TokenKind.LESS_THAN_EQUALS ||
+      token.kind === TokenKind.GREATER_THAN ||
+      token.kind === TokenKind.GREATER_THAN_EQUALS
     ) {
       return 1
     }

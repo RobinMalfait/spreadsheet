@@ -27,7 +27,7 @@ describe('number literal', () => {
     expect(tokenize('123')).toMatchInlineSnapshot(json`
       [
         {
-          "kind": "NUMBER",
+          "kind": "NUMBER_LITERAL",
           "raw": "123",
           "span": {
             "end": 3,
@@ -51,7 +51,7 @@ describe('number literal', () => {
           },
         },
         {
-          "kind": "NUMBER",
+          "kind": "NUMBER_LITERAL",
           "raw": "123",
           "span": {
             "end": 4,
@@ -67,7 +67,7 @@ describe('number literal', () => {
     expect(tokenize('123.456')).toMatchInlineSnapshot(json`
       [
         {
-          "kind": "NUMBER",
+          "kind": "NUMBER_LITERAL",
           "raw": "123.456",
           "span": {
             "end": 7,
@@ -91,7 +91,7 @@ describe('number literal', () => {
           },
         },
         {
-          "kind": "NUMBER",
+          "kind": "NUMBER_LITERAL",
           "raw": "123.456",
           "span": {
             "end": 8,
@@ -109,7 +109,7 @@ describe('string literal', () => {
     expect(tokenize('"hello world"')).toMatchInlineSnapshot(json`
       [
         {
-          "kind": "STRING",
+          "kind": "STRING_LITERAL",
           "raw": ""hello world"",
           "span": {
             "end": 13,
@@ -125,7 +125,7 @@ describe('string literal', () => {
     expect(tokenize('"hello world')).toMatchInlineSnapshot(json`
       [
         {
-          "kind": "STRING",
+          "kind": "STRING_LITERAL",
           "raw": ""hello world",
           "span": {
             "end": 13,
@@ -160,7 +160,7 @@ describe('function call', () => {
           },
         },
         {
-          "kind": "NUMBER",
+          "kind": "NUMBER_LITERAL",
           "raw": "1",
           "span": {
             "end": 5,
@@ -201,7 +201,7 @@ describe('function call', () => {
           },
         },
         {
-          "kind": "NUMBER",
+          "kind": "NUMBER_LITERAL",
           "raw": "1",
           "span": {
             "end": 5,
@@ -278,7 +278,7 @@ describe('math operators', () => {
     expect(tokenize('1 + 2 * 3 - 4 / 2')).toMatchInlineSnapshot(json`
       [
         {
-          "kind": "NUMBER",
+          "kind": "NUMBER_LITERAL",
           "raw": "1",
           "span": {
             "end": 1,
@@ -295,7 +295,7 @@ describe('math operators', () => {
           },
         },
         {
-          "kind": "NUMBER",
+          "kind": "NUMBER_LITERAL",
           "raw": "2",
           "span": {
             "end": 5,
@@ -312,7 +312,7 @@ describe('math operators', () => {
           },
         },
         {
-          "kind": "NUMBER",
+          "kind": "NUMBER_LITERAL",
           "raw": "3",
           "span": {
             "end": 9,
@@ -329,7 +329,7 @@ describe('math operators', () => {
           },
         },
         {
-          "kind": "NUMBER",
+          "kind": "NUMBER_LITERAL",
           "raw": "4",
           "span": {
             "end": 13,
@@ -338,7 +338,7 @@ describe('math operators', () => {
           "value": 4,
         },
         {
-          "kind": "FORWARD_SLASH",
+          "kind": "DIVIDE",
           "raw": "/",
           "span": {
             "end": 15,
@@ -346,7 +346,7 @@ describe('math operators', () => {
           },
         },
         {
-          "kind": "NUMBER",
+          "kind": "NUMBER_LITERAL",
           "raw": "2",
           "span": {
             "end": 17,

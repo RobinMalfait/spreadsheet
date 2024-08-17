@@ -30,8 +30,8 @@ type Span = {
 
 export enum TokenKind {
   IDENTIFIER = 'IDENTIFIER',
-  NUMBER_LITERAL = 'NUMBER',
-  STRING_LITERAL = 'STRING',
+  NUMBER_LITERAL = 'NUMBER_LITERAL',
+  STRING_LITERAL = 'STRING_LITERAL',
   COMMA = 'COMMA',
   COLON = 'COLON',
   OPEN_PAREN = 'OPEN_PAREN',
@@ -39,13 +39,13 @@ export enum TokenKind {
   ASTERISK = 'ASTERISK',
   PLUS = 'PLUS',
   MINUS = 'MINUS',
-  FORWARD_SLASH = 'FORWARD_SLASH',
-  ANGLE_LEFT = 'ANGLE_LEFT',
-  ANGLE_LEFT_EQUALS = 'ANGLE_LEFT_EQUALS',
-  ANGLE_LEFT_RIGHT = 'ANGLE_LEFT_RIGHT',
+  DIVIDE = 'DIVIDE',
+  LESS_THAN = 'LESS_THAN',
+  LESS_THAN_EQUALS = 'LESS_THAN_EQUALS',
+  NOT_EQUALS = 'NOT_EQUALS',
   EQUALS = 'EQUALS',
-  ANGLE_RIGHT = 'ANGLE_RIGHT',
-  ANGLE_RIGHT_EQUALS = 'ANGLE_RIGHT_EQUALS',
+  GREATER_THAN = 'GREATER_THAN',
+  GREATER_THAN_EQUALS = 'GREATER_THAN_EQUALS',
   UNKNOWN = 'UNKNOWN',
 }
 
@@ -60,13 +60,13 @@ export type Token = (
   | { kind: TokenKind.ASTERISK }
   | { kind: TokenKind.PLUS }
   | { kind: TokenKind.MINUS }
-  | { kind: TokenKind.FORWARD_SLASH }
-  | { kind: TokenKind.ANGLE_LEFT }
-  | { kind: TokenKind.ANGLE_LEFT_RIGHT }
-  | { kind: TokenKind.ANGLE_LEFT_EQUALS }
+  | { kind: TokenKind.DIVIDE }
+  | { kind: TokenKind.LESS_THAN }
+  | { kind: TokenKind.NOT_EQUALS }
+  | { kind: TokenKind.LESS_THAN_EQUALS }
   | { kind: TokenKind.EQUALS }
-  | { kind: TokenKind.ANGLE_RIGHT }
-  | { kind: TokenKind.ANGLE_RIGHT_EQUALS }
+  | { kind: TokenKind.GREATER_THAN }
+  | { kind: TokenKind.GREATER_THAN_EQUALS }
   | { kind: TokenKind.UNKNOWN }
 ) & { raw: string; span: Span }
 
@@ -140,7 +140,7 @@ export function tokenize(input: string): Token[] {
 
     if (char === FORWARD_SLASH) {
       tokens.push({
-        kind: TokenKind.FORWARD_SLASH,
+        kind: TokenKind.DIVIDE,
         raw: '/',
         span: { start: idx, end: idx + 1 },
       })
@@ -152,21 +152,21 @@ export function tokenize(input: string): Token[] {
       let next = input.charCodeAt(idx + 1)
       if (next === EQUALS) {
         tokens.push({
-          kind: TokenKind.ANGLE_LEFT_EQUALS,
+          kind: TokenKind.LESS_THAN_EQUALS,
           raw: '<=',
           span: { start: idx, end: idx + 2 },
         })
         idx++
       } else if (next === ANGLE_RIGHT) {
         tokens.push({
-          kind: TokenKind.ANGLE_LEFT_RIGHT,
+          kind: TokenKind.NOT_EQUALS,
           raw: '<>',
           span: { start: idx, end: idx + 2 },
         })
         idx++
       } else {
         tokens.push({
-          kind: TokenKind.ANGLE_LEFT,
+          kind: TokenKind.LESS_THAN,
           raw: '<',
           span: { start: idx, end: idx + 1 },
         })
@@ -187,14 +187,14 @@ export function tokenize(input: string): Token[] {
       let next = input.charCodeAt(idx + 1)
       if (next === EQUALS) {
         tokens.push({
-          kind: TokenKind.ANGLE_RIGHT_EQUALS,
+          kind: TokenKind.GREATER_THAN_EQUALS,
           raw: '>=',
           span: { start: idx, end: idx + 2 },
         })
         idx++
       } else {
         tokens.push({
-          kind: TokenKind.ANGLE_RIGHT,
+          kind: TokenKind.GREATER_THAN,
           raw: '>',
           span: { start: idx, end: idx + 1 },
         })
