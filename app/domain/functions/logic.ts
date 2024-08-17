@@ -1,11 +1,11 @@
 import { type EvaluationResult, EvaluationResultKind } from '../spreadsheet'
 
 export function TRUE(): EvaluationResult {
-  return { kind: EvaluationResultKind.BOOLEAN, value: true, string: 'TRUE' }
+  return { kind: EvaluationResultKind.BOOLEAN, value: true }
 }
 
 export function FALSE(): EvaluationResult {
-  return { kind: EvaluationResultKind.BOOLEAN, value: false, string: 'FALSE' }
+  return { kind: EvaluationResultKind.BOOLEAN, value: false }
 }
 
 export function IF(

@@ -1,27 +1,14 @@
-import { format } from 'date-fns'
-import { type EvaluationResult, EvaluationResultKind } from '../spreadsheet'
+import {
+  type EvaluationResult,
+  EvaluationResultKind,
+  printEvaluationResult,
+} from '../spreadsheet'
 
 export function CONCAT(...args: EvaluationResult[]): EvaluationResult {
   let out = ''
 
   for (let arg of args) {
-    switch (arg.kind) {
-      case EvaluationResultKind.NUMBER:
-        out += arg.value.toString()
-        break
-      case EvaluationResultKind.STRING:
-        out += arg.value
-        break
-      case EvaluationResultKind.BOOLEAN:
-        out += arg.string
-        break
-      case EvaluationResultKind.DATE:
-        // TODO: Is this the correct behavior?
-        out += format(arg.value, 'PPPpp')
-        break
-      default:
-        arg satisfies never
-    }
+    out += printEvaluationResult(arg)
   }
 
   return { kind: EvaluationResultKind.STRING, value: out }
@@ -41,22 +28,7 @@ export function JOIN(
   let out: string[] = []
 
   for (let arg of args) {
-    switch (arg.kind) {
-      case EvaluationResultKind.NUMBER:
-        out.push(arg.value.toString())
-        break
-      case EvaluationResultKind.STRING:
-        out.push(arg.value)
-        break
-      case EvaluationResultKind.BOOLEAN:
-        out.push(arg.string)
-        break
-      case EvaluationResultKind.DATE:
-        out.push(format(arg.value, 'PPPpp'))
-        break
-      default:
-        arg satisfies never
-    }
+    out.push(printEvaluationResult(arg))
   }
 
   return { kind: EvaluationResultKind.STRING, value: out.join(delimiter.value) }
@@ -68,13 +40,9 @@ export function LOWER(...args: EvaluationResult[]): EvaluationResult {
   for (let arg of args) {
     switch (arg.kind) {
       case EvaluationResultKind.STRING:
-        out += arg.value.toLowerCase()
-        break
       case EvaluationResultKind.BOOLEAN:
-        out += arg.string.toLowerCase()
-        break
       case EvaluationResultKind.DATE:
-        out += format(arg.value, 'PPPpp').toLowerCase()
+        out += printEvaluationResult(arg).toLowerCase()
         break
       case EvaluationResultKind.NUMBER:
         // Explicitly ignored
@@ -93,13 +61,9 @@ export function UPPER(...args: EvaluationResult[]): EvaluationResult {
   for (let arg of args) {
     switch (arg.kind) {
       case EvaluationResultKind.STRING:
-        out += arg.value.toUpperCase()
-        break
       case EvaluationResultKind.BOOLEAN:
-        out += arg.string.toUpperCase()
-        break
       case EvaluationResultKind.DATE:
-        out += format(arg.value, 'PPPpp').toUpperCase()
+        out += printEvaluationResult(arg).toUpperCase()
         break
       case EvaluationResultKind.NUMBER:
         // Explicitly ignored

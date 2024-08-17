@@ -10,6 +10,7 @@ import {
 } from './expression'
 import * as functions from './functions'
 import { tokenize } from './tokenizer'
+import { format } from 'date-fns'
 
 export enum EvaluationResultKind {
   NUMBER = 'NUMBER',
@@ -21,8 +22,21 @@ export enum EvaluationResultKind {
 export type EvaluationResult =
   | { kind: EvaluationResultKind.NUMBER; value: number }
   | { kind: EvaluationResultKind.STRING; value: string }
-  | { kind: EvaluationResultKind.BOOLEAN; value: boolean; string: 'TRUE' | 'FALSE' }
+  | { kind: EvaluationResultKind.BOOLEAN; value: boolean }
   | { kind: EvaluationResultKind.DATE; value: Date }
+
+export function printEvaluationResult(result: EvaluationResult): string {
+  switch (result.kind) {
+    case EvaluationResultKind.NUMBER:
+      return result.value.toString()
+    case EvaluationResultKind.STRING:
+      return result.value
+    case EvaluationResultKind.BOOLEAN:
+      return result.value ? 'TRUE' : 'FALSE'
+    case EvaluationResultKind.DATE:
+      return format(result.value, 'P')
+  }
+}
 
 function evaluateExpression(ast: AST, spreadsheet: Spreadsheet): EvaluationResult[] {
   switch (ast.kind) {

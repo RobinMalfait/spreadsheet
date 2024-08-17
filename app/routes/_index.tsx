@@ -33,6 +33,7 @@ import {
   ComputationResultKind,
   type EvaluationResult,
   EvaluationResultKind,
+  printEvaluationResult,
   Spreadsheet,
 } from '~/domain/spreadsheet'
 import { type Token, TokenKind, tokenize } from '~/domain/tokenizer'
@@ -511,15 +512,13 @@ export default function Index() {
                     {out.value.kind === EvaluationResultKind.DATE ? (
                       <>
                         <CalendarIcon className="size-4 shrink-0 text-gray-400" />
-                        {format(out.value.value, 'P')}
+                        {printEvaluationResult(out.value)}
                       </>
                     ) : (
-                      out.value.value.toString()
+                      printEvaluationResult(out.value)
                     )}
                   </div>,
-                  out.value.kind === EvaluationResultKind.DATE
-                    ? format(out.value.value, 'PPPPp')
-                    : out.value.value.toString(),
+                  printEvaluationResult(out.value),
                 ] as const
               }
 
@@ -736,10 +735,8 @@ export default function Index() {
                         <label>Result:</label>
                         {result === null ? (
                           <small>N/A</small>
-                        ) : result.value.kind === EvaluationResultKind.DATE ? (
-                          <small>{format(result.value.value, 'PPPpp')}</small>
                         ) : (
-                          <small>{result.value.value}</small>
+                          <small>{printEvaluationResult(result.value)}</small>
                         )}
                       </div>
                     )}
@@ -779,10 +776,8 @@ export default function Index() {
                       <label>Result:</label>
                       {result === null ? (
                         <small>N/A</small>
-                      ) : result.value.kind === EvaluationResultKind.DATE ? (
-                        <small>{format(result.value.value, 'PPPpp')}</small>
                       ) : (
-                        <small>{result.value.value}</small>
+                        <small>{printEvaluationResult(result.value)}</small>
                       )}
                     </div>
                   )}
