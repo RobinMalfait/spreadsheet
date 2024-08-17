@@ -3,6 +3,7 @@ import {
   parseColNumber,
   parseExpression,
   parseLocation,
+  printExpression,
   printLocation,
 } from './expression'
 import { WalkAction, walk } from './spreadsheet'
@@ -103,6 +104,182 @@ describe('parsing', () => {
             "start": 0,
           },
           "value": "hello world",
+        }
+      `)
+    })
+  })
+
+  describe('logic operators', () => {
+    it('should parse the `=` operator', () => {
+      expect(parseExpression(tokenize('1 = 2'))).toMatchInlineSnapshot(json`
+        {
+          "kind": "BINARY_EXPRESSION",
+          "lhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 1,
+              "start": 0,
+            },
+            "value": 1,
+          },
+          "operator": "EQUALS",
+          "rhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 5,
+              "start": 4,
+            },
+            "value": 2,
+          },
+          "span": {
+            "end": 5,
+            "start": 0,
+          },
+        }
+      `)
+    })
+
+    it('should parse the `<>` operator', () => {
+      expect(parseExpression(tokenize('1 <> 2'))).toMatchInlineSnapshot(json`
+        {
+          "kind": "BINARY_EXPRESSION",
+          "lhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 1,
+              "start": 0,
+            },
+            "value": 1,
+          },
+          "operator": "NOT_EQUALS",
+          "rhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 6,
+              "start": 5,
+            },
+            "value": 2,
+          },
+          "span": {
+            "end": 6,
+            "start": 0,
+          },
+        }
+      `)
+    })
+
+    it('should parse the `>` operator', () => {
+      expect(parseExpression(tokenize('1 > 2'))).toMatchInlineSnapshot(json`
+        {
+          "kind": "BINARY_EXPRESSION",
+          "lhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 1,
+              "start": 0,
+            },
+            "value": 1,
+          },
+          "operator": "GREATER_THAN",
+          "rhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 5,
+              "start": 4,
+            },
+            "value": 2,
+          },
+          "span": {
+            "end": 5,
+            "start": 0,
+          },
+        }
+      `)
+    })
+
+    it('should parse the `>=` operator', () => {
+      expect(parseExpression(tokenize('1 >= 2'))).toMatchInlineSnapshot(json`
+        {
+          "kind": "BINARY_EXPRESSION",
+          "lhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 1,
+              "start": 0,
+            },
+            "value": 1,
+          },
+          "operator": "GREATER_THAN_EQUALS",
+          "rhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 6,
+              "start": 5,
+            },
+            "value": 2,
+          },
+          "span": {
+            "end": 6,
+            "start": 0,
+          },
+        }
+      `)
+    })
+
+    it('should parse the `<` operator', () => {
+      expect(parseExpression(tokenize('1 < 2'))).toMatchInlineSnapshot(json`
+        {
+          "kind": "BINARY_EXPRESSION",
+          "lhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 1,
+              "start": 0,
+            },
+            "value": 1,
+          },
+          "operator": "LESS_THAN",
+          "rhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 5,
+              "start": 4,
+            },
+            "value": 2,
+          },
+          "span": {
+            "end": 5,
+            "start": 0,
+          },
+        }
+      `)
+    })
+
+    it('should parse the `<=` operator', () => {
+      expect(parseExpression(tokenize('1 <= 2'))).toMatchInlineSnapshot(json`
+        {
+          "kind": "BINARY_EXPRESSION",
+          "lhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 1,
+              "start": 0,
+            },
+            "value": 1,
+          },
+          "operator": "LESS_THAN_EQUALS",
+          "rhs": {
+            "kind": "NUMBER_LITERAL",
+            "span": {
+              "end": 6,
+              "start": 5,
+            },
+            "value": 2,
+          },
+          "span": {
+            "end": 6,
+            "start": 0,
+          },
         }
       `)
     })

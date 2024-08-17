@@ -41,8 +41,11 @@ export enum TokenKind {
   MINUS = 'MINUS',
   FORWARD_SLASH = 'FORWARD_SLASH',
   ANGLE_LEFT = 'ANGLE_LEFT',
+  ANGLE_LEFT_EQUALS = 'ANGLE_LEFT_EQUALS',
+  ANGLE_LEFT_RIGHT = 'ANGLE_LEFT_RIGHT',
   EQUALS = 'EQUALS',
   ANGLE_RIGHT = 'ANGLE_RIGHT',
+  ANGLE_RIGHT_EQUALS = 'ANGLE_RIGHT_EQUALS',
   UNKNOWN = 'UNKNOWN',
 }
 
@@ -59,8 +62,11 @@ export type Token = (
   | { kind: TokenKind.MINUS }
   | { kind: TokenKind.FORWARD_SLASH }
   | { kind: TokenKind.ANGLE_LEFT }
+  | { kind: TokenKind.ANGLE_LEFT_RIGHT }
+  | { kind: TokenKind.ANGLE_LEFT_EQUALS }
   | { kind: TokenKind.EQUALS }
   | { kind: TokenKind.ANGLE_RIGHT }
+  | { kind: TokenKind.ANGLE_RIGHT_EQUALS }
   | { kind: TokenKind.UNKNOWN }
 ) & { raw: string; span: Span }
 
@@ -141,12 +147,30 @@ export function tokenize(input: string): Token[] {
       continue
     }
 
+    // Comparison operators
     if (char === ANGLE_LEFT) {
-      tokens.push({
-        kind: TokenKind.ANGLE_LEFT,
-        raw: '<',
-        span: { start: idx, end: idx + 1 },
-      })
+      let next = input.charCodeAt(idx + 1)
+      if (next === EQUALS) {
+        tokens.push({
+          kind: TokenKind.ANGLE_LEFT_EQUALS,
+          raw: '<=',
+          span: { start: idx, end: idx + 2 },
+        })
+        idx++
+      } else if (next === ANGLE_RIGHT) {
+        tokens.push({
+          kind: TokenKind.ANGLE_LEFT_RIGHT,
+          raw: '<>',
+          span: { start: idx, end: idx + 2 },
+        })
+        idx++
+      } else {
+        tokens.push({
+          kind: TokenKind.ANGLE_LEFT,
+          raw: '<',
+          span: { start: idx, end: idx + 1 },
+        })
+      }
       continue
     }
 
@@ -160,11 +184,21 @@ export function tokenize(input: string): Token[] {
     }
 
     if (char === ANGLE_RIGHT) {
-      tokens.push({
-        kind: TokenKind.ANGLE_RIGHT,
-        raw: '>',
-        span: { start: idx, end: idx + 1 },
-      })
+      let next = input.charCodeAt(idx + 1)
+      if (next === EQUALS) {
+        tokens.push({
+          kind: TokenKind.ANGLE_RIGHT_EQUALS,
+          raw: '>=',
+          span: { start: idx, end: idx + 2 },
+        })
+        idx++
+      } else {
+        tokens.push({
+          kind: TokenKind.ANGLE_RIGHT,
+          raw: '>',
+          span: { start: idx, end: idx + 1 },
+        })
+      }
       continue
     }
 

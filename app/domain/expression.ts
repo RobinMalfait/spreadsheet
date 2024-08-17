@@ -55,9 +55,12 @@ export enum BinaryExpressionOperator {
   ADD = 'ADD',
   SUBTRACT = 'SUBTRACT',
   DIVIDE = 'DIVIDE',
-  LESS_THAN = 'LESS_THAN',
   EQUALS = 'EQUALS',
+  NOT_EQUALS = 'NOT_EQUALS',
+  LESS_THAN = 'LESS_THAN',
+  LESS_THAN_EQUALS = 'LESS_THAN_EQUALS',
   GREATER_THAN = 'GREATER_THAN',
+  GREATER_THAN_EQUALS = 'GREATER_THAN_EQUALS',
 }
 
 export interface AstBinaryExpression extends Span {
@@ -92,7 +95,10 @@ class ExpressionParser {
       token.kind === TokenKind.FORWARD_SLASH ||
       token.kind === TokenKind.ANGLE_LEFT ||
       token.kind === TokenKind.EQUALS ||
-      token.kind === TokenKind.ANGLE_RIGHT
+      token.kind === TokenKind.ANGLE_RIGHT ||
+      token.kind === TokenKind.ANGLE_LEFT_EQUALS ||
+      token.kind === TokenKind.ANGLE_RIGHT_EQUALS ||
+      token.kind === TokenKind.ANGLE_LEFT_RIGHT
     )
   }
 
@@ -108,29 +114,41 @@ class ExpressionParser {
         return BinaryExpressionOperator.DIVIDE
       case TokenKind.ANGLE_LEFT:
         return BinaryExpressionOperator.LESS_THAN
+      case TokenKind.ANGLE_LEFT_EQUALS:
+        return BinaryExpressionOperator.LESS_THAN_EQUALS
       case TokenKind.EQUALS:
         return BinaryExpressionOperator.EQUALS
+      case TokenKind.ANGLE_LEFT_RIGHT:
+        return BinaryExpressionOperator.NOT_EQUALS
       case TokenKind.ANGLE_RIGHT:
         return BinaryExpressionOperator.GREATER_THAN
+      case TokenKind.ANGLE_RIGHT_EQUALS:
+        return BinaryExpressionOperator.GREATER_THAN_EQUALS
       default:
         throw new Error(`Invalid binary operator: ${token.raw}`)
     }
   }
 
   getPrecedence(token: Token) {
-    if (token.kind === TokenKind.EQUALS) {
-      return 4
-    }
-
-    if (token.kind === TokenKind.ANGLE_LEFT || token.kind === TokenKind.ANGLE_RIGHT) {
+    // Multiplication and division
+    if (token.kind === TokenKind.ASTERISK || token.kind === TokenKind.FORWARD_SLASH) {
       return 3
     }
 
-    if (token.kind === TokenKind.ASTERISK || token.kind === TokenKind.FORWARD_SLASH) {
+    // Addition and subtraction
+    if (token.kind === TokenKind.PLUS || token.kind === TokenKind.MINUS) {
       return 2
     }
 
-    if (token.kind === TokenKind.PLUS || token.kind === TokenKind.MINUS) {
+    // Comparison operators
+    if (
+      token.kind === TokenKind.EQUALS ||
+      token.kind === TokenKind.ANGLE_LEFT_RIGHT ||
+      token.kind === TokenKind.ANGLE_LEFT ||
+      token.kind === TokenKind.ANGLE_LEFT_EQUALS ||
+      token.kind === TokenKind.ANGLE_RIGHT ||
+      token.kind === TokenKind.ANGLE_RIGHT_EQUALS
+    ) {
       return 1
     }
 
@@ -423,20 +441,32 @@ export function printExpression(input: AST): string {
 
 function printBinaryOperator(operator: BinaryExpressionOperator) {
   switch (operator) {
-    case BinaryExpressionOperator.MULTIPLY:
-      return '*'
+    // Math operators
     case BinaryExpressionOperator.ADD:
       return '+'
     case BinaryExpressionOperator.SUBTRACT:
       return '-'
+    case BinaryExpressionOperator.MULTIPLY:
+      return '*'
     case BinaryExpressionOperator.DIVIDE:
       return '/'
-    case BinaryExpressionOperator.LESS_THAN:
-      return '<'
+
+    // Comparison operators
     case BinaryExpressionOperator.EQUALS:
       return '='
+    case BinaryExpressionOperator.NOT_EQUALS:
+      return '<>'
+    case BinaryExpressionOperator.LESS_THAN:
+      return '<'
+    case BinaryExpressionOperator.LESS_THAN_EQUALS:
+      return '<='
     case BinaryExpressionOperator.GREATER_THAN:
       return '>'
+    case BinaryExpressionOperator.GREATER_THAN_EQUALS:
+      return '>='
+
+    default:
+      operator satisfies never
   }
 }
 

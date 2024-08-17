@@ -85,10 +85,16 @@ function evaluateExpression(ast: AST, spreadsheet: Spreadsheet): EvaluationResul
             return [functions.DIVIDE(left, right)]
           case BinaryExpressionOperator.EQUALS:
             return left.value === right.value ? [functions.TRUE()] : [functions.FALSE()]
+          case BinaryExpressionOperator.NOT_EQUALS:
+            return left.value !== right.value ? [functions.TRUE()] : [functions.FALSE()]
           case BinaryExpressionOperator.LESS_THAN:
             return left.value < right.value ? [functions.TRUE()] : [functions.FALSE()]
+          case BinaryExpressionOperator.LESS_THAN_EQUALS:
+            return left.value <= right.value ? [functions.TRUE()] : [functions.FALSE()]
           case BinaryExpressionOperator.GREATER_THAN:
             return left.value > right.value ? [functions.TRUE()] : [functions.FALSE()]
+          case BinaryExpressionOperator.GREATER_THAN_EQUALS:
+            return left.value >= right.value ? [functions.TRUE()] : [functions.FALSE()]
           default:
             ast.operator satisfies never
         }
