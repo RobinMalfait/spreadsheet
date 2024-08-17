@@ -6,12 +6,12 @@ import {
 } from '@headlessui/react'
 import {
   CalendarIcon,
+  ClockIcon,
   ExclamationTriangleIcon,
   PlusIcon,
 } from '@heroicons/react/16/solid'
 import type { MetaFunction } from '@remix-run/node'
 import clsx from 'clsx'
-import { format } from 'date-fns'
 import {
   type CSSProperties,
   type MutableRefObject,
@@ -33,8 +33,8 @@ import {
   ComputationResultKind,
   type EvaluationResult,
   EvaluationResultKind,
-  printEvaluationResult,
   Spreadsheet,
+  printEvaluationResult,
 } from '~/domain/spreadsheet'
 import { type Token, TokenKind, tokenize } from '~/domain/tokenizer'
 
@@ -505,13 +505,21 @@ export default function Index() {
                         'truncate text-left',
                       out.value.kind === EvaluationResultKind.BOOLEAN &&
                         'text-center uppercase',
-                      out.value.kind === EvaluationResultKind.DATE &&
+                      (out.value.kind === EvaluationResultKind.DATETIME ||
+                        out.value.kind === EvaluationResultKind.DATE ||
+                        out.value.kind === EvaluationResultKind.TIME) &&
                         'flex items-center justify-center gap-1 truncate text-left',
                     )}
                   >
-                    {out.value.kind === EvaluationResultKind.DATE ? (
+                    {out.value.kind === EvaluationResultKind.DATETIME ||
+                    out.value.kind === EvaluationResultKind.DATE ? (
                       <>
                         <CalendarIcon className="size-4 shrink-0 text-gray-400" />
+                        {printEvaluationResult(out.value)}
+                      </>
+                    ) : out.value.kind === EvaluationResultKind.TIME ? (
+                      <>
+                        <ClockIcon className="size-4 shrink-0 text-gray-400" />
                         {printEvaluationResult(out.value)}
                       </>
                     ) : (

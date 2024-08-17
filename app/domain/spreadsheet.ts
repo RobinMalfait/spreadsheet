@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import { DefaultMap } from '~/utils/default-map'
 import {
   type AST,
@@ -10,13 +11,14 @@ import {
 } from './expression'
 import * as functions from './functions'
 import { tokenize } from './tokenizer'
-import { format } from 'date-fns'
 
 export enum EvaluationResultKind {
   NUMBER = 'NUMBER',
   STRING = 'STRING',
   BOOLEAN = 'BOOLEAN',
+  DATETIME = 'DATETIME',
   DATE = 'DATE',
+  TIME = 'TIME',
 }
 
 export type EvaluationResult =
@@ -24,6 +26,8 @@ export type EvaluationResult =
   | { kind: EvaluationResultKind.STRING; value: string }
   | { kind: EvaluationResultKind.BOOLEAN; value: boolean }
   | { kind: EvaluationResultKind.DATE; value: Date }
+  | { kind: EvaluationResultKind.DATETIME; value: Date }
+  | { kind: EvaluationResultKind.TIME; value: Date }
 
 export function printEvaluationResult(result: EvaluationResult): string {
   switch (result.kind) {
@@ -33,8 +37,15 @@ export function printEvaluationResult(result: EvaluationResult): string {
       return result.value
     case EvaluationResultKind.BOOLEAN:
       return result.value ? 'TRUE' : 'FALSE'
+    case EvaluationResultKind.DATETIME:
+      return format(result.value, 'Pp')
     case EvaluationResultKind.DATE:
       return format(result.value, 'P')
+    case EvaluationResultKind.TIME:
+      return format(result.value, 'p')
+    default:
+      result satisfies never
+      return ''
   }
 }
 

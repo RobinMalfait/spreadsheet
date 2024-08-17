@@ -11,6 +11,22 @@ import {
 } from 'date-fns'
 import { type EvaluationResult, EvaluationResultKind } from '../spreadsheet'
 
+function isDateLike(arg: EvaluationResult): arg is Extract<
+  EvaluationResult,
+  {
+    kind:
+      | EvaluationResultKind.DATETIME
+      | EvaluationResultKind.DATE
+      | EvaluationResultKind.TIME
+  }
+> {
+  return (
+    arg.kind === EvaluationResultKind.DATETIME ||
+    arg.kind === EvaluationResultKind.DATE ||
+    arg.kind === EvaluationResultKind.TIME
+  )
+}
+
 export function NOW(...args: EvaluationResult[]): EvaluationResult {
   if (args.length > 0) {
     throw Object.assign(new Error('NOW() does not take any arguments'), {
@@ -18,7 +34,7 @@ export function NOW(...args: EvaluationResult[]): EvaluationResult {
     })
   }
 
-  return { kind: EvaluationResultKind.DATE, value: new Date() }
+  return { kind: EvaluationResultKind.DATETIME, value: new Date() }
 }
 
 export function TODAY(...args: EvaluationResult[]): EvaluationResult {
@@ -32,7 +48,7 @@ export function TODAY(...args: EvaluationResult[]): EvaluationResult {
 }
 
 export function DAY(date: EvaluationResult): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATE) {
+  if (!isDateLike(date)) {
     throw Object.assign(new Error('DAY() requires a date'), {
       short: '#VALUE!',
     })
@@ -42,7 +58,7 @@ export function DAY(date: EvaluationResult): EvaluationResult {
 }
 
 export function MONTH(date: EvaluationResult): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATE) {
+  if (!isDateLike(date)) {
     throw Object.assign(new Error('MONTH() requires a date'), {
       short: '#VALUE!',
     })
@@ -52,7 +68,7 @@ export function MONTH(date: EvaluationResult): EvaluationResult {
 }
 
 export function YEAR(date: EvaluationResult): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATE) {
+  if (!isDateLike(date)) {
     throw Object.assign(new Error('YEAR() requires a date'), {
       short: '#VALUE!',
     })
@@ -62,7 +78,7 @@ export function YEAR(date: EvaluationResult): EvaluationResult {
 }
 
 export function HOUR(date: EvaluationResult): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATE) {
+  if (!isDateLike(date)) {
     throw Object.assign(new Error('HOUR() requires a date'), {
       short: '#VALUE!',
     })
@@ -72,7 +88,7 @@ export function HOUR(date: EvaluationResult): EvaluationResult {
 }
 
 export function MINUTE(date: EvaluationResult): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATE) {
+  if (!isDateLike(date)) {
     throw Object.assign(new Error('MINUTE() requires a date'), {
       short: '#VALUE!',
     })
@@ -82,7 +98,7 @@ export function MINUTE(date: EvaluationResult): EvaluationResult {
 }
 
 export function SECOND(date: EvaluationResult): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATE) {
+  if (!isDateLike(date)) {
     throw Object.assign(new Error('SECOND() requires a date'), {
       short: '#VALUE!',
     })
@@ -95,7 +111,7 @@ export function ADD_DAYS(
   date: EvaluationResult,
   days: EvaluationResult,
 ): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATE) {
+  if (!isDateLike(date)) {
     throw Object.assign(new Error('ADD_DAYS() requires a date'), {
       short: '#VALUE!',
     })
@@ -107,14 +123,17 @@ export function ADD_DAYS(
     })
   }
 
-  return { kind: EvaluationResultKind.DATE, value: addDays(date.value, days.value) }
+  return {
+    kind: EvaluationResultKind.DATE,
+    value: addDays(date.value, days.value),
+  }
 }
 
 export function SUB_DAYS(
   date: EvaluationResult,
   days: EvaluationResult,
 ): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATE) {
+  if (!isDateLike(date)) {
     throw Object.assign(new Error('SUB_DAYS() requires a date'), {
       short: '#VALUE!',
     })
@@ -126,5 +145,8 @@ export function SUB_DAYS(
     })
   }
 
-  return { kind: EvaluationResultKind.DATE, value: subDays(date.value, days.value) }
+  return {
+    kind: EvaluationResultKind.DATE,
+    value: subDays(date.value, days.value),
+  }
 }
