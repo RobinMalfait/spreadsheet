@@ -439,7 +439,7 @@ export function parseColNumber(input: string) {
 /**
  * Print AST
  */
-export function printExpression(input: AST): string {
+export function printExpression(input: AST, depth = 0): string {
   switch (input.kind) {
     case AstKind.CELL:
       return input.name
@@ -452,7 +452,9 @@ export function printExpression(input: AST): string {
     case AstKind.STRING_LITERAL:
       return `"${input.value}"`
     case AstKind.BINARY_EXPRESSION:
-      return `(${printExpression(input.lhs)} ${printBinaryOperator(input.operator)} ${printExpression(input.rhs)})`
+      return depth === 0
+        ? `${printExpression(input.lhs, depth + 1)} ${printBinaryOperator(input.operator)} ${printExpression(input.rhs, depth + 1)}`
+        : `(${printExpression(input.lhs, depth + 1)} ${printBinaryOperator(input.operator)} ${printExpression(input.rhs, depth + 1)})`
   }
 }
 
