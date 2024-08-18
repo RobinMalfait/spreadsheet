@@ -217,6 +217,7 @@ class ExpressionParser {
         let next = this.tokens[0]
 
         if (next?.kind === TokenKind.NUMBER_LITERAL) {
+          this.tokens.shift() // Consume next token
           return {
             kind: AstKind.NUMBER_LITERAL,
             value: +next.value,
@@ -234,6 +235,7 @@ class ExpressionParser {
         let next = this.tokens[0]
 
         if (next?.kind === TokenKind.NUMBER_LITERAL) {
+          this.tokens.shift() // Consume next token
           return {
             kind: AstKind.NUMBER_LITERAL,
             value: -next.value,
