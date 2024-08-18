@@ -271,4 +271,157 @@ describe('parsing', () => {
       "
     `)
   })
+
+  // Kitchen sink example testing the actual data structure and re-printed
+  // expression
+  it('should work with a complex expression', () => {
+    let input = 'JOIN(" + ", SUM(A1:B1), 1 * -1 - 2.0 ^ -2.0, PI() <> 3.14)'
+    let ast = parseExpression(tokenize(input))
+
+    expect(printExpression(ast)).toMatchInlineSnapshot(
+      `"JOIN(" + ", SUM(A1:B1), ((1 * -1) - (2 ^ -2)), (PI() <> 3.14))"`,
+    )
+    expect(ast).toMatchInlineSnapshot(json`
+      {
+        "args": [
+          {
+            "kind": "STRING_LITERAL",
+            "span": {
+              "end": 10,
+              "start": 5,
+            },
+            "value": " + ",
+          },
+          {
+            "args": [
+              {
+                "end": {
+                  "kind": "CELL",
+                  "loc": {
+                    "col": 2,
+                    "row": 1,
+                  },
+                  "name": "B1",
+                  "span": {
+                    "end": 21,
+                    "start": 19,
+                  },
+                },
+                "kind": "RANGE",
+                "span": {
+                  "end": 21,
+                  "start": 16,
+                },
+                "start": {
+                  "kind": "CELL",
+                  "loc": {
+                    "col": 1,
+                    "row": 1,
+                  },
+                  "name": "A1",
+                  "span": {
+                    "end": 18,
+                    "start": 16,
+                  },
+                },
+              },
+            ],
+            "kind": "FUNCTION",
+            "name": "SUM",
+            "span": {
+              "end": 22,
+              "start": 12,
+            },
+          },
+          {
+            "kind": "BINARY_EXPRESSION",
+            "lhs": {
+              "kind": "BINARY_EXPRESSION",
+              "lhs": {
+                "kind": "NUMBER_LITERAL",
+                "span": {
+                  "end": 25,
+                  "start": 24,
+                },
+                "value": 1,
+              },
+              "operator": "MULTIPLY",
+              "rhs": {
+                "kind": "NUMBER_LITERAL",
+                "span": {
+                  "end": 30,
+                  "start": 28,
+                },
+                "value": -1,
+              },
+              "span": {
+                "end": 30,
+                "start": 24,
+              },
+            },
+            "operator": "SUBTRACT",
+            "rhs": {
+              "kind": "BINARY_EXPRESSION",
+              "lhs": {
+                "kind": "NUMBER_LITERAL",
+                "span": {
+                  "end": 36,
+                  "start": 33,
+                },
+                "value": 2,
+              },
+              "operator": "EXPONENT",
+              "rhs": {
+                "kind": "NUMBER_LITERAL",
+                "span": {
+                  "end": 43,
+                  "start": 39,
+                },
+                "value": -2,
+              },
+              "span": {
+                "end": 43,
+                "start": 33,
+              },
+            },
+            "span": {
+              "end": 43,
+              "start": 24,
+            },
+          },
+          {
+            "kind": "BINARY_EXPRESSION",
+            "lhs": {
+              "args": [],
+              "kind": "FUNCTION",
+              "name": "PI",
+              "span": {
+                "end": 49,
+                "start": 45,
+              },
+            },
+            "operator": "NOT_EQUALS",
+            "rhs": {
+              "kind": "NUMBER_LITERAL",
+              "span": {
+                "end": 57,
+                "start": 53,
+              },
+              "value": 3.14,
+            },
+            "span": {
+              "end": 57,
+              "start": 45,
+            },
+          },
+        ],
+        "kind": "FUNCTION",
+        "name": "JOIN",
+        "span": {
+          "end": 58,
+          "start": 0,
+        },
+      }
+    `)
+  })
 })
