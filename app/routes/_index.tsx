@@ -130,6 +130,22 @@ export default function Index() {
       vcs.commit('C5', '=ROUND(PRODUCT(B5, F3), 2)')
       vcs.commit('C6', '=ROUND(PRODUCT(B6, F3), 2)')
       vcs.commit('C8', '=SUM(C4:C6)')
+    } else if (window.location.search === '?demo-fat-burning-zone') {
+      vcs.commit('A1', 'Fat Burning Zone')
+      vcs.commit('A2', 'Age:')
+
+      vcs.commit('A3', 'Max Heart Rate:')
+      vcs.commit('B3', '=220 - B2')
+
+      vcs.commit('A4', 'Lower End:')
+      vcs.commit('B4', '=ROUND(PRODUCT(B3, 0.64))')
+      vcs.commit('A5', 'Higher End:')
+      vcs.commit('B5', '=ROUND(PRODUCT(B3, 0.76))')
+
+      // Add some ages
+      vcs.commit('B2', '20')
+      vcs.commit('B2', '25')
+      vcs.commit('B2', '30')
     } else if (window.location.search === '?demo-kitchen-sink') {
       vcs.commit('A1', 'Double it:')
       vcs.commit('B1', '2')
