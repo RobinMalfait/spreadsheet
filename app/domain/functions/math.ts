@@ -298,11 +298,12 @@ export function CEIL(
 
 export function ROUND(
   arg: EvaluationResult,
+  places: EvaluationResult | undefined,
   other: EvaluationResult | undefined,
 ): EvaluationResult {
   if (other !== undefined) {
     throw Object.assign(
-      new Error(`ROUND() does not take a second argument, got ${other.value}`),
+      new Error(`ROUND() does not take a third argument, got ${other.value}`),
       { short: '#VALUE!' },
     )
   }
@@ -314,5 +315,17 @@ export function ROUND(
     )
   }
 
-  return { kind: EvaluationResultKind.NUMBER, value: Math.round(arg.value) }
+  if (places !== undefined && places.kind !== EvaluationResultKind.NUMBER) {
+    throw Object.assign(
+      new Error(`ROUND() expects a number as the second argument, got ${places.value}`),
+      { short: '#VALUE!' },
+    )
+  }
+
+  let decimals = places?.value ?? 1
+
+  return {
+    kind: EvaluationResultKind.NUMBER,
+    value: Math.round(arg.value * 10 ** decimals) / 10 ** decimals,
+  }
 }
