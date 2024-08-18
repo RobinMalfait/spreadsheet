@@ -370,7 +370,7 @@ class ExpressionParser {
           return {
             kind: AstKind.FUNCTION,
             name: token.value,
-            args: args.map((list) => parseExpression(list)),
+            args: args.map(parseExpression),
             span: {
               start: token.span.start,
               end: closeParen.span.end,
