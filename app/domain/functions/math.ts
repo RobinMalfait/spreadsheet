@@ -322,7 +322,7 @@ export function ROUND(
     )
   }
 
-  let decimals = places?.value ?? 1
+  let decimals = places?.value ?? 0
 
   return {
     kind: EvaluationResultKind.NUMBER,
