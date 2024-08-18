@@ -71,6 +71,34 @@ export default function Index() {
       return [cell, current]
     })
   })
+
+  useEffect(() => {
+    let ac = new AbortController()
+
+    document.addEventListener(
+      'keydown',
+      (e) => {
+        if (
+          document.activeElement === inputRef.current &&
+          inputRef.current?.value.length !== 0
+        ) {
+          return
+        }
+
+        if (e.key === 'z' && e.metaKey) {
+          e.preventDefault()
+          vcs.undo()
+        } else if (e.key === 'y' && e.metaKey) {
+          e.preventDefault()
+          vcs.redo()
+        }
+      },
+      { signal: ac.signal },
+    )
+
+    return () => ac.abort()
+  }, [vcs])
+
   let functions = useMemo(() => spreadsheet.functions(), [spreadsheet])
 
   useEffect(() => {
@@ -892,7 +920,6 @@ function bottomCell(cell: string) {
 function leftCell(cell: string) {
   let { col, row } = parseLocation(cell)
   let out = printLocation({ col: col - 1, row })
-  console.log(cell, out)
   return out
 }
 
