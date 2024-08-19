@@ -36,44 +36,50 @@ export function JOIN(
   return { kind: EvaluationResultKind.STRING, value: out.join(delimiter.value) }
 }
 
-export function LOWER(...args: EvaluationResult[]): EvaluationResult {
-  let out = ''
-
-  for (let arg of args) {
-    switch (arg.kind) {
-      case EvaluationResultKind.STRING:
-      case EvaluationResultKind.BOOLEAN:
-      case EvaluationResultKind.DATETIME:
-        out += printEvaluationResult(arg).toLowerCase()
-        break
-      case EvaluationResultKind.NUMBER:
-        // Explicitly ignored
-        break
-      default:
-        arg satisfies never
-    }
+export function LOWER(
+  arg?: EvaluationResult,
+  extra?: EvaluationResult,
+): EvaluationResult {
+  if (extra) {
+    throw Object.assign(
+      new Error(`LOWER() does not take more than one argument, got ${extra.value}`),
+      { short: '#VALUE!' },
+    )
   }
 
-  return { kind: EvaluationResultKind.STRING, value: out }
+  if (!arg) {
+    throw Object.assign(
+      new Error('LOWER() expects a value as the first argument, got <nothing>'),
+      { short: '#N/A' },
+    )
+  }
+
+  return {
+    kind: EvaluationResultKind.STRING,
+    value: printEvaluationResult(arg).toLowerCase(),
+  }
 }
 
-export function UPPER(...args: EvaluationResult[]): EvaluationResult {
-  let out = ''
-
-  for (let arg of args) {
-    switch (arg.kind) {
-      case EvaluationResultKind.STRING:
-      case EvaluationResultKind.BOOLEAN:
-      case EvaluationResultKind.DATETIME:
-        out += printEvaluationResult(arg).toUpperCase()
-        break
-      case EvaluationResultKind.NUMBER:
-        // Explicitly ignored
-        break
-      default:
-        arg satisfies never
-    }
+export function UPPER(
+  arg?: EvaluationResult,
+  extra?: EvaluationResult,
+): EvaluationResult {
+  if (extra) {
+    throw Object.assign(
+      new Error(`UPPER() does not take more than one argument, got ${extra.value}`),
+      { short: '#VALUE!' },
+    )
   }
 
-  return { kind: EvaluationResultKind.STRING, value: out }
+  if (!arg) {
+    throw Object.assign(
+      new Error('UPPER() expects a value as the first argument, got <nothing>'),
+      { short: '#N/A' },
+    )
+  }
+
+  return {
+    kind: EvaluationResultKind.STRING,
+    value: printEvaluationResult(arg).toLowerCase(),
+  }
 }

@@ -78,35 +78,70 @@ export function SUM(...args: EvaluationResult[]): EvaluationResult {
   return { kind: EvaluationResultKind.NUMBER, value: out }
 }
 
-export function SUBTRACT(...args: EvaluationResult[]): EvaluationResult {
-  let out: number | null = null
-
-  for (let arg of args) {
-    switch (arg.kind) {
-      case EvaluationResultKind.NUMBER:
-        if (out === null) {
-          out = arg.value
-        } else {
-          out -= arg.value
-        }
-        break
-      case EvaluationResultKind.BOOLEAN:
-      case EvaluationResultKind.STRING:
-      case EvaluationResultKind.DATETIME:
-        // Explicitly ignored
-        break
-      default:
-        arg satisfies never
-    }
+export function ADD(
+  lhs?: EvaluationResult,
+  rhs?: EvaluationResult,
+  extra?: EvaluationResult,
+): EvaluationResult {
+  if (extra) {
+    throw Object.assign(
+      new Error(`ADD() does not take a third argument, got ${extra.value}`),
+      { short: '#VALUE!' },
+    )
   }
 
-  if (out === null) {
-    throw Object.assign(new Error('SUBTRACT() requires at least one argument'), {
-      short: '#VALUE!',
-    })
+  if (lhs?.kind !== EvaluationResultKind.NUMBER) {
+    throw Object.assign(
+      new Error(
+        `ADD() expects a number as the first argument, got ${lhs?.value ?? '<nothing>'}`,
+      ),
+      { short: '#VALUE!' },
+    )
   }
 
-  return { kind: EvaluationResultKind.NUMBER, value: out }
+  if (rhs?.kind !== EvaluationResultKind.NUMBER) {
+    throw Object.assign(
+      new Error(
+        `ADD() expects a number as the second argument, got ${rhs?.value ?? '<nothing>'}`,
+      ),
+      { short: '#VALUE!' },
+    )
+  }
+
+  return { kind: EvaluationResultKind.NUMBER, value: lhs.value + rhs.value }
+}
+
+export function SUBTRACT(
+  lhs?: EvaluationResult,
+  rhs?: EvaluationResult,
+  extra?: EvaluationResult,
+): EvaluationResult {
+  if (extra) {
+    throw Object.assign(
+      new Error(`SUBTRACT() does not take a third argument, got ${extra.value}`),
+      { short: '#VALUE!' },
+    )
+  }
+
+  if (lhs?.kind !== EvaluationResultKind.NUMBER) {
+    throw Object.assign(
+      new Error(
+        `SUBTRACT() expects a number as the first argument, got ${lhs?.value ?? '<nothing>'}`,
+      ),
+      { short: '#VALUE!' },
+    )
+  }
+
+  if (rhs?.kind !== EvaluationResultKind.NUMBER) {
+    throw Object.assign(
+      new Error(
+        `SUBTRACT() expects a number as the second argument, got ${rhs?.value ?? '<nothing>'}`,
+      ),
+      { short: '#VALUE!' },
+    )
+  }
+
+  return { kind: EvaluationResultKind.NUMBER, value: lhs.value - rhs.value }
 }
 
 export function MULTIPLY(

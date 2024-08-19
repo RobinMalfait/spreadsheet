@@ -3,6 +3,25 @@ import { Spreadsheet } from '~/domain/spreadsheet'
 import { visualizeSpreadsheet } from '~/test/utils'
 
 describe('TRUE()', () => {
+  it('should error when providing an argument', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=TRUE(123)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────┐
+      │   │ A       │
+      ├───┼─────────┤
+      │ 1 │ #VALUE! │
+      └───┴─────────┘
+
+      Errors:
+
+      · A1: TRUE() does not take an argument, got 123
+      "
+    `)
+  })
+
   it('should result in TRUE', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', '=TRUE()')
@@ -20,6 +39,25 @@ describe('TRUE()', () => {
 })
 
 describe('FALSE()', () => {
+  it('should error when providing an argument', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=FALSE(123)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────┐
+      │   │ A       │
+      ├───┼─────────┤
+      │ 1 │ #VALUE! │
+      └───┴─────────┘
+
+      Errors:
+
+      · A1: FALSE() does not take an argument, got 123
+      "
+    `)
+  })
+
   it('should result in FALSE', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', '=FALSE()')
@@ -37,6 +75,44 @@ describe('FALSE()', () => {
 })
 
 describe('IF()', () => {
+  it('should error when the test is a literal string', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=IF("UH OH", 1, 2)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────┐
+      │   │ A       │
+      ├───┼─────────┤
+      │ 1 │ #VALUE! │
+      └───┴─────────┘
+
+      Errors:
+
+      · A1: IF() expects a boolean as the first argument, got UH OH
+      "
+    `)
+  })
+
+  it('should error when passing additional arguments', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=IF(TRUE(), 1, 2, 3)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────┐
+      │   │ A       │
+      ├───┼─────────┤
+      │ 1 │ #VALUE! │
+      └───┴─────────┘
+
+      Errors:
+
+      · A1: IF() does not take more than three arguments, got 3
+      "
+    `)
+  })
+
   it('should result in the consequent when the test is truthy', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', '=5')
@@ -155,6 +231,44 @@ describe('OR()', () => {
 })
 
 describe('NOT()', () => {
+  it('should error when the test is a literal string', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=NOT("UH OH")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────┐
+      │   │ A       │
+      ├───┼─────────┤
+      │ 1 │ #VALUE! │
+      └───┴─────────┘
+
+      Errors:
+
+      · A1: NOT() expects a boolean as the first argument, got UH OH
+      "
+    `)
+  })
+
+  it('should error when passing additional arguments', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=NOT(TRUE(), 1)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────┐
+      │   │ A       │
+      ├───┼─────────┤
+      │ 1 │ #VALUE! │
+      └───┴─────────┘
+
+      Errors:
+
+      · A1: NOT() does not take a second argument, got 1
+      "
+    `)
+  })
+
   it('should result in FALSE when the argument is truthy', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', '=1')

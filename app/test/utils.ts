@@ -44,6 +44,7 @@ export function visualizeSpreadsheet(spreadsheet: Spreadsheet) {
     ...Array.from({ length: cols }, (_, i) => String.fromCharCode('A'.charCodeAt(0) + i)),
   ])
 
+  let errors = []
   for (let row = 0; row < rows; row++) {
     let output = [`${row + 1}`]
     for (let col = 0; col < cols; col++) {
@@ -52,7 +53,8 @@ export function visualizeSpreadsheet(spreadsheet: Spreadsheet) {
       if (result === null) {
         output.push('')
       } else if (result.kind === ComputationResultKind.ERROR) {
-        output.push(`ERROR: ${result.message}`)
+        output.push(result.short)
+        errors.push(`\u00B7 ${cell}: ${result.message}`)
       } else {
         output.push(printEvaluationResult(result.value))
       }
@@ -60,5 +62,5 @@ export function visualizeSpreadsheet(spreadsheet: Spreadsheet) {
     table.push(output)
   }
 
-  return `\n${stripVTControlCharacters(table.toString())}\n`
+  return `\n${stripVTControlCharacters(table.toString())}\n${errors.length > 0 ? `\nErrors:\n\n${errors.join('\n')}\n` : ''}`
 }
