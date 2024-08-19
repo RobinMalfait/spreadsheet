@@ -1,11 +1,8 @@
 import { stripVTControlCharacters } from 'node:util'
 import Table from 'cli-table'
+import { printEvaluationResult } from '~/domain/evaluation'
 import { type Location, parseLocation, printLocation } from '~/domain/expression'
-import {
-  ComputationResultKind,
-  type Spreadsheet,
-  printEvaluationResult,
-} from '~/domain/spreadsheet'
+import { ComputationResultKind, type Spreadsheet } from '~/domain/spreadsheet'
 
 export function visualizeSpreadsheet(spreadsheet: Spreadsheet) {
   let cells = spreadsheet.cellNames.map((cell) => parseLocation(cell))

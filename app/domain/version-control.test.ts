@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest'
+import { Spreadsheet } from '~/domain/spreadsheet'
+import { VersionControl } from '~/domain/version-control'
 import { visualizeSpreadsheet } from '~/test/utils'
-import { Spreadsheet } from './spreadsheet'
-import { VersionControl } from './version-control'
 
 it('should be possible to commit a change', () => {
   let spreadsheet = new Spreadsheet()

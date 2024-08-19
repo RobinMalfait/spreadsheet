@@ -5,9 +5,9 @@ import {
   parseLocation,
   printExpression,
   printLocation,
-} from './expression'
-import { WalkAction, walk } from './spreadsheet'
-import { tokenize } from './tokenizer'
+} from '~/domain/expression'
+import { tokenize } from '~/domain/tokenizer'
+import { WalkAction, walk } from '~/domain/walk-ast'
 
 const json = String.raw
 

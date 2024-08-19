@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { tokenize } from './tokenizer'
+import { tokenize } from '~/domain/tokenizer'
 
 const json = String.raw
 

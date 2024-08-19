@@ -1,4 +1,4 @@
-import { type EvaluationResult, EvaluationResultKind } from '../spreadsheet'
+import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation'
 
 export function PI(...args: EvaluationResult[]): EvaluationResult {
   if (args.length > 0) {
@@ -62,6 +62,8 @@ export function SUM(...args: EvaluationResult[]): EvaluationResult {
       case EvaluationResultKind.BOOLEAN:
       case EvaluationResultKind.STRING:
       case EvaluationResultKind.DATE:
+      case EvaluationResultKind.DATETIME:
+      case EvaluationResultKind.TIME:
         // Explicitly ignored
         break
       default:
@@ -87,6 +89,8 @@ export function SUBTRACT(...args: EvaluationResult[]): EvaluationResult {
       case EvaluationResultKind.BOOLEAN:
       case EvaluationResultKind.STRING:
       case EvaluationResultKind.DATE:
+      case EvaluationResultKind.DATETIME:
+      case EvaluationResultKind.TIME:
         // Explicitly ignored
         break
       default:
@@ -145,6 +149,8 @@ export function PRODUCT(...args: EvaluationResult[]): EvaluationResult {
       case EvaluationResultKind.STRING:
       case EvaluationResultKind.BOOLEAN:
       case EvaluationResultKind.DATE:
+      case EvaluationResultKind.DATETIME:
+      case EvaluationResultKind.TIME:
         // Explicitly ignored
         break
       default:
@@ -218,6 +224,8 @@ export function AVERAGE(...args: EvaluationResult[]): EvaluationResult {
       case EvaluationResultKind.BOOLEAN:
       case EvaluationResultKind.STRING:
       case EvaluationResultKind.DATE:
+      case EvaluationResultKind.DATETIME:
+      case EvaluationResultKind.TIME:
         // Explicitly ignored
         break
       default:

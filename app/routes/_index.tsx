@@ -5,7 +5,6 @@ import {
   ComboboxOptions,
 } from '@headlessui/react'
 import {
-  ArrowLeftCircleIcon,
   ArrowUturnLeftIcon,
   ArrowUturnRightIcon,
   CalendarIcon,
@@ -15,7 +14,7 @@ import {
 } from '@heroicons/react/16/solid'
 import type { MetaFunction } from '@remix-run/node'
 import clsx from 'clsx'
-import { format, formatDistanceToNowStrict } from 'date-fns'
+import { format } from 'date-fns'
 import {
   type CSSProperties,
   type MutableRefObject,
@@ -28,18 +27,17 @@ import {
 } from 'react'
 import { flushSync } from 'react-dom'
 import {
+  type EvaluationResult,
+  EvaluationResultKind,
+  printEvaluationResult,
+} from '~/domain/evaluation'
+import {
   parseExpression,
   parseLocation,
   printExpression,
   printLocation,
 } from '~/domain/expression'
-import {
-  ComputationResultKind,
-  type EvaluationResult,
-  EvaluationResultKind,
-  Spreadsheet,
-  printEvaluationResult,
-} from '~/domain/spreadsheet'
+import { ComputationResultKind, Spreadsheet } from '~/domain/spreadsheet'
 import { type Token, TokenKind, tokenize } from '~/domain/tokenizer'
 import { VersionControl } from '~/domain/version-control'
 

@@ -1,4 +1,4 @@
-import { type EvaluationResult, EvaluationResultKind } from '../spreadsheet'
+import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation'
 
 export function TRUE(): EvaluationResult {
   return { kind: EvaluationResultKind.BOOLEAN, value: true }

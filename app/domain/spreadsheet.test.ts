@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
+import { Spreadsheet } from '~/domain/spreadsheet'
 import { visualizeSpreadsheet } from '~/test/utils'
-import { Spreadsheet } from './spreadsheet'
 
 const json = String.raw
 

@@ -9,7 +9,7 @@ import {
   startOfDay,
   subDays,
 } from 'date-fns'
-import { type EvaluationResult, EvaluationResultKind } from '../spreadsheet'
+import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation'
 
 function isDateLike(arg: EvaluationResult): arg is Extract<
   EvaluationResult,
