@@ -127,3 +127,52 @@ describe('AVERAGE()', () => {
     `)
   })
 })
+
+describe('MEDIAN()', () => {
+  it('should calculate the median of a set of numbers (even amount)', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=MEDIAN(2, 3, 3, 5, 7, 10)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───┐
+      │   │ A │
+      ├───┼───┤
+      │ 1 │ 4 │
+      └───┴───┘
+      "
+    `)
+  })
+
+  it('should calculate the median of a set of numbers (odd amount)', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=MEDIAN(2, 3, 5, 7, 10)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───┐
+      │   │ A │
+      ├───┼───┤
+      │ 1 │ 5 │
+      └───┴───┘
+      "
+    `)
+  })
+})
+
+describe('MODE()', () => {
+  it('should calculate the mode of a set of numbers', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=MODE(2, 3, 3, 5, 7, 10)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───┐
+      │   │ A │
+      ├───┼───┤
+      │ 1 │ 3 │
+      └───┴───┘
+      "
+    `)
+  })
+})
