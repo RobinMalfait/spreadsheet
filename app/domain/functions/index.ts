@@ -1,4 +1,5 @@
 export * from './date'
 export * from './logic'
 export * from './math'
+export * from './statistics'
 export * from './text'
