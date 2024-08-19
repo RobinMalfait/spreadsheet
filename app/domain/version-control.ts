@@ -16,6 +16,9 @@ export class VersionControl<Args> {
   }
 
   commit(...args: NoInfer<Args>[]): number {
+    // Remove all the commits after the current HEAD
+    this.commits.splice(this.HEAD + 1)
+
     let undoArgs = this.onApply(...args)
     let commit = { id: this.commits.length, redoArgs: args, undoArgs, at: new Date() }
     this.HEAD = this.commits.push(commit) - 1

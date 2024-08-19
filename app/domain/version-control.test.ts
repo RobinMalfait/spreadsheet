@@ -298,3 +298,71 @@ it('should be possible to jump around commits', () => {
   vcs.head()
   expect(visualizeSpreadsheet(spreadsheet)).toEqual(visual6)
 })
+
+it('should be possible to commit a change in the past', () => {
+  // Once you go back in time, it should be possible to make another change.
+  // However, currently the implementation is not an "undotree", but more like a
+  // linear list.
+  // This means that the moment you edit something in the past, all future
+  // changes are lost.
+  //
+  let spreadsheet = new Spreadsheet()
+
+  let vcs = new VersionControl((cell: string, value: string) => {
+    let current = spreadsheet.get(cell)
+    spreadsheet.set(cell, value)
+    return [cell, current]
+  })
+
+  vcs.commit('A2', '=SUM(A1:C1)')
+  visualizeSpreadsheet(spreadsheet)
+
+  let commit2 = vcs.commit('A1', '1')
+  visualizeSpreadsheet(spreadsheet)
+
+  vcs.commit('B1', '1')
+  visualizeSpreadsheet(spreadsheet)
+
+  vcs.commit('C1', '1')
+  visualizeSpreadsheet(spreadsheet)
+
+  vcs.commit('C1', '2')
+  visualizeSpreadsheet(spreadsheet)
+
+  vcs.commit('C1', '3')
+  visualizeSpreadsheet(spreadsheet)
+
+  // Go back in time
+  vcs.checkout(commit2)
+
+  // Make a change in the past
+  vcs.commit('B1', '2')
+
+  // Verify that the change was made
+  expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+    "
+    ┌───┬───┬───┐
+    │   │ A │ B │
+    ├───┼───┼───┤
+    │ 1 │ 1 │ 2 │
+    ├───┼───┼───┤
+    │ 2 │ 3 │   │
+    └───┴───┴───┘
+    "
+  `)
+
+  // Verify that the future changes are lost
+  vcs.head()
+
+  expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+    "
+    ┌───┬───┬───┐
+    │   │ A │ B │
+    ├───┼───┼───┤
+    │ 1 │ 1 │ 2 │
+    ├───┼───┼───┤
+    │ 2 │ 3 │   │
+    └───┴───┴───┘
+    "
+  `)
+})
