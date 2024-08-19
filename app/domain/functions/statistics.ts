@@ -1,5 +1,26 @@
 import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation'
 
+export function COUNT(...args: EvaluationResult[]): EvaluationResult {
+  let count = 0
+
+  for (let arg of args) {
+    switch (arg.kind) {
+      case EvaluationResultKind.NUMBER:
+        count += 1
+        break
+      case EvaluationResultKind.BOOLEAN:
+      case EvaluationResultKind.STRING:
+      case EvaluationResultKind.DATETIME:
+        // Explicitly ignored
+        break
+      default:
+        arg satisfies never
+    }
+  }
+
+  return { kind: EvaluationResultKind.NUMBER, value: count }
+}
+
 export function MIN(...args: EvaluationResult[]): EvaluationResult {
   let min = Number.POSITIVE_INFINITY
 

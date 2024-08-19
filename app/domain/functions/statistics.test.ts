@@ -1,6 +1,36 @@
-import { describe, expect, it } from 'vitest'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { Spreadsheet } from '~/domain/spreadsheet'
 import { visualizeSpreadsheet } from '~/test/utils'
+
+beforeAll(() => {
+  vi.setSystemTime(new Date(2013, 0, 21, 8, 15, 20))
+})
+
+describe('COUNT()', () => {
+  it('should count all numbers in a set of arguments', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=2')
+    spreadsheet.set('B1', '=3')
+    spreadsheet.set('C1', '=4')
+    spreadsheet.set('D1', '="string"')
+    spreadsheet.set('E1', '=TRUE()')
+    // Explicitly ignored F1
+    spreadsheet.set('G1', '=NOW()')
+    spreadsheet.set('A2', '=COUNT(A1:G1)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───┬───┬───┬────────┬──────┬───┬─────────────────────┐
+      │   │ A │ B │ C │ D      │ E    │ F │ G                   │
+      ├───┼───┼───┼───┼────────┼──────┼───┼─────────────────────┤
+      │ 1 │ 2 │ 3 │ 4 │ string │ TRUE │   │ 2013-01-21 08:15:20 │
+      ├───┼───┼───┼───┼────────┼──────┼───┼─────────────────────┤
+      │ 2 │ 3 │   │   │        │      │   │                     │
+      └───┴───┴───┴───┴────────┴──────┴───┴─────────────────────┘
+      "
+    `)
+  })
+})
 
 describe('MIN()', () => {
   it('should compute the minimum of a set of numbers', () => {
