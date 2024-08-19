@@ -20,7 +20,7 @@ export function TAU(extra?: EvaluationResult): EvaluationResult {
   return { kind: EvaluationResultKind.NUMBER, value: 2 * Math.PI }
 }
 
-function exposeMathFunction(name: string, fn: (input: number) => number) {
+function exposeUnaryMathFunction(name: string, fn: (input: number) => number) {
   return (arg?: EvaluationResult): EvaluationResult => {
     if (arg === undefined) {
       throw Object.assign(new Error(`${name}() requires an argument`), {
@@ -38,24 +38,67 @@ function exposeMathFunction(name: string, fn: (input: number) => number) {
   }
 }
 
-export const ABS = exposeMathFunction('ABS', Math.abs)
-export const ACOS = exposeMathFunction('ACOS', Math.acos)
-export const ACOSH = exposeMathFunction('ACOSH', Math.acosh)
-export const ASIN = exposeMathFunction('ASIN', Math.asin)
-export const ASINH = exposeMathFunction('ASINH', Math.asinh)
-export const ATAN = exposeMathFunction('ATAN', Math.atan)
-export const ATANH = exposeMathFunction('ATANH', Math.atanh)
-export const CBRT = exposeMathFunction('CBRT', Math.cbrt)
-export const COS = exposeMathFunction('COS', Math.cos)
-export const COSH = exposeMathFunction('COSH', Math.cosh)
-export const EXP = exposeMathFunction('EXP', Math.exp)
-export const LOG = exposeMathFunction('LOG', Math.log)
-export const LOG10 = exposeMathFunction('LOG10', Math.log10)
-export const SIN = exposeMathFunction('SIN', Math.sin)
-export const SINH = exposeMathFunction('SINH', Math.sinh)
-export const SQRT = exposeMathFunction('SQRT', Math.sqrt)
-export const TAN = exposeMathFunction('TAN', Math.tan)
-export const TANH = exposeMathFunction('TANH', Math.tanh)
+export const ABS = exposeUnaryMathFunction('ABS', Math.abs)
+export const ACOS = exposeUnaryMathFunction('ACOS', Math.acos)
+export const ACOSH = exposeUnaryMathFunction('ACOSH', Math.acosh)
+export const ASIN = exposeUnaryMathFunction('ASIN', Math.asin)
+export const ASINH = exposeUnaryMathFunction('ASINH', Math.asinh)
+export const ATAN = exposeUnaryMathFunction('ATAN', Math.atan)
+export const ATANH = exposeUnaryMathFunction('ATANH', Math.atanh)
+export const CBRT = exposeUnaryMathFunction('CBRT', Math.cbrt)
+export const CLZ32 = exposeUnaryMathFunction('CLZ32', Math.clz32)
+export const COS = exposeUnaryMathFunction('COS', Math.cos)
+export const COSH = exposeUnaryMathFunction('COSH', Math.cosh)
+export const EXP = exposeUnaryMathFunction('EXP', Math.exp)
+export const LOG = exposeUnaryMathFunction('LOG', Math.log)
+export const LOG10 = exposeUnaryMathFunction('LOG10', Math.log10)
+export const SIN = exposeUnaryMathFunction('SIN', Math.sin)
+export const SINH = exposeUnaryMathFunction('SINH', Math.sinh)
+export const SQRT = exposeUnaryMathFunction('SQRT', Math.sqrt)
+export const TAN = exposeUnaryMathFunction('TAN', Math.tan)
+export const TANH = exposeUnaryMathFunction('TANH', Math.tanh)
+export const TRUNC = exposeUnaryMathFunction('TRUNC', Math.trunc)
+
+function exposeBinaryMathFunction(
+  name: string,
+  fn: (lhs: number, rhs: number) => number,
+) {
+  return (
+    lhs?: EvaluationResult,
+    rhs?: EvaluationResult,
+    extra?: EvaluationResult,
+  ): EvaluationResult => {
+    if (lhs === undefined || rhs === undefined) {
+      throw Object.assign(new Error(`${name}() requires two arguments`), {
+        short: '#VALUE',
+      })
+    }
+
+    if (lhs.kind !== EvaluationResultKind.NUMBER) {
+      throw Object.assign(new Error(`${name}() expects a number, got ${lhs.value}`), {
+        short: '#VALUE!',
+      })
+    }
+
+    if (rhs.kind !== EvaluationResultKind.NUMBER) {
+      throw Object.assign(new Error(`${name}() expects a number, got ${rhs.value}`), {
+        short: '#VALUE!',
+      })
+    }
+
+    if (extra) {
+      throw Object.assign(
+        new Error(`${name}() does not take a third argument, got ${extra.value}`),
+        { short: '#VALUE!' },
+      )
+    }
+
+    return { kind: EvaluationResultKind.NUMBER, value: fn(lhs.value, rhs.value) }
+  }
+}
+
+export const ATAN2 = exposeBinaryMathFunction('ATAN2', Math.atan2)
+export const IMUL = exposeBinaryMathFunction('IMUL', Math.imul)
 
 export function SUM(...args: EvaluationResult[]): EvaluationResult {
   let out = 0

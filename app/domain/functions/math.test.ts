@@ -658,6 +658,79 @@ describe('CBRT', () => {
   })
 })
 
+describe('CLZ32', () => {
+  it('should error when the first required argument is not passed', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=CLZ32()')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬────────┐
+      │   │ A      │
+      ├───┼────────┤
+      │ 1 │ #VALUE │
+      └───┴────────┘
+
+      Errors:
+
+      · A1: CLZ32() requires an argument
+      "
+    `)
+  })
+
+  it('should error when the first required argument is not the right type', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=CLZ32(TRUE())')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────┐
+      │   │ A       │
+      ├───┼─────────┤
+      │ 1 │ #VALUE! │
+      └───┴─────────┘
+
+      Errors:
+
+      · A1: CLZ32() expects a number, got true
+      "
+    `)
+  })
+
+  it('should error when passing too many arguments', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=CLZ32(1, 2)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬────┐
+      │   │ A  │
+      ├───┼────┤
+      │ 1 │ 31 │
+      └───┴────┘
+      "
+    `)
+  })
+
+  it('should calculate the number of leading zero bits in the 32-bit binary representation of a number', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=2 ^ 24')
+    spreadsheet.set('A2', '=CLZ32(A1)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬──────────┐
+      │   │ A        │
+      ├───┼──────────┤
+      │ 1 │ 16777216 │
+      ├───┼──────────┤
+      │ 2 │ 7        │
+      └───┴──────────┘
+      "
+    `)
+  })
+})
+
 describe('COS', () => {
   it('should error when the first required argument is not passed', () => {
     let spreadsheet = new Spreadsheet()
@@ -1383,6 +1456,349 @@ describe('TANH', () => {
       ├───┼────────────────────┤
       │ 2 │ 0.7615941559557649 │
       └───┴────────────────────┘
+      "
+    `)
+  })
+})
+
+describe('TRUNC', () => {
+  it('should error when the first required argument is not passed', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=TRUNC()')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬────────┐
+      │   │ A      │
+      ├───┼────────┤
+      │ 1 │ #VALUE │
+      └───┴────────┘
+
+      Errors:
+
+      · A1: TRUNC() requires an argument
+      "
+    `)
+  })
+
+  it('should error when the first required argument is not the right type', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=TRUNC(TRUE())')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────┐
+      │   │ A       │
+      ├───┼─────────┤
+      │ 1 │ #VALUE! │
+      └───┴─────────┘
+
+      Errors:
+
+      · A1: TRUNC() expects a number, got true
+      "
+    `)
+  })
+
+  it('should error when passing too many arguments', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=TRUNC(1, 2)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───┐
+      │   │ A │
+      ├───┼───┤
+      │ 1 │ 1 │
+      └───┴───┘
+      "
+    `)
+  })
+
+  it('should calculate the integer part of a number by removing any fractional digits', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=3.9')
+    spreadsheet.set('A2', '=TRUNC(A1)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────┐
+      │   │ A   │
+      ├───┼─────┤
+      │ 1 │ 3.9 │
+      ├───┼─────┤
+      │ 2 │ 3   │
+      └───┴─────┘
+      "
+    `)
+  })
+})
+
+describe('ATAN2', () => {
+  it('should error when the first required argument is not passed', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=ATAN2()')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬────────┐
+      │   │ A      │
+      ├───┼────────┤
+      │ 1 │ #VALUE │
+      └───┴────────┘
+
+      Errors:
+
+      · A1: ATAN2() requires two arguments
+      "
+    `)
+  })
+
+  it('should error when the first required argument is not the right type', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=ATAN2(TRUE())')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬────────┐
+      │   │ A      │
+      ├───┼────────┤
+      │ 1 │ #VALUE │
+      └───┴────────┘
+
+      Errors:
+
+      · A1: ATAN2() requires two arguments
+      "
+    `)
+  })
+
+  it('should error when the second required argument is not passed', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=ATAN2(90)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬────────┐
+      │   │ A      │
+      ├───┼────────┤
+      │ 1 │ #VALUE │
+      └───┴────────┘
+
+      Errors:
+
+      · A1: ATAN2() requires two arguments
+      "
+    `)
+  })
+
+  it('should error when the first required argument is not the right type (but the second one is)', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=ATAN2(TRUE(), 90)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────┐
+      │   │ A       │
+      ├───┼─────────┤
+      │ 1 │ #VALUE! │
+      └───┴─────────┘
+
+      Errors:
+
+      · A1: ATAN2() expects a number, got true
+      "
+    `)
+  })
+
+  it('should error when the second required argument is not the right type', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=ATAN2(90, TRUE())')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────┐
+      │   │ A       │
+      ├───┼─────────┤
+      │ 1 │ #VALUE! │
+      └───┴─────────┘
+
+      Errors:
+
+      · A1: ATAN2() expects a number, got true
+      "
+    `)
+  })
+
+  it('should error when passing too many arguments', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=ATAN2(1, 2, 3)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────┐
+      │   │ A       │
+      ├───┼─────────┤
+      │ 1 │ #VALUE! │
+      └───┴─────────┘
+
+      Errors:
+
+      · A1: ATAN2() does not take a third argument, got 3
+      "
+    `)
+  })
+
+  it('should calculate the angle in the plane (in radians) between the positive x-axis and the ray from (0, 0) to the point (x, y)', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=90')
+    spreadsheet.set('B1', '=15')
+    spreadsheet.set('A2', '=ATAN2(A1, B1)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬────────────────────┬────┐
+      │   │ A                  │ B  │
+      ├───┼────────────────────┼────┤
+      │ 1 │ 90                 │ 15 │
+      ├───┼────────────────────┼────┤
+      │ 2 │ 1.4056476493802699 │    │
+      └───┴────────────────────┴────┘
+      "
+    `)
+  })
+})
+
+describe('IMUL', () => {
+  it('should error when the first required argument is not passed', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=IMUL()')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬────────┐
+      │   │ A      │
+      ├───┼────────┤
+      │ 1 │ #VALUE │
+      └───┴────────┘
+
+      Errors:
+
+      · A1: IMUL() requires two arguments
+      "
+    `)
+  })
+
+  it('should error when the first required argument is not the right type', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=IMUL(TRUE())')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬────────┐
+      │   │ A      │
+      ├───┼────────┤
+      │ 1 │ #VALUE │
+      └───┴────────┘
+
+      Errors:
+
+      · A1: IMUL() requires two arguments
+      "
+    `)
+  })
+
+  it('should error when the second required argument is not passed', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=IMUL(90)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬────────┐
+      │   │ A      │
+      ├───┼────────┤
+      │ 1 │ #VALUE │
+      └───┴────────┘
+
+      Errors:
+
+      · A1: IMUL() requires two arguments
+      "
+    `)
+  })
+
+  it('should error when the first required argument is not the right type (but the second one is)', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=IMUL(TRUE(), 90)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────┐
+      │   │ A       │
+      ├───┼─────────┤
+      │ 1 │ #VALUE! │
+      └───┴─────────┘
+
+      Errors:
+
+      · A1: IMUL() expects a number, got true
+      "
+    `)
+  })
+
+  it('should error when the second required argument is not the right type', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=IMUL(90, TRUE())')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────┐
+      │   │ A       │
+      ├───┼─────────┤
+      │ 1 │ #VALUE! │
+      └───┴─────────┘
+
+      Errors:
+
+      · A1: IMUL() expects a number, got true
+      "
+    `)
+  })
+
+  it('should error when passing too many arguments', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=IMUL(1, 2, 3)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────┐
+      │   │ A       │
+      ├───┼─────────┤
+      │ 1 │ #VALUE! │
+      └───┴─────────┘
+
+      Errors:
+
+      · A1: IMUL() does not take a third argument, got 3
+      "
+    `)
+  })
+
+  it('should calculate the result of the C-like 32-bit multiplication of the two parameter', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=2^32-2')
+    spreadsheet.set('B1', '=5')
+    spreadsheet.set('A2', '=IMUL(A1, B1)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬────────────┬───┐
+      │   │ A          │ B │
+      ├───┼────────────┼───┤
+      │ 1 │ 4294967294 │ 5 │
+      ├───┼────────────┼───┤
+      │ 2 │ -10        │   │
+      └───┴────────────┴───┘
       "
     `)
   })
