@@ -1,5 +1,6 @@
 import {
   addDays,
+  addHours,
   getDate,
   getHours,
   getMinutes,
@@ -8,6 +9,7 @@ import {
   getYear,
   startOfDay,
   subDays,
+  subHours,
 } from 'date-fns'
 import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation'
 
@@ -161,5 +163,53 @@ export function SUB_DAYS(
     value: subDays(date.value, days.value),
     date: true,
     time: date.time,
+  }
+}
+
+export function ADD_HOURS(
+  date: EvaluationResult,
+  hours: EvaluationResult,
+): EvaluationResult {
+  if (date.kind !== EvaluationResultKind.DATETIME) {
+    throw Object.assign(new Error('ADD_HOURS() requires a date'), {
+      short: '#VALUE!',
+    })
+  }
+
+  if (hours.kind !== EvaluationResultKind.NUMBER) {
+    throw Object.assign(new Error('ADD_HOURS() requires a number of hours'), {
+      short: '#VALUE!',
+    })
+  }
+
+  return {
+    kind: EvaluationResultKind.DATETIME,
+    value: addHours(date.value, hours.value),
+    date: date.date,
+    time: true,
+  }
+}
+
+export function SUB_HOURS(
+  date: EvaluationResult,
+  hours: EvaluationResult,
+): EvaluationResult {
+  if (date.kind !== EvaluationResultKind.DATETIME) {
+    throw Object.assign(new Error('SUB_HOURS() requires a date'), {
+      short: '#VALUE!',
+    })
+  }
+
+  if (hours.kind !== EvaluationResultKind.NUMBER) {
+    throw Object.assign(new Error('SUB_HOURS() requires a number of hours'), {
+      short: '#VALUE!',
+    })
+  }
+
+  return {
+    kind: EvaluationResultKind.DATETIME,
+    value: subHours(date.value, hours.value),
+    date: date.date,
+    time: true,
   }
 }
