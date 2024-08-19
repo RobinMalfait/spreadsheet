@@ -29,23 +29,23 @@ export interface AstCellRange extends Span {
   end: AstCell
 }
 
-export interface AstFunction extends Span {
+interface AstFunction extends Span {
   kind: AstKind.FUNCTION
   name: string
   args: AST[]
 }
 
-export interface AstNumberLiteral extends Span {
+interface AstNumberLiteral extends Span {
   kind: AstKind.NUMBER_LITERAL
   value: number
 }
 
-export interface AstStringLiteral extends Span {
+interface AstStringLiteral extends Span {
   kind: AstKind.STRING_LITERAL
   value: string
 }
 
-export interface AstBinaryExpression extends Span {
+interface AstBinaryExpression extends Span {
   kind: AstKind.BINARY_EXPRESSION
   operator: BinaryExpressionOperator
   lhs: AST
