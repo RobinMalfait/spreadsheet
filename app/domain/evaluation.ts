@@ -9,17 +9,13 @@ export enum EvaluationResultKind {
   STRING = 'STRING',
   BOOLEAN = 'BOOLEAN',
   DATETIME = 'DATETIME',
-  DATE = 'DATE',
-  TIME = 'TIME',
 }
 
 export type EvaluationResult =
   | { kind: EvaluationResultKind.NUMBER; value: number }
   | { kind: EvaluationResultKind.STRING; value: string }
   | { kind: EvaluationResultKind.BOOLEAN; value: boolean }
-  | { kind: EvaluationResultKind.DATE; value: Date }
-  | { kind: EvaluationResultKind.DATETIME; value: Date }
-  | { kind: EvaluationResultKind.TIME; value: Date }
+  | { kind: EvaluationResultKind.DATETIME; value: Date; date: boolean; time: boolean }
 
 export function evaluateExpression(
   ast: AST,
@@ -136,10 +132,8 @@ export function printEvaluationResult(result: EvaluationResult): string {
     case EvaluationResultKind.BOOLEAN:
       return result.value ? 'TRUE' : 'FALSE'
     case EvaluationResultKind.DATETIME:
-      return format(result.value, 'yyyy-MM-dd HH:mm:ss')
-    case EvaluationResultKind.DATE:
-      return format(result.value, 'yyyy-MM-dd')
-    case EvaluationResultKind.TIME:
+      if (result.date && result.time) return format(result.value, 'yyyy-MM-dd HH:mm:ss')
+      if (result.date) return format(result.value, 'yyyy-MM-dd')
       return format(result.value, 'HH:mm:ss')
     default:
       result satisfies never

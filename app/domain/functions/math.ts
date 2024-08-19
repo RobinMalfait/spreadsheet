@@ -61,9 +61,7 @@ export function SUM(...args: EvaluationResult[]): EvaluationResult {
         break
       case EvaluationResultKind.BOOLEAN:
       case EvaluationResultKind.STRING:
-      case EvaluationResultKind.DATE:
       case EvaluationResultKind.DATETIME:
-      case EvaluationResultKind.TIME:
         // Explicitly ignored
         break
       default:
@@ -88,9 +86,7 @@ export function SUBTRACT(...args: EvaluationResult[]): EvaluationResult {
         break
       case EvaluationResultKind.BOOLEAN:
       case EvaluationResultKind.STRING:
-      case EvaluationResultKind.DATE:
       case EvaluationResultKind.DATETIME:
-      case EvaluationResultKind.TIME:
         // Explicitly ignored
         break
       default:
@@ -148,9 +144,7 @@ export function PRODUCT(...args: EvaluationResult[]): EvaluationResult {
         break
       case EvaluationResultKind.STRING:
       case EvaluationResultKind.BOOLEAN:
-      case EvaluationResultKind.DATE:
       case EvaluationResultKind.DATETIME:
-      case EvaluationResultKind.TIME:
         // Explicitly ignored
         break
       default:
@@ -223,9 +217,7 @@ export function AVERAGE(...args: EvaluationResult[]): EvaluationResult {
         break
       case EvaluationResultKind.BOOLEAN:
       case EvaluationResultKind.STRING:
-      case EvaluationResultKind.DATE:
       case EvaluationResultKind.DATETIME:
-      case EvaluationResultKind.TIME:
         // Explicitly ignored
         break
       default:

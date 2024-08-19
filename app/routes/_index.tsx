@@ -612,20 +612,23 @@ export default function Index() {
                         'truncate text-left',
                       out.value.kind === EvaluationResultKind.BOOLEAN &&
                         'text-center uppercase',
-                      (out.value.kind === EvaluationResultKind.DATETIME ||
-                        out.value.kind === EvaluationResultKind.DATE ||
-                        out.value.kind === EvaluationResultKind.TIME) &&
+                      out.value.kind === EvaluationResultKind.DATETIME &&
                         'flex items-center justify-center gap-1 truncate text-left',
-                      out.value.kind === EvaluationResultKind.DATETIME && 'text-[8px]',
+                      out.value.kind === EvaluationResultKind.DATETIME &&
+                        out.value.date &&
+                        out.value.time &&
+                        'text-[8px]',
                     )}
                   >
-                    {out.value.kind === EvaluationResultKind.DATETIME ||
-                    out.value.kind === EvaluationResultKind.DATE ? (
+                    {out.value.kind === EvaluationResultKind.DATETIME &&
+                    out.value.date ? (
                       <>
                         <CalendarIcon className="size-4 shrink-0 text-gray-400" />
                         {printEvaluationResult(out.value)}
                       </>
-                    ) : out.value.kind === EvaluationResultKind.TIME ? (
+                    ) : out.value.kind === EvaluationResultKind.DATETIME &&
+                      !out.value.date &&
+                      out.value.time ? (
                       <>
                         <ClockIcon className="size-4 shrink-0 text-gray-400" />
                         {printEvaluationResult(out.value)}

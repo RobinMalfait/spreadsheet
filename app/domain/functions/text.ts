@@ -41,9 +41,7 @@ export function LOWER(...args: EvaluationResult[]): EvaluationResult {
     switch (arg.kind) {
       case EvaluationResultKind.STRING:
       case EvaluationResultKind.BOOLEAN:
-      case EvaluationResultKind.DATE:
       case EvaluationResultKind.DATETIME:
-      case EvaluationResultKind.TIME:
         out += printEvaluationResult(arg).toLowerCase()
         break
       case EvaluationResultKind.NUMBER:
@@ -64,9 +62,7 @@ export function UPPER(...args: EvaluationResult[]): EvaluationResult {
     switch (arg.kind) {
       case EvaluationResultKind.STRING:
       case EvaluationResultKind.BOOLEAN:
-      case EvaluationResultKind.DATE:
       case EvaluationResultKind.DATETIME:
-      case EvaluationResultKind.TIME:
         out += printEvaluationResult(arg).toUpperCase()
         break
       case EvaluationResultKind.NUMBER:
