@@ -9,6 +9,7 @@
     "lint": "biome check .",
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc",
+    "test": "vitest",
     "format": "biome format --write ."
   },
   "dependencies": {
