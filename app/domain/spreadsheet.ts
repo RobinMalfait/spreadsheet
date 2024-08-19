@@ -1,6 +1,6 @@
 import { type AST, AstKind } from '~/domain/ast'
 import { type EvaluationResult, evaluateExpression } from '~/domain/evaluation'
-import { parseExpression } from '~/domain/expression'
+import { parse } from '~/domain/expression'
 import * as functions from '~/domain/functions'
 import { tokenize } from '~/domain/tokenizer'
 import { WalkAction, walk } from '~/domain/walk-ast'
@@ -67,7 +67,7 @@ export class Spreadsheet {
     if (expression.trim() === '') return
 
     let tokens = tokenize(expression)
-    let ast = parseExpression(tokens)
+    let ast = parse(tokens)
 
     // Track all references in the AST
     walk([ast], (node) => {

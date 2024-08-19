@@ -31,12 +31,7 @@ import {
   EvaluationResultKind,
   printEvaluationResult,
 } from '~/domain/evaluation'
-import {
-  parseExpression,
-  parseLocation,
-  printExpression,
-  printLocation,
-} from '~/domain/expression'
+import { parse, parseLocation, printExpression, printLocation } from '~/domain/expression'
 import { ComputationResultKind, Spreadsheet } from '~/domain/spreadsheet'
 import { type Token, TokenKind, tokenize } from '~/domain/tokenizer'
 import { VersionControl } from '~/domain/version-control'
@@ -865,7 +860,7 @@ export default function Index() {
               let value = spreadsheet.get(cell)
               let expression = value[0] === '=' ? value.slice(1) : `"${value}"`
               let tokens = tokenize(expression)
-              let ast = parseExpression(tokens)
+              let ast = parse(tokens)
               let stringifiedAST = `=${printExpression(ast)}`
               let evaluation: EvaluationResult[] | null = null
               try {
