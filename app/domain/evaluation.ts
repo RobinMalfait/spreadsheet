@@ -74,14 +74,14 @@ export function evaluateExpression(
           // Math operators
           case BinaryExpressionOperator.EXPONENT:
             return [functions.POWER(left, right)]
-          case BinaryExpressionOperator.ADD:
-            return [functions.SUM(left, right)]
-          case BinaryExpressionOperator.SUBTRACT:
-            return [functions.SUBTRACT(left, right)]
           case BinaryExpressionOperator.MULTIPLY:
             return [functions.MULTIPLY(left, right)]
           case BinaryExpressionOperator.DIVIDE:
             return [functions.DIVIDE(left, right)]
+          case BinaryExpressionOperator.ADD:
+            return [functions.SUM(left, right)]
+          case BinaryExpressionOperator.SUBTRACT:
+            return [functions.SUBTRACT(left, right)]
 
           // Comparison operators
           case BinaryExpressionOperator.EQUALS:
