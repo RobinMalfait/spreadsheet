@@ -156,6 +156,10 @@ describe('parsing', () => {
         printExpression(parse(tokenize('(1 + 2) * 3 + (4 + 5)'))),
       ).toMatchInlineSnapshot(`"((1 + 2) * 3) + (4 + 5)"`)
     })
+
+    it('should error when writing implicit multiplication', () => {
+      expect(() => parse(tokenize('5(3)'))).toThrowError('Invalid expression')
+    })
   })
 
   describe('cell reference', () => {

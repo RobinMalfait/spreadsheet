@@ -43,7 +43,13 @@ const BINARY_OP_MAP: Record<keyof typeof PRECEDENCE_MAP, BinaryExpressionOperato
 }
 
 export function parse(tokens: Token[]): AST {
-  return parseExpression(tokens)
+  let result = parseExpression(tokens)
+  if (tokens.length > 0) {
+    throw Object.assign(new Error('Invalid expression'), {
+      short: '#ERROR!',
+    })
+  }
+  return result
 }
 
 function parseExpression(tokens: Token[], precedence = 0) {
