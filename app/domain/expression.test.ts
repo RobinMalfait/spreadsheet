@@ -71,12 +71,12 @@ describe('parsing', () => {
   })
 
   describe('logic operators', () => {
-    it('should parse the `=` operator', () => {
-      expect(printExpression(parse(tokenize('1 = 2')))).toMatchInlineSnapshot(`"1 = 2"`)
+    it('should parse the `==` operator', () => {
+      expect(printExpression(parse(tokenize('1 == 2')))).toMatchInlineSnapshot(`"1 == 2"`)
     })
 
     it('should parse the `!=` operator', () => {
-      expect(printExpression(parse(tokenize('1 <> 2')))).toMatchInlineSnapshot(`"1 <> 2"`)
+      expect(printExpression(parse(tokenize('1 != 2')))).toMatchInlineSnapshot(`"1 != 2"`)
     })
 
     it('should parse the `>` operator', () => {
@@ -233,11 +233,11 @@ describe('parsing', () => {
   // Kitchen sink example testing the actual data structure and re-printed
   // expression
   it('should work with a complex expression', () => {
-    let input = 'JOIN(" + ", SUM(A1:B1), 1 * -1 - 2.0 ^ -2.0, PI() <> 3.14)'
+    let input = 'JOIN(" + ", SUM(A1:B1), 1 * -1 - 2.0 ^ -2.0, PI() != 3.14)'
     let ast = parse(tokenize(input))
 
     expect(printExpression(ast)).toMatchInlineSnapshot(
-      `"JOIN(" + ", SUM(A1:B1), ((1 * -1) - (2 ^ -2)), (PI() <> 3.14))"`,
+      `"JOIN(" + ", SUM(A1:B1), ((1 * -1) - (2 ^ -2)), (PI() != 3.14))"`,
     )
     expect(ast).toMatchInlineSnapshot(json`
       {

@@ -2,6 +2,7 @@ const TAB = 9 // '\t'
 const NEWLINE = 10 // '\n'
 const LINE_FEED = 13 // '\r'
 const SPACE = 32 // ' '
+const EXCLAMATION = 33 // !
 const DOUBLE_QUOTE = 34 // "
 const OPEN_PAREN = 40 // (
 const CLOSE_PAREN = 41 // )
@@ -169,13 +170,6 @@ export function tokenize(input: string): Token[] {
           span: { start: idx, end: idx + 2 },
         })
         idx++
-      } else if (next === ANGLE_RIGHT) {
-        tokens.push({
-          kind: TokenKind.NOT_EQUALS,
-          raw: '<>',
-          span: { start: idx, end: idx + 2 },
-        })
-        idx++
       } else {
         tokens.push({
           kind: TokenKind.LESS_THAN,
@@ -186,12 +180,41 @@ export function tokenize(input: string): Token[] {
       continue
     }
 
+    if (char === EXCLAMATION) {
+      let next = input.charCodeAt(idx + 1)
+      if (next === EQUALS) {
+        tokens.push({
+          kind: TokenKind.NOT_EQUALS,
+          raw: '!=',
+          span: { start: idx, end: idx + 2 },
+        })
+        idx++
+      } else {
+        tokens.push({
+          kind: TokenKind.UNKNOWN,
+          raw: input[idx],
+          span: { start: idx, end: idx + 1 },
+        })
+      }
+      continue
+    }
+
     if (char === EQUALS) {
-      tokens.push({
-        kind: TokenKind.EQUALS,
-        raw: '=',
-        span: { start: idx, end: idx + 1 },
-      })
+      let next = input.charCodeAt(idx + 1)
+      if (next === EQUALS) {
+        tokens.push({
+          kind: TokenKind.EQUALS,
+          raw: '==',
+          span: { start: idx, end: idx + 2 },
+        })
+        idx++
+      } else {
+        tokens.push({
+          kind: TokenKind.UNKNOWN,
+          raw: input[idx],
+          span: { start: idx, end: idx + 1 },
+        })
+      }
       continue
     }
 

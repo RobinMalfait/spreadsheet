@@ -43,8 +43,9 @@ const BINARY_OP_MAP: Record<keyof typeof PRECEDENCE_MAP, BinaryExpressionOperato
 }
 
 export function parse(tokens: Token[]): AST {
-  let result = parseExpression(tokens)
-  if (tokens.length > 0) {
+  let todo = tokens.slice() // Operate on a copy
+  let result = parseExpression(todo)
+  if (todo.length > 0) {
     throw Object.assign(new Error('Invalid expression'), {
       short: '#ERROR!',
     })
@@ -352,9 +353,9 @@ function printBinaryOperator(operator: BinaryExpressionOperator) {
 
     // Comparison operators
     case BinaryExpressionOperator.EQUALS:
-      return '='
+      return '=='
     case BinaryExpressionOperator.NOT_EQUALS:
-      return '<>'
+      return '!='
     case BinaryExpressionOperator.LESS_THAN:
       return '<'
     case BinaryExpressionOperator.LESS_THAN_EQUALS:

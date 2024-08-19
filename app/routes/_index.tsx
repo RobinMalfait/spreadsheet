@@ -198,10 +198,10 @@ export default function Index() {
       vcs.commit('G9', 'Even or odd?')
 
       vcs.commit('F10', '5')
-      vcs.commit('G10', '=IF(MOD(F10, 2) = 0, "Even", "Odd")')
+      vcs.commit('G10', '=IF(MOD(F10, 2) == 0, "Even", "Odd")')
 
       vcs.commit('F11', '8')
-      vcs.commit('G11', '=IF(MOD(F11, 2) = 0, "Even", "Odd")')
+      vcs.commit('G11', '=IF(MOD(F11, 2) == 0, "Even", "Odd")')
 
       vcs.commit('F12', 'Date:')
       vcs.commit('G12', 'Today is:')
