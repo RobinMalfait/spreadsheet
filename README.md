@@ -1,40 +1,55 @@
-# Welcome to Remix!
+# Spreadsheet
 
-- 📖 [Remix docs](https://remix.run/docs)
+I... I don't know why I made this exactly. One day, I thought, "Would I be able to build spreadsheet software?" And then I did it.
 
-## Development
+You can find the application: https://spreadsheet.robinmalfait.com
 
-Run the dev server:
+## Features
 
-```shellscript
-npm run dev
-```
+### General
 
-## Deployment
+- You can write normal text in a cell
+- You can write a number in a cell
+   - This is actual text, but will be coerced to a number
+- You can write a formula in a cell
+   - Formulas are prefixed with `=`
 
-First, build your app for production:
+Once you write a formula, you will get some syntax highlighting.
 
-```sh
-npm run build
-```
+### Operators
 
-Then run the app in production mode:
 
-```sh
-npm start
-```
+**Mathematical Operators**
 
-Now you'll need to pick a host to deploy it to.
+| Operator    | Description    |
+|-------------|----------------|
+| `+`         | Addition       |
+| `-`         | Subtraction    |
+| `*`         | Multiplication |
+| `/`         | Division       |
+| `^`         | Exponentiation |
+| `(` and `)` | Parentheses    |
 
-### DIY
+**Comparison Operators**
 
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
+| Operator | Description           |
+|----------|-----------------------|
+| `==`     | Equal                 |
+| `!=`     | Not equal             |
+| `>`      | Greater than          |
+| `<`      | Less than             |
+| `>=`     | Greater than or equal |
+| `<=`     | Less than or equal    |
 
-Make sure to deploy the output of `npm run build`
+### Functions
 
-- `build/server`
-- `build/client`
+#### Mathematical Functions
 
-## Styling
+// TODO
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
+#### Date Functions
+
+#### Logical Functions
+
+#### Text Functions
+
