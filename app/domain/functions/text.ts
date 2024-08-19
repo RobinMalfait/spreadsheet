@@ -15,12 +15,14 @@ export function CONCAT(...args: EvaluationResult[]): EvaluationResult {
 }
 
 export function JOIN(
-  delimiter: EvaluationResult,
+  delimiter?: EvaluationResult,
   ...args: EvaluationResult[]
 ): EvaluationResult {
-  if (delimiter.kind !== EvaluationResultKind.STRING) {
+  if (delimiter?.kind !== EvaluationResultKind.STRING) {
     throw Object.assign(
-      new Error(`JOIN() expects a string as the delimiter, got ${delimiter.value}`),
+      new Error(
+        `JOIN() expects a string as the delimiter, got ${delimiter?.value ?? '<nothing>'}`,
+      ),
       { short: '#VALUE!' },
     )
   }

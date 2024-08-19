@@ -58,8 +58,14 @@ export function TIME(...args: EvaluationResult[]): EvaluationResult {
   }
 }
 
-export function DAY(date: EvaluationResult): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATETIME) {
+export function DAY(date?: EvaluationResult, extra?: EvaluationResult): EvaluationResult {
+  if (extra) {
+    throw Object.assign(new Error('DAY() does not take more than one argument'), {
+      short: '#VALUE!',
+    })
+  }
+
+  if (date?.kind !== EvaluationResultKind.DATETIME) {
     throw Object.assign(new Error('DAY() requires a date'), {
       short: '#VALUE!',
     })
@@ -68,8 +74,17 @@ export function DAY(date: EvaluationResult): EvaluationResult {
   return { kind: EvaluationResultKind.NUMBER, value: getDate(date.value) }
 }
 
-export function MONTH(date: EvaluationResult): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATETIME) {
+export function MONTH(
+  date?: EvaluationResult,
+  extra?: EvaluationResult,
+): EvaluationResult {
+  if (extra) {
+    throw Object.assign(new Error('MONTH() does not take more than one argument'), {
+      short: '#VALUE!',
+    })
+  }
+
+  if (date?.kind !== EvaluationResultKind.DATETIME) {
     throw Object.assign(new Error('MONTH() requires a date'), {
       short: '#VALUE!',
     })
@@ -78,8 +93,17 @@ export function MONTH(date: EvaluationResult): EvaluationResult {
   return { kind: EvaluationResultKind.NUMBER, value: getMonth(date.value) + 1 }
 }
 
-export function YEAR(date: EvaluationResult): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATETIME) {
+export function YEAR(
+  date?: EvaluationResult,
+  extra?: EvaluationResult,
+): EvaluationResult {
+  if (extra) {
+    throw Object.assign(new Error('YEAR() does not take more than one argument'), {
+      short: '#VALUE!',
+    })
+  }
+
+  if (date?.kind !== EvaluationResultKind.DATETIME) {
     throw Object.assign(new Error('YEAR() requires a date'), {
       short: '#VALUE!',
     })
@@ -88,8 +112,17 @@ export function YEAR(date: EvaluationResult): EvaluationResult {
   return { kind: EvaluationResultKind.NUMBER, value: getYear(date.value) }
 }
 
-export function HOUR(date: EvaluationResult): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATETIME) {
+export function HOUR(
+  date?: EvaluationResult,
+  extra?: EvaluationResult,
+): EvaluationResult {
+  if (extra) {
+    throw Object.assign(new Error('HOUR() does not take more than one argument'), {
+      short: '#VALUE!',
+    })
+  }
+
+  if (date?.kind !== EvaluationResultKind.DATETIME) {
     throw Object.assign(new Error('HOUR() requires a date'), {
       short: '#VALUE!',
     })
@@ -98,8 +131,17 @@ export function HOUR(date: EvaluationResult): EvaluationResult {
   return { kind: EvaluationResultKind.NUMBER, value: getHours(date.value) }
 }
 
-export function MINUTE(date: EvaluationResult): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATETIME) {
+export function MINUTE(
+  date?: EvaluationResult,
+  extra?: EvaluationResult,
+): EvaluationResult {
+  if (extra) {
+    throw Object.assign(new Error('MINUTE() does not take more than one argument'), {
+      short: '#VALUE!',
+    })
+  }
+
+  if (date?.kind !== EvaluationResultKind.DATETIME) {
     throw Object.assign(new Error('MINUTE() requires a date'), {
       short: '#VALUE!',
     })
@@ -108,8 +150,17 @@ export function MINUTE(date: EvaluationResult): EvaluationResult {
   return { kind: EvaluationResultKind.NUMBER, value: getMinutes(date.value) }
 }
 
-export function SECOND(date: EvaluationResult): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATETIME) {
+export function SECOND(
+  date?: EvaluationResult,
+  extra?: EvaluationResult,
+): EvaluationResult {
+  if (extra) {
+    throw Object.assign(new Error('SECOND() does not take more than one argument'), {
+      short: '#VALUE!',
+    })
+  }
+
+  if (date?.kind !== EvaluationResultKind.DATETIME) {
     throw Object.assign(new Error('SECOND() requires a date'), {
       short: '#VALUE!',
     })
@@ -119,16 +170,23 @@ export function SECOND(date: EvaluationResult): EvaluationResult {
 }
 
 export function ADD_DAYS(
-  date: EvaluationResult,
-  days: EvaluationResult,
+  date?: EvaluationResult,
+  days?: EvaluationResult,
+  extra?: EvaluationResult,
 ): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATETIME) {
+  if (extra) {
+    throw Object.assign(new Error('ADD_DAYS() does not take more than two arguments'), {
+      short: '#VALUE!',
+    })
+  }
+
+  if (date?.kind !== EvaluationResultKind.DATETIME) {
     throw Object.assign(new Error('ADD_DAYS() requires a date'), {
       short: '#VALUE!',
     })
   }
 
-  if (days.kind !== EvaluationResultKind.NUMBER) {
+  if (days?.kind !== EvaluationResultKind.NUMBER) {
     throw Object.assign(new Error('ADD_DAYS() requires a number of days'), {
       short: '#VALUE!',
     })
@@ -143,16 +201,23 @@ export function ADD_DAYS(
 }
 
 export function SUB_DAYS(
-  date: EvaluationResult,
-  days: EvaluationResult,
+  date?: EvaluationResult,
+  days?: EvaluationResult,
+  extra?: EvaluationResult,
 ): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATETIME) {
+  if (extra) {
+    throw Object.assign(new Error('SUB_DAYS() does not take more than two arguments'), {
+      short: '#VALUE!',
+    })
+  }
+
+  if (date?.kind !== EvaluationResultKind.DATETIME) {
     throw Object.assign(new Error('SUB_DAYS() requires a date'), {
       short: '#VALUE!',
     })
   }
 
-  if (days.kind !== EvaluationResultKind.NUMBER) {
+  if (days?.kind !== EvaluationResultKind.NUMBER) {
     throw Object.assign(new Error('SUB_DAYS() requires a number of days'), {
       short: '#VALUE!',
     })
@@ -167,16 +232,23 @@ export function SUB_DAYS(
 }
 
 export function ADD_HOURS(
-  date: EvaluationResult,
-  hours: EvaluationResult,
+  date?: EvaluationResult,
+  hours?: EvaluationResult,
+  extra?: EvaluationResult,
 ): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATETIME) {
+  if (extra) {
+    throw Object.assign(new Error('ADD_HOURS() does not take more than two arguments'), {
+      short: '#VALUE!',
+    })
+  }
+
+  if (date?.kind !== EvaluationResultKind.DATETIME) {
     throw Object.assign(new Error('ADD_HOURS() requires a date'), {
       short: '#VALUE!',
     })
   }
 
-  if (hours.kind !== EvaluationResultKind.NUMBER) {
+  if (hours?.kind !== EvaluationResultKind.NUMBER) {
     throw Object.assign(new Error('ADD_HOURS() requires a number of hours'), {
       short: '#VALUE!',
     })
@@ -191,16 +263,23 @@ export function ADD_HOURS(
 }
 
 export function SUB_HOURS(
-  date: EvaluationResult,
-  hours: EvaluationResult,
+  date?: EvaluationResult,
+  hours?: EvaluationResult,
+  extra?: EvaluationResult,
 ): EvaluationResult {
-  if (date.kind !== EvaluationResultKind.DATETIME) {
+  if (extra) {
+    throw Object.assign(new Error('SUB_HOURS() does not take more than two arguments'), {
+      short: '#VALUE!',
+    })
+  }
+
+  if (date?.kind !== EvaluationResultKind.DATETIME) {
     throw Object.assign(new Error('SUB_HOURS() requires a date'), {
       short: '#VALUE!',
     })
   }
 
-  if (hours.kind !== EvaluationResultKind.NUMBER) {
+  if (hours?.kind !== EvaluationResultKind.NUMBER) {
     throw Object.assign(new Error('SUB_HOURS() requires a number of hours'), {
       short: '#VALUE!',
     })

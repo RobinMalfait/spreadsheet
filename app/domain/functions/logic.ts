@@ -1,10 +1,24 @@
 import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation'
 
-export function TRUE(): EvaluationResult {
+export function TRUE(extra?: EvaluationResult): EvaluationResult {
+  if (extra) {
+    throw Object.assign(
+      new Error(`TRUE() does not take an argument, got ${extra.value}`),
+      { short: '#VALUE!' },
+    )
+  }
+
   return { kind: EvaluationResultKind.BOOLEAN, value: true }
 }
 
-export function FALSE(): EvaluationResult {
+export function FALSE(extra?: EvaluationResult): EvaluationResult {
+  if (extra) {
+    throw Object.assign(
+      new Error(`FALSE() does not take an argument, got ${extra.value}`),
+      { short: '#VALUE!' },
+    )
+  }
+
   return { kind: EvaluationResultKind.BOOLEAN, value: false }
 }
 
@@ -12,7 +26,15 @@ export function IF(
   test: EvaluationResult,
   consequent: EvaluationResult,
   alternate: EvaluationResult,
+  extra?: EvaluationResult,
 ): EvaluationResult {
+  if (extra) {
+    throw Object.assign(
+      new Error(`IF() does not take more than three arguments, got ${extra.value}`),
+      { short: '#VALUE!' },
+    )
+  }
+
   if (test.kind === EvaluationResultKind.STRING) {
     throw Object.assign(
       new Error(`IF() expects a boolean as the first argument, got ${test.value}`),

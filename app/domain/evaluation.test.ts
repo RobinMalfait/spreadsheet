@@ -1,6 +1,6 @@
-import { it, expect, describe } from 'vitest'
-import { Spreadsheet } from './spreadsheet'
+import { describe, expect, it } from 'vitest'
 import { visualizeSpreadsheet } from '~/test/utils'
+import { Spreadsheet } from './spreadsheet'
 
 it('should evaluate a number literal', () => {
   let spreadsheet = new Spreadsheet()
