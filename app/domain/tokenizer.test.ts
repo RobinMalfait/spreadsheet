@@ -289,7 +289,7 @@ describe('function call', () => {
 })
 
 describe('math operators', () => {
-  it('should tokenize a function call with cell references, ranges and literals', () => {
+  it('should tokenize math expressions', () => {
     expect(tokenize('1 + 2 * 3 - 4 / 2')).toMatchInlineSnapshot(json`
       [
         {
