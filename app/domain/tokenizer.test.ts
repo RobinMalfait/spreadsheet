@@ -153,6 +153,32 @@ describe('string literal', () => {
   })
 })
 
+describe('identifiers', () => {
+  it.each([
+    // Cell reference
+    ['A1', 'A1'],
+    // lowercase
+    ['a1', 'A1'],
+
+    // Function call
+    ['SUM', 'SUM'],
+    ['ADD_DAYS', 'ADD_DAYS'],
+
+    // lowercase
+    ['sum', 'SUM'],
+    ['add_days', 'ADD_DAYS'],
+  ])('should tokenize an identifier %s as %s', (identifier, expected) => {
+    expect(
+      tokenize(identifier).map((x) => {
+        if (x.kind === 'IDENTIFIER') {
+          return x.value
+        }
+        return x.raw
+      }),
+    ).toEqual([expected])
+  })
+})
+
 describe('function call', () => {
   it('should tokenize a function call', () => {
     expect(tokenize('SUM(1)')).toMatchInlineSnapshot(json`

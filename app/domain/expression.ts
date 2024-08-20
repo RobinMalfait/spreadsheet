@@ -331,7 +331,7 @@ function parseCellReference(tokens: Token[]): AstCell {
   peek = tokens.shift()! // Consume identifier
   start ??= peek
   end = peek
-  name += peek.raw // Consume identifier
+  name += (peek as Extract<Token, { kind: TokenKind.IDENTIFIER }>).value
   raw += peek.raw
 
   // A$1 or $A$1

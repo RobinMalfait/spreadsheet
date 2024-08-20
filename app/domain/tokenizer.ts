@@ -256,7 +256,7 @@ export function tokenize(input: string): Token[] {
 
       tokens.push({
         kind: TokenKind.IDENTIFIER,
-        value: input.slice(start, end),
+        value: input.slice(start, end).toUpperCase(),
         raw: input.slice(start, end),
         span: { start, end },
       })
