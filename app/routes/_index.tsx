@@ -300,73 +300,66 @@ export default function Index() {
     cursor -= 1
   }
 
-  // Autocomplete token at cursor position
-  let identifierAtPosition = useMemo(() => {
-    return (
-      tokens.find(
-        (token, idx) =>
-          // We want an identifier
-          token.kind === TokenKind.IDENTIFIER &&
-          // It should be a function call, the open paren might not be there
-          // yet. We do know that we definitely don't want a `:` right before
-          // it, because that would be a cell range.
-          tokens[idx - 1]?.kind !== TokenKind.COLON &&
-          // The cursor is within the token's span
-          cursor >= token.span.start &&
-          cursor <= token.span.end,
-      ) ?? null
-    )
+  // Figure out the token at the current position
+  let tokenIdxAtPosition = useMemo(() => {
+    return tokens.findIndex((token) => {
+      return cursor >= token.span.start && cursor <= token.span.end
+    })
   }, [tokens, cursor])
 
+  // Autocomplete token at cursor position
+  let identifierAtPosition = useMemo(() => {
+    // We want an identifier
+    if (tokens[tokenIdxAtPosition]?.kind !== TokenKind.IDENTIFIER) return null
+
+    // It should be a function call, the open paren might not be there yet. We
+    // do know that we definitely don't want a `:` right before it, because
+    // that would be a cell range.
+    if (tokens[tokenIdxAtPosition - 1]?.kind === TokenKind.COLON) return null
+
+    return tokens[tokenIdxAtPosition]
+  }, [tokens, tokenIdxAtPosition])
+
+  // Active parentheses (and matching)
   let activeParens = useMemo(() => {
-    let activeTokenIdx = tokens.findIndex((token) => {
-      return (
-        (token.kind === TokenKind.OPEN_PAREN || token.kind === TokenKind.CLOSE_PAREN) &&
-        cursor >= token.span.start &&
-        cursor <= token.span.end
-      )
-    })
+    if (
+      tokens[tokenIdxAtPosition]?.kind !== TokenKind.OPEN_PAREN &&
+      tokens[tokenIdxAtPosition]?.kind !== TokenKind.CLOSE_PAREN
+    ) {
+      return []
+    }
 
-    if (activeTokenIdx === -1) return []
-
-    let paren = tokens[activeTokenIdx]
-    let matchingParen = null
+    let paren = tokens[tokenIdxAtPosition]
     if (paren.kind === TokenKind.OPEN_PAREN) {
       let stack = 0
 
       // Find the matching closing paren
-      for (let i = activeTokenIdx + 1; i < tokens.length; i++) {
-        let token = tokens[i]
-        if (token.kind === TokenKind.OPEN_PAREN) {
+      for (let i = tokenIdxAtPosition + 1; i < tokens.length; i++) {
+        if (tokens[i].kind === TokenKind.OPEN_PAREN) {
           stack++
-        } else if (token.kind === TokenKind.CLOSE_PAREN && stack !== 0) {
+        } else if (tokens[i].kind === TokenKind.CLOSE_PAREN && stack !== 0) {
           stack--
-        } else if (token.kind === TokenKind.CLOSE_PAREN && stack === 0) {
-          matchingParen = token
-          break
+        } else if (tokens[i].kind === TokenKind.CLOSE_PAREN && stack === 0) {
+          return [paren, tokens[i]]
         }
       }
     } else if (paren.kind === TokenKind.CLOSE_PAREN) {
       let stack = 0
 
       // Find the matching opening paren
-      for (let i = activeTokenIdx - 1; i >= 0; i--) {
-        let token = tokens[i]
-        if (token.kind === TokenKind.CLOSE_PAREN) {
+      for (let i = tokenIdxAtPosition - 1; i >= 0; i--) {
+        if (tokens[i].kind === TokenKind.CLOSE_PAREN) {
           stack++
-        } else if (token.kind === TokenKind.OPEN_PAREN && stack !== 0) {
+        } else if (tokens[i].kind === TokenKind.OPEN_PAREN && stack !== 0) {
           stack--
-        } else if (token.kind === TokenKind.OPEN_PAREN && stack === 0) {
-          matchingParen = token
-          break
+        } else if (tokens[i].kind === TokenKind.OPEN_PAREN && stack === 0) {
+          return [paren, tokens[i]]
         }
       }
     }
 
-    if (matchingParen === null) return []
-
-    return [paren, matchingParen]
-  }, [tokens, cursor])
+    return []
+  }, [tokens, tokenIdxAtPosition])
 
   // Autocomplete suggestions
   let suggestions = useMemo(() => {
