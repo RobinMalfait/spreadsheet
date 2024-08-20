@@ -301,7 +301,7 @@ export default function Index() {
   }
 
   // Autocomplete token at cursor position
-  let tokenAtPosition = useMemo(() => {
+  let identifierAtPosition = useMemo(() => {
     return (
       tokens.find(
         (token, idx) =>
@@ -318,17 +318,67 @@ export default function Index() {
     )
   }, [tokens, cursor])
 
+  let activeParens = useMemo(() => {
+    let activeTokenIdx = tokens.findIndex((token) => {
+      return (
+        (token.kind === TokenKind.OPEN_PAREN || token.kind === TokenKind.CLOSE_PAREN) &&
+        cursor >= token.span.start &&
+        cursor <= token.span.end
+      )
+    })
+
+    if (activeTokenIdx === -1) return []
+
+    let paren = tokens[activeTokenIdx]
+    let matchingParen = null
+    if (paren.kind === TokenKind.OPEN_PAREN) {
+      let stack = 0
+
+      // Find the matching closing paren
+      for (let i = activeTokenIdx + 1; i < tokens.length; i++) {
+        let token = tokens[i]
+        if (token.kind === TokenKind.OPEN_PAREN) {
+          stack++
+        } else if (token.kind === TokenKind.CLOSE_PAREN && stack !== 0) {
+          stack--
+        } else if (token.kind === TokenKind.CLOSE_PAREN && stack === 0) {
+          matchingParen = token
+          break
+        }
+      }
+    } else if (paren.kind === TokenKind.CLOSE_PAREN) {
+      let stack = 0
+
+      // Find the matching opening paren
+      for (let i = activeTokenIdx - 1; i >= 0; i--) {
+        let token = tokens[i]
+        if (token.kind === TokenKind.CLOSE_PAREN) {
+          stack++
+        } else if (token.kind === TokenKind.OPEN_PAREN && stack !== 0) {
+          stack--
+        } else if (token.kind === TokenKind.OPEN_PAREN && stack === 0) {
+          matchingParen = token
+          break
+        }
+      }
+    }
+
+    if (matchingParen === null) return []
+
+    return [paren, matchingParen]
+  }, [tokens, cursor])
+
   // Autocomplete suggestions
   let suggestions = useMemo(() => {
-    if (tokenAtPosition === null) return []
+    if (identifierAtPosition === null) return []
 
-    let prefix = tokenAtPosition.raw
+    let prefix = identifierAtPosition.raw
     let matches = functions.filter((fn) => {
       return fn.toLowerCase().startsWith(prefix.toLowerCase())
     })
 
     return matches
-  }, [functions, tokenAtPosition])
+  }, [functions, identifierAtPosition])
 
   // Dependencies of the current cell
   let dependencies = spreadsheet.dependencies(cell)
@@ -347,6 +397,15 @@ export default function Index() {
               let key = idx
 
               let color = (() => {
+                // Parentheses
+                if (
+                  (token.kind === TokenKind.OPEN_PAREN ||
+                    token.kind === TokenKind.CLOSE_PAREN) &&
+                  activeParens.includes(token)
+                ) {
+                  return 'bg-gray-100 rounded text-gray-800'
+                }
+
                 // Function
                 if (
                   token.kind === TokenKind.IDENTIFIER &&
@@ -465,10 +524,10 @@ export default function Index() {
             value={value}
             onChange={(suggestion) => {
               if (suggestion === null) return
-              if (tokenAtPosition === null) return
+              if (identifierAtPosition === null) return
 
               // Replace the current token with the selected suggestion
-              let prefix = tokenAtPosition
+              let prefix = identifierAtPosition
               let expression = value.slice(1)
               let newExpression =
                 expression.slice(0, prefix.span.start) +
