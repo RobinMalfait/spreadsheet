@@ -306,7 +306,7 @@ describe('parsing', () => {
   })
 
   it('should have the correct spans', () => {
-    let input = 'JOIN(" + ", SUM(A1:B1, PRODUCT(A1:B1)), PI())'
+    let input = 'JOIN(" + ", SUM(A1:B1, PRODUCT(A1:B1)), PI(), SUM($A$1:A$3))'
     let ast = parse(tokenize(input))
 
     let parts: string[] = []
@@ -319,7 +319,7 @@ describe('parsing', () => {
 
     expect(`\n${parts.join('\n')}\n`).toMatchInlineSnapshot(`
       "
-       0 | JOIN(" + ", SUM(A1:B1, PRODUCT(A1:B1)), PI())
+       0 | JOIN(" + ", SUM(A1:B1, PRODUCT(A1:B1)), PI(), SUM($A$1:A$3))
        1 |   " + "
        1 |   SUM(A1:B1, PRODUCT(A1:B1))
        2 |     A1:B1
@@ -330,6 +330,11 @@ describe('parsing', () => {
        4 |         A1:B1
        4 |         A1:B1
        1 |   PI()
+       1 |   SUM($A$1:A$3)
+       2 |     $A$1:A$3
+       3 |       $A$1:A$3
+       3 |       $A$1:A$3
+       3 |       $A$1:A$3
       "
     `)
   })

@@ -397,7 +397,13 @@ export function parseLocation(input: string): Location {
     char = input.charCodeAt(++idx)
   } while (char >= UPPER_A && char <= UPPER_Z)
 
-  let col = parseColNumber(input.slice(lock & Lock.COL ? 1 : 0, idx))
+  console.log({
+    input,
+    idx,
+    char: String.fromCharCode(char),
+    charCode: char,
+  })
+  let col = parseColNumber(input.slice(0, idx))
 
   // Locked row
   if (char === DOLLAR) {
@@ -415,7 +421,11 @@ export function parseColNumber(input: string) {
 
   for (let i = 0; i < input.length; i++) {
     let char = input.charCodeAt(i)
+    // Ignore dollar signs, they are used for locking the column or row.
+    if (char === DOLLAR) continue
+
     if (char < UPPER_A || char > UPPER_Z) {
+      console.log({ input })
       throw new Error('Invalid column number')
     }
     col *= 26 // Base 26, shift left
