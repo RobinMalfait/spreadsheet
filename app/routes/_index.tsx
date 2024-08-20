@@ -32,7 +32,11 @@ import {
   printEvaluationResult,
 } from '~/domain/evaluation'
 import { parse, parseLocation, printExpression, printLocation } from '~/domain/expression'
-import { ComputationResultKind, Spreadsheet } from '~/domain/spreadsheet'
+import {
+  type ComputationError,
+  ComputationResultKind,
+  Spreadsheet,
+} from '~/domain/spreadsheet'
 import { type Token, TokenKind, printTokens, tokenize } from '~/domain/tokenizer'
 import { VersionControl } from '~/domain/version-control'
 
@@ -49,6 +53,7 @@ const HEIGHT = 50
 export default function Index() {
   let [cell, setActiveCell] = useState('A1')
   let [value, setValue] = useState('')
+  let [error, setError] = useState(() => new Map<string, ComputationError>())
   let [debugView, setDebugView] = useState(false)
   let [historyView, setHistoryView] = useState(false)
   let [, forceRerender] = useReducer(() => ({}), {})
@@ -60,7 +65,15 @@ export default function Index() {
   let [vcs] = useState(() => {
     return new VersionControl((cell: string, value: string) => {
       let current = spreadsheet.get(cell)
-      spreadsheet.set(cell, value)
+      let error = spreadsheet.set(cell, value)
+      if (error) {
+        setError((errors) => new Map(errors).set(cell, error))
+      } else {
+        setError((errors) => {
+          errors.delete(cell)
+          return new Map(errors)
+        })
+      }
       forceRerender()
       return [cell, current]
     })
@@ -288,7 +301,7 @@ export default function Index() {
   let location = useMemo(() => parseLocation(cell), [cell])
 
   // Evaluation of the current cell
-  let out = spreadsheet.compute(cell)
+  let out = error.get(cell) ?? spreadsheet.compute(cell)
   let tokens: Token[] = useMemo(() => {
     return value.length > 0
       ? tokenize(value[0] === '=' ? value.slice(1) : `"${value}"`)
@@ -750,7 +763,7 @@ export default function Index() {
               if (col === 0) return [row, null]
 
               // Cell
-              let out = spreadsheet.compute(id)
+              let out = error.get(id) ?? spreadsheet.compute(id)
               if (out === null) return [null, null]
 
               if (out.kind === ComputationResultKind.ERROR) {

@@ -16,7 +16,7 @@ type ComputationValue = {
   value: EvaluationResult
 }
 
-type ComputationError = {
+export type ComputationError = {
   kind: ComputationResultKind.ERROR
   short: string
   message: string
@@ -47,7 +47,7 @@ export class Spreadsheet {
     return ''
   }
 
-  set(cell: string, value: string) {
+  set(cell: string, value: string): ComputationError | null {
     // Reset state
     this.cells.delete(cell)
 
@@ -60,25 +60,36 @@ export class Spreadsheet {
     this.evaluationCache.clear()
 
     // Value must be filled in
-    if (value.trim() === '') return
+    if (value.trim() === '') return null
 
     // Expression should exist
     let expression = value[0] === '=' ? value.slice(1) : `"${value}"`
-    if (expression.trim() === '') return
+    if (expression.trim() === '') return null
 
-    let tokens = tokenize(expression)
-    let ast = parse(tokens)
+    try {
+      let tokens = tokenize(expression)
+      let ast = parse(tokens)
 
-    // Track all references in the AST
-    walk([ast], (node) => {
-      if (node.kind === AstKind.CELL) {
-        dependencies.add(node.name)
+      // Track all references in the AST
+      walk([ast], (node) => {
+        if (node.kind === AstKind.CELL) {
+          dependencies.add(node.name)
+        }
+
+        return WalkAction.Continue
+      })
+
+      this.cells.set(cell, [value, ast])
+
+      return null
+    } catch (err: unknown) {
+      return {
+        kind: ComputationResultKind.ERROR,
+        // @ts-expect-error This is fine…
+        short: err?.short ?? 'Error',
+        message: (err as Error).message,
       }
-
-      return WalkAction.Continue
-    })
-
-    this.cells.set(cell, [value, ast])
+    }
   }
 
   functions() {
