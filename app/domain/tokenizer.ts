@@ -4,6 +4,7 @@ const LINE_FEED = 13 // '\r'
 const SPACE = 32 // ' '
 const EXCLAMATION = 33 // !
 const DOUBLE_QUOTE = 34 // "
+const DOLLAR = 36 // $
 const OPEN_PAREN = 40 // (
 const CLOSE_PAREN = 41 // )
 const ASTERISK = 42 // *
@@ -36,6 +37,7 @@ export enum TokenKind {
   STRING_LITERAL = 'STRING_LITERAL',
   COMMA = 'COMMA',
   COLON = 'COLON',
+  DOLLAR = 'DOLLAR',
   OPEN_PAREN = 'OPEN_PAREN',
   CLOSE_PAREN = 'CLOSE_PAREN',
   ASTERISK = 'ASTERISK',
@@ -58,6 +60,7 @@ export type Token = (
   | { kind: TokenKind.STRING_LITERAL; value: string }
   | { kind: TokenKind.COMMA }
   | { kind: TokenKind.COLON }
+  | { kind: TokenKind.DOLLAR }
   | { kind: TokenKind.OPEN_PAREN }
   | { kind: TokenKind.CLOSE_PAREN }
   | { kind: TokenKind.ASTERISK }
@@ -256,6 +259,16 @@ export function tokenize(input: string): Token[] {
         value: input.slice(start, end),
         raw: input.slice(start, end),
         span: { start, end },
+      })
+      continue
+    }
+
+    // Dollar
+    if (char === DOLLAR) {
+      tokens.push({
+        kind: TokenKind.DOLLAR,
+        raw: '$',
+        span: { start: idx, end: idx + 1 },
       })
       continue
     }

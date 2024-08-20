@@ -355,20 +355,74 @@ export default function Index() {
                   return 'text-purple-500'
                 }
 
-                // Cell / Cell range
-                if (
-                  // Cell
-                  (token.kind === TokenKind.IDENTIFIER &&
-                    // Next token is an open paren. This means that the identifier
-                    // is a function call, not a cell reference.
-                    tokens[idx + 1]?.kind !== TokenKind.OPEN_PAREN) ||
-                  // Cell range, the identifiers are highlighted already, but the
-                  // colon is not yet.
-                  (token.kind === TokenKind.COLON &&
+                // Cell references
+                {
+                  // Cell reference (without locks)
+                  //
+                  // Matches:        A1
+                  // Does not match: A1(
+                  if (
+                    token.kind === TokenKind.IDENTIFIER &&
+                    tokens[idx + 1]?.kind !== TokenKind.OPEN_PAREN
+                  ) {
+                    return 'text-amber-500'
+                  }
+
+                  // Locked row, styling the `$` character
+                  //
+                  // Matches:        $A1
+                  // Does not match: $A1(
+                  //                    ^
+                  if (
+                    token.kind === TokenKind.DOLLAR &&
+                    tokens[idx + 1]?.kind === TokenKind.IDENTIFIER &&
+                    tokens[idx + 2]?.kind !== TokenKind.OPEN_PAREN
+                  ) {
+                    return 'text-amber-500'
+                  }
+
+                  // Locked row, styling the `$` character
+                  //
+                  // Matches:        A$1
+                  // Does not match: A$1(
+                  //                    ^
+                  if (
+                    token.kind === TokenKind.DOLLAR &&
                     tokens[idx - 1]?.kind === TokenKind.IDENTIFIER &&
-                    tokens[idx + 1]?.kind === TokenKind.IDENTIFIER)
-                ) {
-                  return 'text-amber-500'
+                    tokens[idx + 1]?.kind === TokenKind.NUMBER_LITERAL &&
+                    tokens[idx + 2]?.kind !== TokenKind.OPEN_PAREN
+                  ) {
+                    return 'text-amber-500'
+                  }
+
+                  // Cell range, styling the `:` character
+                  //
+                  // Matches:         A1:B2
+                  //                 A$1:B$2
+                  // Does not match:  A1:B2(
+                  //                       ^
+                  if (
+                    token.kind === TokenKind.COLON &&
+                    //
+                    (tokens[idx - 1]?.kind === TokenKind.IDENTIFIER ||
+                      tokens[idx - 1]?.kind === TokenKind.NUMBER_LITERAL) &&
+                    //
+                    (tokens[idx + 1]?.kind === TokenKind.IDENTIFIER ||
+                      tokens[idx + 1]?.kind === TokenKind.DOLLAR)
+                  ) {
+                    return 'text-amber-500'
+                  }
+
+                  // Locked row, styling the `$` character
+                  //
+                  // Matches: A$1
+                  //            ^
+                  if (
+                    token.kind === TokenKind.NUMBER_LITERAL &&
+                    tokens[idx - 1]?.kind === TokenKind.DOLLAR
+                  ) {
+                    return 'text-amber-500'
+                  }
                 }
 
                 // Numbers
@@ -379,6 +433,14 @@ export default function Index() {
 
                 // Unknown
                 if (token.kind === TokenKind.UNKNOWN) return 'text-red-500'
+
+                // Parentheses
+                if (
+                  token.kind === TokenKind.OPEN_PAREN ||
+                  token.kind === TokenKind.CLOSE_PAREN
+                ) {
+                  return 'text-gray-500'
+                }
 
                 return ''
               })()
@@ -940,22 +1002,22 @@ export default function Index() {
 
 function topCell(cell: string) {
   let { col, row } = parseLocation(cell)
-  return printLocation({ col, row: row - 1 })
+  return printLocation({ col, row: row - 1, lock: { col: false, row: false } })
 }
 
 function rightCell(cell: string) {
   let { col, row } = parseLocation(cell)
-  return printLocation({ col: col + 1, row })
+  return printLocation({ col: col + 1, row, lock: { col: false, row: false } })
 }
 
 function bottomCell(cell: string) {
   let { col, row } = parseLocation(cell)
-  return printLocation({ col, row: row + 1 })
+  return printLocation({ col, row: row + 1, lock: { col: false, row: false } })
 }
 
 function leftCell(cell: string) {
   let { col, row } = parseLocation(cell)
-  let out = printLocation({ col: col - 1, row })
+  let out = printLocation({ col: col - 1, row, lock: { col: false, row: false } })
   return out
 }
 

@@ -1,6 +1,13 @@
-import { type AST, AstKind, BinaryExpressionOperator } from '~/domain/ast'
+import {
+  type AST,
+  type AstCell,
+  AstCellRange,
+  AstKind,
+  BinaryExpressionOperator,
+} from '~/domain/ast'
 import { type Token, TokenKind } from '~/domain/tokenizer'
 
+const DOLLAR = 36 // $
 const UPPER_A = 65 // A
 const UPPER_Z = 90 // Z
 
@@ -133,49 +140,44 @@ function parseLeaf(tokens: Token[]): AST {
     case TokenKind.STRING_LITERAL:
       return { kind: AstKind.STRING_LITERAL, value: token.value, span: token.span }
 
-    case TokenKind.IDENTIFIER: {
-      let peek = tokens[0]
-      if (!peek) {
-        // Cell reference
-        return {
-          kind: AstKind.CELL,
-          name: token.value,
-          loc: parseLocation(token.value),
-          span: token.span,
-        }
-      }
+    // Locked cell reference / ranges
+    case TokenKind.DOLLAR: {
+      tokens.unshift(token) // Put back the `$` token
 
-      // Cell range
-      if (peek.kind === TokenKind.COLON) {
-        tokens.shift() // :
-        let end = tokens.shift() // End
-        if (!end || end.kind !== TokenKind.IDENTIFIER) {
+      let lhs = parseCellReference(tokens)
+      if (tokens[0]?.kind === TokenKind.COLON) {
+        tokens.shift() // Consume colon
+        let rhs = parseCellReference(tokens)
+
+        // @ts-expect-error We mutated `tokens` via `tokens.shift()`, so the `tokens[0]` _can_ be different.
+        if (tokens[0]?.kind === TokenKind.OPEN_PAREN) {
           throw new Error('Invalid cell range')
         }
 
         return {
           kind: AstKind.RANGE,
-          start: {
-            kind: AstKind.CELL,
-            name: token.value,
-            loc: parseLocation(token.value),
-            span: token.span,
-          },
-          end: {
-            kind: AstKind.CELL,
-            name: end.value,
-            loc: parseLocation(end.value),
-            span: end.span,
-          },
+          raw: `${lhs.raw}:${rhs.raw}`,
+          start: lhs,
+          end: rhs,
           span: {
-            start: token.span.start,
-            end: end.span.end,
+            start: lhs.span.start,
+            end: rhs.span.end,
           },
         }
       }
 
+      if (tokens[0]?.kind === TokenKind.OPEN_PAREN) {
+        throw new Error('Invalid cell reference')
+      }
+
+      return lhs
+    }
+
+    case TokenKind.IDENTIFIER: {
+      let peek = tokens[0]
+
       // Function call
-      if (peek.kind === TokenKind.OPEN_PAREN) {
+      if (peek?.kind === TokenKind.OPEN_PAREN) {
         // Skip open paren
         let openParen = tokens.shift()
         if (openParen?.kind !== TokenKind.OPEN_PAREN) {
@@ -256,13 +258,36 @@ function parseLeaf(tokens: Token[]): AST {
         }
       }
 
-      // Cell reference
-      return {
-        kind: AstKind.CELL,
-        name: token.value,
-        loc: parseLocation(token.value),
-        span: token.span,
+      // Cell reference or cell range
+      tokens.unshift(token) // Put back the identifier token
+
+      let lhs = parseCellReference(tokens)
+      if (tokens[0]?.kind === TokenKind.COLON) {
+        tokens.shift() // Consume colon
+        let rhs = parseCellReference(tokens)
+
+        // @ts-expect-error We mutated `tokens` via `tokens.shift()`, so the `tokens[0]` _can_ be different.
+        if (tokens[0]?.kind === TokenKind.OPEN_PAREN) {
+          throw new Error('Invalid cell range')
+        }
+
+        return {
+          kind: AstKind.RANGE,
+          raw: `${lhs.raw}:${rhs.raw}`,
+          start: lhs,
+          end: rhs,
+          span: {
+            start: lhs.span.start,
+            end: rhs.span.end,
+          },
+        }
       }
+
+      if (tokens[0]?.kind === TokenKind.OPEN_PAREN) {
+        throw new Error('Invalid cell reference')
+      }
+
+      return lhs
     }
 
     // Parenthesized expression
@@ -281,21 +306,119 @@ function parseLeaf(tokens: Token[]): AST {
   throw new Error(`Invalid expression, unexpected token: ${token.raw}`)
 }
 
+function parseCellReference(tokens: Token[]): AstCell {
+  let lockCol: Token | null = null
+  let lockRow: Token | null = null
+  let start: Token | null = null
+  let end: Token | null = null
+  let name = ''
+  let raw = ''
+
+  let peek = tokens[0]
+  if (!peek) throw new Error('Invalid cell reference')
+
+  // $A1
+  // ^
+  if (peek.kind === TokenKind.DOLLAR) {
+    // biome-ignore lint/style/noNonNullAssertion: we verified that `peek` exists, therefore `tokens` is not empty and `.shift()` will return a value.
+    lockCol = tokens.shift()! // $
+    start ??= lockCol
+    end = lockCol
+    raw += lockCol.raw
+  }
+
+  // $A1 or A1
+  //  ^^    ^^
+  peek = tokens[0]
+  if (!peek) throw new Error('Invalid cell reference')
+  if (peek.kind !== TokenKind.IDENTIFIER) throw new Error('Invalid cell reference')
+
+  // biome-ignore lint/style/noNonNullAssertion: we verified that `peek` exists, therefore `tokens` is not empty and `.shift()` will return a value.
+  peek = tokens.shift()! // Consume identifier
+  start ??= peek
+  end = peek
+  name += peek.raw // Consume identifier
+  raw += peek.raw
+
+  // A$1 or $A$1
+  //  ^       ^
+  peek = tokens[0]
+  if (peek?.kind === TokenKind.DOLLAR) {
+    // biome-ignore lint/style/noNonNullAssertion: we verified that `peek` exists, therefore `tokens` is not empty and `.shift()` will return a value.
+    lockRow = tokens.shift()! // $
+    start ??= lockRow
+    end = lockRow
+    raw += lockRow.raw
+
+    // A$1
+    //   ^
+    peek = tokens[0]
+    if (!peek) throw new Error('Invalid cell reference')
+    if (peek.kind !== TokenKind.NUMBER_LITERAL) throw new Error('Invalid cell reference')
+
+    // biome-ignore lint/style/noNonNullAssertion: we verified that `peek` exists, therefore `tokens` is not empty and `.shift()` will return a value.
+    peek = tokens.shift()! // Consume number
+    start ??= peek
+    end = peek
+    name += peek.raw
+    raw += peek.raw
+  }
+
+  return {
+    kind: AstKind.CELL,
+    name,
+    raw,
+    loc: parseLocation(name),
+    span: {
+      start: start.span.start,
+      end: end.span.end,
+    },
+  }
+}
+
 export type Location = {
   col: number
   row: number
+  lock: {
+    col: boolean
+    row: boolean
+  }
 }
 
 export function parseLocation(input: string): Location {
+  let lockCol = false
+  let lockRow = false
+
   let idx = 0
   let char = input.charCodeAt(idx)
+
+  // Locked column
+  if (char === DOLLAR) {
+    lockCol = true
+    char = input.charCodeAt(++idx)
+  }
+
   do {
     char = input.charCodeAt(++idx)
   } while (char >= UPPER_A && char <= UPPER_Z)
 
+  let col = parseColNumber(input.slice(lockCol ? 1 : 0, idx))
+
+  // Locked row
+  if (char === DOLLAR) {
+    lockRow = true
+    char = input.charCodeAt(++idx)
+  }
+
+  let row = Number(input.slice(idx))
+
   return {
-    col: parseColNumber(input.slice(0, idx)),
-    row: Number(input.slice(idx)),
+    col,
+    row,
+    lock: {
+      col: lockCol,
+      row: lockRow,
+    },
   }
 }
 
@@ -321,9 +444,9 @@ export function parseColNumber(input: string) {
 export function printExpression(input: AST, depth = 0): string {
   switch (input.kind) {
     case AstKind.CELL:
-      return input.name
+      return input.raw
     case AstKind.RANGE:
-      return `${input.start.name}:${input.end.name}`
+      return input.raw
     case AstKind.FUNCTION:
       return `${input.name}(${input.args.map(printExpression).join(', ')})`
     case AstKind.NUMBER_LITERAL:
@@ -370,7 +493,11 @@ function printBinaryOperator(operator: BinaryExpressionOperator) {
   }
 }
 
-export function printLocation(location: Location) {
+export function printLocation(location: Location, locked = false) {
+  if (locked) {
+    return `${location.lock.col ? '$' : ''}${printColNumber(location.col)}${location.lock.row ? '$' : ''}${location.row}`
+  }
+
   return `${printColNumber(location.col)}${location.row}`
 }
 

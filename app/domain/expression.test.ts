@@ -25,18 +25,44 @@ it('should parse the column number', () => {
   expect(parseColNumber('ZZ')).toEqual(702)
 })
 
-it('should print the cell after parsing', () => {
-  expect(printLocation(parseLocation('A1'))).toEqual('A1')
-  expect(printLocation(parseLocation('A10'))).toEqual('A10')
+it.each([
+  ['A1'],
+  ['$A1'],
+  ['$A$1'],
+  ['A$1'],
+  ['A10'],
+  ['$A10'],
+  ['$A$10'],
+  ['A$10'],
 
-  expect(printLocation(parseLocation('Z1'))).toEqual('Z1')
-  expect(printLocation(parseLocation('Z10'))).toEqual('Z10')
+  ['Z1'],
+  ['$Z1'],
+  ['$Z$1'],
+  ['Z$1'],
+  ['Z10'],
+  ['$Z10'],
+  ['$Z$10'],
+  ['Z$10'],
 
-  expect(printLocation(parseLocation('AA1'))).toEqual('AA1')
-  expect(printLocation(parseLocation('AA10'))).toEqual('AA10')
+  ['AA1'],
+  ['$AA1'],
+  ['$AA$1'],
+  ['AA$1'],
+  ['AA10'],
+  ['$AA10'],
+  ['$AA$10'],
+  ['AA$10'],
 
-  expect(printLocation(parseLocation('AZ1'))).toEqual('AZ1')
-  expect(printLocation(parseLocation('AZ10'))).toEqual('AZ10')
+  ['AZ1'],
+  ['$AZ1'],
+  ['$AZ$1'],
+  ['AZ$1'],
+  ['AZ10'],
+  ['$AZ10'],
+  ['$AZ$10'],
+  ['AZ$10'],
+])('should print the cell %s after parsing', (cell) => {
+  expect(printLocation(parseLocation(cell), true)).toEqual(cell)
 })
 
 describe('parsing', () => {
@@ -163,16 +189,94 @@ describe('parsing', () => {
   })
 
   describe('cell reference', () => {
-    it('should parse a cell reference', () => {
-      expect(printExpression(parse(tokenize('A1')))).toMatchInlineSnapshot(`"A1"`)
-      expect(printExpression(parse(tokenize('A23')))).toMatchInlineSnapshot(`"A23"`)
-      expect(printExpression(parse(tokenize('AZ99')))).toMatchInlineSnapshot(`"AZ99"`)
+    it.each([
+      // NOT LOCKED
+      // Single char col and row
+      ['A1'],
+
+      // Single char col, multiple char row
+      ['A23'],
+
+      // Multiple char col, single char row
+      ['AZ1'],
+
+      // Multiple char col and row
+      ['AZ23'],
+
+      // LOCKED
+      // Single char col and row
+      ['$A$1'],
+      ['A$1'],
+      ['$A1'],
+
+      // Single char col, multiple char row
+      ['$A$23'],
+      ['A$23'],
+      ['$A23'],
+
+      // Multiple char col, single char row
+      ['$AZ$1'],
+      ['AZ$1'],
+      ['$AZ1'],
+
+      // Multiple char col and row
+      ['$AZ$23'],
+      ['AZ$23'],
+      ['$AZ23'],
+    ])('should parse a cell (%s) reference', (cell) => {
+      expect(printExpression(parse(tokenize(cell)))).toEqual(cell)
     })
   })
 
   describe('cell range', () => {
+    let options = [
+      // NOT LOCKED
+      // Single char col and row
+      'A1',
+
+      // Single char col, multiple char row
+      'A23',
+
+      // Multiple char col, single char row
+      'AZ1',
+
+      // Multiple char col and row
+      'AZ23',
+
+      // LOCKED
+      // Single char col and row
+      '$A$1',
+      'A$1',
+      '$A1',
+
+      // Single char col, multiple char row
+      '$A$23',
+      'A$23',
+      '$A23',
+
+      // Multiple char col, single char row
+      '$AZ$1',
+      'AZ$1',
+      '$AZ1',
+
+      // Multiple char col and row
+      '$AZ$23',
+      'AZ$23',
+      '$AZ23',
+    ]
+
+    let combinations = []
+    for (let lhs of options) {
+      for (let rhs of options) {
+        combinations.push([`${lhs}:${rhs}`])
+      }
+    }
+
+    it.each(combinations)('should parse a cell range (%s)', (range) => {
+      expect(printExpression(parse(tokenize(range)))).toEqual(range)
+    })
+
     it('should parse a cell range', () => {
-      expect(printExpression(parse(tokenize('A1:B2')))).toMatchInlineSnapshot(`"A1:B2"`)
       expect(printExpression(parse(tokenize('A1:B20')))).toMatchInlineSnapshot(`"A1:B20"`)
       expect(printExpression(parse(tokenize('A20:B2')))).toMatchInlineSnapshot(`"A20:B2"`)
       expect(printExpression(parse(tokenize('AA10:ZZ99')))).toMatchInlineSnapshot(
@@ -257,15 +361,21 @@ describe('parsing', () => {
                   "kind": "CELL",
                   "loc": {
                     "col": 2,
+                    "lock": {
+                      "col": false,
+                      "row": false,
+                    },
                     "row": 1,
                   },
                   "name": "B1",
+                  "raw": "B1",
                   "span": {
                     "end": 21,
                     "start": 19,
                   },
                 },
                 "kind": "RANGE",
+                "raw": "A1:B1",
                 "span": {
                   "end": 21,
                   "start": 16,
@@ -274,9 +384,14 @@ describe('parsing', () => {
                   "kind": "CELL",
                   "loc": {
                     "col": 1,
+                    "lock": {
+                      "col": false,
+                      "row": false,
+                    },
                     "row": 1,
                   },
                   "name": "A1",
+                  "raw": "A1",
                   "span": {
                     "end": 18,
                     "start": 16,

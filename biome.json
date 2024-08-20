@@ -1,6 +1,5 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
-
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -15,7 +14,9 @@
     "lineWidth": 90,
     "attributePosition": "auto"
   },
-  "organizeImports": { "enabled": true },
+  "organizeImports": {
+    "enabled": true
+  },
   "linter": {
     "enabled": true,
     "rules": {
@@ -24,6 +25,9 @@
       },
       "nursery": {
         "useSortedClasses": "warn"
+      },
+      "complexity": {
+        "noUselessLoneBlockStatements": "off"
       }
     }
   },

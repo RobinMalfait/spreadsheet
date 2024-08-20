@@ -7,8 +7,16 @@ import { ComputationResultKind, type Spreadsheet } from '~/domain/spreadsheet'
 export function visualizeSpreadsheet(spreadsheet: Spreadsheet) {
   let cells = spreadsheet.cellNames.map((cell) => parseLocation(cell))
 
-  let first: Location = { row: Number.POSITIVE_INFINITY, col: Number.POSITIVE_INFINITY }
-  let last: Location = { row: Number.NEGATIVE_INFINITY, col: Number.NEGATIVE_INFINITY }
+  let first: Location = {
+    row: Number.POSITIVE_INFINITY,
+    col: Number.POSITIVE_INFINITY,
+    lock: { col: false, row: false },
+  }
+  let last: Location = {
+    row: Number.NEGATIVE_INFINITY,
+    col: Number.NEGATIVE_INFINITY,
+    lock: { col: false, row: false },
+  }
 
   // Figure out the grid size
   for (let cell of cells) {
@@ -48,7 +56,11 @@ export function visualizeSpreadsheet(spreadsheet: Spreadsheet) {
   for (let row = 0; row < rows; row++) {
     let output = [`${row + 1}`]
     for (let col = 0; col < cols; col++) {
-      let cell = printLocation({ row: first.row + row, col: first.col + col })
+      let cell = printLocation({
+        row: first.row + row,
+        col: first.col + col,
+        lock: { col: false, row: false },
+      })
       let result = spreadsheet.compute(cell)
       if (result === null) {
         output.push('')

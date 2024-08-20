@@ -17,6 +17,7 @@ interface Span {
 export interface AstCell extends Span {
   kind: AstKind.CELL
   name: string
+  raw: string
   loc: {
     col: number
     row: number
@@ -25,6 +26,7 @@ export interface AstCell extends Span {
 
 export interface AstCellRange extends Span {
   kind: AstKind.RANGE
+  raw: string
   start: AstCell
   end: AstCell
 }

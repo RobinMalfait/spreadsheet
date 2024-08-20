@@ -22,6 +22,21 @@ it('should tokenize unknown characters', () => {
   `)
 })
 
+it('should tokenize dollar sign', () => {
+  expect(tokenize('$')).toMatchInlineSnapshot(json`
+    [
+      {
+        "kind": "DOLLAR",
+        "raw": "$",
+        "span": {
+          "end": 1,
+          "start": 0,
+        },
+      },
+    ]
+  `)
+})
+
 describe('number literal', () => {
   it('should tokenize a number literal (unsigned integer)', () => {
     expect(tokenize('123')).toMatchInlineSnapshot(json`
@@ -361,7 +376,7 @@ describe('math operators', () => {
 
 describe('span', () => {
   it('should have the correct span for a token', () => {
-    let input = '1 + 2 * 3 - 40 / B1 + SUM(A1:B2, PI())'
+    let input = '1 + 2 * 3 - 40 / B1 + SUM(A1:B2, PI(), $A1, A$1, $A$1)'
     let tokens = tokenize(input)
 
     for (let token of tokens) {
