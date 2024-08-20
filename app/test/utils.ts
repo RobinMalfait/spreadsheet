@@ -65,7 +65,7 @@ export function visualizeSpreadsheet(spreadsheet: Spreadsheet) {
       if (result === null) {
         output.push('')
       } else if (result.kind === ComputationResultKind.ERROR) {
-        output.push(result.short)
+        output.push('Error')
         errors.push(`\u00B7 ${cell}: ${result.message}`)
       } else {
         output.push(printEvaluationResult(result.value))

@@ -9,11 +9,11 @@ describe('PI()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -45,11 +45,11 @@ describe('TAU()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -81,11 +81,11 @@ describe('ABS', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -100,11 +100,11 @@ describe('ABS', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -154,11 +154,11 @@ describe('ACOS', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -173,11 +173,11 @@ describe('ACOS', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -227,11 +227,11 @@ describe('ACOSH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -246,11 +246,11 @@ describe('ACOSH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -300,11 +300,11 @@ describe('ASIN', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -319,11 +319,11 @@ describe('ASIN', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -373,11 +373,11 @@ describe('ASINH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -392,11 +392,11 @@ describe('ASINH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -446,11 +446,11 @@ describe('ATAN', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -465,11 +465,11 @@ describe('ATAN', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -519,11 +519,11 @@ describe('ATANH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -538,11 +538,11 @@ describe('ATANH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -592,11 +592,11 @@ describe('CBRT', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -611,11 +611,11 @@ describe('CBRT', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -665,11 +665,11 @@ describe('CLZ32', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -684,11 +684,11 @@ describe('CLZ32', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -738,11 +738,11 @@ describe('COS', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -757,11 +757,11 @@ describe('COS', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -811,11 +811,11 @@ describe('COSH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -830,11 +830,11 @@ describe('COSH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -884,11 +884,11 @@ describe('EXP', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -903,11 +903,11 @@ describe('EXP', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -957,11 +957,11 @@ describe('LOG', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -976,11 +976,11 @@ describe('LOG', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1030,11 +1030,11 @@ describe('LOG10', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1049,11 +1049,11 @@ describe('LOG10', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1103,11 +1103,11 @@ describe('SIN', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1122,11 +1122,11 @@ describe('SIN', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1176,11 +1176,11 @@ describe('SINH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1195,11 +1195,11 @@ describe('SINH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1249,11 +1249,11 @@ describe('SQRT', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1268,11 +1268,11 @@ describe('SQRT', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1322,11 +1322,11 @@ describe('TAN', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1341,11 +1341,11 @@ describe('TAN', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1395,11 +1395,11 @@ describe('TANH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1414,11 +1414,11 @@ describe('TANH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1468,11 +1468,11 @@ describe('TRUNC', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1487,11 +1487,11 @@ describe('TRUNC', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1541,11 +1541,11 @@ describe('ATAN2', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1560,11 +1560,11 @@ describe('ATAN2', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1579,11 +1579,11 @@ describe('ATAN2', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1598,11 +1598,11 @@ describe('ATAN2', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1617,11 +1617,11 @@ describe('ATAN2', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1636,11 +1636,11 @@ describe('ATAN2', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1676,11 +1676,11 @@ describe('IMUL', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1695,11 +1695,11 @@ describe('IMUL', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1714,11 +1714,11 @@ describe('IMUL', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────┐
-      │   │ A      │
-      ├───┼────────┤
-      │ 1 │ #VALUE │
-      └───┴────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1733,11 +1733,11 @@ describe('IMUL', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1752,11 +1752,11 @@ describe('IMUL', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1771,11 +1771,11 @@ describe('IMUL', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1853,11 +1853,11 @@ describe('ADD()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1872,11 +1872,11 @@ describe('ADD()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1891,11 +1891,11 @@ describe('ADD()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1910,11 +1910,11 @@ describe('ADD()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1929,11 +1929,11 @@ describe('ADD()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1969,11 +1969,11 @@ describe('SUBTRACT()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -1988,11 +1988,11 @@ describe('SUBTRACT()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2007,11 +2007,11 @@ describe('SUBTRACT()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2026,11 +2026,11 @@ describe('SUBTRACT()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2045,11 +2045,11 @@ describe('SUBTRACT()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2085,11 +2085,11 @@ describe('MULTIPLY()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2104,11 +2104,11 @@ describe('MULTIPLY()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2123,11 +2123,11 @@ describe('MULTIPLY()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2142,11 +2142,11 @@ describe('MULTIPLY()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2161,11 +2161,11 @@ describe('MULTIPLY()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2243,11 +2243,11 @@ describe('DIVIDE()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2262,11 +2262,11 @@ describe('DIVIDE()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2281,11 +2281,11 @@ describe('DIVIDE()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2300,11 +2300,11 @@ describe('DIVIDE()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2319,11 +2319,11 @@ describe('DIVIDE()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2338,11 +2338,11 @@ describe('DIVIDE()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #DIV/0! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2378,11 +2378,11 @@ describe('POWER()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2397,11 +2397,11 @@ describe('POWER()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2416,11 +2416,11 @@ describe('POWER()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2435,11 +2435,11 @@ describe('POWER()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2454,11 +2454,11 @@ describe('POWER()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2494,11 +2494,11 @@ describe('MOD()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2513,11 +2513,11 @@ describe('MOD()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2532,11 +2532,11 @@ describe('MOD()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2551,11 +2551,11 @@ describe('MOD()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2570,11 +2570,11 @@ describe('MOD()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2589,11 +2589,11 @@ describe('MOD()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2608,11 +2608,11 @@ describe('MOD()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #DIV/0! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2648,11 +2648,11 @@ describe('FLOOR()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2667,11 +2667,11 @@ describe('FLOOR()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2686,11 +2686,11 @@ describe('FLOOR()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2723,11 +2723,11 @@ describe('CEIL()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2742,11 +2742,11 @@ describe('CEIL()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2761,11 +2761,11 @@ describe('CEIL()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2798,11 +2798,11 @@ describe('ROUND()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2817,11 +2817,11 @@ describe('ROUND()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2836,11 +2836,11 @@ describe('ROUND()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -2855,11 +2855,11 @@ describe('ROUND()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 

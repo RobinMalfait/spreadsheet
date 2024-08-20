@@ -9,11 +9,11 @@ describe('TRUE()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -45,11 +45,11 @@ describe('FALSE()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -81,11 +81,11 @@ describe('IF()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -100,11 +100,11 @@ describe('IF()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -237,11 +237,11 @@ describe('NOT()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -256,11 +256,11 @@ describe('NOT()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 

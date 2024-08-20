@@ -19,11 +19,8 @@ export function JOIN(
   ...args: EvaluationResult[]
 ): EvaluationResult {
   if (delimiter?.kind !== EvaluationResultKind.STRING) {
-    throw Object.assign(
-      new Error(
-        `JOIN() expects a string as the delimiter, got ${delimiter?.value ?? '<nothing>'}`,
-      ),
-      { short: '#VALUE!' },
+    throw new Error(
+      `JOIN() expects a string as the delimiter, got ${delimiter?.value ?? '<nothing>'}`,
     )
   }
 
@@ -41,17 +38,11 @@ export function LOWER(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw Object.assign(
-      new Error(`LOWER() does not take more than one argument, got ${extra.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`LOWER() does not take more than one argument, got ${extra.value}`)
   }
 
   if (!arg) {
-    throw Object.assign(
-      new Error('LOWER() expects a value as the first argument, got <nothing>'),
-      { short: '#N/A' },
-    )
+    throw new Error('LOWER() expects a value as the first argument, got <nothing>')
   }
 
   return {
@@ -65,17 +56,11 @@ export function UPPER(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw Object.assign(
-      new Error(`UPPER() does not take more than one argument, got ${extra.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`UPPER() does not take more than one argument, got ${extra.value}`)
   }
 
   if (!arg) {
-    throw Object.assign(
-      new Error('UPPER() expects a value as the first argument, got <nothing>'),
-      { short: '#N/A' },
-    )
+    throw new Error('UPPER() expects a value as the first argument, got <nothing>')
   }
 
   return {
@@ -86,24 +71,15 @@ export function UPPER(
 
 export function LEN(arg?: EvaluationResult, extra?: EvaluationResult): EvaluationResult {
   if (extra) {
-    throw Object.assign(
-      new Error(`LEN() does not take more than one argument, got ${extra.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`LEN() does not take more than one argument, got ${extra.value}`)
   }
 
   if (!arg) {
-    throw Object.assign(
-      new Error('LEN() expects a value as the first argument, got <nothing>'),
-      { short: '#N/A' },
-    )
+    throw new Error('LEN() expects a value as the first argument, got <nothing>')
   }
 
   if (arg.kind !== EvaluationResultKind.STRING) {
-    throw Object.assign(
-      new Error(`LEN() expects a string as the first argument, got ${arg.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`LEN() expects a string as the first argument, got ${arg.value}`)
   }
 
   return { kind: EvaluationResultKind.NUMBER, value: arg.value.length }
@@ -111,24 +87,15 @@ export function LEN(arg?: EvaluationResult, extra?: EvaluationResult): Evaluatio
 
 export function TRIM(arg?: EvaluationResult, extra?: EvaluationResult): EvaluationResult {
   if (extra) {
-    throw Object.assign(
-      new Error(`TRIM() does not take more than one argument, got ${extra.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`TRIM() does not take more than one argument, got ${extra.value}`)
   }
 
   if (!arg) {
-    throw Object.assign(
-      new Error('TRIM() expects a value as the first argument, got <nothing>'),
-      { short: '#N/A' },
-    )
+    throw new Error('TRIM() expects a value as the first argument, got <nothing>')
   }
 
   if (arg.kind !== EvaluationResultKind.STRING) {
-    throw Object.assign(
-      new Error(`TRIM() expects a string as the first argument, got ${arg.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`TRIM() expects a string as the first argument, got ${arg.value}`)
   }
 
   return { kind: EvaluationResultKind.STRING, value: arg.value.trim() }

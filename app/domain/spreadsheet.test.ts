@@ -533,7 +533,6 @@ describe('errors', () => {
       {
         "kind": "ERROR",
         "message": "Circular reference detected in cell A1",
-        "short": "#REF!",
       }
     `)
   })
@@ -546,7 +545,6 @@ describe('errors', () => {
       {
         "kind": "ERROR",
         "message": "Cannot reference a range to a cell",
-        "short": "#VALUE!",
       }
     `)
   })
@@ -559,7 +557,6 @@ describe('errors', () => {
       {
         "kind": "ERROR",
         "message": "Circular reference detected in cell A1",
-        "short": "#REF!",
       }
     `)
   })
@@ -572,7 +569,6 @@ describe('errors', () => {
       {
         "kind": "ERROR",
         "message": "Circular reference detected in cell A2",
-        "short": "#REF!",
       }
     `)
   })
@@ -585,7 +581,6 @@ describe('errors', () => {
       {
         "kind": "ERROR",
         "message": "Circular reference detected in cell A2",
-        "short": "#REF!",
       }
     `)
   })
@@ -600,7 +595,6 @@ describe('errors', () => {
       {
         "kind": "ERROR",
         "message": "Circular reference detected in cell A3",
-        "short": "#REF!",
       }
     `)
   })

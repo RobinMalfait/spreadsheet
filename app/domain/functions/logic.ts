@@ -2,10 +2,7 @@ import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation
 
 export function TRUE(extra?: EvaluationResult): EvaluationResult {
   if (extra) {
-    throw Object.assign(
-      new Error(`TRUE() does not take an argument, got ${extra.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`TRUE() does not take an argument, got ${extra.value}`)
   }
 
   return { kind: EvaluationResultKind.BOOLEAN, value: true }
@@ -13,10 +10,7 @@ export function TRUE(extra?: EvaluationResult): EvaluationResult {
 
 export function FALSE(extra?: EvaluationResult): EvaluationResult {
   if (extra) {
-    throw Object.assign(
-      new Error(`FALSE() does not take an argument, got ${extra.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`FALSE() does not take an argument, got ${extra.value}`)
   }
 
   return { kind: EvaluationResultKind.BOOLEAN, value: false }
@@ -29,17 +23,11 @@ export function IF(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw Object.assign(
-      new Error(`IF() does not take more than three arguments, got ${extra.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`IF() does not take more than three arguments, got ${extra.value}`)
   }
 
   if (test.kind === EvaluationResultKind.STRING) {
-    throw Object.assign(
-      new Error(`IF() expects a boolean as the first argument, got ${test.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`IF() expects a boolean as the first argument, got ${test.value}`)
   }
 
   return test.value ? consequent : alternate
@@ -55,17 +43,11 @@ export function OR(...args: EvaluationResult[]): EvaluationResult {
 
 export function NOT(lhs: EvaluationResult, extra?: EvaluationResult): EvaluationResult {
   if (extra) {
-    throw Object.assign(
-      new Error(`NOT() does not take a second argument, got ${extra.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`NOT() does not take a second argument, got ${extra.value}`)
   }
 
   if (lhs.kind === EvaluationResultKind.STRING) {
-    throw Object.assign(
-      new Error(`NOT() expects a boolean as the first argument, got ${lhs.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`NOT() expects a boolean as the first argument, got ${lhs.value}`)
   }
 
   return lhs.value ? FALSE() : TRUE()

@@ -58,9 +58,7 @@ export function evaluateExpression(
       let rhs = evaluateExpression(ast.rhs, spreadsheet)
 
       if (lhs.length !== 1 || rhs.length !== 1) {
-        throw Object.assign(new Error('Expected a single result from each side'), {
-          short: '#VALUE!',
-        })
+        throw new Error('Expected a single result from each side')
       }
 
       let left = lhs[0]
@@ -101,16 +99,12 @@ export function evaluateExpression(
         }
       }
 
-      throw Object.assign(new Error(`Invalid operation \`${ast.kind}\``), {
-        short: '#VALUE!',
-      })
+      throw new Error(`Invalid operation \`${ast.kind}\``)
     }
 
     case AstKind.FUNCTION: {
       if (!Object.hasOwn(functions, ast.name)) {
-        throw Object.assign(new Error(`Unknown function \`${ast.name}\``), {
-          short: '#NAME?',
-        })
+        throw new Error(`Unknown function \`${ast.name}\``)
       }
 
       let fn = functions[ast.name as keyof typeof functions]

@@ -2,9 +2,7 @@ import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation
 
 export function PI(extra?: EvaluationResult): EvaluationResult {
   if (extra) {
-    throw Object.assign(new Error('PI() does not take any arguments'), {
-      short: '#VALUE!',
-    })
+    throw new Error('PI() does not take any arguments')
   }
 
   return { kind: EvaluationResultKind.NUMBER, value: Math.PI }
@@ -12,9 +10,7 @@ export function PI(extra?: EvaluationResult): EvaluationResult {
 
 export function TAU(extra?: EvaluationResult): EvaluationResult {
   if (extra) {
-    throw Object.assign(new Error('TAU() does not take any arguments'), {
-      short: '#VALUE!',
-    })
+    throw new Error('TAU() does not take any arguments')
   }
 
   return { kind: EvaluationResultKind.NUMBER, value: 2 * Math.PI }
@@ -23,15 +19,11 @@ export function TAU(extra?: EvaluationResult): EvaluationResult {
 function exposeUnaryMathFunction(name: string, fn: (input: number) => number) {
   return (arg?: EvaluationResult): EvaluationResult => {
     if (arg === undefined) {
-      throw Object.assign(new Error(`${name}() requires an argument`), {
-        short: '#VALUE',
-      })
+      throw new Error(`${name}() requires an argument`)
     }
 
     if (arg.kind !== EvaluationResultKind.NUMBER) {
-      throw Object.assign(new Error(`${name}() expects a number, got ${arg.value}`), {
-        short: '#VALUE!',
-      })
+      throw new Error(`${name}() expects a number, got ${arg.value}`)
     }
 
     return { kind: EvaluationResultKind.NUMBER, value: fn(arg.value) }
@@ -69,28 +61,19 @@ function exposeBinaryMathFunction(
     extra?: EvaluationResult,
   ): EvaluationResult => {
     if (lhs === undefined || rhs === undefined) {
-      throw Object.assign(new Error(`${name}() requires two arguments`), {
-        short: '#VALUE',
-      })
+      throw new Error(`${name}() requires two arguments`)
     }
 
     if (lhs.kind !== EvaluationResultKind.NUMBER) {
-      throw Object.assign(new Error(`${name}() expects a number, got ${lhs.value}`), {
-        short: '#VALUE!',
-      })
+      throw new Error(`${name}() expects a number, got ${lhs.value}`)
     }
 
     if (rhs.kind !== EvaluationResultKind.NUMBER) {
-      throw Object.assign(new Error(`${name}() expects a number, got ${rhs.value}`), {
-        short: '#VALUE!',
-      })
+      throw new Error(`${name}() expects a number, got ${rhs.value}`)
     }
 
     if (extra) {
-      throw Object.assign(
-        new Error(`${name}() does not take a third argument, got ${extra.value}`),
-        { short: '#VALUE!' },
-      )
+      throw new Error(`${name}() does not take a third argument, got ${extra.value}`)
     }
 
     return { kind: EvaluationResultKind.NUMBER, value: fn(lhs.value, rhs.value) }
@@ -127,27 +110,18 @@ export function ADD(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw Object.assign(
-      new Error(`ADD() does not take a third argument, got ${extra.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`ADD() does not take a third argument, got ${extra.value}`)
   }
 
   if (lhs?.kind !== EvaluationResultKind.NUMBER) {
-    throw Object.assign(
-      new Error(
-        `ADD() expects a number as the first argument, got ${lhs?.value ?? '<nothing>'}`,
-      ),
-      { short: '#VALUE!' },
+    throw new Error(
+      `ADD() expects a number as the first argument, got ${lhs?.value ?? '<nothing>'}`,
     )
   }
 
   if (rhs?.kind !== EvaluationResultKind.NUMBER) {
-    throw Object.assign(
-      new Error(
-        `ADD() expects a number as the second argument, got ${rhs?.value ?? '<nothing>'}`,
-      ),
-      { short: '#VALUE!' },
+    throw new Error(
+      `ADD() expects a number as the second argument, got ${rhs?.value ?? '<nothing>'}`,
     )
   }
 
@@ -160,27 +134,18 @@ export function SUBTRACT(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw Object.assign(
-      new Error(`SUBTRACT() does not take a third argument, got ${extra.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`SUBTRACT() does not take a third argument, got ${extra.value}`)
   }
 
   if (lhs?.kind !== EvaluationResultKind.NUMBER) {
-    throw Object.assign(
-      new Error(
-        `SUBTRACT() expects a number as the first argument, got ${lhs?.value ?? '<nothing>'}`,
-      ),
-      { short: '#VALUE!' },
+    throw new Error(
+      `SUBTRACT() expects a number as the first argument, got ${lhs?.value ?? '<nothing>'}`,
     )
   }
 
   if (rhs?.kind !== EvaluationResultKind.NUMBER) {
-    throw Object.assign(
-      new Error(
-        `SUBTRACT() expects a number as the second argument, got ${rhs?.value ?? '<nothing>'}`,
-      ),
-      { short: '#VALUE!' },
+    throw new Error(
+      `SUBTRACT() expects a number as the second argument, got ${rhs?.value ?? '<nothing>'}`,
     )
   }
 
@@ -193,27 +158,18 @@ export function MULTIPLY(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw Object.assign(
-      new Error(`MULTIPLY() does not take a third argument, got ${extra.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`MULTIPLY() does not take a third argument, got ${extra.value}`)
   }
 
   if (lhs?.kind !== EvaluationResultKind.NUMBER) {
-    throw Object.assign(
-      new Error(
-        `MULTIPLY() expects a number as the first argument, got ${lhs?.value ?? '<nothing>'}`,
-      ),
-      { short: '#VALUE!' },
+    throw new Error(
+      `MULTIPLY() expects a number as the first argument, got ${lhs?.value ?? '<nothing>'}`,
     )
   }
 
   if (rhs?.kind !== EvaluationResultKind.NUMBER) {
-    throw Object.assign(
-      new Error(
-        `MULTIPLY() expects a number as the second argument, got ${rhs?.value ?? '<nothing>'}`,
-      ),
-      { short: '#VALUE!' },
+    throw new Error(
+      `MULTIPLY() expects a number as the second argument, got ${rhs?.value ?? '<nothing>'}`,
     )
   }
 
@@ -249,32 +205,23 @@ export function DIVIDE(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw Object.assign(
-      new Error(`DIVIDE() does not take a third argument, got ${extra.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`DIVIDE() does not take a third argument, got ${extra.value}`)
   }
 
   if (lhs?.kind !== EvaluationResultKind.NUMBER) {
-    throw Object.assign(
-      new Error(
-        `DIVIDE() expects a number as the dividend, got ${lhs?.value ?? '<nothing>'}`,
-      ),
-      { short: '#VALUE!' },
+    throw new Error(
+      `DIVIDE() expects a number as the dividend, got ${lhs?.value ?? '<nothing>'}`,
     )
   }
 
   if (rhs?.kind !== EvaluationResultKind.NUMBER) {
-    throw Object.assign(
-      new Error(
-        `DIVIDE() expects a number as the divisor, got ${rhs?.value ?? '<nothing>'}`,
-      ),
-      { short: '#VALUE!' },
+    throw new Error(
+      `DIVIDE() expects a number as the divisor, got ${rhs?.value ?? '<nothing>'}`,
     )
   }
 
   if (rhs.value === 0) {
-    throw Object.assign(new Error('DIVIDE() cannot divide by zero'), { short: '#DIV/0!' })
+    throw new Error('DIVIDE() cannot divide by zero')
   }
 
   let out = lhs.value / rhs.value
@@ -288,25 +235,18 @@ export function POWER(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw Object.assign(
-      new Error(`POWER() does not take a third argument, got ${extra.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`POWER() does not take a third argument, got ${extra.value}`)
   }
 
   if (lhs?.kind !== EvaluationResultKind.NUMBER) {
-    throw Object.assign(
-      new Error(`POWER() expects a number as the base, got ${lhs?.value ?? '<nothing>'}`),
-      { short: '#VALUE!' },
+    throw new Error(
+      `POWER() expects a number as the base, got ${lhs?.value ?? '<nothing>'}`,
     )
   }
 
   if (rhs?.kind !== EvaluationResultKind.NUMBER) {
-    throw Object.assign(
-      new Error(
-        `POWER() expects a number as the exponent, got ${rhs?.value ?? '<nothing>'}`,
-      ),
-      { short: '#VALUE!' },
+    throw new Error(
+      `POWER() expects a number as the exponent, got ${rhs?.value ?? '<nothing>'}`,
     )
   }
 
@@ -319,37 +259,25 @@ export function MOD(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw Object.assign(
-      new Error(`MOD() does not take a third argument, got ${extra.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`MOD() does not take a third argument, got ${extra.value}`)
   }
 
   if (num === undefined || divisor === undefined) {
-    throw Object.assign(
-      new Error(
-        `MOD() requires two arguments, got ${[num, divisor].filter(Boolean).length}`,
-      ),
-      { short: '#VALUE!' },
+    throw new Error(
+      `MOD() requires two arguments, got ${[num, divisor].filter(Boolean).length}`,
     )
   }
 
   if (num.kind !== EvaluationResultKind.NUMBER) {
-    throw Object.assign(
-      new Error(`MOD() expects a number as the number, got ${num.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`MOD() expects a number as the number, got ${num.value}`)
   }
 
   if (divisor.kind !== EvaluationResultKind.NUMBER) {
-    throw Object.assign(
-      new Error(`MOD() expects a number as the divisor, got ${num.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`MOD() expects a number as the divisor, got ${num.value}`)
   }
 
   if (divisor.value === 0) {
-    throw Object.assign(new Error('MOD() cannot divide by zero'), { short: '#DIV/0!' })
+    throw new Error('MOD() cannot divide by zero')
   }
 
   let out = num.value % divisor.value
@@ -362,18 +290,12 @@ export function FLOOR(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw Object.assign(
-      new Error(`FLOOR() does not take a second argument, got ${extra.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`FLOOR() does not take a second argument, got ${extra.value}`)
   }
 
   if (arg?.kind !== EvaluationResultKind.NUMBER) {
-    throw Object.assign(
-      new Error(
-        `FLOOR() expects a number as the first argument, got ${arg?.value ?? '<nothing>'}`,
-      ),
-      { short: '#VALUE!' },
+    throw new Error(
+      `FLOOR() expects a number as the first argument, got ${arg?.value ?? '<nothing>'}`,
     )
   }
 
@@ -382,18 +304,12 @@ export function FLOOR(
 
 export function CEIL(arg?: EvaluationResult, extra?: EvaluationResult): EvaluationResult {
   if (extra) {
-    throw Object.assign(
-      new Error(`CEIL() does not take a second argument, got ${extra.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`CEIL() does not take a second argument, got ${extra.value}`)
   }
 
   if (arg?.kind !== EvaluationResultKind.NUMBER) {
-    throw Object.assign(
-      new Error(
-        `CEIL() expects a number as the first argument, got ${arg?.value ?? '<nothing>'}`,
-      ),
-      { short: '#VALUE!' },
+    throw new Error(
+      `CEIL() expects a number as the first argument, got ${arg?.value ?? '<nothing>'}`,
     )
   }
 
@@ -406,25 +322,18 @@ export function ROUND(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw Object.assign(
-      new Error(`ROUND() does not take a third argument, got ${extra.value}`),
-      { short: '#VALUE!' },
-    )
+    throw new Error(`ROUND() does not take a third argument, got ${extra.value}`)
   }
 
   if (arg?.kind !== EvaluationResultKind.NUMBER) {
-    throw Object.assign(
-      new Error(
-        `ROUND() expects a number as the first argument, got ${arg?.value ?? '<nothing>'}`,
-      ),
-      { short: '#VALUE!' },
+    throw new Error(
+      `ROUND() expects a number as the first argument, got ${arg?.value ?? '<nothing>'}`,
     )
   }
 
   if (places !== undefined && places.kind !== EvaluationResultKind.NUMBER) {
-    throw Object.assign(
-      new Error(`ROUND() expects a number as the second argument, got ${places.value}`),
-      { short: '#VALUE!' },
+    throw new Error(
+      `ROUND() expects a number as the second argument, got ${places.value}`,
     )
   }
 

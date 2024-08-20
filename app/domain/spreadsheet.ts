@@ -18,7 +18,6 @@ type ComputationValue = {
 
 export type ComputationError = {
   kind: ComputationResultKind.ERROR
-  short: string
   message: string
 }
 
@@ -85,8 +84,6 @@ export class Spreadsheet {
     } catch (err: unknown) {
       return {
         kind: ComputationResultKind.ERROR,
-        // @ts-expect-error This is fine…
-        short: err?.short ?? 'Error',
         message: (err as Error).message,
       }
     }
@@ -105,10 +102,7 @@ export class Spreadsheet {
     try {
       let evaluationResult = this.evaluate(cell)
       if (evaluationResult.length > 1) {
-        throw Object.assign(
-          new Error(`Expected a single result, got ${evaluationResult.length}`),
-          { short: '#VALUE!' },
-        )
+        throw new Error(`Expected a single result, got ${evaluationResult.length}`)
       }
 
       if (evaluationResult.length === 1) {
@@ -123,8 +117,6 @@ export class Spreadsheet {
     } catch (err: unknown) {
       return {
         kind: ComputationResultKind.ERROR,
-        // @ts-expect-error This is fine…
-        short: err?.short ?? 'Error',
         message: (err as Error).message,
       }
     }
@@ -139,9 +131,7 @@ export class Spreadsheet {
 
     // TODO: Should this be moved to the `set` method?
     if (result[1].kind === AstKind.RANGE) {
-      throw Object.assign(new Error('Cannot reference a range to a cell'), {
-        short: '#VALUE!',
-      })
+      throw new Error('Cannot reference a range to a cell')
     }
 
     // Verify references
@@ -162,10 +152,7 @@ export class Spreadsheet {
         handled.add(next)
 
         if (next === cell) {
-          throw Object.assign(
-            new Error(`Circular reference detected in cell ${previous}`),
-            { short: '#REF!' },
-          )
+          throw new Error(`Circular reference detected in cell ${previous}`)
         }
 
         if (this.cells.has(next)) {

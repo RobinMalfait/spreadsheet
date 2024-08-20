@@ -13,11 +13,11 @@ describe('NOW()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -49,11 +49,11 @@ describe('TODAY()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -85,11 +85,11 @@ describe('TIME()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -121,11 +121,11 @@ describe('DAY(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -140,11 +140,11 @@ describe('DAY(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -159,11 +159,11 @@ describe('DAY(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -196,11 +196,11 @@ describe('MONTH(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -215,11 +215,11 @@ describe('MONTH(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -234,11 +234,11 @@ describe('MONTH(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -271,11 +271,11 @@ describe('YEAR(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -290,11 +290,11 @@ describe('YEAR(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -309,11 +309,11 @@ describe('YEAR(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -346,11 +346,11 @@ describe('HOUR(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -365,11 +365,11 @@ describe('HOUR(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -384,11 +384,11 @@ describe('HOUR(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -421,11 +421,11 @@ describe('MINUTE(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -440,11 +440,11 @@ describe('MINUTE(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -459,11 +459,11 @@ describe('MINUTE(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -496,11 +496,11 @@ describe('SECOND(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -515,11 +515,11 @@ describe('SECOND(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -534,11 +534,11 @@ describe('SECOND(date)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -571,11 +571,11 @@ describe('ADD_DAYS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -590,11 +590,11 @@ describe('ADD_DAYS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -609,11 +609,11 @@ describe('ADD_DAYS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -628,11 +628,11 @@ describe('ADD_DAYS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -647,11 +647,11 @@ describe('ADD_DAYS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -684,11 +684,11 @@ describe('SUB_DAYS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -703,11 +703,11 @@ describe('SUB_DAYS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -722,11 +722,11 @@ describe('SUB_DAYS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -741,11 +741,11 @@ describe('SUB_DAYS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -760,11 +760,11 @@ describe('SUB_DAYS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -797,11 +797,11 @@ describe('ADD_HOURS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -816,11 +816,11 @@ describe('ADD_HOURS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -835,11 +835,11 @@ describe('ADD_HOURS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -854,11 +854,11 @@ describe('ADD_HOURS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -873,11 +873,11 @@ describe('ADD_HOURS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -910,11 +910,11 @@ describe('SUB_DAYS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -929,11 +929,11 @@ describe('SUB_DAYS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -948,11 +948,11 @@ describe('SUB_DAYS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -967,11 +967,11 @@ describe('SUB_DAYS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 
@@ -986,11 +986,11 @@ describe('SUB_DAYS(date, days)', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┐
-      │   │ A       │
-      ├───┼─────────┤
-      │ 1 │ #VALUE! │
-      └───┴─────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
 
       Errors:
 

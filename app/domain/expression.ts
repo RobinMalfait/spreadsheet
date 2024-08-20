@@ -47,9 +47,7 @@ export function parse(tokens: Token[]): AST {
   let todo = tokens.slice() // Operate on a copy
   let result = parseExpression(todo)
   if (todo.length > 0) {
-    throw Object.assign(new Error('Invalid expression'), {
-      short: '#ERROR!',
-    })
+    throw new Error('Invalid expression')
   }
   return result
 }
