@@ -546,6 +546,7 @@ export default function Index() {
 
                 // Move over the cursor 1 position such that it's inside the
                 // parentheses
+                // TODO: Only do this if we know that the function takes arguments
                 cursorOffset -= 1
               }
 
