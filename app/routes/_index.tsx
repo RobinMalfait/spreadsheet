@@ -397,7 +397,7 @@ export default function Index() {
                     token.kind === TokenKind.CLOSE_PAREN) &&
                   activeParens.includes(token)
                 ) {
-                  return 'bg-gray-100 rounded text-gray-800'
+                  return 'font-semibold bg-gray-100 rounded text-gray-800'
                 }
 
                 // Function
