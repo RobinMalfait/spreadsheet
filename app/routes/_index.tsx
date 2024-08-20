@@ -53,7 +53,8 @@ export default function Index() {
   let [historyView, setHistoryView] = useState(false)
   let [, forceRerender] = useReducer(() => ({}), {})
   let inputRef = useRef<HTMLInputElement | null>(null)
-  let [editingExpression, setEditingExpression] = useState(false)
+
+  let editingExpression = value[0] === '=' && document.activeElement === inputRef.current
 
   let [spreadsheet] = useState(() => new Spreadsheet())
   let [vcs] = useState(() => {
@@ -551,7 +552,6 @@ export default function Index() {
                   value={value}
                   onChange={(e) => {
                     setValue(e.target.value)
-                    setEditingExpression(e.target.value[0] === '=')
 
                     // When the cell is empty, move focus back to the grid If you
                     // continue typing, the focus will be in the `input` again. But this
@@ -603,9 +603,6 @@ export default function Index() {
                       }
                     }
                   }}
-                  onFocus={(e) => {
-                    setEditingExpression(e.currentTarget.value[0] === '=')
-                  }}
                   onBlur={(e) => {
                     let newValue = e.currentTarget.value
                     let currentValue = spreadsheet.get(cell)
@@ -621,8 +618,6 @@ export default function Index() {
 
                     vcs.commit(cell, prettyValue)
                     setValue(prettyValue)
-
-                    setEditingExpression(false)
                   }}
                 />
                 <ComboboxOptions
