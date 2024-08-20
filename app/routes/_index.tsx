@@ -564,13 +564,39 @@ export default function Index() {
                   autoComplete="off"
                   value={value}
                   onChange={(e) => {
-                    setValue(e.target.value)
+                    let value = e.target.value
+
+                    // Auto-inject closing parentheses
+                    let cursor = e.target.selectionStart ?? 0
+                    let before = value.slice(0, cursor)
+                    let after = value.slice(cursor)
+                    let shouldInsertClosingParen =
+                      // Typed a `(`
+                      before[before.length - 1] === '(' &&
+                      // Can only inject `)` if there is nothing after the
+                      // cursor, or if there is a space after the cursor
+                      (after === '' || after[0] === ' ')
+
+                    if (shouldInsertClosingParen) {
+                      // Insert the closing parentheses
+                      value = `${before})${after}`
+
+                      flushSync(() => {
+                        setValue(value)
+                      })
+
+                      // Move the cursor back, such that it's inside the
+                      // parentheses
+                      e.target.setSelectionRange(cursor, cursor)
+                    } else {
+                      setValue(value)
+                    }
 
                     // When the cell is empty, move focus back to the grid If you
                     // continue typing, the focus will be in the `input` again. But this
                     // allows us to immediately use arrow keys once you hit backspace
                     // (which cleared the input).
-                    if (e.target.value === '') {
+                    if (value === '') {
                       // Move focus back to the grid
                       let btn = document.querySelector(`button[data-cell-button=${cell}]`)
                       if (btn && btn.tagName === 'BUTTON') {
