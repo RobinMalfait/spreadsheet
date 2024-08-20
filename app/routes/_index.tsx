@@ -513,7 +513,7 @@ export default function Index() {
           </div>
           <Combobox
             virtual={{ options: suggestions }}
-            immediate
+            immediate={suggestions.length > 0}
             value={value}
             onChange={(suggestion) => {
               if (suggestion === null) return
@@ -539,84 +539,92 @@ export default function Index() {
               )
             }}
           >
-            <ComboboxInput
-              ref={inputRef}
-              className={clsx(
-                'flex-1 border-none px-2 py-1.5 focus:outline-none',
-                value[0] === '=' && 'font-mono',
-              )}
-              autoComplete="off"
-              value={value}
-              onChange={(e) => {
-                flushSync(() => {
-                  setValue(e.target.value)
-                  setEditingExpression(e.target.value[0] === '=')
-                })
+            {({ open }) => (
+              <>
+                <ComboboxInput
+                  ref={inputRef}
+                  className={clsx(
+                    'flex-1 border-none px-2 py-1.5 focus:outline-none',
+                    value[0] === '=' && 'font-mono',
+                  )}
+                  autoComplete="off"
+                  value={value}
+                  onChange={(e) => {
+                    setValue(e.target.value)
+                    setEditingExpression(e.target.value[0] === '=')
 
-                // When the cell is empty, move focus back to the grid If you
-                // continue typing, the focus will be in the `input` again. But this
-                // allows us to immediately use arrow keys once you hit backspace
-                // (which cleared the input).
-                if (e.target.value === '') {
-                  // Move focus back to the grid
-                  let btn = document.querySelector(`button[data-cell-button=${cell}]`)
-                  if (btn && btn.tagName === 'BUTTON') {
-                    ;(btn as HTMLButtonElement).focus()
-                  }
-                }
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  // Prevent submission when accepting a suggestion
-                  if (suggestions.length > 0) return
+                    // When the cell is empty, move focus back to the grid If you
+                    // continue typing, the focus will be in the `input` again. But this
+                    // allows us to immediately use arrow keys once you hit backspace
+                    // (which cleared the input).
+                    if (e.target.value === '') {
+                      // Move focus back to the grid
+                      let btn = document.querySelector(`button[data-cell-button=${cell}]`)
+                      if (btn && btn.tagName === 'BUTTON') {
+                        ;(btn as HTMLButtonElement).focus()
+                      }
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      // We can only submit the answer in 2 scenarios:
+                      //
+                      // 1. The combobox is closed
+                      // 2. The combobox is open, but there are no suggestions
+                      //
+                      // Otherwise we want to select the suggestion and keep
+                      // focus in the input.
+                      if (open && suggestions.length > 0) return
 
-                  // Submit the new value
-                  flushSync(() => {
-                    vcs.commit(cell, e.currentTarget.value)
-                    forceRerender()
-                  })
+                      // Submit the new value
+                      flushSync(() => {
+                        vcs.commit(cell, e.currentTarget.value)
+                        forceRerender()
+                      })
 
-                  // Move focus back to the grid
-                  let btn = document.querySelector(`button[data-cell-button=${cell}]`)
-                  if (btn && btn.tagName === 'BUTTON') {
-                    ;(btn as HTMLButtonElement).focus()
-                  }
-                } else if (e.key === 'Escape') {
-                  // Reset the value
-                  flushSync(() => setValue(spreadsheet.get(cell)))
+                      // Move focus back to the grid
+                      let btn = document.querySelector(`button[data-cell-button=${cell}]`)
+                      if (btn && btn.tagName === 'BUTTON') {
+                        ;(btn as HTMLButtonElement).focus()
+                      }
+                    } else if (e.key === 'Escape') {
+                      // Reset the value
+                      flushSync(() => setValue(spreadsheet.get(cell)))
 
-                  // Move focus back to the grid
-                  let btn = document.querySelector(`button[data-cell-button=${cell}]`)
-                  if (btn && btn.tagName === 'BUTTON') {
-                    ;(btn as HTMLButtonElement).focus()
-                  }
-                }
-              }}
-              onFocus={(e) => {
-                setEditingExpression(e.currentTarget.value[0] === '=')
-              }}
-              onBlur={(e) => {
-                setEditingExpression(false)
-                if (spreadsheet.get(cell) !== e.currentTarget.value) {
-                  vcs.commit(cell, e.target.value)
-                  forceRerender()
-                }
-              }}
-            />
-            <ComboboxOptions
-              modal={false}
-              anchor="bottom start"
-              className="inset-ring-1 inset-ring-black/10 z-20 w-96 overflow-auto rounded-md bg-white py-1.5 text-base shadow-lg [--anchor-gap:var(--spacing-2)] [--anchor-padding:var(--spacing-2)] empty:invisible focus:outline-none sm:text-sm"
-            >
-              {({ option }) => (
-                <ComboboxOption
-                  value={option}
-                  className="group relative w-full cursor-default select-none px-3 py-2 text-gray-900 data-focus:bg-slate-100"
+                      // Move focus back to the grid
+                      let btn = document.querySelector(`button[data-cell-button=${cell}]`)
+                      if (btn && btn.tagName === 'BUTTON') {
+                        ;(btn as HTMLButtonElement).focus()
+                      }
+                    }
+                  }}
+                  onFocus={(e) => {
+                    setEditingExpression(e.currentTarget.value[0] === '=')
+                  }}
+                  onBlur={(e) => {
+                    setEditingExpression(false)
+                    if (spreadsheet.get(cell) !== e.currentTarget.value) {
+                      vcs.commit(cell, e.target.value)
+                      forceRerender()
+                    }
+                  }}
+                />
+                <ComboboxOptions
+                  modal={false}
+                  anchor="bottom start"
+                  className="inset-ring-1 inset-ring-black/10 z-20 w-96 overflow-auto rounded-md bg-white py-1.5 text-base shadow-lg [--anchor-gap:var(--spacing-2)] [--anchor-padding:var(--spacing-2)] empty:invisible focus:outline-none sm:text-sm"
                 >
-                  <span className="font-mono">{option}()</span>
-                </ComboboxOption>
-              )}
-            </ComboboxOptions>
+                  {({ option }) => (
+                    <ComboboxOption
+                      value={option}
+                      className="group relative w-full cursor-default select-none px-3 py-2 text-gray-900 data-focus:bg-slate-100"
+                    >
+                      <span className="font-mono">{option}()</span>
+                    </ComboboxOption>
+                  )}
+                </ComboboxOptions>
+              </>
+            )}
           </Combobox>
         </div>
         {out?.kind === ComputationResultKind.ERROR && (
