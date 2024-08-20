@@ -414,6 +414,7 @@ export default function Index() {
                   //
                   // Matches:        A1
                   // Does not match: A1(
+                  //                   ^
                   if (
                     token.kind === TokenKind.IDENTIFIER &&
                     tokens[idx + 1]?.kind !== TokenKind.OPEN_PAREN
