@@ -119,9 +119,9 @@ export default function Index() {
 
       vcs.commit('A8', 'Total:')
       vcs.commit('B8', '=SUM(B4:B6)')
-      vcs.commit('C4', '=ROUND(PRODUCT(B4, F3), 2)')
-      vcs.commit('C5', '=ROUND(PRODUCT(B5, F3), 2)')
-      vcs.commit('C6', '=ROUND(PRODUCT(B6, F3), 2)')
+      vcs.commit('C4', '=ROUND(PRODUCT(B4, $F$3), 2)')
+      vcs.commit('C5', '=ROUND(PRODUCT(B5, $F$3), 2)')
+      vcs.commit('C6', '=ROUND(PRODUCT(B6, $F$3), 2)')
       vcs.commit('C8', '=SUM(C4:C6)')
     } else if (window.location.search === '?demo-fat-burning-zone') {
       vcs.commit('A1', 'Fat Burning Zone')
