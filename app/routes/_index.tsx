@@ -1086,7 +1086,6 @@ function useCursorPosition(input: MutableRefObject<HTMLInputElement | null>) {
       setCursor(el.selectionStart ?? 0)
     }
 
-    // el.addEventListener('input', handle, { signal: ac.signal, passive: true })
     el.addEventListener('keydown', handle, { signal: ac.signal, passive: true })
     el.addEventListener('keyup', handle, { signal: ac.signal, passive: true })
     el.addEventListener('click', handle, { signal: ac.signal, passive: true })
