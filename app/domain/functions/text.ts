@@ -108,3 +108,28 @@ export function LEN(arg?: EvaluationResult, extra?: EvaluationResult): Evaluatio
 
   return { kind: EvaluationResultKind.NUMBER, value: arg.value.length }
 }
+
+export function TRIM(arg?: EvaluationResult, extra?: EvaluationResult): EvaluationResult {
+  if (extra) {
+    throw Object.assign(
+      new Error(`TRIM() does not take more than one argument, got ${extra.value}`),
+      { short: '#VALUE!' },
+    )
+  }
+
+  if (!arg) {
+    throw Object.assign(
+      new Error('TRIM() expects a value as the first argument, got <nothing>'),
+      { short: '#N/A' },
+    )
+  }
+
+  if (arg.kind !== EvaluationResultKind.STRING) {
+    throw Object.assign(
+      new Error(`TRIM() expects a string as the first argument, got ${arg.value}`),
+      { short: '#VALUE!' },
+    )
+  }
+
+  return { kind: EvaluationResultKind.STRING, value: arg.value.trim() }
+}
