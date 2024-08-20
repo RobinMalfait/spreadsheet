@@ -195,7 +195,7 @@ export function tokenize(input: string): Token[] {
       } else {
         tokens.push({
           kind: TokenKind.UNKNOWN,
-          raw: input[idx],
+          raw: '!',
           span: { start: idx, end: idx + 1 },
         })
       }
@@ -214,7 +214,7 @@ export function tokenize(input: string): Token[] {
       } else {
         tokens.push({
           kind: TokenKind.UNKNOWN,
-          raw: input[idx],
+          raw: '=',
           span: { start: idx, end: idx + 1 },
         })
       }
@@ -308,7 +308,7 @@ export function tokenize(input: string): Token[] {
     // Unknown token
     tokens.push({
       kind: TokenKind.UNKNOWN,
-      raw: input[idx],
+      raw: input[idx] as string,
       span: { start: idx, end: idx + 1 },
     })
   }

@@ -67,8 +67,8 @@ export function evaluateExpression(
       let right = rhs[0]
 
       if (
-        left.kind === EvaluationResultKind.NUMBER &&
-        right.kind === EvaluationResultKind.NUMBER
+        left?.kind === EvaluationResultKind.NUMBER &&
+        right?.kind === EvaluationResultKind.NUMBER
       ) {
         switch (ast.operator) {
           // Math operators

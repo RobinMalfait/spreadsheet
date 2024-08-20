@@ -103,7 +103,8 @@ export class Spreadsheet {
       if (evaluationResult.length === 1) {
         return {
           kind: ComputationResultKind.VALUE,
-          value: evaluationResult[0],
+          // biome-ignore lint/style/noNonNullAssertion: we already verified that the evaluationResult has at least one element.
+          value: evaluationResult[0]!,
         }
       }
 

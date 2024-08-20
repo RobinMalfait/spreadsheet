@@ -107,7 +107,9 @@ function parseLeaf(tokens: Token[]): AST {
         }
       }
 
-      throw new Error(`Invalid expression, expected number literal, got ${next.raw}`)
+      throw new Error(
+        `Invalid expression, expected number literal, got ${next?.raw ?? '<nothing>'}`,
+      )
     }
 
     case TokenKind.MINUS: {
@@ -125,7 +127,9 @@ function parseLeaf(tokens: Token[]): AST {
         }
       }
 
-      throw new Error(`Invalid expression, expected number literal, got ${next.raw}`)
+      throw new Error(
+        `Invalid expression, expected number literal, got ${next?.raw ?? '<nothing>'}`,
+      )
     }
 
     case TokenKind.NUMBER_LITERAL:

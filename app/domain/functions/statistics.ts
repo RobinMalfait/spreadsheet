@@ -97,14 +97,14 @@ export function MEDIAN(...args: EvaluationResult[]): EvaluationResult {
   let n = values.length
   let mid = Math.floor(n / 2)
 
-  if (n % 2 === 0) {
+  if ((n & 1) === 0) {
     return {
       kind: EvaluationResultKind.NUMBER,
-      value: (values[mid - 1] + values[mid]) / 2,
+      value: ((values[mid - 1] ?? 0) + (values[mid] ?? 0)) / 2,
     }
   }
 
-  return { kind: EvaluationResultKind.NUMBER, value: values[mid] }
+  return { kind: EvaluationResultKind.NUMBER, value: values[mid] ?? 0 }
 }
 
 export function MODE(...args: EvaluationResult[]): EvaluationResult {

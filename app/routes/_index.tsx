@@ -336,11 +336,11 @@ export default function Index() {
 
       // Find the matching closing paren
       for (let i = tokenIdxAtPosition + 1; i < tokens.length; i++) {
-        if (tokens[i].kind === TokenKind.OPEN_PAREN) {
+        if (tokens[i]?.kind === TokenKind.OPEN_PAREN) {
           stack++
-        } else if (tokens[i].kind === TokenKind.CLOSE_PAREN && stack !== 0) {
+        } else if (tokens[i]?.kind === TokenKind.CLOSE_PAREN && stack !== 0) {
           stack--
-        } else if (tokens[i].kind === TokenKind.CLOSE_PAREN && stack === 0) {
+        } else if (tokens[i]?.kind === TokenKind.CLOSE_PAREN && stack === 0) {
           return [paren, tokens[i]]
         }
       }
@@ -349,11 +349,11 @@ export default function Index() {
 
       // Find the matching opening paren
       for (let i = tokenIdxAtPosition - 1; i >= 0; i--) {
-        if (tokens[i].kind === TokenKind.CLOSE_PAREN) {
+        if (tokens[i]?.kind === TokenKind.CLOSE_PAREN) {
           stack++
-        } else if (tokens[i].kind === TokenKind.OPEN_PAREN && stack !== 0) {
+        } else if (tokens[i]?.kind === TokenKind.OPEN_PAREN && stack !== 0) {
           stack--
-        } else if (tokens[i].kind === TokenKind.OPEN_PAREN && stack === 0) {
+        } else if (tokens[i]?.kind === TokenKind.OPEN_PAREN && stack === 0) {
           return [paren, tokens[i]]
         }
       }
@@ -963,7 +963,7 @@ export default function Index() {
         {historyView && (
           <div className="min-w-sm overflow-auto border-gray-200 border-l p-2">
             {vcs.history().map((commit, _, all) => {
-              let cell = commit.undoArgs[0]
+              let cell = commit.undoArgs[0] as string
 
               return (
                 <button

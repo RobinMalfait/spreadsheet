@@ -19,7 +19,7 @@ export function walk(
   depth = 0,
 ): WalkAction {
   for (let i = 0; i < ast.length; i++) {
-    let node = ast[i]
+    let node = ast[i] as AST
     let status = visit(node, parent, depth)
 
     // Stop the walk entirely
