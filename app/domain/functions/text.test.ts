@@ -202,3 +202,78 @@ describe('UPPER()', () => {
     `)
   })
 })
+
+describe('LEN()', () => {
+  it('should error when required argument is not passed', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=LEN()')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬──────┐
+      │   │ A    │
+      ├───┼──────┤
+      │ 1 │ #N/A │
+      └───┴──────┘
+
+      Errors:
+
+      · A1: LEN() expects a value as the first argument, got <nothing>
+      "
+    `)
+  })
+
+  it('should error when passing additional arguments', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=LEN("Hello", "World")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────┐
+      │   │ A       │
+      ├───┼─────────┤
+      │ 1 │ #VALUE! │
+      └───┴─────────┘
+
+      Errors:
+
+      · A1: LEN() does not take more than one argument, got World
+      "
+    `)
+  })
+
+  it('should error when the argument is of the wrong type', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=LEN(1)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────┐
+      │   │ A       │
+      ├───┼─────────┤
+      │ 1 │ #VALUE! │
+      └───┴─────────┘
+
+      Errors:
+
+      · A1: LEN() expects a string as the first argument, got 1
+      "
+    `)
+  })
+
+  it('should count the length the argument', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', 'Hello')
+    spreadsheet.set('B1', '=LEN(A1)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┬───┐
+      │   │ A     │ B │
+      ├───┼───────┼───┤
+      │ 1 │ Hello │ 5 │
+      └───┴───────┴───┘
+      "
+    `)
+  })
+})

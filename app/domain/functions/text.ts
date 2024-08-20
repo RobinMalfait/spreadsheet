@@ -83,3 +83,28 @@ export function UPPER(
     value: printEvaluationResult(arg).toLowerCase(),
   }
 }
+
+export function LEN(arg?: EvaluationResult, extra?: EvaluationResult): EvaluationResult {
+  if (extra) {
+    throw Object.assign(
+      new Error(`LEN() does not take more than one argument, got ${extra.value}`),
+      { short: '#VALUE!' },
+    )
+  }
+
+  if (!arg) {
+    throw Object.assign(
+      new Error('LEN() expects a value as the first argument, got <nothing>'),
+      { short: '#N/A' },
+    )
+  }
+
+  if (arg.kind !== EvaluationResultKind.STRING) {
+    throw Object.assign(
+      new Error(`LEN() expects a string as the first argument, got ${arg.value}`),
+      { short: '#VALUE!' },
+    )
+  }
+
+  return { kind: EvaluationResultKind.NUMBER, value: arg.value.length }
+}
