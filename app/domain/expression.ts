@@ -397,12 +397,6 @@ export function parseLocation(input: string): Location {
     char = input.charCodeAt(++idx)
   } while (char >= UPPER_A && char <= UPPER_Z)
 
-  console.log({
-    input,
-    idx,
-    char: String.fromCharCode(char),
-    charCode: char,
-  })
   let col = parseColNumber(input.slice(0, idx))
 
   // Locked row
@@ -425,9 +419,9 @@ export function parseColNumber(input: string) {
     if (char === DOLLAR) continue
 
     if (char < UPPER_A || char > UPPER_Z) {
-      console.log({ input })
       throw new Error('Invalid column number')
     }
+
     col *= 26 // Base 26, shift left
     col += char - UPPER_A // Normalize to 0-indexed
     col += 1 // 1-indexed
