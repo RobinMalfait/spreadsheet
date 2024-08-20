@@ -524,6 +524,18 @@ export default function Index() {
               // Replace the current token with the selected suggestion
               let prefix = identifierAtPosition
               let expression = value.slice(1)
+              let cursorOffset = 0
+
+              // Figure out if we need to add parentheses
+              if (expression[prefix.span.end] !== '(') {
+                // Add parentheses to the suggestion
+                suggestion += '()'
+
+                // Move over the cursor 1 position such that it's inside the
+                // parentheses
+                cursorOffset -= 1
+              }
+
               let newExpression =
                 expression.slice(0, prefix.span.start) +
                 suggestion +
@@ -536,8 +548,8 @@ export default function Index() {
 
               // Move cursor to the end of the suggestion
               inputRef.current?.setSelectionRange(
-                prefix.span.start + suggestion.length + 1,
-                prefix.span.start + suggestion.length + 1,
+                prefix.span.start + suggestion.length + 1 + cursorOffset,
+                prefix.span.start + suggestion.length + 1 + cursorOffset,
               )
             }}
           >

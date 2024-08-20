@@ -21,7 +21,8 @@
     "enabled": true,
     "rules": {
       "style": {
-        "useConst": "off"
+        "useConst": "off",
+        "noParameterAssign": "off"
       },
       "nursery": {
         "useSortedClasses": "warn"
