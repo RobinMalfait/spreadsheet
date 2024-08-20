@@ -10,12 +10,12 @@ export function visualizeSpreadsheet(spreadsheet: Spreadsheet) {
   let first: Location = {
     row: Number.POSITIVE_INFINITY,
     col: Number.POSITIVE_INFINITY,
-    lock: { col: false, row: false },
+    lock: 0,
   }
   let last: Location = {
     row: Number.NEGATIVE_INFINITY,
     col: Number.NEGATIVE_INFINITY,
-    lock: { col: false, row: false },
+    lock: 0,
   }
 
   // Figure out the grid size
@@ -59,7 +59,7 @@ export function visualizeSpreadsheet(spreadsheet: Spreadsheet) {
       let cell = printLocation({
         row: first.row + row,
         col: first.col + col,
-        lock: { col: false, row: false },
+        lock: 0,
       })
       let result = spreadsheet.compute(cell)
       if (result === null) {

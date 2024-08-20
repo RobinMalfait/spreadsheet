@@ -1002,23 +1002,22 @@ export default function Index() {
 
 function topCell(cell: string) {
   let { col, row } = parseLocation(cell)
-  return printLocation({ col, row: row - 1, lock: { col: false, row: false } })
+  return printLocation({ col, row: row - 1, lock: 0 })
 }
 
 function rightCell(cell: string) {
   let { col, row } = parseLocation(cell)
-  return printLocation({ col: col + 1, row, lock: { col: false, row: false } })
+  return printLocation({ col: col + 1, row, lock: 0 })
 }
 
 function bottomCell(cell: string) {
   let { col, row } = parseLocation(cell)
-  return printLocation({ col, row: row + 1, lock: { col: false, row: false } })
+  return printLocation({ col, row: row + 1, lock: 0 })
 }
 
 function leftCell(cell: string) {
   let { col, row } = parseLocation(cell)
-  let out = printLocation({ col: col - 1, row, lock: { col: false, row: false } })
-  return out
+  return printLocation({ col: col - 1, row, lock: 0 })
 }
 
 function useCursorPosition(input: MutableRefObject<HTMLInputElement | null>) {

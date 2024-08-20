@@ -41,6 +41,7 @@ export function walk(
             name: cell,
             loc: parseLocation(cell),
             span: node.span,
+            raw: cell,
           }
 
           if (walk([cellNode], visit, node, depth + 1) === WalkAction.Stop) {

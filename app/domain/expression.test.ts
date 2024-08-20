@@ -361,10 +361,7 @@ describe('parsing', () => {
                   "kind": "CELL",
                   "loc": {
                     "col": 2,
-                    "lock": {
-                      "col": false,
-                      "row": false,
-                    },
+                    "lock": 0,
                     "row": 1,
                   },
                   "name": "B1",
@@ -384,10 +381,7 @@ describe('parsing', () => {
                   "kind": "CELL",
                   "loc": {
                     "col": 1,
-                    "lock": {
-                      "col": false,
-                      "row": false,
-                    },
+                    "lock": 0,
                     "row": 1,
                   },
                   "name": "A1",

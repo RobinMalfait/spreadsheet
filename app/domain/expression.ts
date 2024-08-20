@@ -1,10 +1,4 @@
-import {
-  type AST,
-  type AstCell,
-  AstCellRange,
-  AstKind,
-  BinaryExpressionOperator,
-} from '~/domain/ast'
+import { type AST, type AstCell, AstKind, BinaryExpressionOperator } from '~/domain/ast'
 import { type Token, TokenKind } from '~/domain/tokenizer'
 
 const DOLLAR = 36 // $
@@ -379,22 +373,23 @@ function parseCellReference(tokens: Token[]): AstCell {
 export type Location = {
   col: number
   row: number
-  lock: {
-    col: boolean
-    row: boolean
-  }
+  lock: number
+}
+
+enum Lock {
+  COL = 1 << 0,
+  ROW = 1 << 1,
 }
 
 export function parseLocation(input: string): Location {
-  let lockCol = false
-  let lockRow = false
+  let lock = 0
 
   let idx = 0
   let char = input.charCodeAt(idx)
 
   // Locked column
   if (char === DOLLAR) {
-    lockCol = true
+    lock |= Lock.COL
     char = input.charCodeAt(++idx)
   }
 
@@ -402,24 +397,17 @@ export function parseLocation(input: string): Location {
     char = input.charCodeAt(++idx)
   } while (char >= UPPER_A && char <= UPPER_Z)
 
-  let col = parseColNumber(input.slice(lockCol ? 1 : 0, idx))
+  let col = parseColNumber(input.slice(lock & Lock.COL ? 1 : 0, idx))
 
   // Locked row
   if (char === DOLLAR) {
-    lockRow = true
+    lock |= Lock.ROW
     char = input.charCodeAt(++idx)
   }
 
   let row = Number(input.slice(idx))
 
-  return {
-    col,
-    row,
-    lock: {
-      col: lockCol,
-      row: lockRow,
-    },
-  }
+  return { col, row, lock }
 }
 
 export function parseColNumber(input: string) {
@@ -495,7 +483,7 @@ function printBinaryOperator(operator: BinaryExpressionOperator) {
 
 export function printLocation(location: Location, locked = false) {
   if (locked) {
-    return `${location.lock.col ? '$' : ''}${printColNumber(location.col)}${location.lock.row ? '$' : ''}${location.row}`
+    return `${location.lock & Lock.COL ? '$' : ''}${printColNumber(location.col)}${location.lock & Lock.ROW ? '$' : ''}${location.row}`
   }
 
   return `${printColNumber(location.col)}${location.row}`
