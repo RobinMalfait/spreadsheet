@@ -65,7 +65,7 @@ export function UPPER(
 
   return {
     kind: EvaluationResultKind.STRING,
-    value: printEvaluationResult(arg).toLowerCase(),
+    value: printEvaluationResult(arg).toUpperCase(),
   }
 }
 
