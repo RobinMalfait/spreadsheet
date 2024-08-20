@@ -436,11 +436,11 @@ export function parseColNumber(input: string) {
 export function printExpression(input: AST, depth = 0): string {
   switch (input.kind) {
     case AstKind.CELL:
-      return input.raw
+      return input.raw.toUpperCase()
     case AstKind.RANGE:
-      return input.raw
+      return input.raw.toUpperCase()
     case AstKind.FUNCTION:
-      return `${input.name}(${input.args.map(printExpression).join(', ')})`
+      return `${input.name.toUpperCase()}(${input.args.map(printExpression).join(', ')})`
     case AstKind.NUMBER_LITERAL:
       return input.value.toString()
     case AstKind.STRING_LITERAL:

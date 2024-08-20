@@ -33,7 +33,7 @@ import {
 } from '~/domain/evaluation'
 import { parse, parseLocation, printExpression, printLocation } from '~/domain/expression'
 import { ComputationResultKind, Spreadsheet } from '~/domain/spreadsheet'
-import { type Token, TokenKind, tokenize } from '~/domain/tokenizer'
+import { type Token, TokenKind, printTokens, tokenize } from '~/domain/tokenizer'
 import { VersionControl } from '~/domain/version-control'
 
 export const meta: MetaFunction = () => {
@@ -576,10 +576,15 @@ export default function Index() {
                       // focus in the input.
                       if (open && suggestions.length > 0) return
 
+                      let newValue = e.currentTarget.value
+
+                      // Parse and pretty print the tokens
+                      let prettyValue = printTokens(tokenize(newValue))
+
                       // Submit the new value
                       flushSync(() => {
-                        vcs.commit(cell, e.currentTarget.value)
-                        forceRerender()
+                        vcs.commit(cell, prettyValue)
+                        setValue(prettyValue)
                       })
 
                       // Move focus back to the grid
@@ -602,11 +607,22 @@ export default function Index() {
                     setEditingExpression(e.currentTarget.value[0] === '=')
                   }}
                   onBlur={(e) => {
+                    let newValue = e.currentTarget.value
+                    let currentValue = spreadsheet.get(cell)
+
+                    // Value hasn't changed
+                    if (currentValue === newValue) return
+
+                    // Parse and pretty print the tokens
+                    let prettyValue = printTokens(tokenize(newValue))
+
+                    // Value hasn't changed
+                    if (currentValue === prettyValue) return
+
+                    vcs.commit(cell, prettyValue)
+                    setValue(prettyValue)
+
                     setEditingExpression(false)
-                    if (spreadsheet.get(cell) !== e.currentTarget.value) {
-                      vcs.commit(cell, e.target.value)
-                      forceRerender()
-                    }
                   }}
                 />
                 <ComboboxOptions

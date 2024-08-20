@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { tokenize } from '~/domain/tokenizer'
+import { printTokens, tokenize } from '~/domain/tokenizer'
 
 const json = String.raw
 
@@ -408,5 +408,13 @@ describe('span', () => {
     for (let token of tokens) {
       expect(input.slice(token.span.start, token.span.end)).toBe(token.raw)
     }
+  })
+})
+
+describe('print', () => {
+  it('should pretty print a set of tokens', () => {
+    expect(
+      printTokens(tokenize('1  +  2 * 3 - 40/b1 + SUM(a1:b2, pi())')),
+    ).toMatchInlineSnapshot(`"1  +  2 * 3 - 40/B1 + SUM(A1:B2, PI())"`)
   })
 })

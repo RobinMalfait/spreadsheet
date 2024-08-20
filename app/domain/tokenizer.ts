@@ -315,3 +315,22 @@ export function tokenize(input: string): Token[] {
 
   return tokens
 }
+
+export function printTokens(tokens: Token[]): string {
+  let last = 0
+  let out = ''
+
+  for (let token of tokens) {
+    let spaces = token.span.start - last
+    out += ' '.repeat(spaces)
+    last = token.span.end
+
+    if (token.kind === TokenKind.IDENTIFIER) {
+      out += token.value
+    } else {
+      out += token.raw
+    }
+  }
+
+  return out
+}
