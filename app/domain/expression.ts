@@ -362,7 +362,7 @@ function parseCellReference(tokens: Token[]): AstCell {
     kind: AstKind.CELL,
     name,
     raw,
-    loc: parseLocation(name),
+    loc: parseLocation(raw),
     span: {
       start: start.span.start,
       end: end.span.end,
