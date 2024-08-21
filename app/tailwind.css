@@ -35,3 +35,7 @@
 @theme {
   --font-family-mono: berkeley-mono;
 }
+
+@utility ligatures-none {
+  font-variant-ligatures: none;
+}
