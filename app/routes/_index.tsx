@@ -113,7 +113,118 @@ export default function Index() {
     window.spreadsheet = spreadsheet
 
     // Demo modes
-    if (window.location.search === '?demo-payroll') {
+    if (window.location.search === '?demo-aoc-2023-01') {
+      vcs.commit('A1', 'Advent of Code')
+      vcs.commit('B1', '2023 - Day 01')
+
+      vcs.commit('B3', 'Actual')
+      vcs.commit('C3', 'Expected')
+      vcs.commit('D3', 'Pass')
+
+      vcs.commit('A4', 'Part 01')
+      vcs.commit('B4', '0')
+      vcs.commit('C4', '=142')
+      vcs.commit('D4', '=IF(B4 == C4, "✅", "❌")')
+
+      vcs.commit('A5', 'Part 02')
+      vcs.commit('B5', '0')
+      vcs.commit('C5', '=281')
+      vcs.commit('D5', '=IF(B5 == C5, "✅", "❌")')
+
+      vcs.commit('A7', 'Sample input 01:')
+      vcs.commit('A9', '1abc2')
+      vcs.commit('A10', 'pqr3stu8vwx')
+      vcs.commit('A11', 'a1b2c3d4e5f')
+      vcs.commit('A12', 'treb7uchet')
+
+      vcs.commit(
+        'B9',
+        '=AS_NUMBER(FIND_FIRST(A9, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(A9, DIGITS()))',
+      )
+      vcs.commit(
+        'B10',
+        '=AS_NUMBER(FIND_FIRST(A10, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(A10, DIGITS()))',
+      )
+      vcs.commit(
+        'B11',
+        '=AS_NUMBER(FIND_FIRST(A11, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(A11, DIGITS()))',
+      )
+      vcs.commit(
+        'B12',
+        '=AS_NUMBER(FIND_FIRST(A12, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(A12, DIGITS()))',
+      )
+
+      vcs.commit('B4', '=SUM(B9:B12)')
+
+      vcs.commit('C7', 'Sample input 02:')
+      vcs.commit('C9', 'two1nine')
+      vcs.commit('C10', 'eightwothree')
+      vcs.commit('C11', 'abcone2threexyz')
+      vcs.commit('C12', 'xtwone3four')
+      vcs.commit('C13', '4nineeightseven2')
+      vcs.commit('C14', 'zoneight234')
+      vcs.commit('C15', '7pqrstsixteen')
+
+      vcs.commit(
+        'D9',
+        '=REPLACE_ALL(C9, "one", 1, "two", 2, "three", 3, "four", 4, "five", 5, "six", 6, "seven", 7, "eight", 8, "nine", 9)',
+      )
+      vcs.commit(
+        'D10',
+        '=REPLACE_ALL(C10, "one", 1, "two", 2, "three", 3, "four", 4, "five", 5, "six", 6, "seven", 7, "eight", 8, "nine", 9)',
+      )
+      vcs.commit(
+        'D11',
+        '=REPLACE_ALL(C11, "one", 1, "two", 2, "three", 3, "four", 4, "five", 5, "six", 6, "seven", 7, "eight", 8, "nine", 9)',
+      )
+      vcs.commit(
+        'D12',
+        '=REPLACE_ALL(C12, "one", 1, "two", 2, "three", 3, "four", 4, "five", 5, "six", 6, "seven", 7, "eight", 8, "nine", 9)',
+      )
+      vcs.commit(
+        'D13',
+        '=REPLACE_ALL(C13, "one", 1, "two", 2, "three", 3, "four", 4, "five", 5, "six", 6, "seven", 7, "eight", 8, "nine", 9)',
+      )
+      vcs.commit(
+        'D14',
+        '=REPLACE_ALL(C14, "one", 1, "two", 2, "three", 3, "four", 4, "five", 5, "six", 6, "seven", 7, "eight", 8, "nine", 9)',
+      )
+      vcs.commit(
+        'D15',
+        '=REPLACE_ALL(C15, "one", 1, "two", 2, "three", 3, "four", 4, "five", 5, "six", 6, "seven", 7, "eight", 8, "nine", 9)',
+      )
+
+      vcs.commit(
+        'E9',
+        '=AS_NUMBER(FIND_FIRST(D9, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(D9, DIGITS()))',
+      )
+      vcs.commit(
+        'E10',
+        '=AS_NUMBER(FIND_FIRST(D10, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(D10, DIGITS()))',
+      )
+      vcs.commit(
+        'E11',
+        '=AS_NUMBER(FIND_FIRST(D11, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(D11, DIGITS()))',
+      )
+      vcs.commit(
+        'E12',
+        '=AS_NUMBER(FIND_FIRST(D12, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(D12, DIGITS()))',
+      )
+      vcs.commit(
+        'E13',
+        '=AS_NUMBER(FIND_FIRST(D13, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(D13, DIGITS()))',
+      )
+      vcs.commit(
+        'E14',
+        '=AS_NUMBER(FIND_FIRST(D14, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(D14, DIGITS()))',
+      )
+      vcs.commit(
+        'E15',
+        '=AS_NUMBER(FIND_FIRST(D15, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(D15, DIGITS()))',
+      )
+
+      vcs.commit('B5', '=SUM(E9:E15)')
+    } else if (window.location.search === '?demo-payroll') {
       vcs.commit('A1', 'Payroll')
 
       vcs.commit('A3', 'Employee')
