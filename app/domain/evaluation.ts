@@ -112,6 +112,9 @@ export function evaluateExpression(
       // @ts-expect-error Some functions have a different arity, but we're not
       // checking that here.
       let result = fn(...args)
+      if (Array.isArray(result)) {
+        return result
+      }
       return [result]
     }
   }
