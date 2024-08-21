@@ -136,3 +136,39 @@ export function FIND_FIRST(
 
   return { kind: EvaluationResultKind.STRING, value: value }
 }
+
+export function FIND_LAST(
+  haystack: EvaluationResult,
+  ...needles: EvaluationResult[]
+): EvaluationResult {
+  if (needles.length === 0) {
+    throw new Error('FIND_LAST() expects at least one needle')
+  }
+
+  if (haystack.kind !== EvaluationResultKind.STRING) {
+    throw new Error(
+      `FIND_LAST() expects a string as the first argument, got ${haystack.value}`,
+    )
+  }
+
+  let index = -1
+  let value = ''
+
+  for (let needle of needles) {
+    if (
+      needle.kind !== EvaluationResultKind.STRING &&
+      needle.kind !== EvaluationResultKind.NUMBER
+    ) {
+      throw new Error(`FIND_LAST() expects a string as the needle, got ${needle.value}`)
+    }
+
+    let idx = haystack.value.lastIndexOf(needle.value.toString())
+
+    if (idx !== -1 && (index === -1 || idx > index)) {
+      index = idx
+      value = needle.value.toString()
+    }
+  }
+
+  return { kind: EvaluationResultKind.STRING, value: value }
+}

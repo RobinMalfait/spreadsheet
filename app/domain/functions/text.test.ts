@@ -443,3 +443,94 @@ describe('FIND_FIRST()', () => {
     `)
   })
 })
+
+describe('FIND_LAST()', () => {
+  it('should error when required argument is not passed', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=FIND_LAST()')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: FIND_LAST() expects at least one needle
+      "
+    `)
+  })
+
+  it('should error when required second argument is not passed', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=FIND_LAST("needle")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: FIND_LAST() expects at least one needle
+      "
+    `)
+  })
+
+  it('should error when the argument is of the wrong type', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=FIND_LAST(123, 1)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: FIND_LAST() expects a string as the first argument, got 123
+      "
+    `)
+  })
+
+  it('should find the first occurrence of any of the needles', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
+    spreadsheet.set('B1', '=FIND_LAST(A1, "fox", "dog", "brown")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────────────────────────────────────────┬─────┐
+      │   │ A                                           │ B   │
+      ├───┼─────────────────────────────────────────────┼─────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ dog │
+      └───┴─────────────────────────────────────────────┴─────┘
+      "
+    `)
+  })
+
+  it('should result in an empty string when none of the needles are found', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
+    spreadsheet.set('B1', '=FIND_LAST(A1, "banana", "apple", "cherry")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────────────────────────────────────────┬───┐
+      │   │ A                                           │ B │
+      ├───┼─────────────────────────────────────────────┼───┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │   │
+      └───┴─────────────────────────────────────────────┴───┘
+      "
+    `)
+  })
+})
