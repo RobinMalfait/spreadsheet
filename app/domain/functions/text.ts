@@ -100,3 +100,39 @@ export function TRIM(arg?: EvaluationResult, extra?: EvaluationResult): Evaluati
 
   return { kind: EvaluationResultKind.STRING, value: arg.value.trim() }
 }
+
+export function FIND_FIRST(
+  haystack: EvaluationResult,
+  ...needles: EvaluationResult[]
+): EvaluationResult {
+  if (needles.length === 0) {
+    throw new Error('FIND_FIRST() expects at least one needle')
+  }
+
+  if (haystack.kind !== EvaluationResultKind.STRING) {
+    throw new Error(
+      `FIND_FIRST() expects a string as the first argument, got ${haystack.value}`,
+    )
+  }
+
+  let index = -1
+  let value = ''
+
+  for (let needle of needles) {
+    if (
+      needle.kind !== EvaluationResultKind.STRING &&
+      needle.kind !== EvaluationResultKind.NUMBER
+    ) {
+      throw new Error(`FIND_FIRST() expects a string as the needle, got ${needle.value}`)
+    }
+
+    let idx = haystack.value.indexOf(needle.value.toString())
+
+    if (idx !== -1 && (index === -1 || idx < index)) {
+      index = idx
+      value = needle.value.toString()
+    }
+  }
+
+  return { kind: EvaluationResultKind.STRING, value: value }
+}
