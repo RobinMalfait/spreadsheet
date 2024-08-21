@@ -534,3 +534,99 @@ describe('FIND_LAST()', () => {
     `)
   })
 })
+
+describe('REPLACE_ALL()', () => {
+  it('should error when required argument is not passed', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=REPLACE_ALL()')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: REPLACE_ALL() expects a string as the first three arguments, got <nothing>
+      "
+    `)
+  })
+
+  it('should error when the argument is of the wrong type', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=REPLACE_ALL(123, 1, 2)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: REPLACE_ALL() expects a string as the first three arguments, got 123
+      "
+    `)
+  })
+
+  it('should error when the search / replace values do not match', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set(
+      'A1',
+      '=REPLACE_ALL("one two three four", "one", 1, "two", 2, "three")',
+    )
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: REPLACE_ALL() expects an even number of arguments
+      "
+    `)
+  })
+
+  it('should result in the input when there are no replacements', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=REPLACE_ALL("needle")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬────────┐
+      │   │ A      │
+      ├───┼────────┤
+      │ 1 │ needle │
+      └───┴────────┘
+      "
+    `)
+  })
+
+  it('should replace all needles with the corresponding replacement', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
+    spreadsheet.set(
+      'B1',
+      '=REPLACE_ALL(A1, "quick", "slow", "fox", "sloth", "jumps", "hops")',
+    )
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────────────────────────────────────────┬─────────────────────────────────────────────┐
+      │   │ A                                           │ B                                           │
+      ├───┼─────────────────────────────────────────────┼─────────────────────────────────────────────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ The slow brown sloth hops over the lazy dog │
+      └───┴─────────────────────────────────────────────┴─────────────────────────────────────────────┘
+      "
+    `)
+  })
+})

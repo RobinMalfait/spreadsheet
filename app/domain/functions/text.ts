@@ -172,3 +172,70 @@ export function FIND_LAST(
 
   return { kind: EvaluationResultKind.STRING, value: value }
 }
+
+export function REPLACE_ALL(
+  haystack?: EvaluationResult,
+  ...zip: EvaluationResult[]
+): EvaluationResult {
+  if (haystack?.kind !== EvaluationResultKind.STRING) {
+    throw new Error(
+      `REPLACE_ALL() expects a string as the first three arguments, got ${haystack?.value ?? '<nothing>'}`,
+    )
+  }
+
+  let values: string[] = []
+  let replacements: string[] = []
+  for (let idx = 0; idx < zip.length; idx += 2) {
+    let value = zip[idx]
+    if (value === undefined) {
+      throw new Error('REPLACE_ALL() expects an even number of arguments')
+    }
+
+    let replacement = zip[idx + 1]
+    if (replacement === undefined) {
+      throw new Error('REPLACE_ALL() expects an even number of arguments')
+    }
+
+    if (
+      value.kind !== EvaluationResultKind.STRING &&
+      value.kind !== EvaluationResultKind.NUMBER
+    ) {
+      throw new Error(`REPLACE_ALL() expects a string as the needle, got ${value.value}`)
+    }
+
+    if (
+      replacement.kind !== EvaluationResultKind.STRING &&
+      replacement.kind !== EvaluationResultKind.NUMBER
+    ) {
+      throw new Error(
+        `REPLACE_ALL() expects a string as the needle, got ${replacement.value}`,
+      )
+    }
+
+    values.push(value.value.toString())
+    replacements.push(replacement.value.toString())
+  }
+
+  let value = haystack.value
+  for (let idx = 0; idx < value.length; idx++) {
+    let iidx = values.findIndex((word) => value.slice(idx).startsWith(word))
+    if (iidx !== -1) {
+      let needle = values[iidx]
+      if (needle === undefined) {
+        throw new Error('REPLACE_ALL() expects an even number of arguments')
+      }
+      let replacement = replacements[iidx]
+      if (replacement === undefined) {
+        throw new Error('REPLACE_ALL() expects an even number of arguments')
+      }
+
+      value = value.replace(needle, replacement)
+      idx += replacement.length - needle.length
+    }
+  }
+
+  return {
+    kind: EvaluationResultKind.STRING,
+    value,
+  }
+}
