@@ -395,7 +395,7 @@ export default function Index() {
       <div className="flex items-center border-gray-300 border-b">
         <div className="w-16 shrink-0 py-1.5 text-center text-sm">{cell}</div>
         <div className="-ml-[2px] font-thin text-gray-300">|</div>
-        <div className="has-focus:ligatures-none relative flex flex-1">
+        <div className="has-data-unknown:ligatures-none has-focus:ligatures-none relative flex flex-1">
           <div
             hidden={value[0] !== '='}
             className="pointer-events-none absolute top-1.5 left-2 font-mono"
@@ -515,6 +515,7 @@ export default function Index() {
               return (
                 <div
                   key={key}
+                  data-unknown={token.kind === TokenKind.UNKNOWN ? '' : undefined}
                   style={{ '--start': `${token.span.start}ch` } as CSSProperties}
                   className={clsx(
                     'absolute translate-x-[calc(1ch+var(--start))] whitespace-pre',
