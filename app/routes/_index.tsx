@@ -456,9 +456,11 @@ export default function Index() {
   }, [cell, spreadsheet])
 
   // Generate grid
-  let cells = Array.from({
-    length: (WIDTH + 1) * (HEIGHT + 1),
-  }).fill(0)
+  let cells = useMemo(() => {
+    return Array.from({
+      length: (WIDTH + 1) * (HEIGHT + 1),
+    }).fill(0)
+  }, [])
 
   // Active cell location
   let location = useMemo(() => parseLocation(cell), [cell])
