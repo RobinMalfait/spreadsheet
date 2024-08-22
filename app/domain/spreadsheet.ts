@@ -90,9 +90,9 @@ export class Spreadsheet {
     return new Set(this._dependencies.get(cell))
   }
 
-  evaluate(cell: string): EvaluationResult | null {
+  evaluate(cell: string): EvaluationResult {
     let result = this.cells.get(cell)
-    if (!result) return null
+    if (!result) return { kind: EvaluationResultKind.EMPTY, value: '<empty>' }
 
     let cached = this.evaluationCache.get(cell)
     if (cached) return cached

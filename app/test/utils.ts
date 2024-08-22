@@ -62,9 +62,7 @@ export function visualizeSpreadsheet(spreadsheet: Spreadsheet) {
         lock: 0,
       })
       let result = spreadsheet.evaluate(cell)
-      if (result === null) {
-        output.push('')
-      } else if (result.kind === EvaluationResultKind.ERROR) {
+      if (result.kind === EvaluationResultKind.ERROR) {
         output.push('Error')
         errors.push(`\u00B7 ${cell}: ${result.value}`)
       } else {

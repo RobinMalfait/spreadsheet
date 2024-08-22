@@ -111,6 +111,7 @@ export function SUM(...args: EvaluationResult[]): EvaluationResult {
       case EvaluationResultKind.NUMBER:
         out += arg.value
         break
+      case EvaluationResultKind.EMPTY:
       case EvaluationResultKind.BOOLEAN:
       case EvaluationResultKind.STRING:
       case EvaluationResultKind.DATETIME:
@@ -223,6 +224,7 @@ export function PRODUCT(...args: EvaluationResult[]): EvaluationResult {
       case EvaluationResultKind.NUMBER:
         out *= arg.value
         break
+      case EvaluationResultKind.EMPTY:
       case EvaluationResultKind.STRING:
       case EvaluationResultKind.BOOLEAN:
       case EvaluationResultKind.DATETIME:

@@ -19,8 +19,14 @@ export function AS_NUMBER(
   }
 
   switch (value.kind) {
-    case EvaluationResultKind.ERROR: // No need to convert an error to a number
-    case EvaluationResultKind.NUMBER: // No need to convert a number to a number
+    // No need to convert an error to a number
+    case EvaluationResultKind.ERROR:
+    // No need to convert a number to a number
+    case EvaluationResultKind.NUMBER:
+    // We can't convert an empty value to a number. We could return 0, which
+    // helps in places like `SUM(…)`. But if you use `PRODUCT(…)`, we want 1
+    // instead. Not enough context to make a decision here.
+    case EvaluationResultKind.EMPTY:
       return value
 
     case EvaluationResultKind.BOOLEAN:

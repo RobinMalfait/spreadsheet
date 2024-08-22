@@ -932,7 +932,6 @@ export default function Index() {
 
               // Cell
               let out = error.get(id) ?? spreadsheet.evaluate(id)
-              if (out === null) return [null, null]
 
               if (out.kind === EvaluationResultKind.ERROR) {
                 return [
@@ -1207,10 +1206,7 @@ export default function Index() {
               let tokens = tokenize(expression)
               let ast = parse(tokens)
               let stringifiedAST = `=${printExpression(ast)}`
-              let evaluation: EvaluationResult | null = null
-              try {
-                evaluation = spreadsheet.evaluate(cell)
-              } catch {}
+              let evaluation = spreadsheet.evaluate(cell)
               let result = error.get(cell) ?? evaluation
 
               return (
@@ -1220,18 +1216,12 @@ export default function Index() {
                       <label>Cell:</label>
                       <small>{cell}</small>
                     </div>
-                    {
-                      <div className="flex items-center gap-2 px-2">
-                        <label>Result:</label>
-                        {result === null ? (
-                          <small>N/A</small>
-                        ) : (
-                          <small className="whitespace-pre">
-                            {printEvaluationResult(result)}
-                          </small>
-                        )}
-                      </div>
-                    }
+                    <div className="flex items-center gap-2 px-2">
+                      <label>Result:</label>
+                      <small className="whitespace-pre">
+                        {printEvaluationResult(result)}
+                      </small>
+                    </div>
                   </div>
                   <div className="flex flex-col gap-2 p-2">
                     <label>Expression:</label>
@@ -1265,11 +1255,7 @@ export default function Index() {
                   )}
                   <div className="flex items-center gap-2 p-2">
                     <label>Result:</label>
-                    {result === null ? (
-                      <small>N/A</small>
-                    ) : (
-                      <small>{printEvaluationResult(result)}</small>
-                    )}
+                    <small>{printEvaluationResult(result)}</small>
                   </div>
                 </>
               )

@@ -9,6 +9,7 @@ export function COUNT(...args: EvaluationResult[]): EvaluationResult {
         count += 1
         break
       case EvaluationResultKind.ERROR:
+      case EvaluationResultKind.EMPTY:
       case EvaluationResultKind.BOOLEAN:
       case EvaluationResultKind.STRING:
       case EvaluationResultKind.DATETIME:
@@ -32,6 +33,7 @@ export function MIN(...args: EvaluationResult[]): EvaluationResult {
       case EvaluationResultKind.NUMBER:
         min = Math.min(min, arg.value)
         break
+      case EvaluationResultKind.EMPTY:
       case EvaluationResultKind.BOOLEAN:
       case EvaluationResultKind.STRING:
       case EvaluationResultKind.DATETIME:
@@ -55,6 +57,7 @@ export function MAX(...args: EvaluationResult[]): EvaluationResult {
       case EvaluationResultKind.NUMBER:
         max = Math.max(max, arg.value)
         break
+      case EvaluationResultKind.EMPTY:
       case EvaluationResultKind.BOOLEAN:
       case EvaluationResultKind.STRING:
       case EvaluationResultKind.DATETIME:
@@ -80,6 +83,7 @@ export function AVERAGE(...args: EvaluationResult[]): EvaluationResult {
         count += 1
         sum += arg.value
         break
+      case EvaluationResultKind.EMPTY:
       case EvaluationResultKind.BOOLEAN:
       case EvaluationResultKind.STRING:
       case EvaluationResultKind.DATETIME:

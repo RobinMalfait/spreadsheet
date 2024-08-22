@@ -6,6 +6,7 @@ import { expandRange } from '~/domain/walk-ast'
 
 export enum EvaluationResultKind {
   ERROR = 'ERROR',
+  EMPTY = 'EMPTY',
   NUMBER = 'NUMBER',
   STRING = 'STRING',
   BOOLEAN = 'BOOLEAN',
@@ -14,6 +15,7 @@ export enum EvaluationResultKind {
 
 export type EvaluationResult =
   | { kind: EvaluationResultKind.ERROR; value: string }
+  | { kind: EvaluationResultKind.EMPTY; value: string }
   | { kind: EvaluationResultKind.NUMBER; value: number }
   | { kind: EvaluationResultKind.STRING; value: string }
   | { kind: EvaluationResultKind.BOOLEAN; value: boolean }
@@ -22,7 +24,7 @@ export type EvaluationResult =
 export function evaluateExpression(
   ast: AST,
   spreadsheet: Spreadsheet,
-): EvaluationResult | EvaluationResult[] | null {
+): EvaluationResult | EvaluationResult[] {
   switch (ast.kind) {
     case AstKind.NUMBER_LITERAL:
       return { kind: EvaluationResultKind.NUMBER, value: ast.value }
@@ -62,27 +64,22 @@ export function evaluateExpression(
 
     case AstKind.BINARY_EXPRESSION: {
       let lhs = evaluateExpression(ast.lhs, spreadsheet)
-      if (lhs === null || Array.isArray(lhs)) {
+      if (Array.isArray(lhs)) {
         return {
           kind: EvaluationResultKind.ERROR,
           value: 'Expected a single result from the left side',
         }
       }
-      if (lhs?.kind === EvaluationResultKind.ERROR) {
-        return lhs
-      }
+      if (lhs.kind === EvaluationResultKind.ERROR) return lhs
 
       let rhs = evaluateExpression(ast.rhs, spreadsheet)
-      if (rhs === null || Array.isArray(rhs)) {
+      if (Array.isArray(rhs)) {
         return {
           kind: EvaluationResultKind.ERROR,
           value: 'Expected a single result from the right side',
         }
       }
-
-      if (rhs?.kind === EvaluationResultKind.ERROR) {
-        return rhs
-      }
+      if (rhs.kind === EvaluationResultKind.ERROR) return rhs
 
       if (
         lhs.kind === EvaluationResultKind.NUMBER &&
@@ -147,6 +144,8 @@ export function printEvaluationResult(result: EvaluationResult): string {
   switch (result.kind) {
     case EvaluationResultKind.ERROR:
       return `ERROR: ${result.value}`
+    case EvaluationResultKind.EMPTY:
+      return ''
     case EvaluationResultKind.NUMBER:
       return result.value.toString()
     case EvaluationResultKind.STRING:
