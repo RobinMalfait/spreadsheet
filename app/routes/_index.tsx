@@ -121,10 +121,7 @@ export default function Index() {
       if (error) {
         setError((errors) => new Map(errors).set(cell, error))
       } else {
-        setError((errors) => {
-          errors.delete(cell)
-          return new Map(errors)
-        })
+        setError((errors) => (errors.delete(cell) ? new Map(errors) : errors))
       }
       forceRerender()
       return [cell, current]
