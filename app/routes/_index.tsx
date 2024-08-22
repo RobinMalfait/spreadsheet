@@ -119,17 +119,17 @@ export default function Index() {
 
       vcs.commit('B3', 'Actual')
       vcs.commit('C3', 'Expected')
-      vcs.commit('D3', 'Pass')
+      vcs.commit('D3', 'Success?')
 
       vcs.commit('A4', 'Part 01')
       vcs.commit('B4', '0')
       vcs.commit('C4', '=142')
-      vcs.commit('D4', '=IF(B4 == C4, "✅", "❌")')
+      vcs.commit('D4', '=IF(B4 == C4, "Pass", "Fail")')
 
       vcs.commit('A5', 'Part 02')
       vcs.commit('B5', '0')
       vcs.commit('C5', '=281')
-      vcs.commit('D5', '=IF(B5 == C5, "✅", "❌")')
+      vcs.commit('D5', '=IF(B5 == C5, "Pass", "Fail")')
 
       vcs.commit('A7', 'Sample input 01:')
       vcs.commit('A9', '1abc2')
