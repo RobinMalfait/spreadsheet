@@ -57,6 +57,8 @@ export default function Index() {
   let inputContainerRef = useRef<HTMLDivElement | null>(null)
   let inputRef = useRef<HTMLInputElement | null>(null)
 
+  let editingExpression = value[0] === '=' && document.activeElement === inputRef.current
+
   useEffect(() => {
     let ac = new AbortController()
     let raf: ReturnType<typeof requestAnimationFrame>
@@ -110,8 +112,6 @@ export default function Index() {
       ac.abort()
     }
   }, [])
-
-  let editingExpression = value[0] === '=' && document.activeElement === inputRef.current
 
   let [spreadsheet] = useState(() => new Spreadsheet())
   let [vcs] = useState(() => {
