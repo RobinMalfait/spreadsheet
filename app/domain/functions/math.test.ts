@@ -1805,6 +1805,21 @@ describe('IMUL', () => {
 })
 
 describe('SUM()', () => {
+  it('should sum up all the numbers of empty cells', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=SUM(B1:D1)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───┐
+      │   │ A │
+      ├───┼───┤
+      │ 1 │ 0 │
+      └───┴───┘
+      "
+    `)
+  })
+
   it('should sum up all the numbers', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', '=2')
@@ -2178,7 +2193,7 @@ describe('MULTIPLY()', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', '=2')
     spreadsheet.set('B1', '=3')
-    spreadsheet.set('A2', '=PRODUCT(A1, B1)')
+    spreadsheet.set('A2', '=MULTIPLY(A1, B1)')
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
@@ -2195,6 +2210,21 @@ describe('MULTIPLY()', () => {
 })
 
 describe('PRODUCT()', () => {
+  it('should multiply all the numbers of empty cells', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=PRODUCT(B1:D1)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───┐
+      │   │ A │
+      ├───┼───┤
+      │ 1 │ 0 │
+      └───┴───┘
+      "
+    `)
+  })
+
   it('should multiply all the numbers', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', '=2')

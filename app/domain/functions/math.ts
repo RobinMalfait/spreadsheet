@@ -102,6 +102,10 @@ export const ATAN2 = exposeBinaryMathFunction('ATAN2', Math.atan2)
 export const IMUL = exposeBinaryMathFunction('IMUL', Math.imul)
 
 export function SUM(...args: EvaluationResult[]): EvaluationResult {
+  if (args.length === 0) {
+    return { kind: EvaluationResultKind.NUMBER, value: 0 }
+  }
+
   let out = 0
 
   for (let arg of args) {
@@ -215,6 +219,11 @@ export function MULTIPLY(
 }
 
 export function PRODUCT(...args: EvaluationResult[]): EvaluationResult {
+  if (args.length === 0) {
+    return { kind: EvaluationResultKind.NUMBER, value: 0 }
+  }
+
+  let hasArgument = false
   let out = 1
 
   for (let arg of args) {
@@ -222,6 +231,7 @@ export function PRODUCT(...args: EvaluationResult[]): EvaluationResult {
       case EvaluationResultKind.ERROR:
         return arg
       case EvaluationResultKind.NUMBER:
+        hasArgument = true
         out *= arg.value
         break
       case EvaluationResultKind.EMPTY:
@@ -235,7 +245,7 @@ export function PRODUCT(...args: EvaluationResult[]): EvaluationResult {
     }
   }
 
-  return { kind: EvaluationResultKind.NUMBER, value: out }
+  return { kind: EvaluationResultKind.NUMBER, value: hasArgument ? out : 0 }
 }
 
 export function DIVIDE(
