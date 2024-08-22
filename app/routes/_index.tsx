@@ -1245,17 +1245,11 @@ export default function Index() {
                       {JSON.stringify(ast, null, 2)}
                     </pre>
                   </div>
-                  {evaluation !== null && (
-                    <div className="flex flex-col gap-2 p-2">
-                      <label>Evaluation:</label>
-                      <pre className="font-mono text-xs">
-                        {JSON.stringify(evaluation, null, 2)}
-                      </pre>
-                    </div>
-                  )}
-                  <div className="flex items-center gap-2 p-2">
+                  <div className="flex flex-col gap-2 p-2">
                     <label>Result:</label>
-                    <small>{printEvaluationResult(result)}</small>
+                    <pre className="font-mono text-xs">
+                      {JSON.stringify(evaluation, null, 2)}
+                    </pre>
                   </div>
                 </>
               )
