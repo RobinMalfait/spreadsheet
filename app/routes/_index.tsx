@@ -519,7 +519,8 @@ export default function Index() {
         } else if (tokens[i]?.kind === TokenKind.CLOSE_PAREN && stack !== 0) {
           stack--
         } else if (tokens[i]?.kind === TokenKind.CLOSE_PAREN && stack === 0) {
-          return [paren, tokens[i]]
+          // biome-ignore lint/style/noNonNullAssertion: we just verified that the token at position `i` is an open paren.
+          return [paren, tokens[i]!]
         }
       }
     } else if (paren.kind === TokenKind.CLOSE_PAREN) {
@@ -532,7 +533,8 @@ export default function Index() {
         } else if (tokens[i]?.kind === TokenKind.OPEN_PAREN && stack !== 0) {
           stack--
         } else if (tokens[i]?.kind === TokenKind.OPEN_PAREN && stack === 0) {
-          return [paren, tokens[i]]
+          // biome-ignore lint/style/noNonNullAssertion: we just verified that the token at position `i` is an open paren.
+          return [paren, tokens[i]!]
         }
       }
     }
@@ -564,137 +566,11 @@ export default function Index() {
           ref={inputContainerRef}
           className="scrollbar-none has-data-unknown:ligatures-none has-focus:ligatures-none relative flex flex-1 overflow-auto"
         >
-          <div
-            hidden={value[0] !== '='}
-            className="pointer-events-none absolute top-1.5 left-2 font-mono"
-          >
-            {tokens.map((token, idx) => {
-              let key = idx
-
-              let color = (() => {
-                // Parentheses
-                if (
-                  (token.kind === TokenKind.OPEN_PAREN ||
-                    token.kind === TokenKind.CLOSE_PAREN) &&
-                  activeParens.includes(token)
-                ) {
-                  return 'bg-gray-100 rounded text-black'
-                }
-
-                // Function
-                if (
-                  token.kind === TokenKind.IDENTIFIER &&
-                  tokens[idx + 1]?.kind === TokenKind.OPEN_PAREN
-                ) {
-                  return 'text-purple-500'
-                }
-
-                // Cell references
-                {
-                  // Cell reference (without locks)
-                  //
-                  // Matches:        A1
-                  // Does not match: A1(
-                  //                   ^
-                  if (
-                    token.kind === TokenKind.IDENTIFIER &&
-                    tokens[idx + 1]?.kind !== TokenKind.OPEN_PAREN
-                  ) {
-                    return 'text-amber-500'
-                  }
-
-                  // Locked row, styling the `$` character
-                  //
-                  // Matches:        $A1
-                  // Does not match: $A1(
-                  //                    ^
-                  if (
-                    token.kind === TokenKind.DOLLAR &&
-                    tokens[idx + 1]?.kind === TokenKind.IDENTIFIER &&
-                    tokens[idx + 2]?.kind !== TokenKind.OPEN_PAREN
-                  ) {
-                    return 'text-amber-500'
-                  }
-
-                  // Locked row, styling the `$` character
-                  //
-                  // Matches:        A$1
-                  // Does not match: A$1(
-                  //                    ^
-                  if (
-                    token.kind === TokenKind.DOLLAR &&
-                    tokens[idx - 1]?.kind === TokenKind.IDENTIFIER &&
-                    tokens[idx + 1]?.kind === TokenKind.NUMBER_LITERAL &&
-                    tokens[idx + 2]?.kind !== TokenKind.OPEN_PAREN
-                  ) {
-                    return 'text-amber-500'
-                  }
-
-                  // Cell range, styling the `:` character
-                  //
-                  // Matches:         A1:B2
-                  //                 A$1:B$2
-                  // Does not match:  A1:B2(
-                  //                       ^
-                  if (
-                    token.kind === TokenKind.COLON &&
-                    //
-                    (tokens[idx - 1]?.kind === TokenKind.IDENTIFIER ||
-                      tokens[idx - 1]?.kind === TokenKind.NUMBER_LITERAL) &&
-                    //
-                    (tokens[idx + 1]?.kind === TokenKind.IDENTIFIER ||
-                      tokens[idx + 1]?.kind === TokenKind.DOLLAR)
-                  ) {
-                    return 'text-amber-500'
-                  }
-
-                  // Locked row, styling the `$` character
-                  //
-                  // Matches: A$1
-                  //            ^
-                  if (
-                    token.kind === TokenKind.NUMBER_LITERAL &&
-                    tokens[idx - 1]?.kind === TokenKind.DOLLAR
-                  ) {
-                    return 'text-amber-500'
-                  }
-                }
-
-                // Numbers
-                if (token.kind === TokenKind.NUMBER_LITERAL) return 'text-blue-500'
-
-                // Strings
-                if (token.kind === TokenKind.STRING_LITERAL) return 'text-green-500'
-
-                // Unknown
-                if (token.kind === TokenKind.UNKNOWN) return 'text-red-500'
-
-                // Parentheses
-                if (
-                  token.kind === TokenKind.OPEN_PAREN ||
-                  token.kind === TokenKind.CLOSE_PAREN
-                ) {
-                  return 'text-gray-500'
-                }
-
-                return ''
-              })()
-
-              return (
-                <div
-                  key={key}
-                  data-unknown={token.kind === TokenKind.UNKNOWN ? '' : undefined}
-                  style={{ '--start': `${token.span.start}ch` } as CSSProperties}
-                  className={clsx(
-                    'absolute translate-x-[calc(1ch+var(--scroll-offset,0px)+var(--start))] whitespace-pre',
-                    color,
-                  )}
-                >
-                  {token.raw}
-                </div>
-              )
-            })}
-          </div>
+          <TokensOverlay
+            tokens={tokens}
+            activeParens={activeParens}
+            enabled={value[0] === '='}
+          />
           <Combobox
             virtual={{ options: suggestions }}
             immediate={suggestions.length > 0}
@@ -1307,4 +1183,148 @@ function useCursorPosition(input: MutableRefObject<HTMLInputElement | null>) {
   }, [input])
 
   return cursor
+}
+
+function TokensOverlay({
+  enabled,
+  tokens,
+  activeParens,
+}: {
+  enabled: boolean
+  tokens: Token[]
+  activeParens: Token[]
+}) {
+  return (
+    <div
+      hidden={!enabled}
+      className="pointer-events-none absolute top-1.5 left-2 font-mono"
+    >
+      {tokens.map((token, idx) => {
+        let key = idx
+
+        let color = (() => {
+          // Parentheses
+          if (
+            (token.kind === TokenKind.OPEN_PAREN ||
+              token.kind === TokenKind.CLOSE_PAREN) &&
+            activeParens.includes(token)
+          ) {
+            return 'bg-gray-100 rounded text-black'
+          }
+
+          // Function
+          if (
+            token.kind === TokenKind.IDENTIFIER &&
+            tokens[idx + 1]?.kind === TokenKind.OPEN_PAREN
+          ) {
+            return 'text-purple-500'
+          }
+
+          // Cell references
+          {
+            // Cell reference (without locks)
+            //
+            // Matches:        A1
+            // Does not match: A1(
+            //                   ^
+            if (
+              token.kind === TokenKind.IDENTIFIER &&
+              tokens[idx + 1]?.kind !== TokenKind.OPEN_PAREN
+            ) {
+              return 'text-amber-500'
+            }
+
+            // Locked row, styling the `$` character
+            //
+            // Matches:        $A1
+            // Does not match: $A1(
+            //                    ^
+            if (
+              token.kind === TokenKind.DOLLAR &&
+              tokens[idx + 1]?.kind === TokenKind.IDENTIFIER &&
+              tokens[idx + 2]?.kind !== TokenKind.OPEN_PAREN
+            ) {
+              return 'text-amber-500'
+            }
+
+            // Locked row, styling the `$` character
+            //
+            // Matches:        A$1
+            // Does not match: A$1(
+            //                    ^
+            if (
+              token.kind === TokenKind.DOLLAR &&
+              tokens[idx - 1]?.kind === TokenKind.IDENTIFIER &&
+              tokens[idx + 1]?.kind === TokenKind.NUMBER_LITERAL &&
+              tokens[idx + 2]?.kind !== TokenKind.OPEN_PAREN
+            ) {
+              return 'text-amber-500'
+            }
+
+            // Cell range, styling the `:` character
+            //
+            // Matches:         A1:B2
+            //                 A$1:B$2
+            // Does not match:  A1:B2(
+            //                       ^
+            if (
+              token.kind === TokenKind.COLON &&
+              //
+              (tokens[idx - 1]?.kind === TokenKind.IDENTIFIER ||
+                tokens[idx - 1]?.kind === TokenKind.NUMBER_LITERAL) &&
+              //
+              (tokens[idx + 1]?.kind === TokenKind.IDENTIFIER ||
+                tokens[idx + 1]?.kind === TokenKind.DOLLAR)
+            ) {
+              return 'text-amber-500'
+            }
+
+            // Locked row, styling the `$` character
+            //
+            // Matches: A$1
+            //            ^
+            if (
+              token.kind === TokenKind.NUMBER_LITERAL &&
+              tokens[idx - 1]?.kind === TokenKind.DOLLAR
+            ) {
+              return 'text-amber-500'
+            }
+          }
+
+          // Numbers
+          if (token.kind === TokenKind.NUMBER_LITERAL) return 'text-blue-500'
+
+          // Strings
+          if (token.kind === TokenKind.STRING_LITERAL) return 'text-green-500'
+
+          // Unknown
+          if (token.kind === TokenKind.UNKNOWN) return 'text-red-500'
+
+          // Parentheses
+          if (
+            token.kind === TokenKind.OPEN_PAREN ||
+            token.kind === TokenKind.CLOSE_PAREN
+          ) {
+            return 'text-gray-500'
+          }
+
+          return ''
+        })()
+
+        return (
+          <div
+            key={key}
+            data-unknown={token.kind === TokenKind.UNKNOWN ? '' : undefined}
+            style={{ '--start': `${token.span.start}ch` } as CSSProperties}
+            className={clsx(
+              'absolute translate-x-[calc(1ch+var(--scroll-offset,0px)+var(--start))] whitespace-pre',
+              color,
+            )}
+          >
+            {token.raw}
+          </div>
+        )
+      })}
+    </div>
+  )
 }
