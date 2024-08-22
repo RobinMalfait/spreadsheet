@@ -39,3 +39,13 @@
 @utility ligatures-none {
   font-variant-ligatures: none;
 }
+
+@utility scrollbar-none {
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none;
+
+}
