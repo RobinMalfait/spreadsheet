@@ -57,7 +57,63 @@ export default function Index() {
   let [debugView, setDebugView] = useState(false)
   let [historyView, setHistoryView] = useState(false)
   let [, forceRerender] = useReducer(() => ({}), {})
+
+  let inputContainerRef = useRef<HTMLDivElement | null>(null)
   let inputRef = useRef<HTMLInputElement | null>(null)
+
+  useEffect(() => {
+    let ac = new AbortController()
+    let raf: ReturnType<typeof requestAnimationFrame>
+
+    let container = inputContainerRef.current
+    if (!container) return
+
+    let input = inputRef.current
+    if (!input) return
+
+    function handle() {
+      if (!container) return
+      if (!input) return
+
+      // Keep the scroll in sync
+      raf = requestAnimationFrame(handle)
+
+      // Update the offset of the scroll
+      container.style.setProperty('--scroll-offset', `${-input.scrollLeft}px`)
+    }
+
+    // Input has the focus already, start syncing the scroll
+    if (document.activeElement === input) {
+      raf = requestAnimationFrame(handle)
+      return () => cancelAnimationFrame(raf)
+    }
+
+    // Input doesn't have the focus, wait for it to get the focus
+    input.addEventListener(
+      'focus',
+      () => {
+        raf = requestAnimationFrame(handle)
+      },
+      { signal: ac.signal },
+    )
+
+    // Input lost the focus, stop syncing the scroll
+    input.addEventListener(
+      'blur',
+      () => {
+        cancelAnimationFrame(raf)
+
+        // Reset the scroll offset
+        container.style.setProperty('--scroll-offset', '0px')
+      },
+      { signal: ac.signal },
+    )
+
+    return () => {
+      cancelAnimationFrame(raf)
+      ac.abort()
+    }
+  }, [])
 
   let editingExpression = value[0] === '=' && document.activeElement === inputRef.current
 
@@ -506,7 +562,10 @@ export default function Index() {
       <div className="flex items-center border-gray-300 border-b">
         <div className="w-16 shrink-0 py-1.5 text-center text-sm">{cell}</div>
         <div className="-ml-[2px] font-thin text-gray-300">|</div>
-        <div className="has-data-unknown:ligatures-none has-focus:ligatures-none relative flex flex-1">
+        <div
+          ref={inputContainerRef}
+          className="scrollbar-none has-data-unknown:ligatures-none has-focus:ligatures-none relative flex flex-1 overflow-auto"
+        >
           <div
             hidden={value[0] !== '='}
             className="pointer-events-none absolute top-1.5 left-2 font-mono"
@@ -629,7 +688,7 @@ export default function Index() {
                   data-unknown={token.kind === TokenKind.UNKNOWN ? '' : undefined}
                   style={{ '--start': `${token.span.start}ch` } as CSSProperties}
                   className={clsx(
-                    'absolute translate-x-[calc(1ch+var(--start))] whitespace-pre',
+                    'absolute translate-x-[calc(1ch+var(--scroll-offset,0px)+var(--start))] whitespace-pre',
                     color,
                   )}
                 >
