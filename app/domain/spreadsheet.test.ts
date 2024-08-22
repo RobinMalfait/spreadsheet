@@ -529,10 +529,10 @@ describe('errors', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', '=A1')
 
-    expect(spreadsheet.compute('A1')).toMatchInlineSnapshot(json`
+    expect(spreadsheet.evaluate('A1')).toMatchInlineSnapshot(json`
       {
         "kind": "ERROR",
-        "message": "Circular reference detected in cell A1",
+        "value": "Circular reference detected in cell A1",
       }
     `)
   })
@@ -541,10 +541,10 @@ describe('errors', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', '=B1:C3')
 
-    expect(spreadsheet.compute('A1')).toMatchInlineSnapshot(json`
+    expect(spreadsheet.evaluate('A1')).toMatchInlineSnapshot(json`
       {
         "kind": "ERROR",
-        "message": "Cannot reference a range to a cell",
+        "value": "Cannot reference a range to a cell",
       }
     `)
   })
@@ -553,10 +553,10 @@ describe('errors', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', '=SUM(A1, 1)')
 
-    expect(spreadsheet.compute('A1')).toMatchInlineSnapshot(json`
+    expect(spreadsheet.evaluate('A1')).toMatchInlineSnapshot(json`
       {
         "kind": "ERROR",
-        "message": "Circular reference detected in cell A1",
+        "value": "Circular reference detected in cell A1",
       }
     `)
   })
@@ -565,10 +565,10 @@ describe('errors', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A2', '=SUM(A1:A3)')
 
-    expect(spreadsheet.compute('A2')).toMatchInlineSnapshot(json`
+    expect(spreadsheet.evaluate('A2')).toMatchInlineSnapshot(json`
       {
         "kind": "ERROR",
-        "message": "Circular reference detected in cell A2",
+        "value": "Circular reference detected in cell A2",
       }
     `)
   })
@@ -577,10 +577,10 @@ describe('errors', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A2', '=SUM(A1:A3)')
 
-    expect(spreadsheet.compute('A2')).toMatchInlineSnapshot(json`
+    expect(spreadsheet.evaluate('A2')).toMatchInlineSnapshot(json`
       {
         "kind": "ERROR",
-        "message": "Circular reference detected in cell A2",
+        "value": "Circular reference detected in cell A2",
       }
     `)
   })
@@ -591,10 +591,10 @@ describe('errors', () => {
     spreadsheet.set('A2', '=SUM(A3, 1)')
     spreadsheet.set('A3', '=SUM(A1, 1)')
 
-    expect(spreadsheet.compute('A1')).toMatchInlineSnapshot(json`
+    expect(spreadsheet.evaluate('A1')).toMatchInlineSnapshot(json`
       {
         "kind": "ERROR",
-        "message": "Circular reference detected in cell A3",
+        "value": "Circular reference detected in cell A3",
       }
     `)
   })

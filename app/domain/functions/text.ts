@@ -19,9 +19,10 @@ export function JOIN(
   ...args: EvaluationResult[]
 ): EvaluationResult {
   if (delimiter?.kind !== EvaluationResultKind.STRING) {
-    throw new Error(
-      `JOIN() expects a string as the delimiter, got ${delimiter?.value ?? '<nothing>'}`,
-    )
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `JOIN() expects a string as the delimiter, got ${delimiter?.value ?? '<nothing>'}`,
+    }
   }
 
   let out: string[] = []
@@ -38,11 +39,17 @@ export function LOWER(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw new Error(`LOWER() does not take more than one argument, got ${extra.value}`)
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `LOWER() does not take more than one argument, got ${extra.value}`,
+    }
   }
 
   if (!arg) {
-    throw new Error('LOWER() expects a value as the first argument, got <nothing>')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'LOWER() expects a value as the first argument, got <nothing>',
+    }
   }
 
   return {
@@ -56,11 +63,17 @@ export function UPPER(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw new Error(`UPPER() does not take more than one argument, got ${extra.value}`)
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `UPPER() does not take more than one argument, got ${extra.value}`,
+    }
   }
 
   if (!arg) {
-    throw new Error('UPPER() expects a value as the first argument, got <nothing>')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'UPPER() expects a value as the first argument, got <nothing>',
+    }
   }
 
   return {
@@ -71,15 +84,24 @@ export function UPPER(
 
 export function LEN(arg?: EvaluationResult, extra?: EvaluationResult): EvaluationResult {
   if (extra) {
-    throw new Error(`LEN() does not take more than one argument, got ${extra.value}`)
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `LEN() does not take more than one argument, got ${extra.value}`,
+    }
   }
 
   if (!arg) {
-    throw new Error('LEN() expects a value as the first argument, got <nothing>')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'LEN() expects a value as the first argument, got <nothing>',
+    }
   }
 
   if (arg.kind !== EvaluationResultKind.STRING) {
-    throw new Error(`LEN() expects a string as the first argument, got ${arg.value}`)
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `LEN() expects a string as the first argument, got ${arg.value}`,
+    }
   }
 
   return { kind: EvaluationResultKind.NUMBER, value: arg.value.length }
@@ -87,32 +109,45 @@ export function LEN(arg?: EvaluationResult, extra?: EvaluationResult): Evaluatio
 
 export function TRIM(arg?: EvaluationResult, extra?: EvaluationResult): EvaluationResult {
   if (extra) {
-    throw new Error(`TRIM() does not take more than one argument, got ${extra.value}`)
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `TRIM() does not take more than one argument, got ${extra.value}`,
+    }
   }
 
   if (!arg) {
-    throw new Error('TRIM() expects a value as the first argument, got <nothing>')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'TRIM() expects a value as the first argument, got <nothing>',
+    }
   }
 
   if (arg.kind !== EvaluationResultKind.STRING) {
-    throw new Error(`TRIM() expects a string as the first argument, got ${arg.value}`)
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `TRIM() expects a string as the first argument, got ${arg.value}`,
+    }
   }
 
   return { kind: EvaluationResultKind.STRING, value: arg.value.trim() }
 }
 
 export function FIND_FIRST(
-  haystack: EvaluationResult,
+  haystack?: EvaluationResult,
   ...needles: EvaluationResult[]
 ): EvaluationResult {
-  if (needles.length === 0) {
-    throw new Error('FIND_FIRST() expects at least one needle')
+  if (haystack?.kind !== EvaluationResultKind.STRING) {
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `FIND_FIRST() expects a string as the first argument, got ${haystack?.value ?? '<nothing>'}`,
+    }
   }
 
-  if (haystack.kind !== EvaluationResultKind.STRING) {
-    throw new Error(
-      `FIND_FIRST() expects a string as the first argument, got ${haystack.value}`,
-    )
+  if (needles.length === 0) {
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'FIND_FIRST() expects at least one needle',
+    }
   }
 
   let index = -1
@@ -123,7 +158,10 @@ export function FIND_FIRST(
       needle.kind !== EvaluationResultKind.STRING &&
       needle.kind !== EvaluationResultKind.NUMBER
     ) {
-      throw new Error(`FIND_FIRST() expects a string as the needle, got ${needle.value}`)
+      return {
+        kind: EvaluationResultKind.ERROR,
+        value: `FIND_FIRST() expects a string as the needle, got ${needle.value}`,
+      }
     }
 
     let idx = haystack.value.indexOf(needle.value.toString())
@@ -138,17 +176,21 @@ export function FIND_FIRST(
 }
 
 export function FIND_LAST(
-  haystack: EvaluationResult,
+  haystack?: EvaluationResult,
   ...needles: EvaluationResult[]
 ): EvaluationResult {
-  if (needles.length === 0) {
-    throw new Error('FIND_LAST() expects at least one needle')
+  if (haystack?.kind !== EvaluationResultKind.STRING) {
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `FIND_LAST() expects a string as the first argument, got ${haystack?.value ?? '<nothing>'}`,
+    }
   }
 
-  if (haystack.kind !== EvaluationResultKind.STRING) {
-    throw new Error(
-      `FIND_LAST() expects a string as the first argument, got ${haystack.value}`,
-    )
+  if (needles.length === 0) {
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'FIND_LAST() expects at least one needle',
+    }
   }
 
   let index = -1
@@ -159,7 +201,10 @@ export function FIND_LAST(
       needle.kind !== EvaluationResultKind.STRING &&
       needle.kind !== EvaluationResultKind.NUMBER
     ) {
-      throw new Error(`FIND_LAST() expects a string as the needle, got ${needle.value}`)
+      return {
+        kind: EvaluationResultKind.ERROR,
+        value: `FIND_LAST() expects a string as the needle, got ${needle.value}`,
+      }
     }
 
     let idx = haystack.value.lastIndexOf(needle.value.toString())
@@ -178,9 +223,10 @@ export function REPLACE_ALL(
   ...zip: EvaluationResult[]
 ): EvaluationResult {
   if (haystack?.kind !== EvaluationResultKind.STRING) {
-    throw new Error(
-      `REPLACE_ALL() expects a string as the first three arguments, got ${haystack?.value ?? '<nothing>'}`,
-    )
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `REPLACE_ALL() expects a string as the first three arguments, got ${haystack?.value ?? '<nothing>'}`,
+    }
   }
 
   let values: string[] = []
@@ -188,28 +234,38 @@ export function REPLACE_ALL(
   for (let idx = 0; idx < zip.length; idx += 2) {
     let value = zip[idx]
     if (value === undefined) {
-      throw new Error('REPLACE_ALL() expects an even number of arguments')
+      return {
+        kind: EvaluationResultKind.ERROR,
+        value: 'REPLACE_ALL() expects an even number of arguments',
+      }
     }
 
     let replacement = zip[idx + 1]
     if (replacement === undefined) {
-      throw new Error('REPLACE_ALL() expects an even number of arguments')
+      return {
+        kind: EvaluationResultKind.ERROR,
+        value: 'REPLACE_ALL() expects an even number of arguments',
+      }
     }
 
     if (
       value.kind !== EvaluationResultKind.STRING &&
       value.kind !== EvaluationResultKind.NUMBER
     ) {
-      throw new Error(`REPLACE_ALL() expects a string as the needle, got ${value.value}`)
+      return {
+        kind: EvaluationResultKind.ERROR,
+        value: `REPLACE_ALL() expects a string as the needle, got ${value.value}`,
+      }
     }
 
     if (
       replacement.kind !== EvaluationResultKind.STRING &&
       replacement.kind !== EvaluationResultKind.NUMBER
     ) {
-      throw new Error(
-        `REPLACE_ALL() expects a string as the needle, got ${replacement.value}`,
-      )
+      return {
+        kind: EvaluationResultKind.ERROR,
+        value: `REPLACE_ALL() expects a string as the needle, got ${replacement.value}`,
+      }
     }
 
     values.push(value.value.toString())
@@ -222,11 +278,17 @@ export function REPLACE_ALL(
     if (iidx !== -1) {
       let needle = values[iidx]
       if (needle === undefined) {
-        throw new Error('REPLACE_ALL() expects an even number of arguments')
+        return {
+          kind: EvaluationResultKind.ERROR,
+          value: 'REPLACE_ALL() expects an even number of arguments',
+        }
       }
       let replacement = replacements[iidx]
       if (replacement === undefined) {
-        throw new Error('REPLACE_ALL() expects an even number of arguments')
+        return {
+          kind: EvaluationResultKind.ERROR,
+          value: 'REPLACE_ALL() expects an even number of arguments',
+        }
       }
 
       value = value.replace(needle, replacement)

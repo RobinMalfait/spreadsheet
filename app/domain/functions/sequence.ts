@@ -1,8 +1,11 @@
 import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation'
 
-export function DIGITS(extra?: EvaluationResult): EvaluationResult[] {
+export function DIGITS(extra?: EvaluationResult): EvaluationResult | EvaluationResult[] {
   if (extra) {
-    throw new Error('DIGITS() does not take any arguments')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'DIGITS() does not take any arguments',
+    }
   }
 
   return [

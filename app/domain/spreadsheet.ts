@@ -1,25 +1,14 @@
 import { type AST, AstKind } from '~/domain/ast'
-import { type EvaluationResult, evaluateExpression } from '~/domain/evaluation'
+import {
+  type EvaluationResult,
+  EvaluationResultKind,
+  evaluateExpression,
+} from '~/domain/evaluation'
 import { parse } from '~/domain/expression'
 import * as functions from '~/domain/functions'
 import { tokenize } from '~/domain/tokenizer'
 import { WalkAction, walk } from '~/domain/walk-ast'
 import { DefaultMap } from '~/utils/default-map'
-
-export enum ComputationResultKind {
-  VALUE = 'VALUE',
-  ERROR = 'ERROR',
-}
-
-type ComputationValue = {
-  kind: ComputationResultKind.VALUE
-  value: EvaluationResult
-}
-
-export type ComputationError = {
-  kind: ComputationResultKind.ERROR
-  message: string
-}
 
 export class Spreadsheet {
   // Track each individual cell and it's contents. AST is pre-parsed.
@@ -28,7 +17,7 @@ export class Spreadsheet {
   // Track all dependencies for each cell.
   private _dependencies = new DefaultMap<string, Set<string>>(() => new Set<string>())
 
-  private evaluationCache = new Map<string, EvaluationResult[]>()
+  private evaluationCache = new Map<string, EvaluationResult | null>()
 
   get cellNames() {
     return Array.from(this.cells.keys())
@@ -46,7 +35,10 @@ export class Spreadsheet {
     return ''
   }
 
-  set(cell: string, value: string): ComputationError | null {
+  set(
+    cell: string,
+    value: string,
+  ): Extract<EvaluationResult, { kind: EvaluationResultKind.ERROR }> | null {
     // Reset state
     this.cells.delete(cell)
 
@@ -83,8 +75,8 @@ export class Spreadsheet {
       return null
     } catch (err: unknown) {
       return {
-        kind: ComputationResultKind.ERROR,
-        message: (err as Error).message,
+        kind: EvaluationResultKind.ERROR,
+        value: (err as Error).message,
       }
     }
   }
@@ -98,40 +90,19 @@ export class Spreadsheet {
     return new Set(this._dependencies.get(cell))
   }
 
-  compute(cell: string): ComputationValue | ComputationError | null {
-    try {
-      let evaluationResult = this.evaluate(cell)
-      if (evaluationResult.length > 1) {
-        throw new Error(`Expected a single result, got ${evaluationResult.length}`)
-      }
-
-      if (evaluationResult.length === 1) {
-        return {
-          kind: ComputationResultKind.VALUE,
-          // biome-ignore lint/style/noNonNullAssertion: we already verified that the evaluationResult has at least one element.
-          value: evaluationResult[0]!,
-        }
-      }
-
-      return null
-    } catch (err: unknown) {
-      return {
-        kind: ComputationResultKind.ERROR,
-        message: (err as Error).message,
-      }
-    }
-  }
-
-  evaluate(cell: string): EvaluationResult[] {
+  evaluate(cell: string): EvaluationResult | null {
     let result = this.cells.get(cell)
-    if (!result) return []
+    if (!result) return null
 
     let cached = this.evaluationCache.get(cell)
     if (cached) return cached
 
     // TODO: Should this be moved to the `set` method?
     if (result[1].kind === AstKind.RANGE) {
-      throw new Error('Cannot reference a range to a cell')
+      return {
+        kind: EvaluationResultKind.ERROR,
+        value: 'Cannot reference a range to a cell',
+      }
     }
 
     // Verify references
@@ -152,7 +123,10 @@ export class Spreadsheet {
         handled.add(next)
 
         if (next === cell) {
-          throw new Error(`Circular reference detected in cell ${previous}`)
+          return {
+            kind: EvaluationResultKind.ERROR,
+            value: `Circular reference detected in cell ${previous}`,
+          }
         }
 
         if (this.cells.has(next)) {
@@ -170,6 +144,12 @@ export class Spreadsheet {
     }
 
     let out = evaluateExpression(result[1], this)
+    if (Array.isArray(out)) {
+      out = {
+        kind: EvaluationResultKind.ERROR,
+        value: 'Expected a single result',
+      }
+    }
     this.evaluationCache.set(cell, out)
     return out
   }

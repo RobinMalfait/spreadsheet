@@ -17,7 +17,7 @@ describe('AS_NUMBER()', () => {
 
       Errors:
 
-      · A1: Cannot read properties of undefined (reading 'kind')
+      · A1: AS_NUMBER() expects a value as the first argument, got <nothing>
       "
     `)
   })

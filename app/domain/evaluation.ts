@@ -5,6 +5,7 @@ import type { Spreadsheet } from '~/domain/spreadsheet'
 import { expandRange } from '~/domain/walk-ast'
 
 export enum EvaluationResultKind {
+  ERROR = 'ERROR',
   NUMBER = 'NUMBER',
   STRING = 'STRING',
   BOOLEAN = 'BOOLEAN',
@@ -12,6 +13,7 @@ export enum EvaluationResultKind {
 }
 
 export type EvaluationResult =
+  | { kind: EvaluationResultKind.ERROR; value: string }
   | { kind: EvaluationResultKind.NUMBER; value: number }
   | { kind: EvaluationResultKind.STRING; value: string }
   | { kind: EvaluationResultKind.BOOLEAN; value: boolean }
@@ -20,24 +22,24 @@ export type EvaluationResult =
 export function evaluateExpression(
   ast: AST,
   spreadsheet: Spreadsheet,
-): EvaluationResult[] {
+): EvaluationResult | EvaluationResult[] | null {
   switch (ast.kind) {
     case AstKind.NUMBER_LITERAL:
-      return [{ kind: EvaluationResultKind.NUMBER, value: ast.value }]
+      return { kind: EvaluationResultKind.NUMBER, value: ast.value }
 
     case AstKind.STRING_LITERAL: {
       if (ast.value.trim() === '') {
-        return [{ kind: EvaluationResultKind.STRING, value: ast.value }]
+        return { kind: EvaluationResultKind.STRING, value: ast.value }
       }
 
       // Try to coerce the string to a number, and if it works, return a number
       // instead of a string
       let asNumber = Number(ast.value)
       if (!Number.isNaN(asNumber)) {
-        return [{ kind: EvaluationResultKind.NUMBER, value: asNumber }]
+        return { kind: EvaluationResultKind.NUMBER, value: asNumber }
       }
 
-      return [{ kind: EvaluationResultKind.STRING, value: ast.value }]
+      return { kind: EvaluationResultKind.STRING, value: ast.value }
     }
 
     case AstKind.CELL:
@@ -46,8 +48,13 @@ export function evaluateExpression(
     case AstKind.RANGE: {
       let out = []
       for (let cell of expandRange(ast)) {
-        for (let child of spreadsheet.evaluate(cell)) {
-          out.push(child)
+        let value = spreadsheet.evaluate(cell)
+        if (Array.isArray(value)) {
+          for (let child of value) {
+            out.push(child)
+          }
+        } else {
+          out.push(value)
         }
       }
       return out
@@ -55,73 +62,91 @@ export function evaluateExpression(
 
     case AstKind.BINARY_EXPRESSION: {
       let lhs = evaluateExpression(ast.lhs, spreadsheet)
-      let rhs = evaluateExpression(ast.rhs, spreadsheet)
-
-      if (lhs.length !== 1 || rhs.length !== 1) {
-        throw new Error('Expected a single result from each side')
+      if (lhs === null || Array.isArray(lhs)) {
+        return {
+          kind: EvaluationResultKind.ERROR,
+          value: 'Expected a single result from the left side',
+        }
+      }
+      if (lhs?.kind === EvaluationResultKind.ERROR) {
+        return lhs
       }
 
-      let left = lhs[0]
-      let right = rhs[0]
+      let rhs = evaluateExpression(ast.rhs, spreadsheet)
+      if (rhs === null || Array.isArray(rhs)) {
+        return {
+          kind: EvaluationResultKind.ERROR,
+          value: 'Expected a single result from the right side',
+        }
+      }
+
+      if (rhs?.kind === EvaluationResultKind.ERROR) {
+        return rhs
+      }
 
       if (
-        left?.kind === EvaluationResultKind.NUMBER &&
-        right?.kind === EvaluationResultKind.NUMBER
+        lhs.kind === EvaluationResultKind.NUMBER &&
+        rhs.kind === EvaluationResultKind.NUMBER
       ) {
         switch (ast.operator) {
           // Math operators
           case BinaryExpressionOperator.EXPONENT:
-            return [functions.POWER(left, right)]
+            return functions.POWER(lhs, rhs)
           case BinaryExpressionOperator.MULTIPLY:
-            return [functions.MULTIPLY(left, right)]
+            return functions.MULTIPLY(lhs, rhs)
           case BinaryExpressionOperator.DIVIDE:
-            return [functions.DIVIDE(left, right)]
+            return functions.DIVIDE(lhs, rhs)
           case BinaryExpressionOperator.ADD:
-            return [functions.SUM(left, right)]
+            return functions.SUM(lhs, rhs)
           case BinaryExpressionOperator.SUBTRACT:
-            return [functions.SUBTRACT(left, right)]
+            return functions.SUBTRACT(lhs, rhs)
 
           // Comparison operators
           case BinaryExpressionOperator.EQUALS:
-            return left.value === right.value ? [functions.TRUE()] : [functions.FALSE()]
+            return lhs.value === rhs.value ? functions.TRUE() : functions.FALSE()
           case BinaryExpressionOperator.NOT_EQUALS:
-            return left.value !== right.value ? [functions.TRUE()] : [functions.FALSE()]
+            return lhs.value !== rhs.value ? functions.TRUE() : functions.FALSE()
           case BinaryExpressionOperator.LESS_THAN:
-            return left.value < right.value ? [functions.TRUE()] : [functions.FALSE()]
+            return lhs.value < rhs.value ? functions.TRUE() : functions.FALSE()
           case BinaryExpressionOperator.LESS_THAN_EQUALS:
-            return left.value <= right.value ? [functions.TRUE()] : [functions.FALSE()]
+            return lhs.value <= rhs.value ? functions.TRUE() : functions.FALSE()
           case BinaryExpressionOperator.GREATER_THAN:
-            return left.value > right.value ? [functions.TRUE()] : [functions.FALSE()]
+            return lhs.value > rhs.value ? functions.TRUE() : functions.FALSE()
           case BinaryExpressionOperator.GREATER_THAN_EQUALS:
-            return left.value >= right.value ? [functions.TRUE()] : [functions.FALSE()]
+            return lhs.value >= rhs.value ? functions.TRUE() : functions.FALSE()
           default:
             ast.operator satisfies never
         }
       }
 
-      throw new Error(`Invalid operation \`${ast.kind}\``)
+      return {
+        kind: EvaluationResultKind.ERROR,
+        value: `Invalid operation, cannot use ${ast.operator} on ${lhs.kind} and ${rhs.kind}`,
+      }
     }
 
     case AstKind.FUNCTION: {
       if (!Object.hasOwn(functions, ast.name)) {
-        throw new Error(`Unknown function \`${ast.name}\``)
+        return {
+          kind: EvaluationResultKind.ERROR,
+          value: `Unknown function \`${ast.name}\``,
+        }
       }
 
       let fn = functions[ast.name as keyof typeof functions]
       let args = ast.args.flatMap((arg) => evaluateExpression(arg, spreadsheet))
+
       // @ts-expect-error Some functions have a different arity, but we're not
       // checking that here.
-      let result = fn(...args)
-      if (Array.isArray(result)) {
-        return result
-      }
-      return [result]
+      return fn(...args)
     }
   }
 }
 
 export function printEvaluationResult(result: EvaluationResult): string {
   switch (result.kind) {
+    case EvaluationResultKind.ERROR:
+      return `ERROR: ${result.value}`
     case EvaluationResultKind.NUMBER:
       return result.value.toString()
     case EvaluationResultKind.STRING:

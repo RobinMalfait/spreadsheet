@@ -8,6 +8,7 @@ export function COUNT(...args: EvaluationResult[]): EvaluationResult {
       case EvaluationResultKind.NUMBER:
         count += 1
         break
+      case EvaluationResultKind.ERROR:
       case EvaluationResultKind.BOOLEAN:
       case EvaluationResultKind.STRING:
       case EvaluationResultKind.DATETIME:
@@ -26,6 +27,8 @@ export function MIN(...args: EvaluationResult[]): EvaluationResult {
 
   for (let arg of args) {
     switch (arg.kind) {
+      case EvaluationResultKind.ERROR:
+        return arg
       case EvaluationResultKind.NUMBER:
         min = Math.min(min, arg.value)
         break
@@ -47,6 +50,8 @@ export function MAX(...args: EvaluationResult[]): EvaluationResult {
 
   for (let arg of args) {
     switch (arg.kind) {
+      case EvaluationResultKind.ERROR:
+        return arg
       case EvaluationResultKind.NUMBER:
         max = Math.max(max, arg.value)
         break
@@ -69,6 +74,8 @@ export function AVERAGE(...args: EvaluationResult[]): EvaluationResult {
 
   for (let arg of args) {
     switch (arg.kind) {
+      case EvaluationResultKind.ERROR:
+        return arg
       case EvaluationResultKind.NUMBER:
         count += 1
         sum += arg.value
@@ -113,6 +120,10 @@ export function MODE(...args: EvaluationResult[]): EvaluationResult {
   let counts = new Map<number, number>()
 
   for (let arg of args) {
+    if (arg.kind === EvaluationResultKind.ERROR) {
+      return arg
+    }
+
     if (arg.kind === EvaluationResultKind.NUMBER) {
       let count = (counts.get(arg.value) || 0) + 1
       counts.set(arg.value, count)

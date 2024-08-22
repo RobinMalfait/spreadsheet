@@ -1,8 +1,8 @@
 import { stripVTControlCharacters } from 'node:util'
 import Table from 'cli-table'
-import { printEvaluationResult } from '~/domain/evaluation'
+import { EvaluationResultKind, printEvaluationResult } from '~/domain/evaluation'
 import { type Location, parseLocation, printLocation } from '~/domain/expression'
-import { ComputationResultKind, type Spreadsheet } from '~/domain/spreadsheet'
+import type { Spreadsheet } from '~/domain/spreadsheet'
 
 export function visualizeSpreadsheet(spreadsheet: Spreadsheet) {
   let cells = spreadsheet.cellNames.map((cell) => parseLocation(cell))
@@ -61,14 +61,14 @@ export function visualizeSpreadsheet(spreadsheet: Spreadsheet) {
         col: first.col + col,
         lock: 0,
       })
-      let result = spreadsheet.compute(cell)
+      let result = spreadsheet.evaluate(cell)
       if (result === null) {
         output.push('')
-      } else if (result.kind === ComputationResultKind.ERROR) {
+      } else if (result.kind === EvaluationResultKind.ERROR) {
         output.push('Error')
-        errors.push(`\u00B7 ${cell}: ${result.message}`)
+        errors.push(`\u00B7 ${cell}: ${result.value}`)
       } else {
-        output.push(printEvaluationResult(result.value))
+        output.push(printEvaluationResult(result))
       }
     }
     table.push(output)

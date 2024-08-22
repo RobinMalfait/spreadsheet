@@ -368,7 +368,7 @@ describe('FIND_FIRST()', () => {
 
       Errors:
 
-      · A1: FIND_FIRST() expects at least one needle
+      · A1: FIND_FIRST() expects a string as the first argument, got <nothing>
       "
     `)
   })
@@ -459,7 +459,7 @@ describe('FIND_LAST()', () => {
 
       Errors:
 
-      · A1: FIND_LAST() expects at least one needle
+      · A1: FIND_LAST() expects a string as the first argument, got <nothing>
       "
     `)
   })

@@ -32,11 +32,7 @@ import {
   printEvaluationResult,
 } from '~/domain/evaluation'
 import { parse, parseLocation, printExpression, printLocation } from '~/domain/expression'
-import {
-  type ComputationError,
-  ComputationResultKind,
-  Spreadsheet,
-} from '~/domain/spreadsheet'
+import { Spreadsheet } from '~/domain/spreadsheet'
 import { type Token, TokenKind, printTokens, tokenize } from '~/domain/tokenizer'
 import { VersionControl } from '~/domain/version-control'
 
@@ -53,7 +49,7 @@ const HEIGHT = 50
 export default function Index() {
   let [cell, setActiveCell] = useState('A1')
   let [value, setValue] = useState('')
-  let [error, setError] = useState(() => new Map<string, ComputationError>())
+  let [error, setError] = useState(() => new Map<string, EvaluationResult>())
   let [debugView, setDebugView] = useState(false)
   let [historyView, setHistoryView] = useState(false)
   let [, forceRerender] = useReducer(() => ({}), {})
@@ -468,7 +464,7 @@ export default function Index() {
   let location = useMemo(() => parseLocation(cell), [cell])
 
   // Evaluation of the current cell
-  let out = error.get(cell) ?? spreadsheet.compute(cell)
+  let out = error.get(cell) ?? spreadsheet.evaluate(cell)
   let tokens: Token[] = useMemo(() => {
     return value.length > 0
       ? tokenize(value[0] === '=' ? value.slice(1) : `"${value}"`)
@@ -862,10 +858,10 @@ export default function Index() {
             )}
           </Combobox>
         </div>
-        {out?.kind === ComputationResultKind.ERROR && (
+        {out?.kind === EvaluationResultKind.ERROR && (
           <span className="inline-flex items-center gap-1 rounded-md bg-red-50 px-1.5 py-0.5 font-medium text-red-700 text-xs ring-1 ring-red-600/10 ring-inset">
             <ExclamationTriangleIcon className="size-4 shrink-0 text-red-600" />
-            <span>{out.message}</span>
+            <span>{out.value}</span>
           </span>
         )}
         <div className="flex gap-1 px-2">
@@ -935,10 +931,10 @@ export default function Index() {
               if (col === 0) return [row, null]
 
               // Cell
-              let out = error.get(id) ?? spreadsheet.compute(id)
+              let out = error.get(id) ?? spreadsheet.evaluate(id)
               if (out === null) return [null, null]
 
-              if (out.kind === ComputationResultKind.ERROR) {
+              if (out.kind === EvaluationResultKind.ERROR) {
                 return [
                   <span
                     key="error"
@@ -948,52 +944,44 @@ export default function Index() {
                     <ExclamationTriangleIcon className="size-4 shrink-0 text-red-600" />
                     <span>Error</span>
                   </span>,
-                  out.message,
+                  out.value,
                 ]
               }
 
-              if (out.kind === ComputationResultKind.VALUE) {
-                return [
-                  <div
-                    key="value"
-                    className={clsx(
-                      'pointer-events-none',
-                      out.value.kind === EvaluationResultKind.NUMBER &&
-                        'truncate text-right',
-                      out.value.kind === EvaluationResultKind.STRING &&
-                        'truncate text-left',
-                      out.value.kind === EvaluationResultKind.BOOLEAN &&
-                        'text-center uppercase',
-                      out.value.kind === EvaluationResultKind.DATETIME &&
-                        'flex items-center justify-center gap-1 truncate text-left',
-                      out.value.kind === EvaluationResultKind.DATETIME &&
-                        out.value.date &&
-                        out.value.time &&
-                        'text-[8px]',
-                    )}
-                  >
-                    {out.value.kind === EvaluationResultKind.DATETIME &&
-                    out.value.date ? (
-                      <>
-                        <CalendarIcon className="size-4 shrink-0 text-gray-400" />
-                        {printEvaluationResult(out.value)}
-                      </>
-                    ) : out.value.kind === EvaluationResultKind.DATETIME &&
-                      !out.value.date &&
-                      out.value.time ? (
-                      <>
-                        <ClockIcon className="size-4 shrink-0 text-gray-400" />
-                        {printEvaluationResult(out.value)}
-                      </>
-                    ) : (
-                      printEvaluationResult(out.value)
-                    )}
-                  </div>,
-                  printEvaluationResult(out.value),
-                ] as const
-              }
-
-              return [null, null]
+              return [
+                <div
+                  key="value"
+                  className={clsx(
+                    'pointer-events-none',
+                    out.kind === EvaluationResultKind.NUMBER && 'truncate text-right',
+                    out.kind === EvaluationResultKind.STRING && 'truncate text-left',
+                    out.kind === EvaluationResultKind.BOOLEAN && 'text-center uppercase',
+                    out.kind === EvaluationResultKind.DATETIME &&
+                      'flex items-center justify-center gap-1 truncate text-left',
+                    out.kind === EvaluationResultKind.DATETIME &&
+                      out.date &&
+                      out.time &&
+                      'text-[8px]',
+                  )}
+                >
+                  {out.kind === EvaluationResultKind.DATETIME && out.date ? (
+                    <>
+                      <CalendarIcon className="size-4 shrink-0 text-gray-400" />
+                      {printEvaluationResult(out)}
+                    </>
+                  ) : out.kind === EvaluationResultKind.DATETIME &&
+                    !out.date &&
+                    out.time ? (
+                    <>
+                      <ClockIcon className="size-4 shrink-0 text-gray-400" />
+                      {printEvaluationResult(out)}
+                    </>
+                  ) : (
+                    printEvaluationResult(out)
+                  )}
+                </div>,
+                printEvaluationResult(out),
+              ] as const
             })()
 
             return (
@@ -1219,11 +1207,11 @@ export default function Index() {
               let tokens = tokenize(expression)
               let ast = parse(tokens)
               let stringifiedAST = `=${printExpression(ast)}`
-              let evaluation: EvaluationResult[] | null = null
+              let evaluation: EvaluationResult | null = null
               try {
                 evaluation = spreadsheet.evaluate(cell)
               } catch {}
-              let result = spreadsheet.compute(cell)
+              let result = error.get(cell) ?? evaluation
 
               return (
                 <>
@@ -1232,18 +1220,18 @@ export default function Index() {
                       <label>Cell:</label>
                       <small>{cell}</small>
                     </div>
-                    {(result === null || result.kind === ComputationResultKind.VALUE) && (
+                    {
                       <div className="flex items-center gap-2 px-2">
                         <label>Result:</label>
                         {result === null ? (
                           <small>N/A</small>
                         ) : (
                           <small className="whitespace-pre">
-                            {printEvaluationResult(result.value)}
+                            {printEvaluationResult(result)}
                           </small>
                         )}
                       </div>
-                    )}
+                    }
                   </div>
                   <div className="flex flex-col gap-2 p-2">
                     <label>Expression:</label>
@@ -1275,16 +1263,14 @@ export default function Index() {
                       </pre>
                     </div>
                   )}
-                  {result?.kind !== ComputationResultKind.ERROR && (
-                    <div className="flex items-center gap-2 p-2">
-                      <label>Result:</label>
-                      {result === null ? (
-                        <small>N/A</small>
-                      ) : (
-                        <small>{printEvaluationResult(result.value)}</small>
-                      )}
-                    </div>
-                  )}
+                  <div className="flex items-center gap-2 p-2">
+                    <label>Result:</label>
+                    {result === null ? (
+                      <small>N/A</small>
+                    ) : (
+                      <small>{printEvaluationResult(result)}</small>
+                    )}
+                  </div>
                 </>
               )
             })()}

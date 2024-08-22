@@ -15,7 +15,10 @@ import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation
 
 export function NOW(...args: EvaluationResult[]): EvaluationResult {
   if (args.length > 0) {
-    throw new Error('NOW() does not take any arguments')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'NOW() does not take any arguments',
+    }
   }
 
   return {
@@ -28,7 +31,10 @@ export function NOW(...args: EvaluationResult[]): EvaluationResult {
 
 export function TODAY(...args: EvaluationResult[]): EvaluationResult {
   if (args.length > 0) {
-    throw new Error('TODAY() does not take any arguments')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'TODAY() does not take any arguments',
+    }
   }
 
   return {
@@ -41,7 +47,10 @@ export function TODAY(...args: EvaluationResult[]): EvaluationResult {
 
 export function TIME(...args: EvaluationResult[]): EvaluationResult {
   if (args.length !== 0) {
-    throw new Error('TIME() does not take any arguments')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'TIME() does not take any arguments',
+    }
   }
 
   return {
@@ -54,11 +63,14 @@ export function TIME(...args: EvaluationResult[]): EvaluationResult {
 
 export function DAY(date?: EvaluationResult, extra?: EvaluationResult): EvaluationResult {
   if (extra) {
-    throw new Error('DAY() does not take more than one argument')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'DAY() does not take more than one argument',
+    }
   }
 
   if (date?.kind !== EvaluationResultKind.DATETIME) {
-    throw new Error('DAY() requires a date')
+    return { kind: EvaluationResultKind.ERROR, value: 'DAY() requires a date' }
   }
 
   return { kind: EvaluationResultKind.NUMBER, value: getDate(date.value) }
@@ -69,11 +81,14 @@ export function MONTH(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw new Error('MONTH() does not take more than one argument')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'MONTH() does not take more than one argument',
+    }
   }
 
   if (date?.kind !== EvaluationResultKind.DATETIME) {
-    throw new Error('MONTH() requires a date')
+    return { kind: EvaluationResultKind.ERROR, value: 'MONTH() requires a date' }
   }
 
   return { kind: EvaluationResultKind.NUMBER, value: getMonth(date.value) + 1 }
@@ -84,11 +99,14 @@ export function YEAR(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw new Error('YEAR() does not take more than one argument')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'YEAR() does not take more than one argument',
+    }
   }
 
   if (date?.kind !== EvaluationResultKind.DATETIME) {
-    throw new Error('YEAR() requires a date')
+    return { kind: EvaluationResultKind.ERROR, value: 'YEAR() requires a date' }
   }
 
   return { kind: EvaluationResultKind.NUMBER, value: getYear(date.value) }
@@ -99,11 +117,14 @@ export function HOUR(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw new Error('HOUR() does not take more than one argument')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'HOUR() does not take more than one argument',
+    }
   }
 
   if (date?.kind !== EvaluationResultKind.DATETIME) {
-    throw new Error('HOUR() requires a date')
+    return { kind: EvaluationResultKind.ERROR, value: 'HOUR() requires a date' }
   }
 
   return { kind: EvaluationResultKind.NUMBER, value: getHours(date.value) }
@@ -114,11 +135,14 @@ export function MINUTE(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw new Error('MINUTE() does not take more than one argument')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'MINUTE() does not take more than one argument',
+    }
   }
 
   if (date?.kind !== EvaluationResultKind.DATETIME) {
-    throw new Error('MINUTE() requires a date')
+    return { kind: EvaluationResultKind.ERROR, value: 'MINUTE() requires a date' }
   }
 
   return { kind: EvaluationResultKind.NUMBER, value: getMinutes(date.value) }
@@ -129,11 +153,14 @@ export function SECOND(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw new Error('SECOND() does not take more than one argument')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'SECOND() does not take more than one argument',
+    }
   }
 
   if (date?.kind !== EvaluationResultKind.DATETIME) {
-    throw new Error('SECOND() requires a date')
+    return { kind: EvaluationResultKind.ERROR, value: 'SECOND() requires a date' }
   }
 
   return { kind: EvaluationResultKind.NUMBER, value: getSeconds(date.value) }
@@ -145,15 +172,21 @@ export function ADD_DAYS(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw new Error('ADD_DAYS() does not take more than two arguments')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'ADD_DAYS() does not take more than two arguments',
+    }
   }
 
   if (date?.kind !== EvaluationResultKind.DATETIME) {
-    throw new Error('ADD_DAYS() requires a date')
+    return { kind: EvaluationResultKind.ERROR, value: 'ADD_DAYS() requires a date' }
   }
 
   if (days?.kind !== EvaluationResultKind.NUMBER) {
-    throw new Error('ADD_DAYS() requires a number of days')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'ADD_DAYS() requires a number of days',
+    }
   }
 
   return {
@@ -170,15 +203,21 @@ export function SUB_DAYS(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw new Error('SUB_DAYS() does not take more than two arguments')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'SUB_DAYS() does not take more than two arguments',
+    }
   }
 
   if (date?.kind !== EvaluationResultKind.DATETIME) {
-    throw new Error('SUB_DAYS() requires a date')
+    return { kind: EvaluationResultKind.ERROR, value: 'SUB_DAYS() requires a date' }
   }
 
   if (days?.kind !== EvaluationResultKind.NUMBER) {
-    throw new Error('SUB_DAYS() requires a number of days')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'SUB_DAYS() requires a number of days',
+    }
   }
 
   return {
@@ -195,15 +234,21 @@ export function ADD_HOURS(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw new Error('ADD_HOURS() does not take more than two arguments')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'ADD_HOURS() does not take more than two arguments',
+    }
   }
 
   if (date?.kind !== EvaluationResultKind.DATETIME) {
-    throw new Error('ADD_HOURS() requires a date')
+    return { kind: EvaluationResultKind.ERROR, value: 'ADD_HOURS() requires a date' }
   }
 
   if (hours?.kind !== EvaluationResultKind.NUMBER) {
-    throw new Error('ADD_HOURS() requires a number of hours')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'ADD_HOURS() requires a number of hours',
+    }
   }
 
   return {
@@ -220,15 +265,21 @@ export function SUB_HOURS(
   extra?: EvaluationResult,
 ): EvaluationResult {
   if (extra) {
-    throw new Error('SUB_HOURS() does not take more than two arguments')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'SUB_HOURS() does not take more than two arguments',
+    }
   }
 
   if (date?.kind !== EvaluationResultKind.DATETIME) {
-    throw new Error('SUB_HOURS() requires a date')
+    return { kind: EvaluationResultKind.ERROR, value: 'SUB_HOURS() requires a date' }
   }
 
   if (hours?.kind !== EvaluationResultKind.NUMBER) {
-    throw new Error('SUB_HOURS() requires a number of hours')
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'SUB_HOURS() requires a number of hours',
+    }
   }
 
   return {
