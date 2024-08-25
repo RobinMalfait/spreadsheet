@@ -49,3 +49,5 @@
   scrollbar-width: none;
 
 }
+
+@variant hocus (&:hover, &:focus);
