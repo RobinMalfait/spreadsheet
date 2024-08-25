@@ -673,8 +673,9 @@ export default function Index() {
 
                       let newValue = e.currentTarget.value
 
-                      // Parse and pretty print the tokens
-                      let prettyValue = printTokens(tokenize(newValue))
+                      // Parse and pretty print the tokens (if it's a formula)
+                      let prettyValue =
+                        newValue[0] === '=' ? printTokens(tokenize(newValue)) : newValue
 
                       // Submit the new value
                       flushSync(() => {
@@ -705,8 +706,9 @@ export default function Index() {
                     // Value hasn't changed
                     if (currentValue === newValue) return
 
-                    // Parse and pretty print the tokens
-                    let prettyValue = printTokens(tokenize(newValue))
+                    // Parse and pretty print the tokens (if it's a formula)
+                    let prettyValue =
+                      newValue[0] === '=' ? printTokens(tokenize(newValue)) : newValue
 
                     // Value hasn't changed
                     if (currentValue === prettyValue) return
