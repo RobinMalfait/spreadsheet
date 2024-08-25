@@ -12,23 +12,26 @@ import { DefaultMap } from '~/utils/default-map'
 
 export class Spreadsheet {
   // Track each individual cell and it's contents. AST is pre-parsed.
-  private cells = new Map<string, [raw: string, ast: AST]>()
+  #cells = new Map<string, [raw: string, ast: AST]>()
+
+  // Track formatting for each cell
+  #formatting = new Map<string, AST>()
 
   // Track all dependencies for each cell.
-  private _dependencies = new DefaultMap<string, Set<string>>(() => new Set<string>())
+  #dependencies = new Map<string, Set<string>>()
 
-  private evaluationCache = new Map<string, EvaluationResult | null>()
+  #evaluationCache = new Map<string, EvaluationResult | null>()
 
   get cellNames() {
-    return Array.from(this.cells.keys())
+    return Array.from(this.#cells.keys())
   }
 
   has(cell: string): boolean {
-    return this.cells.has(cell)
+    return this.#cells.has(cell)
   }
 
   get(cell: string): string {
-    let result = this.cells.get(cell)
+    let result = this.#cells.get(cell)
     if (result) {
       return result[0]
     }
@@ -40,15 +43,16 @@ export class Spreadsheet {
     value: string,
   ): Extract<EvaluationResult, { kind: EvaluationResultKind.ERROR }> | null {
     // Reset state
-    this.cells.delete(cell)
+    this.#cells.delete(cell)
 
     // Clear existing dependencies for this cell
-    let dependencies = this._dependencies.get(cell)
-    dependencies.clear()
+    let dependencies = this.#dependencies.get(cell)
+    if (dependencies) dependencies.clear()
+    else dependencies = new Set()
 
     // Clear the full evaluation cache. Very naive, but let's re-compute
     // everything the moment _something_ changes.
-    this.evaluationCache.clear()
+    this.#evaluationCache.clear()
 
     // Value must be filled in
     if (value.trim() === '') return null
@@ -70,7 +74,10 @@ export class Spreadsheet {
         return WalkAction.Continue
       })
 
-      this.cells.set(cell, [value, ast])
+      this.#cells.set(cell, [value, ast])
+
+      // Save dependencies
+      if (dependencies.size > 0) this.#dependencies.set(cell, dependencies)
 
       return null
     } catch (err: unknown) {
@@ -87,14 +94,14 @@ export class Spreadsheet {
   }
 
   dependencies(cell: string): Set<string> {
-    return new Set(this._dependencies.get(cell))
+    return new Set(this.#dependencies.get(cell))
   }
 
   evaluate(cell: string): EvaluationResult {
-    let result = this.cells.get(cell)
+    let result = this.#cells.get(cell)
     if (!result) return { kind: EvaluationResultKind.EMPTY, value: '<empty>' }
 
-    let cached = this.evaluationCache.get(cell)
+    let cached = this.#evaluationCache.get(cell)
     if (cached) return cached
 
     // TODO: Should this be moved to the `set` method?
@@ -106,8 +113,8 @@ export class Spreadsheet {
     }
 
     // Verify references
-    let dependencies = this._dependencies.get(cell)
-    if (dependencies.size > 0) {
+    let dependencies = this.#dependencies.get(cell)
+    if (dependencies && dependencies.size > 0) {
       let handled = new Set<string>()
       let todo = Array.from(dependencies)
 
@@ -129,12 +136,15 @@ export class Spreadsheet {
           }
         }
 
-        if (this.cells.has(next)) {
+        if (this.#cells.has(next)) {
           // Track where we came from
           previous = next
 
           // Check transitive dependencies
-          for (let other of this._dependencies.get(next)) {
+          let transitiveDependencies = this.#dependencies.get(next)
+          if (!transitiveDependencies) continue
+
+          for (let other of transitiveDependencies) {
             if (!handled.has(other)) {
               todo.push(other)
             }
@@ -150,7 +160,7 @@ export class Spreadsheet {
         value: 'Expected a single result',
       }
     }
-    this.evaluationCache.set(cell, out)
+    this.#evaluationCache.set(cell, out)
     return out
   }
 }
