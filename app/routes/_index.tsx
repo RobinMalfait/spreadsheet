@@ -738,7 +738,7 @@ export default function Index() {
         {out?.kind === EvaluationResultKind.ERROR && (
           <span className="inline-flex items-center gap-1 rounded-md bg-red-50 px-1.5 py-0.5 font-medium text-red-700 text-xs ring-1 ring-red-600/10 ring-inset">
             <ExclamationTriangleIcon className="size-4 shrink-0 text-red-600" />
-            <span>{out.value}</span>
+            <span className="tabular-nums">{out.value}</span>
           </span>
         )}
         <div className="flex gap-1 px-2">
