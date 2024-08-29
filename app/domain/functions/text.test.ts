@@ -630,3 +630,145 @@ describe('REPLACE_ALL()', () => {
     `)
   })
 })
+
+describe('TEXT_SLICE()', () => {
+  it('should error when required argument is not passed', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=TEXT_SLICE()')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: TEXT_SLICE() expects a string as the first argument, got <nothing>
+      "
+    `)
+  })
+
+  it('should error when the argument is of the wrong type', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=TEXT_SLICE(123, 1, 2)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: TEXT_SLICE() expects a string as the first argument, got 123
+      "
+    `)
+  })
+
+  it('should error when the start index is of the wrong type', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=TEXT_SLICE("one two three four", "one", 2)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: TEXT_SLICE() expects a number as the second argument, got one
+      "
+    `)
+  })
+
+  it('should error when the end index is of the wrong type', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=TEXT_SLICE("needle", 1, "two")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: TEXT_SLICE() expects a number as the third argument, got two
+      "
+    `)
+  })
+
+  it('should take a slice of the string at the beginning', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
+    spreadsheet.set('B1', '=TEXT_SLICE(A1, 0, 19)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────────────────────────────────────────┬─────────────────────┐
+      │   │ A                                           │ B                   │
+      ├───┼─────────────────────────────────────────────┼─────────────────────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ The quick brown fox │
+      └───┴─────────────────────────────────────────────┴─────────────────────┘
+      "
+    `)
+  })
+
+  it('should take a slice of the string at the end', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
+    spreadsheet.set('B1', '=TEXT_SLICE(A1, 40)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────────────────────────────────────────┬─────┐
+      │   │ A                                           │ B   │
+      ├───┼─────────────────────────────────────────────┼─────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ dog │
+      └───┴─────────────────────────────────────────────┴─────┘
+      "
+    `)
+  })
+
+  it('should take a slice of the string at the end (using negative numbers)', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
+    spreadsheet.set('B1', '=TEXT_SLICE(A1, -3)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────────────────────────────────────────┬─────┐
+      │   │ A                                           │ B   │
+      ├───┼─────────────────────────────────────────────┼─────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ dog │
+      └───┴─────────────────────────────────────────────┴─────┘
+      "
+    `)
+  })
+
+  it('should take a slice of the string in the middle', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
+    spreadsheet.set('B1', '=TEXT_SLICE(A1, 10, 19)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────────────────────────────────────────┬───────────┐
+      │   │ A                                           │ B         │
+      ├───┼─────────────────────────────────────────────┼───────────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ brown fox │
+      └───┴─────────────────────────────────────────────┴───────────┘
+      "
+    `)
+  })
+})

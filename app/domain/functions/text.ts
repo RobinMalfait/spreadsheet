@@ -301,3 +301,46 @@ export function REPLACE_ALL(
     value,
   }
 }
+
+export function TEXT_SLICE(
+  value?: EvaluationResult,
+  startIdx?: EvaluationResult,
+  endIdx?: EvaluationResult,
+  extra?: EvaluationResult,
+) {
+  if (extra) {
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `TEXT_SLICE() does not take more than three arguments, got ${extra.value}`,
+    }
+  }
+
+  if (value?.kind !== EvaluationResultKind.STRING) {
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `TEXT_SLICE() expects a string as the first argument, got ${value?.value ?? '<nothing>'}`,
+    }
+  }
+
+  if (startIdx?.kind !== EvaluationResultKind.NUMBER) {
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `TEXT_SLICE() expects a number as the second argument, got ${startIdx?.value ?? '<nothing>'}`,
+    }
+  }
+
+  if (endIdx && endIdx.kind !== EvaluationResultKind.NUMBER) {
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `TEXT_SLICE() expects a number as the third argument, got ${endIdx.value}`,
+    }
+  }
+
+  let _startIdx = startIdx.value
+  let _endIdx = endIdx?.value
+
+  return {
+    kind: EvaluationResultKind.STRING,
+    value: value.value.slice(_startIdx, _endIdx),
+  }
+}
