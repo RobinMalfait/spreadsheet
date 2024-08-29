@@ -1,4 +1,4 @@
-import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation'
+import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
 
 export function DIGITS(extra?: EvaluationResult): EvaluationResult | EvaluationResult[] {
   if (extra) {

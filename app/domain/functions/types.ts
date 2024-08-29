@@ -1,8 +1,5 @@
-import {
-  type EvaluationResult,
-  EvaluationResultKind,
-  printEvaluationResult,
-} from '~/domain/evaluation'
+import { printEvaluationResult } from '~/domain/evaluation'
+import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
 
 export function TYPE(
   value?: EvaluationResult,

@@ -1,4 +1,4 @@
-import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation'
+import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
 
 export function COUNT(...args: EvaluationResult[]): EvaluationResult {
   let count = 0

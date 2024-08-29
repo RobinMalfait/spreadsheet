@@ -11,7 +11,7 @@ import {
   subDays,
   subHours,
 } from 'date-fns'
-import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation'
+import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
 
 export function NOW(...args: EvaluationResult[]): EvaluationResult {
   if (args.length > 0) {

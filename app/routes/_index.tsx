@@ -26,11 +26,8 @@ import {
   useState,
 } from 'react'
 import { flushSync } from 'react-dom'
-import {
-  type EvaluationResult,
-  EvaluationResultKind,
-  printEvaluationResult,
-} from '~/domain/evaluation'
+import { printEvaluationResult } from '~/domain/evaluation'
+import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
 import { parse, parseLocation, printExpression, printLocation } from '~/domain/expression'
 import { Spreadsheet } from '~/domain/spreadsheet'
 import { type Token, TokenKind, printTokens, tokenize } from '~/domain/tokenizer'

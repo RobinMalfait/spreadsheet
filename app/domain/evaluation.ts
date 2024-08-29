@@ -3,23 +3,7 @@ import { type AST, AstKind, BinaryExpressionOperator } from '~/domain/ast'
 import * as functions from '~/domain/functions'
 import type { Spreadsheet } from '~/domain/spreadsheet'
 import { expandRange } from '~/domain/walk-ast'
-
-export enum EvaluationResultKind {
-  ERROR = 'ERROR',
-  EMPTY = 'EMPTY',
-  NUMBER = 'NUMBER',
-  STRING = 'STRING',
-  BOOLEAN = 'BOOLEAN',
-  DATETIME = 'DATETIME',
-}
-
-export type EvaluationResult =
-  | { kind: EvaluationResultKind.ERROR; value: string }
-  | { kind: EvaluationResultKind.EMPTY; value: string }
-  | { kind: EvaluationResultKind.NUMBER; value: number }
-  | { kind: EvaluationResultKind.STRING; value: string }
-  | { kind: EvaluationResultKind.BOOLEAN; value: boolean }
-  | { kind: EvaluationResultKind.DATETIME; value: Date; date: boolean; time: boolean }
+import { type EvaluationResult, EvaluationResultKind } from './evaluation-result'
 
 export function evaluateExpression(
   ast: AST,
