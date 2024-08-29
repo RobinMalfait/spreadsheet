@@ -1,4 +1,45 @@
-import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation'
+import {
+  type EvaluationResult,
+  EvaluationResultKind,
+  printEvaluationResult,
+} from '~/domain/evaluation'
+
+export function TYPE(
+  value?: EvaluationResult,
+  extra?: EvaluationResult,
+): EvaluationResult {
+  if (value === undefined) {
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'TYPE() expects a value as the first argument, got <nothing>',
+    }
+  }
+
+  if (extra) {
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `TYPE() does not take more than one argument, got ${extra.value}`,
+    }
+  }
+
+  switch (value.kind) {
+    case EvaluationResultKind.ERROR:
+      return { kind: EvaluationResultKind.STRING, value: 'error' }
+    case EvaluationResultKind.EMPTY:
+      return { kind: EvaluationResultKind.STRING, value: 'empty' }
+    case EvaluationResultKind.NUMBER:
+      return { kind: EvaluationResultKind.STRING, value: 'number' }
+    case EvaluationResultKind.STRING:
+      return { kind: EvaluationResultKind.STRING, value: 'string' }
+    case EvaluationResultKind.BOOLEAN:
+      return { kind: EvaluationResultKind.STRING, value: 'boolean' }
+    case EvaluationResultKind.DATETIME:
+      return { kind: EvaluationResultKind.STRING, value: 'datetime' }
+    default:
+      value satisfies never
+      return value
+  }
+}
 
 export function AS_NUMBER(
   value?: EvaluationResult,
@@ -50,5 +91,33 @@ export function AS_NUMBER(
     default:
       value satisfies never
       return value
+  }
+}
+
+export function AS_STRING(
+  value?: EvaluationResult,
+  extra?: EvaluationResult,
+): EvaluationResult {
+  if (value === undefined) {
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'AS_STRING() expects a value as the first argument, got <nothing>',
+    }
+  }
+
+  if (extra) {
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `AS_STRING() does not take more than one argument, got ${extra.value}`,
+    }
+  }
+
+  if (value.kind === EvaluationResultKind.STRING) {
+    return value
+  }
+
+  return {
+    kind: EvaluationResultKind.STRING,
+    value: printEvaluationResult(value),
   }
 }
