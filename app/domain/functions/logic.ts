@@ -1,72 +1,98 @@
-import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
+import {
+  type EvaluationResult,
+  EvaluationResultKind,
+  EvaluationResultKinds,
+} from '~/domain/evaluation-result'
+import { expose } from '~/domain/function-utils'
 
-export function TRUE(extra?: EvaluationResult): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `TRUE() does not take an argument, got ${extra.value}`,
-    }
-  }
+export const TRUE = expose('TRUE', {
+  args: [],
+  description: 'The boolean value true',
+  handle: () => ({
+    kind: EvaluationResultKind.BOOLEAN,
+    value: true,
+  }),
+})
 
-  return { kind: EvaluationResultKind.BOOLEAN, value: true }
-}
+export const FALSE = expose('FALSE', {
+  args: [],
+  description: 'The boolean value false',
+  handle: () => ({
+    kind: EvaluationResultKind.BOOLEAN,
+    value: false,
+  }),
+})
 
-export function FALSE(extra?: EvaluationResult): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `FALSE() does not take an argument, got ${extra.value}`,
-    }
-  }
+export const IF = expose('IF', {
+  args: [
+    {
+      kind: EvaluationResultKind.BOOLEAN,
+      name: 'test',
+      description: 'The condition to evaluate',
+    },
+    {
+      kind: EvaluationResultKinds,
+      name: 'consequent',
+      description: 'The value to return if the condition is true',
+    },
+    {
+      kind: EvaluationResultKinds,
+      name: 'alternate',
+      description: 'The value to return if the condition is false',
+    },
+  ],
+  description:
+    'Returns one value if a condition is true and another value if it is false',
+  handle: (
+    test: EvaluationResult,
+    consequent: EvaluationResult,
+    alternate: EvaluationResult,
+  ) => (test.value ? consequent : alternate),
+})
 
-  return { kind: EvaluationResultKind.BOOLEAN, value: false }
-}
+export const AND = expose('AND', {
+  args: [
+    {
+      kind: EvaluationResultKinds,
+      description: 'The first condition to evaluate',
+    },
+    {
+      many: true,
+      kind: EvaluationResultKinds,
+      description: 'Additional conditions to evaluate',
+    },
+  ],
+  description: 'Returns true if all conditions are true',
+  handle: (...args: EvaluationResult[]) => {
+    return args.every((arg) => arg.value) ? TRUE() : FALSE()
+  },
+})
 
-export function IF(
-  test: EvaluationResult,
-  consequent: EvaluationResult,
-  alternate: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `IF() does not take more than three arguments, got ${extra.value}`,
-    }
-  }
+export const OR = expose('OR', {
+  args: [
+    {
+      kind: EvaluationResultKinds,
+      description: 'The first condition to evaluate',
+    },
+    {
+      many: true,
+      kind: EvaluationResultKinds,
+      description: 'Additional conditions to evaluate',
+    },
+  ],
+  description: 'Returns true if any condition is true',
+  handle: (...args: EvaluationResult[]) => {
+    return args.some((arg) => arg.value) ? TRUE() : FALSE()
+  },
+})
 
-  if (test.kind === EvaluationResultKind.STRING) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `IF() expects a boolean as the first argument, got ${test.value}`,
-    }
-  }
-
-  return test.value ? consequent : alternate
-}
-
-export function AND(...args: EvaluationResult[]): EvaluationResult {
-  return args.every((arg) => arg.value) ? TRUE() : FALSE()
-}
-
-export function OR(...args: EvaluationResult[]): EvaluationResult {
-  return args.some((arg) => arg.value) ? TRUE() : FALSE()
-}
-
-export function NOT(lhs: EvaluationResult, extra?: EvaluationResult): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `NOT() does not take a second argument, got ${extra.value}`,
-    }
-  }
-
-  if (lhs.kind === EvaluationResultKind.STRING) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `NOT() expects a boolean as the first argument, got ${lhs.value}`,
-    }
-  }
-
-  return lhs.value ? FALSE() : TRUE()
-}
+export const NOT = expose('NOT', {
+  args: [
+    {
+      kind: EvaluationResultKind.BOOLEAN,
+      description: 'The condition to negate',
+    },
+  ],
+  description: 'Returns true if the condition is false',
+  handle: (lhs: EvaluationResult) => (lhs.value ? FALSE() : TRUE()),
+})

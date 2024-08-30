@@ -1,5 +1,5 @@
-import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
 import { printEvaluationResult } from '~/domain/evaluation'
+import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
 
 export function CONCAT(...args: EvaluationResult[]): EvaluationResult {
   let out = ''

@@ -89,7 +89,7 @@ describe('ABS', () => {
 
       Errors:
 
-      · A1: ABS() requires an argument
+      · A1: ABS(x: NUMBER) requires an argument
       "
     `)
   })
@@ -108,7 +108,7 @@ describe('ABS', () => {
 
       Errors:
 
-      · A1: ABS() expects a number, got true
+      · A1: ABS(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -119,11 +119,15 @@ describe('ABS', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┐
-      │   │ A │
-      ├───┼───┤
-      │ 1 │ 1 │
-      └───┴───┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: ABS(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -162,7 +166,7 @@ describe('ACOS', () => {
 
       Errors:
 
-      · A1: ACOS() requires an argument
+      · A1: ACOS(x: NUMBER) requires an argument
       "
     `)
   })
@@ -181,7 +185,7 @@ describe('ACOS', () => {
 
       Errors:
 
-      · A1: ACOS() expects a number, got true
+      · A1: ACOS(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -192,11 +196,15 @@ describe('ACOS', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┐
-      │   │ A │
-      ├───┼───┤
-      │ 1 │ 0 │
-      └───┴───┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: ACOS(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -235,7 +243,7 @@ describe('ACOSH', () => {
 
       Errors:
 
-      · A1: ACOSH() requires an argument
+      · A1: ACOSH(x: NUMBER) requires an argument
       "
     `)
   })
@@ -254,7 +262,7 @@ describe('ACOSH', () => {
 
       Errors:
 
-      · A1: ACOSH() expects a number, got true
+      · A1: ACOSH(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -265,11 +273,15 @@ describe('ACOSH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┐
-      │   │ A │
-      ├───┼───┤
-      │ 1 │ 0 │
-      └───┴───┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: ACOSH(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -308,7 +320,7 @@ describe('ASIN', () => {
 
       Errors:
 
-      · A1: ASIN() requires an argument
+      · A1: ASIN(x: NUMBER) requires an argument
       "
     `)
   })
@@ -327,7 +339,7 @@ describe('ASIN', () => {
 
       Errors:
 
-      · A1: ASIN() expects a number, got true
+      · A1: ASIN(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -338,11 +350,15 @@ describe('ASIN', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────────────────┐
-      │   │ A                  │
-      ├───┼────────────────────┤
-      │ 1 │ 1.5707963267948966 │
-      └───┴────────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: ASIN(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -381,7 +397,7 @@ describe('ASINH', () => {
 
       Errors:
 
-      · A1: ASINH() requires an argument
+      · A1: ASINH(x: NUMBER) requires an argument
       "
     `)
   })
@@ -400,7 +416,7 @@ describe('ASINH', () => {
 
       Errors:
 
-      · A1: ASINH() expects a number, got true
+      · A1: ASINH(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -411,11 +427,15 @@ describe('ASINH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───────────────────┐
-      │   │ A                 │
-      ├───┼───────────────────┤
-      │ 1 │ 0.881373587019543 │
-      └───┴───────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: ASINH(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -454,7 +474,7 @@ describe('ATAN', () => {
 
       Errors:
 
-      · A1: ATAN() requires an argument
+      · A1: ATAN(x: NUMBER) requires an argument
       "
     `)
   })
@@ -473,7 +493,7 @@ describe('ATAN', () => {
 
       Errors:
 
-      · A1: ATAN() expects a number, got true
+      · A1: ATAN(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -484,11 +504,15 @@ describe('ATAN', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────────────────┐
-      │   │ A                  │
-      ├───┼────────────────────┤
-      │ 1 │ 0.7853981633974483 │
-      └───┴────────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: ATAN(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -527,7 +551,7 @@ describe('ATANH', () => {
 
       Errors:
 
-      · A1: ATANH() requires an argument
+      · A1: ATANH(x: NUMBER) requires an argument
       "
     `)
   })
@@ -546,7 +570,7 @@ describe('ATANH', () => {
 
       Errors:
 
-      · A1: ATANH() expects a number, got true
+      · A1: ATANH(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -557,11 +581,15 @@ describe('ATANH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬──────────┐
-      │   │ A        │
-      ├───┼──────────┤
-      │ 1 │ Infinity │
-      └───┴──────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: ATANH(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -600,7 +628,7 @@ describe('CBRT', () => {
 
       Errors:
 
-      · A1: CBRT() requires an argument
+      · A1: CBRT(x: NUMBER) requires an argument
       "
     `)
   })
@@ -619,7 +647,7 @@ describe('CBRT', () => {
 
       Errors:
 
-      · A1: CBRT() expects a number, got true
+      · A1: CBRT(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -630,11 +658,15 @@ describe('CBRT', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┐
-      │   │ A │
-      ├───┼───┤
-      │ 1 │ 1 │
-      └───┴───┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: CBRT(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -673,7 +705,7 @@ describe('CLZ32', () => {
 
       Errors:
 
-      · A1: CLZ32() requires an argument
+      · A1: CLZ32(x: NUMBER) requires an argument
       "
     `)
   })
@@ -692,7 +724,7 @@ describe('CLZ32', () => {
 
       Errors:
 
-      · A1: CLZ32() expects a number, got true
+      · A1: CLZ32(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -703,11 +735,15 @@ describe('CLZ32', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────┐
-      │   │ A  │
-      ├───┼────┤
-      │ 1 │ 31 │
-      └───┴────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: CLZ32(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -746,7 +782,7 @@ describe('COS', () => {
 
       Errors:
 
-      · A1: COS() requires an argument
+      · A1: COS(x: NUMBER) requires an argument
       "
     `)
   })
@@ -765,7 +801,7 @@ describe('COS', () => {
 
       Errors:
 
-      · A1: COS() expects a number, got true
+      · A1: COS(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -776,11 +812,15 @@ describe('COS', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────────────────┐
-      │   │ A                  │
-      ├───┼────────────────────┤
-      │ 1 │ 0.5403023058681398 │
-      └───┴────────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: COS(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -819,7 +859,7 @@ describe('COSH', () => {
 
       Errors:
 
-      · A1: COSH() requires an argument
+      · A1: COSH(x: NUMBER) requires an argument
       "
     `)
   })
@@ -838,7 +878,7 @@ describe('COSH', () => {
 
       Errors:
 
-      · A1: COSH() expects a number, got true
+      · A1: COSH(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -849,11 +889,15 @@ describe('COSH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────────────────┐
-      │   │ A                  │
-      ├───┼────────────────────┤
-      │ 1 │ 1.5430806348152437 │
-      └───┴────────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: COSH(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -892,7 +936,7 @@ describe('EXP', () => {
 
       Errors:
 
-      · A1: EXP() requires an argument
+      · A1: EXP(x: NUMBER) requires an argument
       "
     `)
   })
@@ -911,7 +955,7 @@ describe('EXP', () => {
 
       Errors:
 
-      · A1: EXP() expects a number, got true
+      · A1: EXP(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -922,11 +966,15 @@ describe('EXP', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───────────────────┐
-      │   │ A                 │
-      ├───┼───────────────────┤
-      │ 1 │ 2.718281828459045 │
-      └───┴───────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: EXP(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -965,7 +1013,7 @@ describe('LOG', () => {
 
       Errors:
 
-      · A1: LOG() requires an argument
+      · A1: LOG(x: NUMBER) requires an argument
       "
     `)
   })
@@ -984,7 +1032,7 @@ describe('LOG', () => {
 
       Errors:
 
-      · A1: LOG() expects a number, got true
+      · A1: LOG(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -995,11 +1043,15 @@ describe('LOG', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┐
-      │   │ A │
-      ├───┼───┤
-      │ 1 │ 0 │
-      └───┴───┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: LOG(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -1038,7 +1090,7 @@ describe('LOG10', () => {
 
       Errors:
 
-      · A1: LOG10() requires an argument
+      · A1: LOG10(x: NUMBER) requires an argument
       "
     `)
   })
@@ -1057,7 +1109,7 @@ describe('LOG10', () => {
 
       Errors:
 
-      · A1: LOG10() expects a number, got true
+      · A1: LOG10(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -1068,11 +1120,15 @@ describe('LOG10', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┐
-      │   │ A │
-      ├───┼───┤
-      │ 1 │ 0 │
-      └───┴───┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: LOG10(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -1111,7 +1167,7 @@ describe('SIN', () => {
 
       Errors:
 
-      · A1: SIN() requires an argument
+      · A1: SIN(x: NUMBER) requires an argument
       "
     `)
   })
@@ -1130,7 +1186,7 @@ describe('SIN', () => {
 
       Errors:
 
-      · A1: SIN() expects a number, got true
+      · A1: SIN(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -1141,11 +1197,15 @@ describe('SIN', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────────────────┐
-      │   │ A                  │
-      ├───┼────────────────────┤
-      │ 1 │ 0.8414709848078965 │
-      └───┴────────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: SIN(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -1184,7 +1244,7 @@ describe('SINH', () => {
 
       Errors:
 
-      · A1: SINH() requires an argument
+      · A1: SINH(x: NUMBER) requires an argument
       "
     `)
   })
@@ -1203,7 +1263,7 @@ describe('SINH', () => {
 
       Errors:
 
-      · A1: SINH() expects a number, got true
+      · A1: SINH(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -1214,11 +1274,15 @@ describe('SINH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────────────────┐
-      │   │ A                  │
-      ├───┼────────────────────┤
-      │ 1 │ 1.1752011936438014 │
-      └───┴────────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: SINH(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -1257,7 +1321,7 @@ describe('SQRT', () => {
 
       Errors:
 
-      · A1: SQRT() requires an argument
+      · A1: SQRT(x: NUMBER) requires an argument
       "
     `)
   })
@@ -1276,7 +1340,7 @@ describe('SQRT', () => {
 
       Errors:
 
-      · A1: SQRT() expects a number, got true
+      · A1: SQRT(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -1287,11 +1351,15 @@ describe('SQRT', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┐
-      │   │ A │
-      ├───┼───┤
-      │ 1 │ 1 │
-      └───┴───┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: SQRT(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -1330,7 +1398,7 @@ describe('TAN', () => {
 
       Errors:
 
-      · A1: TAN() requires an argument
+      · A1: TAN(x: NUMBER) requires an argument
       "
     `)
   })
@@ -1349,7 +1417,7 @@ describe('TAN', () => {
 
       Errors:
 
-      · A1: TAN() expects a number, got true
+      · A1: TAN(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -1360,11 +1428,15 @@ describe('TAN', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────────────────┐
-      │   │ A                  │
-      ├───┼────────────────────┤
-      │ 1 │ 1.5574077246549023 │
-      └───┴────────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: TAN(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -1403,7 +1475,7 @@ describe('TANH', () => {
 
       Errors:
 
-      · A1: TANH() requires an argument
+      · A1: TANH(x: NUMBER) requires an argument
       "
     `)
   })
@@ -1422,7 +1494,7 @@ describe('TANH', () => {
 
       Errors:
 
-      · A1: TANH() expects a number, got true
+      · A1: TANH(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -1433,11 +1505,15 @@ describe('TANH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────────────────┐
-      │   │ A                  │
-      ├───┼────────────────────┤
-      │ 1 │ 0.7615941559557649 │
-      └───┴────────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: TANH(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -1476,7 +1552,7 @@ describe('TRUNC', () => {
 
       Errors:
 
-      · A1: TRUNC() requires an argument
+      · A1: TRUNC(x: NUMBER) requires an argument
       "
     `)
   })
@@ -1495,7 +1571,7 @@ describe('TRUNC', () => {
 
       Errors:
 
-      · A1: TRUNC() expects a number, got true
+      · A1: TRUNC(x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -1506,11 +1582,15 @@ describe('TRUNC', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┐
-      │   │ A │
-      ├───┼───┤
-      │ 1 │ 1 │
-      └───┴───┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: TRUNC(x: NUMBER) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -1549,7 +1629,7 @@ describe('ATAN2', () => {
 
       Errors:
 
-      · A1: ATAN2() requires two arguments
+      · A1: ATAN2(y: NUMBER, x: NUMBER) requires 2 arguments, got 0
       "
     `)
   })
@@ -1568,7 +1648,7 @@ describe('ATAN2', () => {
 
       Errors:
 
-      · A1: ATAN2() requires two arguments
+      · A1: ATAN2(y: NUMBER, x: NUMBER) requires 2 arguments, got 1
       "
     `)
   })
@@ -1587,7 +1667,7 @@ describe('ATAN2', () => {
 
       Errors:
 
-      · A1: ATAN2() requires two arguments
+      · A1: ATAN2(y: NUMBER, x: NUMBER) requires 2 arguments, got 1
       "
     `)
   })
@@ -1606,7 +1686,7 @@ describe('ATAN2', () => {
 
       Errors:
 
-      · A1: ATAN2() expects a number, got true
+      · A1: ATAN2(y: NUMBER, x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -1625,7 +1705,7 @@ describe('ATAN2', () => {
 
       Errors:
 
-      · A1: ATAN2() expects a number, got true
+      · A1: ATAN2(y: NUMBER, x: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -1644,7 +1724,7 @@ describe('ATAN2', () => {
 
       Errors:
 
-      · A1: ATAN2() does not take a third argument, got 3
+      · A1: ATAN2(y: NUMBER, x: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -1684,7 +1764,7 @@ describe('IMUL', () => {
 
       Errors:
 
-      · A1: IMUL() requires two arguments
+      · A1: IMUL(x: NUMBER, y: NUMBER) requires 2 arguments, got 0
       "
     `)
   })
@@ -1703,7 +1783,7 @@ describe('IMUL', () => {
 
       Errors:
 
-      · A1: IMUL() requires two arguments
+      · A1: IMUL(x: NUMBER, y: NUMBER) requires 2 arguments, got 1
       "
     `)
   })
@@ -1722,7 +1802,7 @@ describe('IMUL', () => {
 
       Errors:
 
-      · A1: IMUL() requires two arguments
+      · A1: IMUL(x: NUMBER, y: NUMBER) requires 2 arguments, got 1
       "
     `)
   })
@@ -1741,7 +1821,7 @@ describe('IMUL', () => {
 
       Errors:
 
-      · A1: IMUL() expects a number, got true
+      · A1: IMUL(x: NUMBER, y: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -1760,7 +1840,7 @@ describe('IMUL', () => {
 
       Errors:
 
-      · A1: IMUL() expects a number, got true
+      · A1: IMUL(x: NUMBER, y: NUMBER) expects a \`NUMBER\`, got \`BOOLEAN(TRUE)\`
       "
     `)
   })
@@ -1779,7 +1859,7 @@ describe('IMUL', () => {
 
       Errors:
 
-      · A1: IMUL() does not take a third argument, got 3
+      · A1: IMUL(x: NUMBER, y: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })

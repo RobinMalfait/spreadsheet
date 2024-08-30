@@ -118,3 +118,42 @@ export function AS_STRING(
     value: printEvaluationResult(value),
   }
 }
+
+export function AS_BOOLEAN(
+  value?: EvaluationResult,
+  extra?: EvaluationResult,
+): EvaluationResult {
+  if (value === undefined) {
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: 'AS_BOOLEAN() expects a value as the first argument, got <nothing>',
+    }
+  }
+
+  if (extra) {
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `AS_BOOLEAN() does not take more than one argument, got ${extra.value}`,
+    }
+  }
+
+  if (value.kind === EvaluationResultKind.BOOLEAN) {
+    return value
+  }
+
+  switch (value.kind) {
+    case EvaluationResultKind.ERROR:
+      return { kind: EvaluationResultKind.BOOLEAN, value: false }
+    case EvaluationResultKind.EMPTY:
+      return { kind: EvaluationResultKind.BOOLEAN, value: false }
+    case EvaluationResultKind.NUMBER:
+      return { kind: EvaluationResultKind.BOOLEAN, value: value.value !== 0 }
+    case EvaluationResultKind.STRING:
+      return { kind: EvaluationResultKind.BOOLEAN, value: value.value.length > 0 }
+    case EvaluationResultKind.DATETIME:
+      return { kind: EvaluationResultKind.BOOLEAN, value: true }
+    default:
+      value satisfies never
+      return value
+  }
+}

@@ -11,281 +11,220 @@ import {
   subDays,
   subHours,
 } from 'date-fns'
-import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
+import {
+  type EvaluationResultDateTime,
+  EvaluationResultKind,
+  type EvaluationResultNumber,
+} from '~/domain/evaluation-result'
+import { expose } from '../function-utils'
 
-export function NOW(...args: EvaluationResult[]): EvaluationResult {
-  if (args.length > 0) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'NOW() does not take any arguments',
-    }
-  }
-
-  return {
+export const NOW = expose('NOW', {
+  args: [],
+  description: 'The current date and time',
+  handle: () => ({
     kind: EvaluationResultKind.DATETIME,
     value: new Date(),
     date: true,
     time: true,
-  }
-}
+  }),
+})
 
-export function TODAY(...args: EvaluationResult[]): EvaluationResult {
-  if (args.length > 0) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'TODAY() does not take any arguments',
-    }
-  }
-
-  return {
+export const TODAY = expose('TODAY', {
+  args: [],
+  description: 'The current date',
+  handle: () => ({
     kind: EvaluationResultKind.DATETIME,
     value: startOfDay(new Date()),
     date: true,
     time: false,
-  }
-}
+  }),
+})
 
-export function TIME(...args: EvaluationResult[]): EvaluationResult {
-  if (args.length !== 0) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'TIME() does not take any arguments',
-    }
-  }
-
-  return {
+export const TIME = expose('TIME', {
+  args: [],
+  description: 'The current time',
+  handle: () => ({
     kind: EvaluationResultKind.DATETIME,
     value: new Date(),
     date: false,
     time: true,
-  }
-}
+  }),
+})
 
-export function DAY(date?: EvaluationResult, extra?: EvaluationResult): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'DAY() does not take more than one argument',
-    }
-  }
+export const DAY = expose('DAY', {
+  args: [
+    {
+      kind: EvaluationResultKind.DATETIME,
+      name: 'date',
+      description: 'The date to extract the day from',
+    },
+  ],
+  description: 'The day of the month',
+  handle: (date: EvaluationResultDateTime) => ({
+    kind: EvaluationResultKind.NUMBER,
+    value: getDate(date.value),
+  }),
+})
 
-  if (date?.kind !== EvaluationResultKind.DATETIME) {
-    return { kind: EvaluationResultKind.ERROR, value: 'DAY() requires a date' }
-  }
+export const MONTH = expose('MONTH', {
+  args: [
+    {
+      kind: EvaluationResultKind.DATETIME,
+      name: 'date',
+      description: 'The date to extract the month from',
+    },
+  ],
+  description: 'The month of the year',
+  handle: (date: EvaluationResultDateTime) => ({
+    kind: EvaluationResultKind.NUMBER,
+    value: getMonth(date.value) + 1,
+  }),
+})
 
-  return { kind: EvaluationResultKind.NUMBER, value: getDate(date.value) }
-}
+export const YEAR = expose('YEAR', {
+  args: [
+    {
+      kind: EvaluationResultKind.DATETIME,
+      name: 'date',
+      description: 'The date to extract the year from',
+    },
+  ],
+  description: 'The year',
+  handle: (date: EvaluationResultDateTime) => ({
+    kind: EvaluationResultKind.NUMBER,
+    value: getYear(date.value),
+  }),
+})
 
-export function MONTH(
-  date?: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'MONTH() does not take more than one argument',
-    }
-  }
+export const HOUR = expose('HOUR', {
+  args: [
+    {
+      kind: EvaluationResultKind.DATETIME,
+      name: 'date',
+      description: 'The date to extract the hour from',
+    },
+  ],
+  description: 'The hour',
+  handle: (date: EvaluationResultDateTime) => ({
+    kind: EvaluationResultKind.NUMBER,
+    value: getHours(date.value),
+  }),
+})
 
-  if (date?.kind !== EvaluationResultKind.DATETIME) {
-    return { kind: EvaluationResultKind.ERROR, value: 'MONTH() requires a date' }
-  }
+export const MINUTE = expose('MINUTE', {
+  args: [
+    {
+      kind: EvaluationResultKind.DATETIME,
+      name: 'date',
+      description: 'The date to extract the minute from',
+    },
+  ],
+  description: 'The minute',
+  handle: (date: EvaluationResultDateTime) => ({
+    kind: EvaluationResultKind.NUMBER,
+    value: getMinutes(date.value),
+  }),
+})
 
-  return { kind: EvaluationResultKind.NUMBER, value: getMonth(date.value) + 1 }
-}
+export const SECOND = expose('SECOND', {
+  args: [
+    {
+      kind: EvaluationResultKind.DATETIME,
+      name: 'date',
+      description: 'The date to extract the second from',
+    },
+  ],
+  description: 'The second',
+  handle: (date: EvaluationResultDateTime) => ({
+    kind: EvaluationResultKind.NUMBER,
+    value: getSeconds(date.value),
+  }),
+})
 
-export function YEAR(
-  date?: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'YEAR() does not take more than one argument',
-    }
-  }
-
-  if (date?.kind !== EvaluationResultKind.DATETIME) {
-    return { kind: EvaluationResultKind.ERROR, value: 'YEAR() requires a date' }
-  }
-
-  return { kind: EvaluationResultKind.NUMBER, value: getYear(date.value) }
-}
-
-export function HOUR(
-  date?: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'HOUR() does not take more than one argument',
-    }
-  }
-
-  if (date?.kind !== EvaluationResultKind.DATETIME) {
-    return { kind: EvaluationResultKind.ERROR, value: 'HOUR() requires a date' }
-  }
-
-  return { kind: EvaluationResultKind.NUMBER, value: getHours(date.value) }
-}
-
-export function MINUTE(
-  date?: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'MINUTE() does not take more than one argument',
-    }
-  }
-
-  if (date?.kind !== EvaluationResultKind.DATETIME) {
-    return { kind: EvaluationResultKind.ERROR, value: 'MINUTE() requires a date' }
-  }
-
-  return { kind: EvaluationResultKind.NUMBER, value: getMinutes(date.value) }
-}
-
-export function SECOND(
-  date?: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'SECOND() does not take more than one argument',
-    }
-  }
-
-  if (date?.kind !== EvaluationResultKind.DATETIME) {
-    return { kind: EvaluationResultKind.ERROR, value: 'SECOND() requires a date' }
-  }
-
-  return { kind: EvaluationResultKind.NUMBER, value: getSeconds(date.value) }
-}
-
-export function ADD_DAYS(
-  date?: EvaluationResult,
-  days?: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'ADD_DAYS() does not take more than two arguments',
-    }
-  }
-
-  if (date?.kind !== EvaluationResultKind.DATETIME) {
-    return { kind: EvaluationResultKind.ERROR, value: 'ADD_DAYS() requires a date' }
-  }
-
-  if (days?.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'ADD_DAYS() requires a number of days',
-    }
-  }
-
-  return {
+export const ADD_DAYS = expose('ADD_DAYS', {
+  args: [
+    {
+      kind: EvaluationResultKind.DATETIME,
+      name: 'date',
+      description: 'The date to add days to',
+    },
+    {
+      kind: EvaluationResultKind.NUMBER,
+      name: 'days',
+      description: 'The number of days to add',
+    },
+  ],
+  description: 'Add days to a date',
+  handle: (date: EvaluationResultDateTime, days: EvaluationResultNumber) => ({
     kind: EvaluationResultKind.DATETIME,
     value: addDays(date.value, days.value),
     date: true,
     time: date.time,
-  }
-}
+  }),
+})
 
-export function SUB_DAYS(
-  date?: EvaluationResult,
-  days?: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'SUB_DAYS() does not take more than two arguments',
-    }
-  }
-
-  if (date?.kind !== EvaluationResultKind.DATETIME) {
-    return { kind: EvaluationResultKind.ERROR, value: 'SUB_DAYS() requires a date' }
-  }
-
-  if (days?.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'SUB_DAYS() requires a number of days',
-    }
-  }
-
-  return {
+export const SUB_DAYS = expose('SUB_DAYS', {
+  args: [
+    {
+      kind: EvaluationResultKind.DATETIME,
+      name: 'date',
+      description: 'The date to subtract days from',
+    },
+    {
+      kind: EvaluationResultKind.NUMBER,
+      name: 'days',
+      description: 'The number of days to subtract',
+    },
+  ],
+  description: 'Subtract days from a date',
+  handle: (date: EvaluationResultDateTime, days: EvaluationResultNumber) => ({
     kind: EvaluationResultKind.DATETIME,
     value: subDays(date.value, days.value),
     date: true,
     time: date.time,
-  }
-}
+  }),
+})
 
-export function ADD_HOURS(
-  date?: EvaluationResult,
-  hours?: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'ADD_HOURS() does not take more than two arguments',
-    }
-  }
-
-  if (date?.kind !== EvaluationResultKind.DATETIME) {
-    return { kind: EvaluationResultKind.ERROR, value: 'ADD_HOURS() requires a date' }
-  }
-
-  if (hours?.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'ADD_HOURS() requires a number of hours',
-    }
-  }
-
-  return {
+export const ADD_HOURS = expose('ADD_HOURS', {
+  args: [
+    {
+      kind: EvaluationResultKind.DATETIME,
+      name: 'date',
+      description: 'The date to add hours to',
+    },
+    {
+      kind: EvaluationResultKind.NUMBER,
+      name: 'hours',
+      description: 'The number of hours to add',
+    },
+  ],
+  description: 'Add hours to a date',
+  handle: (date: EvaluationResultDateTime, hours: EvaluationResultNumber) => ({
     kind: EvaluationResultKind.DATETIME,
     value: addHours(date.value, hours.value),
     date: date.date,
     time: true,
-  }
-}
+  }),
+})
 
-export function SUB_HOURS(
-  date?: EvaluationResult,
-  hours?: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'SUB_HOURS() does not take more than two arguments',
-    }
-  }
-
-  if (date?.kind !== EvaluationResultKind.DATETIME) {
-    return { kind: EvaluationResultKind.ERROR, value: 'SUB_HOURS() requires a date' }
-  }
-
-  if (hours?.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'SUB_HOURS() requires a number of hours',
-    }
-  }
-
-  return {
+export const SUB_HOURS = expose('SUB_HOURS', {
+  args: [
+    {
+      kind: EvaluationResultKind.DATETIME,
+      name: 'date',
+      description: 'The date to subtract hours from',
+    },
+    {
+      kind: EvaluationResultKind.NUMBER,
+      name: 'hours',
+      description: 'The number of hours to subtract',
+    },
+  ],
+  description: 'Subtract hours from a date',
+  handle: (date: EvaluationResultDateTime, hours: EvaluationResultNumber) => ({
     kind: EvaluationResultKind.DATETIME,
     value: subHours(date.value, hours.value),
     date: date.date,
     time: true,
-  }
-}
+  }),
+})

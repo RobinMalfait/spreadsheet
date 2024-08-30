@@ -129,7 +129,7 @@ describe('DAY(date)', () => {
 
       Errors:
 
-      · A1: DAY() requires a date
+      · A1: DAY(date: DATETIME) requires an argument
       "
     `)
   })
@@ -148,7 +148,7 @@ describe('DAY(date)', () => {
 
       Errors:
 
-      · A1: DAY() requires a date
+      · A1: DAY(date: DATETIME) expects a \`DATETIME\`, got \`NUMBER(123)\`
       "
     `)
   })
@@ -167,7 +167,7 @@ describe('DAY(date)', () => {
 
       Errors:
 
-      · A1: DAY() does not take more than one argument
+      · A1: DAY(date: DATETIME) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -204,7 +204,7 @@ describe('MONTH(date)', () => {
 
       Errors:
 
-      · A1: MONTH() requires a date
+      · A1: MONTH(date: DATETIME) requires an argument
       "
     `)
   })
@@ -223,7 +223,7 @@ describe('MONTH(date)', () => {
 
       Errors:
 
-      · A1: MONTH() requires a date
+      · A1: MONTH(date: DATETIME) expects a \`DATETIME\`, got \`NUMBER(123)\`
       "
     `)
   })
@@ -242,7 +242,7 @@ describe('MONTH(date)', () => {
 
       Errors:
 
-      · A1: MONTH() does not take more than one argument
+      · A1: MONTH(date: DATETIME) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -279,7 +279,7 @@ describe('YEAR(date)', () => {
 
       Errors:
 
-      · A1: YEAR() requires a date
+      · A1: YEAR(date: DATETIME) requires an argument
       "
     `)
   })
@@ -298,7 +298,7 @@ describe('YEAR(date)', () => {
 
       Errors:
 
-      · A1: YEAR() requires a date
+      · A1: YEAR(date: DATETIME) expects a \`DATETIME\`, got \`NUMBER(123)\`
       "
     `)
   })
@@ -317,7 +317,7 @@ describe('YEAR(date)', () => {
 
       Errors:
 
-      · A1: YEAR() does not take more than one argument
+      · A1: YEAR(date: DATETIME) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -354,7 +354,7 @@ describe('HOUR(date)', () => {
 
       Errors:
 
-      · A1: HOUR() requires a date
+      · A1: HOUR(date: DATETIME) requires an argument
       "
     `)
   })
@@ -373,7 +373,7 @@ describe('HOUR(date)', () => {
 
       Errors:
 
-      · A1: HOUR() requires a date
+      · A1: HOUR(date: DATETIME) expects a \`DATETIME\`, got \`NUMBER(123)\`
       "
     `)
   })
@@ -392,7 +392,7 @@ describe('HOUR(date)', () => {
 
       Errors:
 
-      · A1: HOUR() does not take more than one argument
+      · A1: HOUR(date: DATETIME) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -429,7 +429,7 @@ describe('MINUTE(date)', () => {
 
       Errors:
 
-      · A1: MINUTE() requires a date
+      · A1: MINUTE(date: DATETIME) requires an argument
       "
     `)
   })
@@ -448,7 +448,7 @@ describe('MINUTE(date)', () => {
 
       Errors:
 
-      · A1: MINUTE() requires a date
+      · A1: MINUTE(date: DATETIME) expects a \`DATETIME\`, got \`NUMBER(123)\`
       "
     `)
   })
@@ -467,7 +467,7 @@ describe('MINUTE(date)', () => {
 
       Errors:
 
-      · A1: MINUTE() does not take more than one argument
+      · A1: MINUTE(date: DATETIME) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -504,7 +504,7 @@ describe('SECOND(date)', () => {
 
       Errors:
 
-      · A1: SECOND() requires a date
+      · A1: SECOND(date: DATETIME) requires an argument
       "
     `)
   })
@@ -523,7 +523,7 @@ describe('SECOND(date)', () => {
 
       Errors:
 
-      · A1: SECOND() requires a date
+      · A1: SECOND(date: DATETIME) expects a \`DATETIME\`, got \`NUMBER(123)\`
       "
     `)
   })
@@ -542,7 +542,7 @@ describe('SECOND(date)', () => {
 
       Errors:
 
-      · A1: SECOND() does not take more than one argument
+      · A1: SECOND(date: DATETIME) takes at most 1 arguments, got 2
       "
     `)
   })
@@ -579,7 +579,7 @@ describe('ADD_DAYS(date, days)', () => {
 
       Errors:
 
-      · A1: ADD_DAYS() requires a date
+      · A1: ADD_DAYS(date: DATETIME, days: NUMBER) requires 2 arguments, got 0
       "
     `)
   })
@@ -598,7 +598,7 @@ describe('ADD_DAYS(date, days)', () => {
 
       Errors:
 
-      · A1: ADD_DAYS() requires a date
+      · A1: ADD_DAYS(date: DATETIME, days: NUMBER) requires 2 arguments, got 1
       "
     `)
   })
@@ -617,7 +617,7 @@ describe('ADD_DAYS(date, days)', () => {
 
       Errors:
 
-      · A1: ADD_DAYS() requires a number of days
+      · A1: ADD_DAYS(date: DATETIME, days: NUMBER) requires 2 arguments, got 1
       "
     `)
   })
@@ -636,7 +636,7 @@ describe('ADD_DAYS(date, days)', () => {
 
       Errors:
 
-      · A1: ADD_DAYS() requires a number of days
+      · A1: ADD_DAYS(date: DATETIME, days: NUMBER) expects a \`NUMBER\`, got \`DATETIME(2013-01-21 08:15:20)\`
       "
     `)
   })
@@ -655,7 +655,7 @@ describe('ADD_DAYS(date, days)', () => {
 
       Errors:
 
-      · A1: ADD_DAYS() does not take more than two arguments
+      · A1: ADD_DAYS(date: DATETIME, days: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -692,7 +692,7 @@ describe('SUB_DAYS(date, days)', () => {
 
       Errors:
 
-      · A1: SUB_DAYS() requires a date
+      · A1: SUB_DAYS(date: DATETIME, days: NUMBER) requires 2 arguments, got 0
       "
     `)
   })
@@ -711,7 +711,7 @@ describe('SUB_DAYS(date, days)', () => {
 
       Errors:
 
-      · A1: SUB_DAYS() requires a date
+      · A1: SUB_DAYS(date: DATETIME, days: NUMBER) requires 2 arguments, got 1
       "
     `)
   })
@@ -730,7 +730,7 @@ describe('SUB_DAYS(date, days)', () => {
 
       Errors:
 
-      · A1: SUB_DAYS() requires a number of days
+      · A1: SUB_DAYS(date: DATETIME, days: NUMBER) requires 2 arguments, got 1
       "
     `)
   })
@@ -749,7 +749,7 @@ describe('SUB_DAYS(date, days)', () => {
 
       Errors:
 
-      · A1: SUB_DAYS() requires a number of days
+      · A1: SUB_DAYS(date: DATETIME, days: NUMBER) expects a \`NUMBER\`, got \`DATETIME(2013-01-21 08:15:20)\`
       "
     `)
   })
@@ -768,7 +768,7 @@ describe('SUB_DAYS(date, days)', () => {
 
       Errors:
 
-      · A1: SUB_DAYS() does not take more than two arguments
+      · A1: SUB_DAYS(date: DATETIME, days: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -805,7 +805,7 @@ describe('ADD_HOURS(date, days)', () => {
 
       Errors:
 
-      · A1: ADD_HOURS() requires a date
+      · A1: ADD_HOURS(date: DATETIME, hours: NUMBER) requires 2 arguments, got 0
       "
     `)
   })
@@ -824,7 +824,7 @@ describe('ADD_HOURS(date, days)', () => {
 
       Errors:
 
-      · A1: ADD_HOURS() requires a date
+      · A1: ADD_HOURS(date: DATETIME, hours: NUMBER) requires 2 arguments, got 1
       "
     `)
   })
@@ -843,7 +843,7 @@ describe('ADD_HOURS(date, days)', () => {
 
       Errors:
 
-      · A1: ADD_HOURS() requires a number of hours
+      · A1: ADD_HOURS(date: DATETIME, hours: NUMBER) requires 2 arguments, got 1
       "
     `)
   })
@@ -862,7 +862,7 @@ describe('ADD_HOURS(date, days)', () => {
 
       Errors:
 
-      · A1: ADD_HOURS() requires a number of hours
+      · A1: ADD_HOURS(date: DATETIME, hours: NUMBER) expects a \`NUMBER\`, got \`DATETIME(2013-01-21 08:15:20)\`
       "
     `)
   })
@@ -881,7 +881,7 @@ describe('ADD_HOURS(date, days)', () => {
 
       Errors:
 
-      · A1: ADD_HOURS() does not take more than two arguments
+      · A1: ADD_HOURS(date: DATETIME, hours: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -918,7 +918,7 @@ describe('SUB_DAYS(date, days)', () => {
 
       Errors:
 
-      · A1: SUB_HOURS() requires a date
+      · A1: SUB_HOURS(date: DATETIME, hours: NUMBER) requires 2 arguments, got 0
       "
     `)
   })
@@ -937,7 +937,7 @@ describe('SUB_DAYS(date, days)', () => {
 
       Errors:
 
-      · A1: SUB_HOURS() requires a date
+      · A1: SUB_HOURS(date: DATETIME, hours: NUMBER) requires 2 arguments, got 1
       "
     `)
   })
@@ -956,7 +956,7 @@ describe('SUB_DAYS(date, days)', () => {
 
       Errors:
 
-      · A1: SUB_HOURS() requires a number of hours
+      · A1: SUB_HOURS(date: DATETIME, hours: NUMBER) requires 2 arguments, got 1
       "
     `)
   })
@@ -975,7 +975,7 @@ describe('SUB_DAYS(date, days)', () => {
 
       Errors:
 
-      · A1: SUB_HOURS() requires a number of hours
+      · A1: SUB_HOURS(date: DATETIME, hours: NUMBER) expects a \`NUMBER\`, got \`DATETIME(2013-01-21 08:15:20)\`
       "
     `)
   })
@@ -994,7 +994,7 @@ describe('SUB_DAYS(date, days)', () => {
 
       Errors:
 
-      · A1: SUB_HOURS() does not take more than two arguments
+      · A1: SUB_HOURS(date: DATETIME, hours: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })

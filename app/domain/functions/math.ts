@@ -1,39 +1,41 @@
-import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
+import {
+  type EvaluationResult,
+  EvaluationResultKind,
+  type EvaluationResultNumber,
+} from '~/domain/evaluation-result'
+import { expose } from '~/domain/function-utils'
 
-export function PI(extra?: EvaluationResult): EvaluationResult {
-  if (extra) {
-    return { kind: EvaluationResultKind.ERROR, value: 'PI() does not take any arguments' }
-  }
+export const PI = expose('PI', {
+  args: [],
+  description: 'The number π',
+  handle: () => ({ kind: EvaluationResultKind.NUMBER, value: Math.PI }),
+})
 
-  return { kind: EvaluationResultKind.NUMBER, value: Math.PI }
-}
+export const TAU = expose('TAU', {
+  args: [],
+  description: 'The number τ',
+  handle: () => ({ kind: EvaluationResultKind.NUMBER, value: 2 * Math.PI }),
+})
 
-export function TAU(extra?: EvaluationResult): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'TAU() does not take any arguments',
-    }
-  }
-
-  return { kind: EvaluationResultKind.NUMBER, value: 2 * Math.PI }
-}
-
-function exposeUnaryMathFunction(name: string, fn: (input: number) => number) {
-  return (arg?: EvaluationResult): EvaluationResult => {
-    if (arg === undefined) {
-      return { kind: EvaluationResultKind.ERROR, value: `${name}() requires an argument` }
-    }
-
-    if (arg.kind !== EvaluationResultKind.NUMBER) {
-      return {
-        kind: EvaluationResultKind.ERROR,
-        value: `${name}() expects a number, got ${arg.value}`,
-      }
-    }
-
-    return { kind: EvaluationResultKind.NUMBER, value: fn(arg.value) }
-  }
+function exposeUnaryMathFunction(
+  name: string,
+  fn: (input: number) => number,
+  description?: string,
+) {
+  return expose(name, {
+    args: [
+      {
+        kind: EvaluationResultKind.NUMBER,
+        name: 'x',
+        description: 'The number to operate on',
+      },
+    ],
+    description: description ?? `The ${name} function`,
+    handle: (arg: EvaluationResultNumber) => ({
+      kind: EvaluationResultKind.NUMBER,
+      value: fn(arg.value),
+    }),
+  })
 }
 
 export const ABS = exposeUnaryMathFunction('ABS', Math.abs)
@@ -57,49 +59,36 @@ export const TAN = exposeUnaryMathFunction('TAN', Math.tan)
 export const TANH = exposeUnaryMathFunction('TANH', Math.tanh)
 export const TRUNC = exposeUnaryMathFunction('TRUNC', Math.trunc)
 
-function exposeBinaryMathFunction(
-  name: string,
-  fn: (lhs: number, rhs: number) => number,
-) {
-  return (
-    lhs?: EvaluationResult,
-    rhs?: EvaluationResult,
-    extra?: EvaluationResult,
-  ): EvaluationResult => {
-    if (lhs === undefined || rhs === undefined) {
-      return {
-        kind: EvaluationResultKind.ERROR,
-        value: `${name}() requires two arguments`,
-      }
-    }
-
-    if (lhs.kind !== EvaluationResultKind.NUMBER) {
-      return {
-        kind: EvaluationResultKind.ERROR,
-        value: `${name}() expects a number, got ${lhs.value}`,
-      }
-    }
-
-    if (rhs.kind !== EvaluationResultKind.NUMBER) {
-      return {
-        kind: EvaluationResultKind.ERROR,
-        value: `${name}() expects a number, got ${rhs.value}`,
-      }
-    }
-
-    if (extra) {
-      return {
-        kind: EvaluationResultKind.ERROR,
-        value: `${name}() does not take a third argument, got ${extra.value}`,
-      }
-    }
-
-    return { kind: EvaluationResultKind.NUMBER, value: fn(lhs.value, rhs.value) }
-  }
-}
-
-export const ATAN2 = exposeBinaryMathFunction('ATAN2', Math.atan2)
-export const IMUL = exposeBinaryMathFunction('IMUL', Math.imul)
+export const ATAN2 = expose('ATAN2', {
+  args: [
+    {
+      kind: EvaluationResultKind.NUMBER,
+      name: 'y',
+      description: 'A numeric expression representing the cartesian y-coordinate.',
+    },
+    {
+      kind: EvaluationResultKind.NUMBER,
+      name: 'x',
+      description: 'A numeric expression representing the cartesian x-coordinate.',
+    },
+  ],
+  description: 'The angle (in radians) from the X axis to a point.',
+  handle: (y: EvaluationResultNumber, x: EvaluationResultNumber) => ({
+    kind: EvaluationResultKind.NUMBER,
+    value: Math.atan2(y.value, x.value),
+  }),
+})
+export const IMUL = expose('IMUL', {
+  args: [
+    { kind: EvaluationResultKind.NUMBER, name: 'x', description: 'First number' },
+    { kind: EvaluationResultKind.NUMBER, name: 'y', description: 'Second number' },
+  ],
+  description: 'The result of 32-bit multiplication of two numbers.',
+  handle: (x: EvaluationResultNumber, y: EvaluationResultNumber) => ({
+    kind: EvaluationResultKind.NUMBER,
+    value: Math.imul(x.value, y.value),
+  }),
+})
 
 export function SUM(...args: EvaluationResult[]): EvaluationResult {
   if (args.length === 0) {
