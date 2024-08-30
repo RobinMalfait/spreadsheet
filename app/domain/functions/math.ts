@@ -101,10 +101,9 @@ export const SUM = expose('SUM(...args: T)', {
 
 export const ADD = expose('ADD(lhs: NUMBER, rhs: NUMBER)', {
   description: 'Add two numbers',
-  handle: (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => ({
-    kind: EvaluationResultKind.NUMBER,
-    value: lhs.value + rhs.value,
-  }),
+  handle(lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) {
+    return { kind: EvaluationResultKind.NUMBER, value: lhs.value + rhs.value }
+  },
 })
 
 export const SUBTRACT = expose('SUBTRACT(lhs: NUMBER, rhs: NUMBER)', {
