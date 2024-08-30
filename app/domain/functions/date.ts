@@ -18,8 +18,7 @@ import {
 } from '~/domain/evaluation-result'
 import { expose } from '../function-utils'
 
-export const NOW = expose('NOW', {
-  args: [],
+export const NOW = expose('NOW()', {
   description: 'The current date and time',
   handle: () => ({
     kind: EvaluationResultKind.DATETIME,
@@ -29,8 +28,7 @@ export const NOW = expose('NOW', {
   }),
 })
 
-export const TODAY = expose('TODAY', {
-  args: [],
+export const TODAY = expose('TODAY()', {
   description: 'The current date',
   handle: () => ({
     kind: EvaluationResultKind.DATETIME,
@@ -40,8 +38,7 @@ export const TODAY = expose('TODAY', {
   }),
 })
 
-export const TIME = expose('TIME', {
-  args: [],
+export const TIME = expose('TIME()', {
   description: 'The current time',
   handle: () => ({
     kind: EvaluationResultKind.DATETIME,
@@ -51,14 +48,14 @@ export const TIME = expose('TIME', {
   }),
 })
 
-export const DAY = expose('DAY', {
-  args: [
-    {
-      kind: EvaluationResultKind.DATETIME,
-      name: 'date',
-      description: 'The date to extract the day from',
-    },
-  ],
+export const DAY = expose('DAY(date: DATETIME)', {
+  // args: [
+  //   {
+  //     kind: EvaluationResultKind.DATETIME,
+  //     name: 'date',
+  //     description: 'The date to extract the day from',
+  //   },
+  // ],
   description: 'The day of the month',
   handle: (date: EvaluationResultDateTime) => ({
     kind: EvaluationResultKind.NUMBER,
@@ -66,14 +63,14 @@ export const DAY = expose('DAY', {
   }),
 })
 
-export const MONTH = expose('MONTH', {
-  args: [
-    {
-      kind: EvaluationResultKind.DATETIME,
-      name: 'date',
-      description: 'The date to extract the month from',
-    },
-  ],
+export const MONTH = expose('MONTH(date: DATETIME)', {
+  // args: [
+  //   {
+  //     kind: EvaluationResultKind.DATETIME,
+  //     name: 'date',
+  //     description: 'The date to extract the month from',
+  //   },
+  // ],
   description: 'The month of the year',
   handle: (date: EvaluationResultDateTime) => ({
     kind: EvaluationResultKind.NUMBER,
@@ -81,14 +78,14 @@ export const MONTH = expose('MONTH', {
   }),
 })
 
-export const YEAR = expose('YEAR', {
-  args: [
-    {
-      kind: EvaluationResultKind.DATETIME,
-      name: 'date',
-      description: 'The date to extract the year from',
-    },
-  ],
+export const YEAR = expose('YEAR(date: DATETIME)', {
+  // args: [
+  //   {
+  //     kind: EvaluationResultKind.DATETIME,
+  //     name: 'date',
+  //     description: 'The date to extract the year from',
+  //   },
+  // ],
   description: 'The year',
   handle: (date: EvaluationResultDateTime) => ({
     kind: EvaluationResultKind.NUMBER,
@@ -96,14 +93,14 @@ export const YEAR = expose('YEAR', {
   }),
 })
 
-export const HOUR = expose('HOUR', {
-  args: [
-    {
-      kind: EvaluationResultKind.DATETIME,
-      name: 'date',
-      description: 'The date to extract the hour from',
-    },
-  ],
+export const HOUR = expose('HOUR(date: DATETIME)', {
+  // args: [
+  //   {
+  //     kind: EvaluationResultKind.DATETIME,
+  //     name: 'date',
+  //     description: 'The date to extract the hour from',
+  //   },
+  // ],
   description: 'The hour',
   handle: (date: EvaluationResultDateTime) => ({
     kind: EvaluationResultKind.NUMBER,
@@ -111,14 +108,14 @@ export const HOUR = expose('HOUR', {
   }),
 })
 
-export const MINUTE = expose('MINUTE', {
-  args: [
-    {
-      kind: EvaluationResultKind.DATETIME,
-      name: 'date',
-      description: 'The date to extract the minute from',
-    },
-  ],
+export const MINUTE = expose('MINUTE(date: DATETIME)', {
+  // args: [
+  //   {
+  //     kind: EvaluationResultKind.DATETIME,
+  //     name: 'date',
+  //     description: 'The date to extract the minute from',
+  //   },
+  // ],
   description: 'The minute',
   handle: (date: EvaluationResultDateTime) => ({
     kind: EvaluationResultKind.NUMBER,
@@ -126,14 +123,14 @@ export const MINUTE = expose('MINUTE', {
   }),
 })
 
-export const SECOND = expose('SECOND', {
-  args: [
-    {
-      kind: EvaluationResultKind.DATETIME,
-      name: 'date',
-      description: 'The date to extract the second from',
-    },
-  ],
+export const SECOND = expose('SECOND(date: DATETIME)', {
+  // args: [
+  //   {
+  //     kind: EvaluationResultKind.DATETIME,
+  //     name: 'date',
+  //     description: 'The date to extract the second from',
+  //   },
+  // ],
   description: 'The second',
   handle: (date: EvaluationResultDateTime) => ({
     kind: EvaluationResultKind.NUMBER,
@@ -141,19 +138,19 @@ export const SECOND = expose('SECOND', {
   }),
 })
 
-export const ADD_DAYS = expose('ADD_DAYS', {
-  args: [
-    {
-      kind: EvaluationResultKind.DATETIME,
-      name: 'date',
-      description: 'The date to add days to',
-    },
-    {
-      kind: EvaluationResultKind.NUMBER,
-      name: 'days',
-      description: 'The number of days to add',
-    },
-  ],
+export const ADD_DAYS = expose('ADD_DAYS(date: DATETIME, days: NUMBER)', {
+  // args: [
+  //   {
+  //     kind: EvaluationResultKind.DATETIME,
+  //     name: 'date',
+  //     description: 'The date to add days to',
+  //   },
+  //   {
+  //     kind: EvaluationResultKind.NUMBER,
+  //     name: 'days',
+  //     description: 'The number of days to add',
+  //   },
+  // ],
   description: 'Add days to a date',
   handle: (date: EvaluationResultDateTime, days: EvaluationResultNumber) => ({
     kind: EvaluationResultKind.DATETIME,
@@ -163,19 +160,19 @@ export const ADD_DAYS = expose('ADD_DAYS', {
   }),
 })
 
-export const SUB_DAYS = expose('SUB_DAYS', {
-  args: [
-    {
-      kind: EvaluationResultKind.DATETIME,
-      name: 'date',
-      description: 'The date to subtract days from',
-    },
-    {
-      kind: EvaluationResultKind.NUMBER,
-      name: 'days',
-      description: 'The number of days to subtract',
-    },
-  ],
+export const SUB_DAYS = expose('SUB_DAYS(date: DATETIME, days: NUMBER)', {
+  // args: [
+  //   {
+  //     kind: EvaluationResultKind.DATETIME,
+  //     name: 'date',
+  //     description: 'The date to subtract days from',
+  //   },
+  //   {
+  //     kind: EvaluationResultKind.NUMBER,
+  //     name: 'days',
+  //     description: 'The number of days to subtract',
+  //   },
+  // ],
   description: 'Subtract days from a date',
   handle: (date: EvaluationResultDateTime, days: EvaluationResultNumber) => ({
     kind: EvaluationResultKind.DATETIME,
@@ -185,19 +182,19 @@ export const SUB_DAYS = expose('SUB_DAYS', {
   }),
 })
 
-export const ADD_HOURS = expose('ADD_HOURS', {
-  args: [
-    {
-      kind: EvaluationResultKind.DATETIME,
-      name: 'date',
-      description: 'The date to add hours to',
-    },
-    {
-      kind: EvaluationResultKind.NUMBER,
-      name: 'hours',
-      description: 'The number of hours to add',
-    },
-  ],
+export const ADD_HOURS = expose('ADD_HOURS(date: DATETIME, hours: NUMBER)', {
+  // args: [
+  //   {
+  //     kind: EvaluationResultKind.DATETIME,
+  //     name: 'date',
+  //     description: 'The date to add hours to',
+  //   },
+  //   {
+  //     kind: EvaluationResultKind.NUMBER,
+  //     name: 'hours',
+  //     description: 'The number of hours to add',
+  //   },
+  // ],
   description: 'Add hours to a date',
   handle: (date: EvaluationResultDateTime, hours: EvaluationResultNumber) => ({
     kind: EvaluationResultKind.DATETIME,
@@ -207,19 +204,19 @@ export const ADD_HOURS = expose('ADD_HOURS', {
   }),
 })
 
-export const SUB_HOURS = expose('SUB_HOURS', {
-  args: [
-    {
-      kind: EvaluationResultKind.DATETIME,
-      name: 'date',
-      description: 'The date to subtract hours from',
-    },
-    {
-      kind: EvaluationResultKind.NUMBER,
-      name: 'hours',
-      description: 'The number of hours to subtract',
-    },
-  ],
+export const SUB_HOURS = expose('SUB_HOURS(date: DATETIME, hours: NUMBER)', {
+  // args: [
+  //   {
+  //     kind: EvaluationResultKind.DATETIME,
+  //     name: 'date',
+  //     description: 'The date to subtract hours from',
+  //   },
+  //   {
+  //     kind: EvaluationResultKind.NUMBER,
+  //     name: 'hours',
+  //     description: 'The number of hours to subtract',
+  //   },
+  // ],
   description: 'Subtract hours from a date',
   handle: (date: EvaluationResultDateTime, hours: EvaluationResultNumber) => ({
     kind: EvaluationResultKind.DATETIME,

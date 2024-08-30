@@ -89,7 +89,7 @@ describe('IF()', () => {
 
       Errors:
 
-      · A1: IF(test: BOOLEAN, consequent: ANY, alternate: ANY) expects a \`BOOLEAN\`, got \`STRING(UH OH)\`
+      · A1: IF(test: BOOLEAN, consequent: T, alternate: T) Argument \`test\` received a \`STRING\`
       "
     `)
   })
@@ -108,7 +108,7 @@ describe('IF()', () => {
 
       Errors:
 
-      · A1: IF(test: BOOLEAN, consequent: ANY, alternate: ANY) takes at most 3 arguments, got 4
+      · A1: IF(test: BOOLEAN, consequent: T, alternate: T) takes at most 3 arguments, got 4
       "
     `)
   })
@@ -245,7 +245,7 @@ describe('NOT()', () => {
 
       Errors:
 
-      · A1: NOT(boolean1: BOOLEAN) expects a \`BOOLEAN\`, got \`STRING(UH OH)\`
+      · A1: NOT(value: BOOLEAN) Argument \`value\` received a \`STRING\`
       "
     `)
   })
@@ -264,7 +264,7 @@ describe('NOT()', () => {
 
       Errors:
 
-      · A1: NOT(boolean1: BOOLEAN) takes at most 1 arguments, got 2
+      · A1: NOT(value: BOOLEAN) takes at most 1 argument, got 2
       "
     `)
   })
