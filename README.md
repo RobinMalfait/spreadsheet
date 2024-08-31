@@ -113,8 +113,8 @@ Once you write a formula, you will get some syntax highlighting.
    - [MODE(...values: T)](#mode)
 - [Text functions](#text-functions)
    - [CONCAT(...values: T)](#concat)
-   - [FIND_FIRST(haystack: STRING, ...needles: STRING)](#find_first)
-   - [FIND_LAST(haystack: STRING, ...needles: STRING)](#find_last)
+   - [FIND_FIRST(haystack: STRING, ...needles: STRING | NUMBER)](#find_first)
+   - [FIND_LAST(haystack: STRING, ...needles: STRING | NUMBER)](#find_last)
    - [JOIN(delimiter: STRING, ...values: T)](#join)
    - [LEN(value: STRING)](#len)
    - [LOWER(value: T)](#lower)
@@ -1336,7 +1336,7 @@ Concatenates multiple strings together.
 ---
 
 <a name="find_first"></a>
-#### FIND_FIRST(haystack: STRING, ...needles: STRING)
+#### FIND_FIRST(haystack: STRING, ...needles: STRING | NUMBER)
 
 [Back to top](#functions)
 
@@ -1360,7 +1360,7 @@ Returns the first needle found in the haystack.
 ---
 
 <a name="find_last"></a>
-#### FIND_LAST(haystack: STRING, ...needles: STRING)
+#### FIND_LAST(haystack: STRING, ...needles: STRING | NUMBER)
 
 [Back to top](#functions)
 
