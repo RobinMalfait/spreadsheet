@@ -80,6 +80,10 @@ function generateDocs() {
       }
 
       // Evaluate examples
+      if (signature.tags.some((tag) => tag.kind === TagKind.EXAMPLE)) {
+        out += '\n#### Examples:\n\n'
+      }
+
       for (let tag of signature.tags) {
         if (tag.kind !== TagKind.EXAMPLE) continue
 

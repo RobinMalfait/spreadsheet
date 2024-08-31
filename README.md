@@ -140,6 +140,8 @@ Add a certain amount of days to a date.
 - `date`: The date to add the days to.
 - `days`: The number of days to add.
 
+#### Examples:
+
 ```ts
 =ADD_DAYS(TODAY(), 7)
 // 2013-01-28
@@ -157,6 +159,8 @@ Add a certain amount of hours to a date.
 - `date`: The date to add the hours to.
 - `days`: The number of hours to add.
 
+#### Examples:
+
 ```ts
 =ADD_HOURS(NOW(), 8)
 // 2013-01-21 16:15:20
@@ -172,6 +176,8 @@ Add a certain amount of hours to a date.
 The current day of the given date.
 
 - `date`: The date to extract the current day from.
+
+#### Examples:
 
 ```ts
 =DAY(TODAY())
@@ -189,6 +195,8 @@ The current hour of the given date.
 
 - `date`: The date to extract the current hour from.
 
+#### Examples:
+
 ```ts
 =HOUR(NOW())
 // 8
@@ -204,6 +212,8 @@ The current hour of the given date.
 The current minute of the given date.
 
 - `date`: The date to extract the current minute from.
+
+#### Examples:
 
 ```ts
 =MINUTE(NOW())
@@ -221,6 +231,8 @@ The current month of the given date. The month is 1-indexed.
 
 - `date`: The date to extract the current month from.
 
+#### Examples:
+
 ```ts
 =MONTH(TODAY())
 // 1
@@ -234,6 +246,8 @@ The current month of the given date. The month is 1-indexed.
 [Back to top](#functions)
 
 The current date and time represented as a datetime.
+
+#### Examples:
 
 ```ts
 =NOW()
@@ -250,6 +264,8 @@ The current date and time represented as a datetime.
 The current second of the given date.
 
 - `date`: The date to extract the current seconds from.
+
+#### Examples:
 
 ```ts
 =SECOND(NOW())
@@ -268,6 +284,8 @@ Subtract a certain amount of days from a date.
 - `date`: The date to subtract the days from.
 - `days`: The number of days to subtract.
 
+#### Examples:
+
 ```ts
 =SUB_DAYS(TODAY(), 7)
 // 2013-01-14
@@ -285,6 +303,8 @@ Subtract a certain amount of hours from a date.
 - `date`: The date to subtract the hours from.
 - `days`: The number of hours to subtract.
 
+#### Examples:
+
 ```ts
 =SUB_HOURS(NOW(), 8)
 // 2013-01-21 00:15:20
@@ -299,6 +319,8 @@ Subtract a certain amount of hours from a date.
 
 The current time represented as a datetime.
 
+#### Examples:
+
 ```ts
 =TIME()
 // 08:15:20
@@ -312,6 +334,8 @@ The current time represented as a datetime.
 [Back to top](#functions)
 
 The current date represented as a datetime.
+
+#### Examples:
 
 ```ts
 =TODAY()
@@ -329,6 +353,8 @@ The current year of the given date.
 
 - `date`: The date to extract the current year from.
 
+#### Examples:
+
 ```ts
 =YEAR(TODAY())
 // 2013
@@ -341,9 +367,21 @@ The current year of the given date.
 
 [Back to top](#functions)
 
-Returns true if all conditions are true
+Returns true if all conditions are true.
 
-- `expressions`: The conditions to evaluate
+- `expressions`: The conditions to evaluate.
+
+#### Examples:
+
+```ts
+=AND(TRUE(), TRUE(), TRUE())
+// TRUE
+```
+
+```ts
+=AND(TRUE(), TRUE(), FALSE())
+// FALSE
+```
 
 ---
 
@@ -352,7 +390,14 @@ Returns true if all conditions are true
 
 [Back to top](#functions)
 
-The boolean value false
+The boolean value false.
+
+#### Examples:
+
+```ts
+=FALSE()
+// FALSE
+```
 
 ---
 
@@ -361,11 +406,23 @@ The boolean value false
 
 [Back to top](#functions)
 
-Returns one value if a condition is true and another value if it is false
+Returns one value if a condition is true and another value if it is false.
 
-- `test`: The condition to evaluate
-- `consequent`: The value to return if the condition is true
-- `alternate`: The value to return if the condition is false
+- `test`: The condition to evaluate.
+- `consequent`: The value to return if the condition is true.
+- `alternate`: The value to return if the condition is false.
+
+#### Examples:
+
+```ts
+=IF(TRUE(), "huge if true", "huge if false")
+// huge if true
+```
+
+```ts
+=IF(FALSE(), "huge if true", "huge if false")
+// huge if false
+```
 
 ---
 
@@ -374,9 +431,21 @@ Returns one value if a condition is true and another value if it is false
 
 [Back to top](#functions)
 
-Returns true if the condition is false
+Returns true if the condition is false.
 
-- `value`: The condition to negate
+- `value`: The condition to negate.
+
+#### Examples:
+
+```ts
+=NOT(TRUE())
+// FALSE
+```
+
+```ts
+=NOT(FALSE())
+// TRUE
+```
 
 ---
 
@@ -385,9 +454,21 @@ Returns true if the condition is false
 
 [Back to top](#functions)
 
-Returns true if any condition is true
+Returns true if any condition is true.
 
-- `expressions`: The conditions to evaluate
+- `expressions`: The conditions to evaluate.
+
+#### Examples:
+
+```ts
+=OR(TRUE(), TRUE(), TRUE())
+// TRUE
+```
+
+```ts
+=OR(TRUE(), TRUE(), FALSE())
+// TRUE
+```
 
 ---
 
@@ -396,7 +477,14 @@ Returns true if any condition is true
 
 [Back to top](#functions)
 
-The boolean value true
+The boolean value true.
+
+#### Examples:
+
+```ts
+=TRUE()
+// TRUE
+```
 
 ### Math functions (35)
 
