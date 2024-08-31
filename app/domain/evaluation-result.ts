@@ -7,15 +7,6 @@ export enum EvaluationResultKind {
   DATETIME = 'DATETIME',
 }
 
-export const EvaluationResultKinds = [
-  EvaluationResultKind.ERROR,
-  EvaluationResultKind.EMPTY,
-  EvaluationResultKind.NUMBER,
-  EvaluationResultKind.STRING,
-  EvaluationResultKind.BOOLEAN,
-  EvaluationResultKind.DATETIME,
-]
-
 export type EvaluationResult =
   | { kind: EvaluationResultKind.ERROR; value: string }
   | { kind: EvaluationResultKind.EMPTY; value: string }
