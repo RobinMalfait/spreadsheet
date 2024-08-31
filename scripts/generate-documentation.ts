@@ -80,21 +80,24 @@ function generateDocs() {
       }
 
       // Evaluate examples
-      if (signature.tags.some((tag) => tag.kind === TagKind.EXAMPLE)) {
-        out += '\n#### Examples:\n\n'
+      {
+        if (signature.tags.some((tag) => tag.kind === TagKind.EXAMPLE)) {
+          out += '\n#### Examples:\n\n'
+        }
+
+        for (let tag of signature.tags) {
+          if (tag.kind !== TagKind.EXAMPLE) continue
+
+          spreadsheet.set('A1', `=${tag.value}`)
+
+          out += '\n```ts\n'
+          out += `=${tag.value}\n`
+          out += `// ${printEvaluationResult(spreadsheet.evaluate('A1'))}`
+          out += '\n```\n'
+        }
       }
 
-      for (let tag of signature.tags) {
-        if (tag.kind !== TagKind.EXAMPLE) continue
-
-        spreadsheet.set('A1', `=${tag.value}`)
-
-        out += '\n```ts\n'
-        out += `=${tag.value}\n`
-        out += `// ${printEvaluationResult(spreadsheet.evaluate('A1'))}`
-        out += '\n```\n'
-      }
-
+      // Separator
       if (idx === functionNames.length - 1) {
         out += '\n'
       } else {
