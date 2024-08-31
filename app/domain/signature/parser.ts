@@ -17,7 +17,7 @@ export interface Signature {
   description(): string
 }
 
-enum TagKind {
+export enum TagKind {
   DESCRIPTION = 'description',
   PARAM = 'param',
 }
