@@ -35,7 +35,7 @@ function generateDocs() {
           // @ts-expect-error
           let signature = fns[name as keyof typeof fns].signature as Signature
 
-          return `   - [\`${printSignature(signature)}\`](#${signature.name.toLowerCase()})`
+          return `   - [${printSignature(signature)}](#${signature.name.toLowerCase()})`
         }),
       ]
     })
@@ -52,8 +52,11 @@ function generateDocs() {
       // @ts-expect-error
       let signature = fns[name as keyof typeof fns].signature as Signature
 
+      // Custom header link
+      out += `<a name="${signature.name.toLowerCase()}"></a>\n`
+
       // Header
-      out += `<a name="${signature.name.toLowerCase()}"></a>\n#### ${`${idx + 1}. \`${printSignature(signature)}\``}\n\n`
+      out += `#### ${printSignature(signature)}\n\n`
 
       // Link back to the top
       out += '[Back to top](#functions)\n\n'
