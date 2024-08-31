@@ -28,7 +28,13 @@ import {
 import { flushSync } from 'react-dom'
 import { printEvaluationResult } from '~/domain/evaluation'
 import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
-import { parse, parseLocation, printExpression, printLocation } from '~/domain/expression'
+import {
+  type Location,
+  parse,
+  parseLocation,
+  printExpression,
+  printLocation,
+} from '~/domain/expression'
 import * as functions from '~/domain/functions'
 import { printSignature } from '~/domain/signature/parser'
 import { Spreadsheet } from '~/domain/spreadsheet'
@@ -404,47 +410,55 @@ export default function Index() {
     }
   }, [vcs, spreadsheet])
 
+  let move = useCallback((mutate: (location: Location) => void) => {
+    return (cell: string) => {
+      // Parse the current cell
+      let parsed = parseLocation(cell)
+
+      // Mutate the location to the next cell
+      mutate(parsed)
+
+      // Print the new location
+      let nextCell = printLocation(parsed)
+
+      // Update the active cell
+      flushSync(() => {
+        setActiveCell(nextCell)
+      })
+
+      // Move focus to the corresponding button in the grid
+      let btn = document.querySelector(`button[data-cell-button=${nextCell}]`)
+      if (btn && btn.tagName === 'BUTTON') {
+        ;(btn as HTMLButtonElement).focus()
+      }
+    }
+  }, [])
+
   // Move active cell
-  let moveRight = useCallback(() => {
-    let parsed = parseLocation(cell)
-    parsed.col = Math.min(WIDTH, parsed.col + 1)
-    setActiveCell(printLocation(parsed))
-  }, [cell])
-  let moveLeftFirst = useCallback(() => {
-    let parsed = parseLocation(cell)
-    parsed.col = 1
-    setActiveCell(printLocation(parsed))
-  }, [cell])
-  let moveLeft = useCallback(() => {
-    let parsed = parseLocation(cell)
-    parsed.col = Math.max(1, parsed.col - 1)
-    setActiveCell(printLocation(parsed))
-  }, [cell])
-  let moveRightLast = useCallback(() => {
-    let parsed = parseLocation(cell)
-    parsed.col = WIDTH
-    setActiveCell(printLocation(parsed))
-  }, [cell])
-  let moveUp = useCallback(() => {
-    let parsed = parseLocation(cell)
-    parsed.row = Math.max(1, parsed.row - 1)
-    setActiveCell(printLocation(parsed))
-  }, [cell])
-  let moveUpFirst = useCallback(() => {
-    let parsed = parseLocation(cell)
-    parsed.row = 1
-    setActiveCell(printLocation(parsed))
-  }, [cell])
-  let moveDown = useCallback(() => {
-    let parsed = parseLocation(cell)
-    parsed.row = Math.min(HEIGHT, parsed.row + 1)
-    setActiveCell(printLocation(parsed))
-  }, [cell])
-  let moveDownLast = useCallback(() => {
-    let parsed = parseLocation(cell)
-    parsed.row = HEIGHT
-    setActiveCell(printLocation(parsed))
-  }, [cell])
+  let moveRight = move((loc) => {
+    loc.col = Math.min(WIDTH, loc.col + 1)
+  })
+  let moveLeftFirst = move((loc) => {
+    loc.col = 1
+  })
+  let moveLeft = move((loc) => {
+    loc.col = Math.max(1, loc.col - 1)
+  })
+  let moveRightLast = move((loc) => {
+    loc.col = WIDTH
+  })
+  let moveUp = move((loc) => {
+    loc.row = Math.max(1, loc.row - 1)
+  })
+  let moveUpFirst = move((loc) => {
+    loc.row = 1
+  })
+  let moveDown = move((loc) => {
+    loc.row = Math.min(HEIGHT, loc.row + 1)
+  })
+  let moveDownLast = move((loc) => {
+    loc.row = HEIGHT
+  })
 
   // Update input value when cell value changes
   useEffect(() => {
@@ -801,7 +815,7 @@ export default function Index() {
             let row = Math.floor(idx / (WIDTH + 1))
             let col = idx % (WIDTH + 1)
 
-            let id = `${String.fromCharCode(64 + col)}${row}`
+            let id = printLocation({ col, row, lock: 0 })
 
             let [contents, alt] = (() => {
               // Top left corner
@@ -821,7 +835,7 @@ export default function Index() {
                   <span
                     key="error"
                     data-error=""
-                    className="inline-flex items-center gap-1 rounded-md bg-red-50 px-1.5 py-0.5 font-medium text-red-700 text-xs ring-1 ring-red-600/10 ring-inset"
+                    className="pointer-events-none inline-flex items-center gap-1 rounded-md bg-red-50 px-1.5 py-0.5 font-medium text-red-700 text-xs ring-1 ring-red-600/10 ring-inset"
                   >
                     <ExclamationTriangleIcon className="size-4 shrink-0 text-red-600" />
                     <span>Error</span>
@@ -997,28 +1011,28 @@ export default function Index() {
                       // Default browser behavior
                     } else if (e.key === 'ArrowRight') {
                       e.preventDefault()
-                      moveRight()
+                      moveRight(cell)
                     } else if (e.key === 'ArrowLeft') {
                       e.preventDefault()
-                      moveLeft()
+                      moveLeft(cell)
                     } else if (e.key === 'ArrowUp') {
                       e.preventDefault()
-                      moveUp()
+                      moveUp(cell)
                     } else if (e.key === 'ArrowDown') {
                       e.preventDefault()
-                      moveDown()
+                      moveDown(cell)
                     } else if (e.key === 'PageUp') {
                       e.preventDefault()
-                      moveUpFirst()
+                      moveUpFirst(cell)
                     } else if (e.key === 'PageDown') {
                       e.preventDefault()
-                      moveDownLast()
+                      moveDownLast(cell)
                     } else if (e.key === 'Home') {
                       e.preventDefault()
-                      moveLeftFirst()
+                      moveLeftFirst(cell)
                     } else if (e.key === 'End') {
                       e.preventDefault()
-                      moveRightLast()
+                      moveRightLast(cell)
                     } else if (e.key === 'Enter' && spreadsheet.has(cell)) {
                       e.preventDefault()
                       // Move focus to the input, and start editing
