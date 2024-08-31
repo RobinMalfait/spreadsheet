@@ -30,7 +30,7 @@ export interface AstCellRange extends Span {
   end: AstCell
 }
 
-interface AstFunction extends Span {
+export interface AstFunction extends Span {
   kind: AstKind.FUNCTION
   name: string
   args: AST[]

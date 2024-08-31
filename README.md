@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **78** built-in functions available.
+There are **79** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -132,6 +132,8 @@ There are **78** built-in functions available.
    - [AS_STRING(value: T)](#as_string)
    - [AS_STRINGS(...values: T)](#as_strings)
    - [TYPE(value: T)](#type)
+- [Privileged functions](#privileged-functions)
+   - [INHERIT_FORMULA(cell: CELL)](#inherit_formula)
 
 ### Date functions
 
@@ -1818,6 +1820,22 @@ Returns the type of a value.
 ```ts
 =TYPE(B1)
 // "empty"
+```
+
+### Privileged functions
+
+<a name="inherit_formula"></a>
+#### INHERIT_FORMULA(cell: CELL)
+
+[Back to top](#functions)
+
+Inherit a formula from another cell. References to other cells in the formula will be updated to be relative to the current cell.
+
+#### Examples:
+
+```ts
+=INHERIT_FORMULA(B1)
+// 
 ```
 
 <!-- end:functions -->

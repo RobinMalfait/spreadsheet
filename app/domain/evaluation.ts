@@ -1,10 +1,21 @@
 import { format } from 'date-fns'
-import { type AST, AstKind, BinaryExpressionOperator } from '~/domain/ast'
+import {
+  type AST,
+  type AstFunction,
+  AstKind,
+  BinaryExpressionOperator,
+} from '~/domain/ast'
 import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
-import { applyLocationDelta, locationDelta, parseLocation } from '~/domain/expression'
 import * as functions from '~/domain/functions'
+import * as privilegedFunctions from '~/domain/functions/privileged'
 import type { Spreadsheet } from '~/domain/spreadsheet'
-import { WalkAction, expandRange, walk } from '~/domain/walk-ast'
+import { expandRange } from '~/domain/walk-ast'
+
+export interface Context {
+  ast: AstFunction
+  spreadsheet: Spreadsheet
+  cell: string
+}
 
 export function evaluateExpression(
   ast: AST,
@@ -109,55 +120,15 @@ export function evaluateExpression(
     }
 
     case AstKind.FUNCTION: {
-      // Special case for `INHERIT_FORMULA`
-      if (ast.name === 'INHERIT_FORMULA') {
-        if (ast.args.length !== 1) {
-          return {
-            kind: EvaluationResultKind.ERROR,
-            value: 'Expected exactly one argument',
-          }
+      // Privileged functions are functions that have access to the spreadsheet.
+      if (Object.hasOwn(privilegedFunctions, ast.name)) {
+        let ctx: Context = {
+          ast,
+          spreadsheet,
+          cell,
         }
 
-        if (ast.args[0]?.kind !== AstKind.CELL) {
-          return { kind: EvaluationResultKind.ERROR, value: 'Expected a cell reference' }
-        }
-
-        let referenceCell = ast.args[0]
-        let currentCell = parseLocation(cell)
-        let delta = locationDelta(referenceCell.loc, currentCell)
-
-        let referenceCellAST = spreadsheet.getAST(referenceCell.name)
-        if (!referenceCellAST) return { kind: EvaluationResultKind.EMPTY, value: '' }
-
-        // Inheriting a formula from a cell that itself has the
-        // `INHERIT_FORMULA` function should proxy through to the cell that the
-        // reference cell is inheriting from.
-        if (
-          referenceCellAST.kind === AstKind.FUNCTION &&
-          referenceCellAST.name === 'INHERIT_FORMULA'
-        ) {
-          return evaluateExpression(referenceCellAST, spreadsheet, cell)
-        }
-
-        // Clone the reference cell AST so we don't modify the original
-        referenceCellAST = structuredClone(referenceCellAST)
-
-        // Update all cell references in the cloned AST to make them relative to
-        // the current cell.
-        walk([referenceCellAST], (node) => {
-          if (node.kind === AstKind.CELL) {
-            applyLocationDelta(node, delta)
-          }
-
-          if (node.kind === AstKind.RANGE) {
-            applyLocationDelta(node.start, delta)
-            applyLocationDelta(node.end, delta)
-          }
-
-          return WalkAction.Continue
-        })
-
-        return evaluateExpression(referenceCellAST, spreadsheet, cell)
+        return privilegedFunctions[ast.name as keyof typeof privilegedFunctions](ctx)
       }
 
       if (!Object.hasOwn(functions, ast.name)) {

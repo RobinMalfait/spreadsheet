@@ -10,6 +10,7 @@ import * as sequenceFunctions from '~/domain/functions/sequence'
 import * as statisticsFunctions from '~/domain/functions/statistics'
 import * as textFunctions from '~/domain/functions/text'
 import * as typeFunctions from '~/domain/functions/types'
+import * as privilegedFunctions from '~/domain/functions/privileged'
 import { type Signature, TagKind, printSignature } from '~/domain/signature/parser'
 import { Spreadsheet } from '~/domain/spreadsheet'
 import { tokenize } from '~/domain/tokenizer'
@@ -28,6 +29,7 @@ const categories = [
   ['Statistical functions', statisticsFunctions],
   ['Text functions', textFunctions],
   ['Type functions', typeFunctions],
+  ['Privileged functions', privilegedFunctions],
 ] as const
 
 const spreadsheet = new Spreadsheet()
