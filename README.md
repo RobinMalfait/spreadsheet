@@ -70,34 +70,34 @@ Once you write a formula, you will get some syntax highlighting.
    - [ABS(x: NUMBER)](#abs)
    - [ACOS(x: NUMBER)](#acos)
    - [ACOSH(x: NUMBER)](#acosh)
-   - [ADD(lhs: NUMBER, rhs: NUMBER)](#add)
+   - [ADD(x: NUMBER, y: NUMBER)](#add)
    - [ASIN(x: NUMBER)](#asin)
    - [ASINH(x: NUMBER)](#asinh)
    - [ATAN(x: NUMBER)](#atan)
    - [ATAN2(y: NUMBER, x: NUMBER)](#atan2)
    - [ATANH(x: NUMBER)](#atanh)
    - [CBRT(x: NUMBER)](#cbrt)
-   - [CEIL(value: NUMBER)](#ceil)
+   - [CEIL(x: NUMBER)](#ceil)
    - [CLZ32(x: NUMBER)](#clz32)
    - [COS(x: NUMBER)](#cos)
    - [COSH(x: NUMBER)](#cosh)
-   - [DIVIDE(lhs: NUMBER, rhs: NUMBER)](#divide)
+   - [DIVIDE(x: NUMBER, y: NUMBER)](#divide)
    - [EXP(x: NUMBER)](#exp)
-   - [FLOOR(value: NUMBER)](#floor)
+   - [FLOOR(x: NUMBER)](#floor)
    - [IMUL(x: NUMBER, y: NUMBER)](#imul)
    - [LOG(x: NUMBER)](#log)
    - [LOG10(x: NUMBER)](#log10)
-   - [MOD(lhs: NUMBER, rhs: NUMBER)](#mod)
-   - [MULTIPLY(lhs: NUMBER, rhs: NUMBER)](#multiply)
+   - [MOD(x: NUMBER, y: NUMBER)](#mod)
+   - [MULTIPLY(x: NUMBER, y: NUMBER)](#multiply)
    - [PI()](#pi)
-   - [POWER(lhs: NUMBER, rhs: NUMBER)](#power)
-   - [PRODUCT(...args: T)](#product)
-   - [ROUND(value: NUMBER, places?: NUMBER)](#round)
+   - [POWER(x: NUMBER, y: NUMBER)](#power)
+   - [PRODUCT(...values: T)](#product)
+   - [ROUND(x: NUMBER, places?: NUMBER)](#round)
    - [SIN(x: NUMBER)](#sin)
    - [SINH(x: NUMBER)](#sinh)
    - [SQRT(x: NUMBER)](#sqrt)
-   - [SUBTRACT(lhs: NUMBER, rhs: NUMBER)](#subtract)
-   - [SUM(...args: T)](#sum)
+   - [SUBTRACT(x: NUMBER, y: NUMBER)](#subtract)
+   - [SUM(...values: T)](#sum)
    - [TAN(x: NUMBER)](#tan)
    - [TANH(x: NUMBER)](#tanh)
    - [TAU()](#tau)
@@ -493,9 +493,16 @@ The boolean value true.
 
 [Back to top](#functions)
 
-The ABS function
+The ABS function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=ABS(1)
+// 1
+```
 
 ---
 
@@ -504,9 +511,16 @@ The ABS function
 
 [Back to top](#functions)
 
-The ACOS function
+The ACOS function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=ACOS(1)
+// 0
+```
 
 ---
 
@@ -515,18 +529,35 @@ The ACOS function
 
 [Back to top](#functions)
 
-The ACOSH function
+The ACOSH function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=ACOSH(1)
+// 0
+```
 
 ---
 
 <a name="add"></a>
-#### ADD(lhs: NUMBER, rhs: NUMBER)
+#### ADD(x: NUMBER, y: NUMBER)
 
 [Back to top](#functions)
 
-Add two numbers
+Add two numbers.
+
+- `x`: The first number.
+- `y`: The second number.
+
+#### Examples:
+
+```ts
+=ADD(1, 2)
+// 3
+```
 
 ---
 
@@ -535,9 +566,16 @@ Add two numbers
 
 [Back to top](#functions)
 
-The ASIN function
+The ASIN function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=ASIN(1)
+// 1.5707963267948966
+```
 
 ---
 
@@ -546,9 +584,16 @@ The ASIN function
 
 [Back to top](#functions)
 
-The ASINH function
+The ASINH function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=ASINH(1)
+// 0.881373587019543
+```
 
 ---
 
@@ -557,9 +602,16 @@ The ASINH function
 
 [Back to top](#functions)
 
-The ATAN function
+The ATAN function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=ATAN(1)
+// 0.7853981633974483
+```
 
 ---
 
@@ -573,6 +625,13 @@ The angle (in radians) from the X axis to a point.
 - `y`: A numeric expression representing the cartesian y-coordinate.
 - `x`: A numeric expression representing the cartesian x-coordinate.
 
+#### Examples:
+
+```ts
+=ATAN2(1, 1)
+// 0.7853981633974483
+```
+
 ---
 
 <a name="atanh"></a>
@@ -580,9 +639,16 @@ The angle (in radians) from the X axis to a point.
 
 [Back to top](#functions)
 
-The ATANH function
+The ATANH function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=ATANH(1)
+// Infinity
+```
 
 ---
 
@@ -591,18 +657,34 @@ The ATANH function
 
 [Back to top](#functions)
 
-The CBRT function
+The CBRT function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=CBRT(1)
+// 1
+```
 
 ---
 
 <a name="ceil"></a>
-#### CEIL(value: NUMBER)
+#### CEIL(x: NUMBER)
 
 [Back to top](#functions)
 
-Ceil the number
+Returns the smallest integer greater than or equal to its numeric argument.
+
+- `x`: A numeric expression.
+
+#### Examples:
+
+```ts
+=CEIL(1.5)
+// 2
+```
 
 ---
 
@@ -611,9 +693,16 @@ Ceil the number
 
 [Back to top](#functions)
 
-The CLZ32 function
+The CLZ32 function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=CLZ32(1)
+// 31
+```
 
 ---
 
@@ -622,9 +711,16 @@ The CLZ32 function
 
 [Back to top](#functions)
 
-The COS function
+The COS function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=COS(1)
+// 0.5403023058681398
+```
 
 ---
 
@@ -633,18 +729,35 @@ The COS function
 
 [Back to top](#functions)
 
-The COSH function
+The COSH function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=COSH(1)
+// 1.5430806348152437
+```
 
 ---
 
 <a name="divide"></a>
-#### DIVIDE(lhs: NUMBER, rhs: NUMBER)
+#### DIVIDE(x: NUMBER, y: NUMBER)
 
 [Back to top](#functions)
 
-Divide the lhs by the rhs
+Returns the result of dividing two numbers.
+
+- `x`: The dividend.
+- `y`: The divisor.
+
+#### Examples:
+
+```ts
+=DIVIDE(6, 3)
+// 2
+```
 
 ---
 
@@ -653,18 +766,34 @@ Divide the lhs by the rhs
 
 [Back to top](#functions)
 
-The EXP function
+The EXP function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=EXP(1)
+// 2.718281828459045
+```
 
 ---
 
 <a name="floor"></a>
-#### FLOOR(value: NUMBER)
+#### FLOOR(x: NUMBER)
 
 [Back to top](#functions)
 
-Floor the number
+Returns the greatest integer less than or equal to its numeric argument.
+
+- `x`: A numeric expression.
+
+#### Examples:
+
+```ts
+=FLOOR(1.5)
+// 1
+```
 
 ---
 
@@ -678,6 +807,13 @@ The result of 32-bit multiplication of two numbers.
 - `x`: First number
 - `y`: Second number
 
+#### Examples:
+
+```ts
+=IMUL(1, 2)
+// 2
+```
+
 ---
 
 <a name="log"></a>
@@ -685,9 +821,16 @@ The result of 32-bit multiplication of two numbers.
 
 [Back to top](#functions)
 
-The LOG function
+The LOG function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=LOG(1)
+// 0
+```
 
 ---
 
@@ -696,27 +839,54 @@ The LOG function
 
 [Back to top](#functions)
 
-The LOG10 function
+The LOG10 function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=LOG10(1)
+// 0
+```
 
 ---
 
 <a name="mod"></a>
-#### MOD(lhs: NUMBER, rhs: NUMBER)
+#### MOD(x: NUMBER, y: NUMBER)
 
 [Back to top](#functions)
 
-Mod the lhs by the rhs
+Returns the remainder of the division of two numbers.
+
+- `x`: The dividend.
+- `y`: The divisor.
+
+#### Examples:
+
+```ts
+=MOD(5, 2)
+// 1
+```
 
 ---
 
 <a name="multiply"></a>
-#### MULTIPLY(lhs: NUMBER, rhs: NUMBER)
+#### MULTIPLY(x: NUMBER, y: NUMBER)
 
 [Back to top](#functions)
 
-Multiply two numbers
+Multiply two numbers.
+
+- `x`: The first number.
+- `y`: The second number.
+
+#### Examples:
+
+```ts
+=MULTIPLY(2, 3)
+// 6
+```
 
 ---
 
@@ -725,34 +895,75 @@ Multiply two numbers
 
 [Back to top](#functions)
 
-The number π
+The number π.
+
+#### Examples:
+
+```ts
+=PI()
+// 3.141592653589793
+```
 
 ---
 
 <a name="power"></a>
-#### POWER(lhs: NUMBER, rhs: NUMBER)
+#### POWER(x: NUMBER, y: NUMBER)
 
 [Back to top](#functions)
 
-Power the lhs by the rhs
+Returns the value of a base expression taken to a specified power.
+
+- `x`: The base value of the expression.
+- `y`: The exponent value of the expression.
+
+#### Examples:
+
+```ts
+=POWER(2, 3)
+// 8
+```
 
 ---
 
 <a name="product"></a>
-#### PRODUCT(...args: T)
+#### PRODUCT(...values: T)
 
 [Back to top](#functions)
 
-Returns the product of all arguments
+Returns the product of all arguments.
+
+- `values`: The numbers to multiply.
+
+#### Examples:
+
+```ts
+=PRODUCT(2, 3, 4)
+// 24
+```
 
 ---
 
 <a name="round"></a>
-#### ROUND(value: NUMBER, places?: NUMBER)
+#### ROUND(x: NUMBER, places?: NUMBER)
 
 [Back to top](#functions)
 
-Round the number
+Round the number to the nearest integer (or ).
+
+- `value`: The number to round.
+- `places`: The number of decimal places to round to.
+
+#### Examples:
+
+```ts
+=ROUND(1.5)
+// 2
+```
+
+```ts
+=ROUND(PI(), 2)
+// 3.14
+```
 
 ---
 
@@ -761,9 +972,16 @@ Round the number
 
 [Back to top](#functions)
 
-The SIN function
+The SIN function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=SIN(1)
+// 0.8414709848078965
+```
 
 ---
 
@@ -772,9 +990,16 @@ The SIN function
 
 [Back to top](#functions)
 
-The SINH function
+The SINH function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=SINH(1)
+// 1.1752011936438014
+```
 
 ---
 
@@ -783,27 +1008,53 @@ The SINH function
 
 [Back to top](#functions)
 
-The SQRT function
+The SQRT function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=SQRT(1)
+// 1
+```
 
 ---
 
 <a name="subtract"></a>
-#### SUBTRACT(lhs: NUMBER, rhs: NUMBER)
+#### SUBTRACT(x: NUMBER, y: NUMBER)
 
 [Back to top](#functions)
 
-Subtract two numbers
+Subtract two numbers.
+
+- `x`: The first number.
+- `y`: The second number.
+
+#### Examples:
+
+```ts
+=SUBTRACT(2, 1)
+// 1
+```
 
 ---
 
 <a name="sum"></a>
-#### SUM(...args: T)
+#### SUM(...values: T)
 
 [Back to top](#functions)
 
-Returns the sum of all arguments
+Returns the sum of all arguments.
+
+- `values`: The numbers to sum.
+
+#### Examples:
+
+```ts
+=SUM(1, 2, 3)
+// 6
+```
 
 ---
 
@@ -812,9 +1063,16 @@ Returns the sum of all arguments
 
 [Back to top](#functions)
 
-The TAN function
+The TAN function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=TAN(1)
+// 1.557407724654902
+```
 
 ---
 
@@ -823,9 +1081,16 @@ The TAN function
 
 [Back to top](#functions)
 
-The TANH function
+The TANH function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=TANH(1)
+// 0.7615941559557649
+```
 
 ---
 
@@ -834,7 +1099,14 @@ The TANH function
 
 [Back to top](#functions)
 
-The number τ
+The number τ.
+
+#### Examples:
+
+```ts
+=TAU()
+// 6.283185307179586
+```
 
 ---
 
@@ -843,9 +1115,16 @@ The number τ
 
 [Back to top](#functions)
 
-The TRUNC function
+The TRUNC function.
 
-- `x`: A numeric expression
+- `x`: A number.
+
+#### Examples:
+
+```ts
+=TRUNC(1)
+// 1
+```
 
 ### Sequence functions (1)
 
