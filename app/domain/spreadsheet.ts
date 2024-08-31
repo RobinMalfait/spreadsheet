@@ -1,14 +1,10 @@
 import { type AST, AstKind } from '~/domain/ast'
-import {
-  type EvaluationResult,
-  EvaluationResultKind,
-  evaluateExpression,
-} from '~/domain/evaluation'
+import { evaluateExpression } from '~/domain/evaluation'
+import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
 import { parse } from '~/domain/expression'
 import * as functions from '~/domain/functions'
 import { tokenize } from '~/domain/tokenizer'
 import { WalkAction, walk } from '~/domain/walk-ast'
-import { DefaultMap } from '~/utils/default-map'
 
 export class Spreadsheet {
   // Track each individual cell and it's contents. AST is pre-parsed.

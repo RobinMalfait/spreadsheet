@@ -120,6 +120,22 @@ describe('number literal', () => {
 })
 
 describe('string literal', () => {
+  it('should tokenize an empty string literal', () => {
+    expect(tokenize('""')).toMatchInlineSnapshot(json`
+      [
+        {
+          "kind": "STRING_LITERAL",
+          "raw": """",
+          "span": {
+            "end": 2,
+            "start": 0,
+          },
+          "value": "",
+        },
+      ]
+    `)
+  })
+
   it('should tokenize a string literal', () => {
     expect(tokenize('"hello world"')).toMatchInlineSnapshot(json`
       [

@@ -1,39 +1,45 @@
-import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation'
+import {
+  type EvaluationResult,
+  EvaluationResultKind,
+  type EvaluationResultNumber,
+} from '~/domain/evaluation-result'
+import { expose } from '~/domain/function-utils'
 
-export function PI(extra?: EvaluationResult): EvaluationResult {
-  if (extra) {
-    return { kind: EvaluationResultKind.ERROR, value: 'PI() does not take any arguments' }
-  }
+export const PI = expose(
+  `
+    @description The number π
+    PI()
+  `,
+  () => {
+    return { kind: EvaluationResultKind.NUMBER, value: Math.PI }
+  },
+)
 
-  return { kind: EvaluationResultKind.NUMBER, value: Math.PI }
-}
+export const TAU = expose(
+  `
+    @description The number τ
+    TAU()
+  `,
+  () => {
+    return { kind: EvaluationResultKind.NUMBER, value: 2 * Math.PI }
+  },
+)
 
-export function TAU(extra?: EvaluationResult): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: 'TAU() does not take any arguments',
-    }
-  }
-
-  return { kind: EvaluationResultKind.NUMBER, value: 2 * Math.PI }
-}
-
-function exposeUnaryMathFunction(name: string, fn: (input: number) => number) {
-  return (arg?: EvaluationResult): EvaluationResult => {
-    if (arg === undefined) {
-      return { kind: EvaluationResultKind.ERROR, value: `${name}() requires an argument` }
-    }
-
-    if (arg.kind !== EvaluationResultKind.NUMBER) {
-      return {
-        kind: EvaluationResultKind.ERROR,
-        value: `${name}() expects a number, got ${arg.value}`,
-      }
-    }
-
-    return { kind: EvaluationResultKind.NUMBER, value: fn(arg.value) }
-  }
+function exposeUnaryMathFunction(
+  name: string,
+  fn: (input: number) => number,
+  description?: string,
+) {
+  return expose(
+    `
+      @description ${description ?? `The ${name} function`}
+      @param x A numeric expression
+      ${name}(x: NUMBER)
+    `,
+    (arg: EvaluationResultNumber) => {
+      return { kind: EvaluationResultKind.NUMBER, value: fn(arg.value) }
+    },
+  )
 }
 
 export const ABS = exposeUnaryMathFunction('ABS', Math.abs)
@@ -57,372 +63,191 @@ export const TAN = exposeUnaryMathFunction('TAN', Math.tan)
 export const TANH = exposeUnaryMathFunction('TANH', Math.tanh)
 export const TRUNC = exposeUnaryMathFunction('TRUNC', Math.trunc)
 
-function exposeBinaryMathFunction(
-  name: string,
-  fn: (lhs: number, rhs: number) => number,
-) {
-  return (
-    lhs?: EvaluationResult,
-    rhs?: EvaluationResult,
-    extra?: EvaluationResult,
-  ): EvaluationResult => {
-    if (lhs === undefined || rhs === undefined) {
-      return {
-        kind: EvaluationResultKind.ERROR,
-        value: `${name}() requires two arguments`,
+export const ATAN2 = expose(
+  `
+    @description The angle (in radians) from the X axis to a point.
+    @param y A numeric expression representing the cartesian y-coordinate.
+    @param x A numeric expression representing the cartesian x-coordinate.
+    ATAN2(y: NUMBER, x: NUMBER)
+  `,
+  (y: EvaluationResultNumber, x: EvaluationResultNumber) => {
+    return { kind: EvaluationResultKind.NUMBER, value: Math.atan2(y.value, x.value) }
+  },
+)
+
+export const IMUL = expose(
+  `
+    @description The result of 32-bit multiplication of two numbers.
+    @param x First number
+    @param y Second number
+    IMUL(x: NUMBER, y: NUMBER)
+  `,
+  (x: EvaluationResultNumber, y: EvaluationResultNumber) => {
+    return { kind: EvaluationResultKind.NUMBER, value: Math.imul(x.value, y.value) }
+  },
+)
+
+export const SUM = expose(
+  `
+    @description Returns the sum of all arguments
+    SUM(...args: T)
+  `,
+  (...args: EvaluationResult[]) => {
+    let out = 0
+
+    for (let arg of args) {
+      switch (arg.kind) {
+        case EvaluationResultKind.ERROR:
+          return arg
+        case EvaluationResultKind.NUMBER:
+          out += arg.value
+          break
+        case EvaluationResultKind.EMPTY:
+        case EvaluationResultKind.BOOLEAN:
+        case EvaluationResultKind.STRING:
+        case EvaluationResultKind.DATETIME:
+          // Explicitly ignored
+          break
+        default:
+          arg satisfies never
       }
     }
 
-    if (lhs.kind !== EvaluationResultKind.NUMBER) {
-      return {
-        kind: EvaluationResultKind.ERROR,
-        value: `${name}() expects a number, got ${lhs.value}`,
+    return { kind: EvaluationResultKind.NUMBER, value: out }
+  },
+)
+
+export const ADD = expose(
+  `
+    @description Add two numbers
+    ADD(lhs: NUMBER, rhs: NUMBER)
+  `,
+  (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
+    return { kind: EvaluationResultKind.NUMBER, value: lhs.value + rhs.value }
+  },
+)
+
+export const SUBTRACT = expose(
+  `
+    @description Subtract two numbers
+    SUBTRACT(lhs: NUMBER, rhs: NUMBER)
+  `,
+  (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
+    return { kind: EvaluationResultKind.NUMBER, value: lhs.value - rhs.value }
+  },
+)
+
+export const MULTIPLY = expose(
+  `
+    @description Multiply two numbers
+    MULTIPLY(lhs: NUMBER, rhs: NUMBER)
+  `,
+  (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
+    return { kind: EvaluationResultKind.NUMBER, value: lhs.value * rhs.value }
+  },
+)
+
+export const PRODUCT = expose(
+  `
+    @description Returns the product of all arguments
+    PRODUCT(...args: T)
+  `,
+  (...args: EvaluationResult[]) => {
+    let hasArgument = false
+    let out = 1
+
+    for (let arg of args) {
+      switch (arg.kind) {
+        case EvaluationResultKind.ERROR:
+          return arg
+        case EvaluationResultKind.NUMBER:
+          hasArgument = true
+          out *= arg.value
+          break
+        case EvaluationResultKind.EMPTY:
+        case EvaluationResultKind.STRING:
+        case EvaluationResultKind.BOOLEAN:
+        case EvaluationResultKind.DATETIME:
+          // Explicitly ignored
+          break
+        default:
+          arg satisfies never
       }
     }
 
-    if (rhs.kind !== EvaluationResultKind.NUMBER) {
-      return {
-        kind: EvaluationResultKind.ERROR,
-        value: `${name}() expects a number, got ${rhs.value}`,
-      }
+    return { kind: EvaluationResultKind.NUMBER, value: hasArgument ? out : 0 }
+  },
+)
+
+export const DIVIDE = expose(
+  `
+    @description Divide the lhs by the rhs
+    DIVIDE(lhs: NUMBER, rhs: NUMBER)
+  `,
+  (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
+    if (rhs.value === 0) {
+      return { kind: EvaluationResultKind.ERROR, value: 'DIVIDE() cannot divide by zero' }
     }
 
-    if (extra) {
-      return {
-        kind: EvaluationResultKind.ERROR,
-        value: `${name}() does not take a third argument, got ${extra.value}`,
-      }
+    return { kind: EvaluationResultKind.NUMBER, value: lhs.value / rhs.value }
+  },
+)
+
+export const POWER = expose(
+  `
+    @description Power the lhs by the rhs
+    POWER(lhs: NUMBER, rhs: NUMBER)
+  `,
+  (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
+    return { kind: EvaluationResultKind.NUMBER, value: lhs.value ** rhs.value }
+  },
+)
+
+export const MOD = expose(
+  `
+    @description Mod the lhs by the rhs
+    MOD(lhs: NUMBER, rhs: NUMBER)
+  `,
+  (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
+    if (rhs.value === 0) {
+      return { kind: EvaluationResultKind.ERROR, value: 'MOD() cannot mod by zero' }
     }
 
-    return { kind: EvaluationResultKind.NUMBER, value: fn(lhs.value, rhs.value) }
-  }
-}
+    return { kind: EvaluationResultKind.NUMBER, value: lhs.value % rhs.value }
+  },
+)
 
-export const ATAN2 = exposeBinaryMathFunction('ATAN2', Math.atan2)
-export const IMUL = exposeBinaryMathFunction('IMUL', Math.imul)
+export const FLOOR = expose(
+  `
+    @description Floor the number
+    FLOOR(value: NUMBER)
+  `,
+  (value: EvaluationResultNumber) => {
+    return { kind: EvaluationResultKind.NUMBER, value: Math.floor(value.value) }
+  },
+)
 
-export function SUM(...args: EvaluationResult[]): EvaluationResult {
-  if (args.length === 0) {
-    return { kind: EvaluationResultKind.NUMBER, value: 0 }
-  }
+export const CEIL = expose(
+  `
+    @description Ceil the number
+    CEIL(value: NUMBER)
+  `,
+  (value: EvaluationResultNumber) => {
+    return { kind: EvaluationResultKind.NUMBER, value: Math.ceil(value.value) }
+  },
+)
 
-  let out = 0
+export const ROUND = expose(
+  `
+    @description Round the number
+    ROUND(value: NUMBER, places?: NUMBER)
+  `,
+  (value: EvaluationResultNumber, places: EvaluationResultNumber) => {
+    let decimals = places?.value ?? 0
 
-  for (let arg of args) {
-    switch (arg.kind) {
-      case EvaluationResultKind.ERROR:
-        return arg
-      case EvaluationResultKind.NUMBER:
-        out += arg.value
-        break
-      case EvaluationResultKind.EMPTY:
-      case EvaluationResultKind.BOOLEAN:
-      case EvaluationResultKind.STRING:
-      case EvaluationResultKind.DATETIME:
-        // Explicitly ignored
-        break
-      default:
-        arg satisfies never
-    }
-  }
-
-  return { kind: EvaluationResultKind.NUMBER, value: out }
-}
-
-export function ADD(
-  lhs?: EvaluationResult,
-  rhs?: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
     return {
-      kind: EvaluationResultKind.ERROR,
-      value: `ADD() does not take a third argument, got ${extra.value}`,
+      kind: EvaluationResultKind.NUMBER,
+      value: Math.round(value.value * 10 ** decimals) / 10 ** decimals,
     }
-  }
-
-  if (lhs?.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `ADD() expects a number as the first argument, got ${lhs?.value ?? '<nothing>'}`,
-    }
-  }
-
-  if (rhs?.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `ADD() expects a number as the second argument, got ${rhs?.value ?? '<nothing>'}`,
-    }
-  }
-
-  return { kind: EvaluationResultKind.NUMBER, value: lhs.value + rhs.value }
-}
-
-export function SUBTRACT(
-  lhs?: EvaluationResult,
-  rhs?: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `SUBTRACT() does not take a third argument, got ${extra.value}`,
-    }
-  }
-
-  if (lhs?.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `SUBTRACT() expects a number as the first argument, got ${lhs?.value ?? '<nothing>'}`,
-    }
-  }
-
-  if (rhs?.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `SUBTRACT() expects a number as the second argument, got ${rhs?.value ?? '<nothing>'}`,
-    }
-  }
-
-  return { kind: EvaluationResultKind.NUMBER, value: lhs.value - rhs.value }
-}
-
-export function MULTIPLY(
-  lhs?: EvaluationResult,
-  rhs?: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `MULTIPLY() does not take a third argument, got ${extra.value}`,
-    }
-  }
-
-  if (lhs?.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `MULTIPLY() expects a number as the first argument, got ${lhs?.value ?? '<nothing>'}`,
-    }
-  }
-
-  if (rhs?.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `MULTIPLY() expects a number as the second argument, got ${rhs?.value ?? '<nothing>'}`,
-    }
-  }
-
-  let out = lhs.value * rhs.value
-
-  return { kind: EvaluationResultKind.NUMBER, value: out }
-}
-
-export function PRODUCT(...args: EvaluationResult[]): EvaluationResult {
-  if (args.length === 0) {
-    return { kind: EvaluationResultKind.NUMBER, value: 0 }
-  }
-
-  let hasArgument = false
-  let out = 1
-
-  for (let arg of args) {
-    switch (arg.kind) {
-      case EvaluationResultKind.ERROR:
-        return arg
-      case EvaluationResultKind.NUMBER:
-        hasArgument = true
-        out *= arg.value
-        break
-      case EvaluationResultKind.EMPTY:
-      case EvaluationResultKind.STRING:
-      case EvaluationResultKind.BOOLEAN:
-      case EvaluationResultKind.DATETIME:
-        // Explicitly ignored
-        break
-      default:
-        arg satisfies never
-    }
-  }
-
-  return { kind: EvaluationResultKind.NUMBER, value: hasArgument ? out : 0 }
-}
-
-export function DIVIDE(
-  lhs?: EvaluationResult,
-  rhs?: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `DIVIDE() does not take a third argument, got ${extra.value}`,
-    }
-  }
-
-  if (lhs?.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `DIVIDE() expects a number as the dividend, got ${lhs?.value ?? '<nothing>'}`,
-    }
-  }
-
-  if (rhs?.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `DIVIDE() expects a number as the divisor, got ${rhs?.value ?? '<nothing>'}`,
-    }
-  }
-
-  if (rhs.value === 0) {
-    return { kind: EvaluationResultKind.ERROR, value: 'DIVIDE() cannot divide by zero' }
-  }
-
-  let out = lhs.value / rhs.value
-
-  return { kind: EvaluationResultKind.NUMBER, value: out }
-}
-
-export function POWER(
-  lhs?: EvaluationResult,
-  rhs?: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `POWER() does not take a third argument, got ${extra.value}`,
-    }
-  }
-
-  if (lhs?.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `POWER() expects a number as the base, got ${lhs?.value ?? '<nothing>'}`,
-    }
-  }
-
-  if (rhs?.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `POWER() expects a number as the exponent, got ${rhs?.value ?? '<nothing>'}`,
-    }
-  }
-
-  return { kind: EvaluationResultKind.NUMBER, value: lhs.value ** rhs.value }
-}
-
-export function MOD(
-  num?: EvaluationResult,
-  divisor?: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `MOD() does not take a third argument, got ${extra.value}`,
-    }
-  }
-
-  if (num === undefined || divisor === undefined) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `MOD() requires two arguments, got ${[num, divisor].filter(Boolean).length}`,
-    }
-  }
-
-  if (num.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `MOD() expects a number as the number, got ${num.value}`,
-    }
-  }
-
-  if (divisor.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `MOD() expects a number as the divisor, got ${num.value}`,
-    }
-  }
-
-  if (divisor.value === 0) {
-    return { kind: EvaluationResultKind.ERROR, value: 'MOD() cannot divide by zero' }
-  }
-
-  let out = num.value % divisor.value
-
-  return { kind: EvaluationResultKind.NUMBER, value: out }
-}
-
-export function FLOOR(
-  arg?: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `FLOOR() does not take a second argument, got ${extra.value}`,
-    }
-  }
-
-  if (arg?.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `FLOOR() expects a number as the first argument, got ${arg?.value ?? '<nothing>'}`,
-    }
-  }
-
-  return { kind: EvaluationResultKind.NUMBER, value: Math.floor(arg.value) }
-}
-
-export function CEIL(arg?: EvaluationResult, extra?: EvaluationResult): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `CEIL() does not take a second argument, got ${extra.value}`,
-    }
-  }
-
-  if (arg?.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `CEIL() expects a number as the first argument, got ${arg?.value ?? '<nothing>'}`,
-    }
-  }
-
-  return { kind: EvaluationResultKind.NUMBER, value: Math.ceil(arg.value) }
-}
-
-export function ROUND(
-  arg?: EvaluationResult,
-  places?: EvaluationResult,
-  extra?: EvaluationResult,
-): EvaluationResult {
-  if (extra) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `ROUND() does not take a third argument, got ${extra.value}`,
-    }
-  }
-
-  if (arg?.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `ROUND() expects a number as the first argument, got ${arg?.value ?? '<nothing>'}`,
-    }
-  }
-
-  if (places !== undefined && places.kind !== EvaluationResultKind.NUMBER) {
-    return {
-      kind: EvaluationResultKind.ERROR,
-      value: `ROUND() expects a number as the second argument, got ${places.value}`,
-    }
-  }
-
-  let decimals = places?.value ?? 0
-
-  return {
-    kind: EvaluationResultKind.NUMBER,
-    value: Math.round(arg.value * 10 ** decimals) / 10 ** decimals,
-  }
-}
+  },
+)

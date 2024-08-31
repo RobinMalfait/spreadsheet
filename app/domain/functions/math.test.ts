@@ -89,7 +89,7 @@ describe('ABS', () => {
 
       Errors:
 
-      · A1: ABS() requires an argument
+      · A1: ABS(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -108,7 +108,7 @@ describe('ABS', () => {
 
       Errors:
 
-      · A1: ABS() expects a number, got true
+      · A1: ABS(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -119,11 +119,15 @@ describe('ABS', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┐
-      │   │ A │
-      ├───┼───┤
-      │ 1 │ 1 │
-      └───┴───┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: ABS(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -162,7 +166,7 @@ describe('ACOS', () => {
 
       Errors:
 
-      · A1: ACOS() requires an argument
+      · A1: ACOS(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -181,7 +185,7 @@ describe('ACOS', () => {
 
       Errors:
 
-      · A1: ACOS() expects a number, got true
+      · A1: ACOS(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -192,11 +196,15 @@ describe('ACOS', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┐
-      │   │ A │
-      ├───┼───┤
-      │ 1 │ 0 │
-      └───┴───┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: ACOS(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -235,7 +243,7 @@ describe('ACOSH', () => {
 
       Errors:
 
-      · A1: ACOSH() requires an argument
+      · A1: ACOSH(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -254,7 +262,7 @@ describe('ACOSH', () => {
 
       Errors:
 
-      · A1: ACOSH() expects a number, got true
+      · A1: ACOSH(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -265,11 +273,15 @@ describe('ACOSH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┐
-      │   │ A │
-      ├───┼───┤
-      │ 1 │ 0 │
-      └───┴───┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: ACOSH(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -308,7 +320,7 @@ describe('ASIN', () => {
 
       Errors:
 
-      · A1: ASIN() requires an argument
+      · A1: ASIN(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -327,7 +339,7 @@ describe('ASIN', () => {
 
       Errors:
 
-      · A1: ASIN() expects a number, got true
+      · A1: ASIN(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -338,11 +350,15 @@ describe('ASIN', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────────────────┐
-      │   │ A                  │
-      ├───┼────────────────────┤
-      │ 1 │ 1.5707963267948966 │
-      └───┴────────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: ASIN(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -381,7 +397,7 @@ describe('ASINH', () => {
 
       Errors:
 
-      · A1: ASINH() requires an argument
+      · A1: ASINH(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -400,7 +416,7 @@ describe('ASINH', () => {
 
       Errors:
 
-      · A1: ASINH() expects a number, got true
+      · A1: ASINH(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -411,11 +427,15 @@ describe('ASINH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───────────────────┐
-      │   │ A                 │
-      ├───┼───────────────────┤
-      │ 1 │ 0.881373587019543 │
-      └───┴───────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: ASINH(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -454,7 +474,7 @@ describe('ATAN', () => {
 
       Errors:
 
-      · A1: ATAN() requires an argument
+      · A1: ATAN(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -473,7 +493,7 @@ describe('ATAN', () => {
 
       Errors:
 
-      · A1: ATAN() expects a number, got true
+      · A1: ATAN(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -484,11 +504,15 @@ describe('ATAN', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────────────────┐
-      │   │ A                  │
-      ├───┼────────────────────┤
-      │ 1 │ 0.7853981633974483 │
-      └───┴────────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: ATAN(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -527,7 +551,7 @@ describe('ATANH', () => {
 
       Errors:
 
-      · A1: ATANH() requires an argument
+      · A1: ATANH(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -546,7 +570,7 @@ describe('ATANH', () => {
 
       Errors:
 
-      · A1: ATANH() expects a number, got true
+      · A1: ATANH(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -557,11 +581,15 @@ describe('ATANH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬──────────┐
-      │   │ A        │
-      ├───┼──────────┤
-      │ 1 │ Infinity │
-      └───┴──────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: ATANH(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -600,7 +628,7 @@ describe('CBRT', () => {
 
       Errors:
 
-      · A1: CBRT() requires an argument
+      · A1: CBRT(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -619,7 +647,7 @@ describe('CBRT', () => {
 
       Errors:
 
-      · A1: CBRT() expects a number, got true
+      · A1: CBRT(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -630,11 +658,15 @@ describe('CBRT', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┐
-      │   │ A │
-      ├───┼───┤
-      │ 1 │ 1 │
-      └───┴───┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: CBRT(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -673,7 +705,7 @@ describe('CLZ32', () => {
 
       Errors:
 
-      · A1: CLZ32() requires an argument
+      · A1: CLZ32(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -692,7 +724,7 @@ describe('CLZ32', () => {
 
       Errors:
 
-      · A1: CLZ32() expects a number, got true
+      · A1: CLZ32(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -703,11 +735,15 @@ describe('CLZ32', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────┐
-      │   │ A  │
-      ├───┼────┤
-      │ 1 │ 31 │
-      └───┴────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: CLZ32(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -746,7 +782,7 @@ describe('COS', () => {
 
       Errors:
 
-      · A1: COS() requires an argument
+      · A1: COS(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -765,7 +801,7 @@ describe('COS', () => {
 
       Errors:
 
-      · A1: COS() expects a number, got true
+      · A1: COS(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -776,11 +812,15 @@ describe('COS', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────────────────┐
-      │   │ A                  │
-      ├───┼────────────────────┤
-      │ 1 │ 0.5403023058681398 │
-      └───┴────────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: COS(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -819,7 +859,7 @@ describe('COSH', () => {
 
       Errors:
 
-      · A1: COSH() requires an argument
+      · A1: COSH(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -838,7 +878,7 @@ describe('COSH', () => {
 
       Errors:
 
-      · A1: COSH() expects a number, got true
+      · A1: COSH(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -849,11 +889,15 @@ describe('COSH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────────────────┐
-      │   │ A                  │
-      ├───┼────────────────────┤
-      │ 1 │ 1.5430806348152437 │
-      └───┴────────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: COSH(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -892,7 +936,7 @@ describe('EXP', () => {
 
       Errors:
 
-      · A1: EXP() requires an argument
+      · A1: EXP(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -911,7 +955,7 @@ describe('EXP', () => {
 
       Errors:
 
-      · A1: EXP() expects a number, got true
+      · A1: EXP(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -922,11 +966,15 @@ describe('EXP', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───────────────────┐
-      │   │ A                 │
-      ├───┼───────────────────┤
-      │ 1 │ 2.718281828459045 │
-      └───┴───────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: EXP(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -965,7 +1013,7 @@ describe('LOG', () => {
 
       Errors:
 
-      · A1: LOG() requires an argument
+      · A1: LOG(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -984,7 +1032,7 @@ describe('LOG', () => {
 
       Errors:
 
-      · A1: LOG() expects a number, got true
+      · A1: LOG(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -995,11 +1043,15 @@ describe('LOG', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┐
-      │   │ A │
-      ├───┼───┤
-      │ 1 │ 0 │
-      └───┴───┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: LOG(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -1038,7 +1090,7 @@ describe('LOG10', () => {
 
       Errors:
 
-      · A1: LOG10() requires an argument
+      · A1: LOG10(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -1057,7 +1109,7 @@ describe('LOG10', () => {
 
       Errors:
 
-      · A1: LOG10() expects a number, got true
+      · A1: LOG10(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -1068,11 +1120,15 @@ describe('LOG10', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┐
-      │   │ A │
-      ├───┼───┤
-      │ 1 │ 0 │
-      └───┴───┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: LOG10(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -1111,7 +1167,7 @@ describe('SIN', () => {
 
       Errors:
 
-      · A1: SIN() requires an argument
+      · A1: SIN(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -1130,7 +1186,7 @@ describe('SIN', () => {
 
       Errors:
 
-      · A1: SIN() expects a number, got true
+      · A1: SIN(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -1141,11 +1197,15 @@ describe('SIN', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────────────────┐
-      │   │ A                  │
-      ├───┼────────────────────┤
-      │ 1 │ 0.8414709848078965 │
-      └───┴────────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: SIN(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -1184,7 +1244,7 @@ describe('SINH', () => {
 
       Errors:
 
-      · A1: SINH() requires an argument
+      · A1: SINH(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -1203,7 +1263,7 @@ describe('SINH', () => {
 
       Errors:
 
-      · A1: SINH() expects a number, got true
+      · A1: SINH(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -1214,11 +1274,15 @@ describe('SINH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────────────────┐
-      │   │ A                  │
-      ├───┼────────────────────┤
-      │ 1 │ 1.1752011936438014 │
-      └───┴────────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: SINH(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -1257,7 +1321,7 @@ describe('SQRT', () => {
 
       Errors:
 
-      · A1: SQRT() requires an argument
+      · A1: SQRT(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -1276,7 +1340,7 @@ describe('SQRT', () => {
 
       Errors:
 
-      · A1: SQRT() expects a number, got true
+      · A1: SQRT(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -1287,11 +1351,15 @@ describe('SQRT', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┐
-      │   │ A │
-      ├───┼───┤
-      │ 1 │ 1 │
-      └───┴───┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: SQRT(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -1330,7 +1398,7 @@ describe('TAN', () => {
 
       Errors:
 
-      · A1: TAN() requires an argument
+      · A1: TAN(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -1349,7 +1417,7 @@ describe('TAN', () => {
 
       Errors:
 
-      · A1: TAN() expects a number, got true
+      · A1: TAN(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -1360,11 +1428,15 @@ describe('TAN', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────────────────┐
-      │   │ A                  │
-      ├───┼────────────────────┤
-      │ 1 │ 1.5574077246549023 │
-      └───┴────────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: TAN(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -1403,7 +1475,7 @@ describe('TANH', () => {
 
       Errors:
 
-      · A1: TANH() requires an argument
+      · A1: TANH(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -1422,7 +1494,7 @@ describe('TANH', () => {
 
       Errors:
 
-      · A1: TANH() expects a number, got true
+      · A1: TANH(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -1433,11 +1505,15 @@ describe('TANH', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬────────────────────┐
-      │   │ A                  │
-      ├───┼────────────────────┤
-      │ 1 │ 0.7615941559557649 │
-      └───┴────────────────────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: TANH(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -1476,7 +1552,7 @@ describe('TRUNC', () => {
 
       Errors:
 
-      · A1: TRUNC() requires an argument
+      · A1: TRUNC(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -1495,7 +1571,7 @@ describe('TRUNC', () => {
 
       Errors:
 
-      · A1: TRUNC() expects a number, got true
+      · A1: TRUNC(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -1506,11 +1582,15 @@ describe('TRUNC', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┐
-      │   │ A │
-      ├───┼───┤
-      │ 1 │ 1 │
-      └───┴───┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: TRUNC(x: NUMBER) takes at most 1 argument, got 2
       "
     `)
   })
@@ -1549,7 +1629,7 @@ describe('ATAN2', () => {
 
       Errors:
 
-      · A1: ATAN2() requires two arguments
+      · A1: ATAN2(y: NUMBER, x: NUMBER) Argument \`y\` was not provided
       "
     `)
   })
@@ -1568,7 +1648,7 @@ describe('ATAN2', () => {
 
       Errors:
 
-      · A1: ATAN2() requires two arguments
+      · A1: ATAN2(y: NUMBER, x: NUMBER) Argument \`y\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -1587,7 +1667,7 @@ describe('ATAN2', () => {
 
       Errors:
 
-      · A1: ATAN2() requires two arguments
+      · A1: ATAN2(y: NUMBER, x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -1606,7 +1686,7 @@ describe('ATAN2', () => {
 
       Errors:
 
-      · A1: ATAN2() expects a number, got true
+      · A1: ATAN2(y: NUMBER, x: NUMBER) Argument \`y\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -1625,7 +1705,7 @@ describe('ATAN2', () => {
 
       Errors:
 
-      · A1: ATAN2() expects a number, got true
+      · A1: ATAN2(y: NUMBER, x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -1644,7 +1724,7 @@ describe('ATAN2', () => {
 
       Errors:
 
-      · A1: ATAN2() does not take a third argument, got 3
+      · A1: ATAN2(y: NUMBER, x: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -1684,7 +1764,7 @@ describe('IMUL', () => {
 
       Errors:
 
-      · A1: IMUL() requires two arguments
+      · A1: IMUL(x: NUMBER, y: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -1703,7 +1783,7 @@ describe('IMUL', () => {
 
       Errors:
 
-      · A1: IMUL() requires two arguments
+      · A1: IMUL(x: NUMBER, y: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -1722,7 +1802,7 @@ describe('IMUL', () => {
 
       Errors:
 
-      · A1: IMUL() requires two arguments
+      · A1: IMUL(x: NUMBER, y: NUMBER) Argument \`y\` was not provided
       "
     `)
   })
@@ -1741,7 +1821,7 @@ describe('IMUL', () => {
 
       Errors:
 
-      · A1: IMUL() expects a number, got true
+      · A1: IMUL(x: NUMBER, y: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -1760,7 +1840,7 @@ describe('IMUL', () => {
 
       Errors:
 
-      · A1: IMUL() expects a number, got true
+      · A1: IMUL(x: NUMBER, y: NUMBER) Argument \`y\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -1779,7 +1859,7 @@ describe('IMUL', () => {
 
       Errors:
 
-      · A1: IMUL() does not take a third argument, got 3
+      · A1: IMUL(x: NUMBER, y: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -1805,6 +1885,25 @@ describe('IMUL', () => {
 })
 
 describe('SUM()', () => {
+  it('should error when nothing is provided to the SUM() function', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=SUM()')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: SUM(...args: T) Argument \`args\` was not provided
+      "
+    `)
+  })
+
   it('should sum up all the numbers of empty cells', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', '=SUM(B1:D1)')
@@ -1876,7 +1975,7 @@ describe('ADD()', () => {
 
       Errors:
 
-      · A1: ADD() expects a number as the first argument, got <nothing>
+      · A1: ADD(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` was not provided
       "
     `)
   })
@@ -1895,7 +1994,7 @@ describe('ADD()', () => {
 
       Errors:
 
-      · A1: ADD() expects a number as the second argument, got <nothing>
+      · A1: ADD(lhs: NUMBER, rhs: NUMBER) Argument \`rhs\` was not provided
       "
     `)
   })
@@ -1914,7 +2013,7 @@ describe('ADD()', () => {
 
       Errors:
 
-      · A1: ADD() expects a number as the first argument, got true
+      · A1: ADD(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -1933,7 +2032,7 @@ describe('ADD()', () => {
 
       Errors:
 
-      · A1: ADD() expects a number as the first argument, got true
+      · A1: ADD(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -1952,7 +2051,7 @@ describe('ADD()', () => {
 
       Errors:
 
-      · A1: ADD() does not take a third argument, got 3
+      · A1: ADD(lhs: NUMBER, rhs: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -1992,7 +2091,7 @@ describe('SUBTRACT()', () => {
 
       Errors:
 
-      · A1: SUBTRACT() expects a number as the first argument, got <nothing>
+      · A1: SUBTRACT(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` was not provided
       "
     `)
   })
@@ -2011,7 +2110,7 @@ describe('SUBTRACT()', () => {
 
       Errors:
 
-      · A1: SUBTRACT() expects a number as the second argument, got <nothing>
+      · A1: SUBTRACT(lhs: NUMBER, rhs: NUMBER) Argument \`rhs\` was not provided
       "
     `)
   })
@@ -2030,7 +2129,7 @@ describe('SUBTRACT()', () => {
 
       Errors:
 
-      · A1: SUBTRACT() expects a number as the first argument, got true
+      · A1: SUBTRACT(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2049,7 +2148,7 @@ describe('SUBTRACT()', () => {
 
       Errors:
 
-      · A1: SUBTRACT() expects a number as the first argument, got true
+      · A1: SUBTRACT(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2068,7 +2167,7 @@ describe('SUBTRACT()', () => {
 
       Errors:
 
-      · A1: SUBTRACT() does not take a third argument, got 3
+      · A1: SUBTRACT(lhs: NUMBER, rhs: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -2108,7 +2207,7 @@ describe('MULTIPLY()', () => {
 
       Errors:
 
-      · A1: MULTIPLY() expects a number as the first argument, got <nothing>
+      · A1: MULTIPLY(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` was not provided
       "
     `)
   })
@@ -2127,7 +2226,7 @@ describe('MULTIPLY()', () => {
 
       Errors:
 
-      · A1: MULTIPLY() expects a number as the second argument, got <nothing>
+      · A1: MULTIPLY(lhs: NUMBER, rhs: NUMBER) Argument \`rhs\` was not provided
       "
     `)
   })
@@ -2146,7 +2245,7 @@ describe('MULTIPLY()', () => {
 
       Errors:
 
-      · A1: MULTIPLY() expects a number as the first argument, got true
+      · A1: MULTIPLY(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2165,7 +2264,7 @@ describe('MULTIPLY()', () => {
 
       Errors:
 
-      · A1: MULTIPLY() expects a number as the first argument, got true
+      · A1: MULTIPLY(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2184,7 +2283,7 @@ describe('MULTIPLY()', () => {
 
       Errors:
 
-      · A1: MULTIPLY() does not take a third argument, got 3
+      · A1: MULTIPLY(lhs: NUMBER, rhs: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -2210,6 +2309,25 @@ describe('MULTIPLY()', () => {
 })
 
 describe('PRODUCT()', () => {
+  it('should error when nothing is provided to the PRODUCT() function', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=PRODUCT()')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: PRODUCT(...args: T) Argument \`args\` was not provided
+      "
+    `)
+  })
+
   it('should multiply all the numbers of empty cells', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', '=PRODUCT(B1:D1)')
@@ -2281,7 +2399,7 @@ describe('DIVIDE()', () => {
 
       Errors:
 
-      · A1: DIVIDE() expects a number as the dividend, got <nothing>
+      · A1: DIVIDE(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` was not provided
       "
     `)
   })
@@ -2300,7 +2418,7 @@ describe('DIVIDE()', () => {
 
       Errors:
 
-      · A1: DIVIDE() expects a number as the divisor, got <nothing>
+      · A1: DIVIDE(lhs: NUMBER, rhs: NUMBER) Argument \`rhs\` was not provided
       "
     `)
   })
@@ -2319,7 +2437,7 @@ describe('DIVIDE()', () => {
 
       Errors:
 
-      · A1: DIVIDE() expects a number as the dividend, got true
+      · A1: DIVIDE(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2338,7 +2456,7 @@ describe('DIVIDE()', () => {
 
       Errors:
 
-      · A1: DIVIDE() expects a number as the dividend, got true
+      · A1: DIVIDE(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2357,7 +2475,7 @@ describe('DIVIDE()', () => {
 
       Errors:
 
-      · A1: DIVIDE() does not take a third argument, got 3
+      · A1: DIVIDE(lhs: NUMBER, rhs: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -2416,7 +2534,7 @@ describe('POWER()', () => {
 
       Errors:
 
-      · A1: POWER() expects a number as the base, got <nothing>
+      · A1: POWER(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` was not provided
       "
     `)
   })
@@ -2435,7 +2553,7 @@ describe('POWER()', () => {
 
       Errors:
 
-      · A1: POWER() expects a number as the exponent, got <nothing>
+      · A1: POWER(lhs: NUMBER, rhs: NUMBER) Argument \`rhs\` was not provided
       "
     `)
   })
@@ -2454,7 +2572,7 @@ describe('POWER()', () => {
 
       Errors:
 
-      · A1: POWER() expects a number as the base, got true
+      · A1: POWER(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2473,7 +2591,7 @@ describe('POWER()', () => {
 
       Errors:
 
-      · A1: POWER() expects a number as the base, got true
+      · A1: POWER(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2492,7 +2610,7 @@ describe('POWER()', () => {
 
       Errors:
 
-      · A1: POWER() does not take a third argument, got 3
+      · A1: POWER(lhs: NUMBER, rhs: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -2532,7 +2650,7 @@ describe('MOD()', () => {
 
       Errors:
 
-      · A1: MOD() requires two arguments, got 0
+      · A1: MOD(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` was not provided
       "
     `)
   })
@@ -2551,7 +2669,7 @@ describe('MOD()', () => {
 
       Errors:
 
-      · A1: MOD() requires two arguments, got 1
+      · A1: MOD(lhs: NUMBER, rhs: NUMBER) Argument \`rhs\` was not provided
       "
     `)
   })
@@ -2570,7 +2688,7 @@ describe('MOD()', () => {
 
       Errors:
 
-      · A1: MOD() requires two arguments, got 1
+      · A1: MOD(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2589,7 +2707,7 @@ describe('MOD()', () => {
 
       Errors:
 
-      · A1: MOD() expects a number as the number, got true
+      · A1: MOD(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2608,7 +2726,7 @@ describe('MOD()', () => {
 
       Errors:
 
-      · A1: MOD() expects a number as the divisor, got 1234
+      · A1: MOD(lhs: NUMBER, rhs: NUMBER) Argument \`rhs\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2627,7 +2745,7 @@ describe('MOD()', () => {
 
       Errors:
 
-      · A1: MOD() does not take a third argument, got 3
+      · A1: MOD(lhs: NUMBER, rhs: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -2646,7 +2764,7 @@ describe('MOD()', () => {
 
       Errors:
 
-      · A1: MOD() cannot divide by zero
+      · A1: MOD() cannot mod by zero
       "
     `)
   })
@@ -2686,7 +2804,7 @@ describe('FLOOR()', () => {
 
       Errors:
 
-      · A1: FLOOR() expects a number as the first argument, got <nothing>
+      · A1: FLOOR(value: NUMBER) Argument \`value\` was not provided
       "
     `)
   })
@@ -2705,7 +2823,7 @@ describe('FLOOR()', () => {
 
       Errors:
 
-      · A1: FLOOR() expects a number as the first argument, got true
+      · A1: FLOOR(value: NUMBER) Argument \`value\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2724,7 +2842,7 @@ describe('FLOOR()', () => {
 
       Errors:
 
-      · A1: FLOOR() does not take a second argument, got 2
+      · A1: FLOOR(value: NUMBER) takes at most 1 argument, got 3
       "
     `)
   })
@@ -2761,7 +2879,7 @@ describe('CEIL()', () => {
 
       Errors:
 
-      · A1: CEIL() expects a number as the first argument, got <nothing>
+      · A1: CEIL(value: NUMBER) Argument \`value\` was not provided
       "
     `)
   })
@@ -2780,7 +2898,7 @@ describe('CEIL()', () => {
 
       Errors:
 
-      · A1: CEIL() expects a number as the first argument, got true
+      · A1: CEIL(value: NUMBER) Argument \`value\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2799,7 +2917,7 @@ describe('CEIL()', () => {
 
       Errors:
 
-      · A1: CEIL() does not take a second argument, got 2
+      · A1: CEIL(value: NUMBER) takes at most 1 argument, got 3
       "
     `)
   })
@@ -2836,7 +2954,7 @@ describe('ROUND()', () => {
 
       Errors:
 
-      · A1: ROUND() expects a number as the first argument, got <nothing>
+      · A1: ROUND(value: NUMBER, places?: NUMBER) Argument \`value\` was not provided
       "
     `)
   })
@@ -2855,7 +2973,7 @@ describe('ROUND()', () => {
 
       Errors:
 
-      · A1: ROUND() expects a number as the first argument, got true
+      · A1: ROUND(value: NUMBER, places?: NUMBER) Argument \`value\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2874,7 +2992,7 @@ describe('ROUND()', () => {
 
       Errors:
 
-      · A1: ROUND() expects a number as the second argument, got what
+      · A1: ROUND(value: NUMBER, places?: NUMBER) Argument \`places\` received a \`STRING\`
       "
     `)
   })
@@ -2893,7 +3011,7 @@ describe('ROUND()', () => {
 
       Errors:
 
-      · A1: ROUND() does not take a third argument, got 3
+      · A1: ROUND(value: NUMBER, places?: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })

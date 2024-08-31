@@ -1,6 +1,7 @@
 import { stripVTControlCharacters } from 'node:util'
 import Table from 'cli-table'
-import { EvaluationResultKind, printEvaluationResult } from '~/domain/evaluation'
+import { printEvaluationResult } from '~/domain/evaluation'
+import { EvaluationResultKind } from '~/domain/evaluation-result'
 import { type Location, parseLocation, printLocation } from '~/domain/expression'
 import type { Spreadsheet } from '~/domain/spreadsheet'
 

@@ -94,9 +94,9 @@ export function tokenize(input: string): Token[] {
       idx++ // Skip the opening quote
 
       let start = idx
-      do {
-        char = input.charCodeAt(++idx)
-      } while (char !== DOUBLE_QUOTE && idx < eol)
+      while (input.charCodeAt(idx) !== DOUBLE_QUOTE && idx < eol) {
+        idx++
+      }
       let end = idx
 
       tokens.push({

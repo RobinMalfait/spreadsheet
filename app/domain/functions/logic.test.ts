@@ -17,7 +17,7 @@ describe('TRUE()', () => {
 
       Errors:
 
-      · A1: TRUE() does not take an argument, got 123
+      · A1: TRUE() does not take any arguments
       "
     `)
   })
@@ -53,7 +53,7 @@ describe('FALSE()', () => {
 
       Errors:
 
-      · A1: FALSE() does not take an argument, got 123
+      · A1: FALSE() does not take any arguments
       "
     `)
   })
@@ -89,7 +89,7 @@ describe('IF()', () => {
 
       Errors:
 
-      · A1: IF() expects a boolean as the first argument, got UH OH
+      · A1: IF(test: BOOLEAN, consequent: T, alternate: T) Argument \`test\` received a \`STRING\`
       "
     `)
   })
@@ -108,7 +108,7 @@ describe('IF()', () => {
 
       Errors:
 
-      · A1: IF() does not take more than three arguments, got 3
+      · A1: IF(test: BOOLEAN, consequent: T, alternate: T) takes at most 3 arguments, got 4
       "
     `)
   })
@@ -245,7 +245,7 @@ describe('NOT()', () => {
 
       Errors:
 
-      · A1: NOT() expects a boolean as the first argument, got UH OH
+      · A1: NOT(value: BOOLEAN) Argument \`value\` received a \`STRING\`
       "
     `)
   })
@@ -264,15 +264,15 @@ describe('NOT()', () => {
 
       Errors:
 
-      · A1: NOT() does not take a second argument, got 1
+      · A1: NOT(value: BOOLEAN) takes at most 1 argument, got 2
       "
     `)
   })
 
-  it('should result in FALSE when the argument is truthy', () => {
+  it('should result in FALSE when the argument is TRUE', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', '=1')
-    spreadsheet.set('B1', '=NOT(A1)')
+    spreadsheet.set('B1', '=NOT(AS_BOOLEAN(A1))')
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
@@ -288,7 +288,7 @@ describe('NOT()', () => {
   it('should result in TRUE when the argument is falsy', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', '=0')
-    spreadsheet.set('B1', '=NOT(A1)')
+    spreadsheet.set('B1', '=NOT(AS_BOOLEAN(A1))')
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
