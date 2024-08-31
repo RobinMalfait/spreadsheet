@@ -1468,7 +1468,46 @@ Converts a string to uppercase.
 
 [Back to top](#functions)
 
-Converts a value to a boolean
+Tries to convert a value to a boolean.
+
+- `value`: The value to convert.
+
+#### Examples:
+
+```ts
+=AS_BOOLEAN(0)
+// FALSE
+```
+
+```ts
+=AS_BOOLEAN(1)
+// TRUE
+```
+
+```ts
+=AS_BOOLEAN("123")
+// TRUE
+```
+
+```ts
+=AS_BOOLEAN("0")
+// FALSE
+```
+
+```ts
+=AS_BOOLEAN(TRUE())
+// TRUE
+```
+
+```ts
+=AS_BOOLEAN(FALSE())
+// FALSE
+```
+
+```ts
+=AS_BOOLEAN(NOW())
+// TRUE
+```
 
 ---
 
@@ -1477,7 +1516,41 @@ Converts a value to a boolean
 
 [Back to top](#functions)
 
-Converts a value to a number
+Tries to convert a value to a number.
+
+- `value`: The value to convert.
+
+#### Examples:
+
+```ts
+=AS_NUMBER(1)
+// 1
+```
+
+```ts
+=AS_NUMBER("123")
+// 123
+```
+
+```ts
+=AS_NUMBER("million")
+// ERROR: AS_NUMBER() expects a number, got million
+```
+
+```ts
+=AS_NUMBER(TRUE())
+// 1
+```
+
+```ts
+=AS_NUMBER(FALSE())
+// 0
+```
+
+```ts
+=AS_NUMBER(NOW())
+// 1358752520000
+```
 
 ---
 
@@ -1486,7 +1559,41 @@ Converts a value to a number
 
 [Back to top](#functions)
 
-Converts a value to a string
+Tries to convert a value to a string.
+
+- `value`: The value to convert.
+
+#### Examples:
+
+```ts
+=AS_STRING(1)
+// 1
+```
+
+```ts
+=AS_STRING("123")
+// 123
+```
+
+```ts
+=AS_STRING(TRUE())
+// TRUE
+```
+
+```ts
+=AS_STRING(FALSE())
+// FALSE
+```
+
+```ts
+=AS_STRING(NOW())
+// 2013-01-21 08:15:20
+```
+
+```ts
+=AS_STRING(TIME())
+// 08:15:20
+```
 
 ---
 
@@ -1495,7 +1602,41 @@ Converts a value to a string
 
 [Back to top](#functions)
 
-Returns the type of a value
+Returns the type of a value.
+
+- `value`: The value to check.
+
+#### Examples:
+
+```ts
+=TYPE(1)
+// number
+```
+
+```ts
+=TYPE("hello")
+// string
+```
+
+```ts
+=TYPE(TRUE())
+// boolean
+```
+
+```ts
+=TYPE(NOW())
+// datetime
+```
+
+```ts
+=TYPE(UNKNOWN_FUNCTION())
+// error
+```
+
+```ts
+=TYPE(B1)
+// empty
+```
 
 <!-- end:functions -->
 
