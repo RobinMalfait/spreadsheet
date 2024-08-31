@@ -117,7 +117,6 @@ export function evaluateExpression(
       let fn = functions[ast.name as keyof typeof functions]
       let args = ast.args.flatMap((arg) => evaluateExpression(arg, spreadsheet))
 
-      // @ts-expect-error Some functions have a different arity, but we're not
       // checking that here.
       return fn(...args)
     }

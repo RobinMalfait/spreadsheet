@@ -12,7 +12,6 @@ import {
   subHours,
 } from 'date-fns'
 import {
-  type EvaluationResult,
   type EvaluationResultDateTime,
   EvaluationResultKind,
   type EvaluationResultNumber,
@@ -30,7 +29,7 @@ export const NOW = expose(
       value: new Date(),
       date: true,
       time: true,
-    } satisfies EvaluationResult
+    }
   },
 )
 
@@ -45,7 +44,7 @@ export const TODAY = expose(
       value: startOfDay(new Date()),
       date: true,
       time: false,
-    } satisfies EvaluationResult
+    }
   },
 )
 
@@ -60,7 +59,7 @@ export const TIME = expose(
       value: new Date(),
       date: false,
       time: true,
-    } satisfies EvaluationResult
+    }
   },
 )
 
@@ -71,10 +70,7 @@ export const DAY = expose(
     DAY(date: DATETIME)
   `,
   (date: EvaluationResultDateTime) => {
-    return {
-      kind: EvaluationResultKind.NUMBER,
-      value: getDate(date.value),
-    } satisfies EvaluationResult
+    return { kind: EvaluationResultKind.NUMBER, value: getDate(date.value) as number }
   },
 )
 
@@ -99,7 +95,7 @@ export const YEAR = expose(
     return {
       kind: EvaluationResultKind.NUMBER,
       value: getYear(date.value),
-    } satisfies EvaluationResult
+    }
   },
 )
 
@@ -113,7 +109,7 @@ export const HOUR = expose(
     return {
       kind: EvaluationResultKind.NUMBER,
       value: getHours(date.value),
-    } satisfies EvaluationResult
+    }
   },
 )
 
@@ -127,7 +123,7 @@ export const MINUTE = expose(
     return {
       kind: EvaluationResultKind.NUMBER,
       value: getMinutes(date.value),
-    } satisfies EvaluationResult
+    }
   },
 )
 
@@ -141,7 +137,7 @@ export const SECOND = expose(
     return {
       kind: EvaluationResultKind.NUMBER,
       value: getSeconds(date.value),
-    } satisfies EvaluationResult
+    }
   },
 )
 

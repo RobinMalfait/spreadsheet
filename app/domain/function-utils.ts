@@ -1,24 +1,23 @@
 import type { EvaluationResult } from '~/domain/evaluation-result'
-import { type Signature, parse } from '~/domain/signature/parser'
+import { parse } from '~/domain/signature/parser'
 import { tokenize } from '~/domain/signature/tokenizer'
 import { validate } from '~/domain/signature/validate'
 
 export function expose<
-  T extends EvaluationResult,
+  T extends EvaluationResult[],
   R extends EvaluationResult | EvaluationResult[],
->(
-  signature: string,
-  handle: (...args: T[]) => R,
-): ((...args: T[]) => R) & { signature: Signature } {
+>(signature: string, handle: (...args: T) => R) {
   let sig = parse(tokenize(signature))
 
   return Object.assign(
-    (...args: T[]): R => {
+    (...args: EvaluationResult[]) => {
+      // Validate
       let errors = validate(sig, args)
-      if (errors) return errors as R
+      if (errors) return errors
 
       // Handle
-      return handle(...args) as R
+      // @ts-expect-error The `validate` function ensures that the correct EvaluationResult is being used.
+      return handle(...args) satisfies R
     },
     { signature: sig },
   )
