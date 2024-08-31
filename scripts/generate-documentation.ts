@@ -35,8 +35,8 @@ function generateDocs() {
       // @ts-expect-error
       let signature = fns[name as keyof typeof fns].signature as Signature
 
-      out += `### ${idx + 1}. \`${printSignature(signature)}\`\n\n`
-      out += `> ${signature.description()}\n\n`
+      out += `#### ${idx + 1}. \`${printSignature(signature)}\`\n\n`
+      out += `${signature.description()}\n\n`
 
       // Param information
       for (let tag of signature.tags) {
