@@ -1,6 +1,6 @@
 import { setSystemTime } from 'bun:test'
 import { AstKind } from '~/domain/ast'
-import { evaluateExpression, printEvaluationResult } from '~/domain/evaluation'
+import { printEvaluationResult } from '~/domain/evaluation'
 import { EvaluationResultKind } from '~/domain/evaluation-result'
 import { parse, printExpression } from '~/domain/expression'
 import * as dateFunctions from '~/domain/functions/date'
@@ -38,6 +38,7 @@ const contents = await README.text()
 const PLACEHOLDER = /<!-- start:functions -->([\s\S]*)<!-- end:functions -->/g
 
 function generateDocs() {
+  let totalFns = 0
   let out = ''
 
   out += categories
@@ -58,6 +59,8 @@ function generateDocs() {
 
   for (let [category, fns] of categories) {
     let functionNames = Array.from(Object.keys(fns).sort(collator.compare).entries())
+
+    totalFns += functionNames.length
 
     out += `### ${category}\n\n`
 
@@ -146,6 +149,8 @@ function generateDocs() {
       }
     }
   }
+
+  out = `There are **${totalFns}** built-in functions available.\n\n${out}`
 
   return out.trim().replace(/\n{3,}/g, '\n\n')
 }

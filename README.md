@@ -45,6 +45,8 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
+There are **78** built-in functions available.
+
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
    - [ADD_HOURS(date: DATETIME, hours: NUMBER)](#add_hours)
