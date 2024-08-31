@@ -416,12 +416,12 @@ Returns one value if a condition is true and another value if it is false.
 
 ```ts
 =IF(TRUE(), "huge if true", "huge if false")
-// huge if true
+// "huge if true"
 ```
 
 ```ts
 =IF(FALSE(), "huge if true", "huge if false")
-// huge if false
+// "huge if false"
 ```
 
 ---
@@ -1139,7 +1139,7 @@ A sequence of the digits from 0 through 9.
 
 ```ts
 =JOIN(", ", DIGITS())
-// 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+// "0, 1, 2, 3, 4, 5, 6, 7, 8, 9"
 ```
 
 ### Statistical functions
@@ -1265,7 +1265,7 @@ Concatenates multiple strings together.
 
 ```ts
 =CONCAT("hello", " ", "world")
-// hello world
+// "hello world"
 ```
 
 ---
@@ -1284,12 +1284,12 @@ Returns the first needle found in the haystack.
 
 ```ts
 =FIND_FIRST("The quick brown fox jumps over the lazy dog", "fox", "dog")
-// fox
+// "fox"
 ```
 
 ```ts
 =FIND_FIRST("The quick brown fox jumps over the lazy dog", "dog", "fox")
-// fox
+// "fox"
 ```
 
 ---
@@ -1308,12 +1308,12 @@ Returns the last needle found in the haystack.
 
 ```ts
 =FIND_LAST("The quick brown fox jumps over the lazy dog", "fox", "dog")
-// dog
+// "dog"
 ```
 
 ```ts
 =FIND_LAST("The quick brown fox jumps over the lazy dog", "dog", "fox")
-// dog
+// "dog"
 ```
 
 ---
@@ -1332,7 +1332,7 @@ Joins multiple strings together with a delimiter.
 
 ```ts
 =JOIN("-", 1, 2, "hello", "world", TRUE())
-// 1-2-hello-world-TRUE
+// "1-2-hello-world-TRUE"
 ```
 
 ---
@@ -1368,7 +1368,7 @@ Converts a string to lowercase.
 
 ```ts
 =LOWER("Hello, World!")
-// hello, world!
+// "hello, world!"
 ```
 
 ---
@@ -1387,7 +1387,7 @@ Replaces all occurrences of the needles with their replacements.
 
 ```ts
 =REPLACE_ALL("The quick brown fox jumps over the lazy dog", "fox", "cat", "dog", "wolf")
-// The quick brown cat jumps over the lazy wolf
+// "The quick brown cat jumps over the lazy wolf"
 ```
 
 ---
@@ -1407,22 +1407,22 @@ Returns a section of a string.
 
 ```ts
 =TEXT_SLICE("The quick brown fox jumps over the lazy dog", 0, 19)
-// The quick brown fox
+// "The quick brown fox"
 ```
 
 ```ts
 =TEXT_SLICE("The quick brown fox jumps over the lazy dog", 40)
-// dog
+// "dog"
 ```
 
 ```ts
 =TEXT_SLICE("The quick brown fox jumps over the lazy dog", -3)
-// dog
+// "dog"
 ```
 
 ```ts
 =TEXT_SLICE("The quick brown fox jumps over the lazy dog", 10, 19)
-// brown fox
+// "brown fox"
 ```
 
 ---
@@ -1440,7 +1440,7 @@ Removes leading and trailing whitespace from a string.
 
 ```ts
 =TRIM("  Hello, World!  ")
-// Hello, World!
+// "Hello, World!"
 ```
 
 ---
@@ -1458,7 +1458,7 @@ Converts a string to uppercase.
 
 ```ts
 =UPPER("Hello, World!")
-// HELLO, WORLD!
+// "HELLO, WORLD!"
 ```
 
 ### Type functions
@@ -1567,32 +1567,32 @@ Tries to convert a value to a string.
 
 ```ts
 =AS_STRING(1)
-// 1
+// "1"
 ```
 
 ```ts
 =AS_STRING("123")
-// 123
+// "123"
 ```
 
 ```ts
 =AS_STRING(TRUE())
-// TRUE
+// "TRUE"
 ```
 
 ```ts
 =AS_STRING(FALSE())
-// FALSE
+// "FALSE"
 ```
 
 ```ts
 =AS_STRING(NOW())
-// 2013-01-21 08:15:20
+// "2013-01-21 08:15:20"
 ```
 
 ```ts
 =AS_STRING(TIME())
-// 08:15:20
+// "08:15:20"
 ```
 
 ---
@@ -1610,32 +1610,32 @@ Returns the type of a value.
 
 ```ts
 =TYPE(1)
-// number
+// "number"
 ```
 
 ```ts
 =TYPE("hello")
-// string
+// "string"
 ```
 
 ```ts
 =TYPE(TRUE())
-// boolean
+// "boolean"
 ```
 
 ```ts
 =TYPE(NOW())
-// datetime
+// "datetime"
 ```
 
 ```ts
 =TYPE(UNKNOWN_FUNCTION())
-// error
+// "error"
 ```
 
 ```ts
 =TYPE(B1)
-// empty
+// "empty"
 ```
 
 <!-- end:functions -->

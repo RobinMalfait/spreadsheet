@@ -1,5 +1,6 @@
 import { setSystemTime } from 'bun:test'
 import { printEvaluationResult } from '~/domain/evaluation'
+import { EvaluationResultKind } from '~/domain/evaluation-result'
 import * as dateFunctions from '~/domain/functions/date'
 import * as logicFunctions from '~/domain/functions/logic'
 import * as mathFunctions from '~/domain/functions/math'
@@ -92,7 +93,12 @@ function generateDocs() {
 
           out += '\n```ts\n'
           out += `=${tag.value}\n`
-          out += `// ${printEvaluationResult(spreadsheet.evaluate('A1'))}`
+          let result = spreadsheet.evaluate('A1')
+          if (result?.kind === EvaluationResultKind.STRING) {
+            out += `// "${printEvaluationResult(result)}"`
+          } else {
+            out += `// ${printEvaluationResult(result)}`
+          }
           out += '\n```\n'
         }
       }
