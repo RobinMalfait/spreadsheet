@@ -1,9 +1,13 @@
 import { EvaluationResultKind } from '~/domain/evaluation-result'
 import { expose } from '~/domain/function-utils'
 
-export const COUNT = expose('COUNT(...values: T)', {
-  description: 'Count the number of NUMBER arguments',
-  handle(...args) {
+export const COUNT = expose(
+  `
+    @description Count the number of NUMBER arguments
+
+    COUNT(...values: T)
+  `,
+  (...args) => {
     let count = 0
 
     for (let arg of args) {
@@ -25,11 +29,15 @@ export const COUNT = expose('COUNT(...values: T)', {
 
     return { kind: EvaluationResultKind.NUMBER, value: count }
   },
-})
+)
 
-export const MIN = expose('MIN(...values: T)', {
-  description: 'Returns the smallest NUMBER argument',
-  handle(...args) {
+export const MIN = expose(
+  `
+    @description Returns the smallest NUMBER argument
+
+    MIN(...values: T)
+  `,
+  (...args) => {
     let min = Number.POSITIVE_INFINITY
 
     for (let arg of args) {
@@ -52,11 +60,15 @@ export const MIN = expose('MIN(...values: T)', {
 
     return { kind: EvaluationResultKind.NUMBER, value: min }
   },
-})
+)
 
-export const MAX = expose('MAX(...values: T)', {
-  description: 'Returns the largest NUMBER argument',
-  handle(...args) {
+export const MAX = expose(
+  `
+    @description Returns the largest NUMBER argument
+
+    MAX(...values: T)
+  `,
+  (...args) => {
     let max = Number.NEGATIVE_INFINITY
 
     for (let arg of args) {
@@ -79,11 +91,15 @@ export const MAX = expose('MAX(...values: T)', {
 
     return { kind: EvaluationResultKind.NUMBER, value: max }
   },
-})
+)
 
-export const AVERAGE = expose('AVERAGE(...values: T)', {
-  description: 'Returns the average of NUMBER arguments',
-  handle(...args) {
+export const AVERAGE = expose(
+  `
+    @description Returns the average of NUMBER arguments
+
+    AVERAGE(...values: T)
+  `,
+  (...args) => {
     let sum = 0
     let count = 0
 
@@ -110,11 +126,15 @@ export const AVERAGE = expose('AVERAGE(...values: T)', {
 
     return { kind: EvaluationResultKind.NUMBER, value: out }
   },
-})
+)
 
-export const MEDIAN = expose('MEDIAN(...values: T)', {
-  description: 'Returns the median of NUMBER arguments',
-  handle(...args) {
+export const MEDIAN = expose(
+  `
+    @description Returns the median of NUMBER arguments
+
+    MEDIAN(...values: T)
+  `,
+  (...args) => {
     let values = args
       .filter((arg) => arg.kind === EvaluationResultKind.NUMBER)
       .map((arg) => arg.value)
@@ -132,11 +152,15 @@ export const MEDIAN = expose('MEDIAN(...values: T)', {
 
     return { kind: EvaluationResultKind.NUMBER, value: values[mid] ?? 0 }
   },
-})
+)
 
-export const MODE = expose('MODE(...values: T)', {
-  description: 'Returns the mode of NUMBER arguments',
-  handle(...args) {
+export const MODE = expose(
+  `
+    @description Returns the mode of NUMBER arguments
+
+    MODE(...values: T)
+  `,
+  (...args) => {
     let maxCount = 0
     let mode = Number.NaN
     let counts = new Map<number, number>()
@@ -159,4 +183,4 @@ export const MODE = expose('MODE(...values: T)', {
 
     return { kind: EvaluationResultKind.NUMBER, value: mode }
   },
-})
+)

@@ -5,31 +5,44 @@ import {
 } from '~/domain/evaluation-result'
 import { expose } from '~/domain/function-utils'
 
-export const PI = expose('PI()', {
-  description: 'The number π',
-  handle() {
+export const PI = expose(
+  `
+    @description The number π
+
+    PI()
+  `,
+  () => {
     return { kind: EvaluationResultKind.NUMBER, value: Math.PI }
   },
-})
+)
 
-export const TAU = expose('TAU()', {
-  description: 'The number τ',
-  handle() {
+export const TAU = expose(
+  `
+    @description The number τ
+
+    TAU()
+  `,
+  () => {
     return { kind: EvaluationResultKind.NUMBER, value: 2 * Math.PI }
   },
-})
+)
 
 function exposeUnaryMathFunction(
   name: string,
   fn: (input: number) => number,
   description?: string,
 ) {
-  return expose(`${name}(x: NUMBER)`, {
-    description: description ?? `The ${name} function`,
-    handle(arg: EvaluationResultNumber): EvaluationResult {
+  return expose(
+    `
+      @description ${description ?? `The ${name} function`}
+      @param x A numeric expression
+
+      ${name}(x: NUMBER)
+    `,
+    (arg: EvaluationResultNumber) => {
       return { kind: EvaluationResultKind.NUMBER, value: fn(arg.value) }
     },
-  })
+  )
 }
 
 export const ABS = exposeUnaryMathFunction('ABS', Math.abs)
@@ -53,28 +66,37 @@ export const TAN = exposeUnaryMathFunction('TAN', Math.tan)
 export const TANH = exposeUnaryMathFunction('TANH', Math.tanh)
 export const TRUNC = exposeUnaryMathFunction('TRUNC', Math.trunc)
 
+// @describe y A numeric expression representing the cartesian y-coordinate.
+// @describe x A numeric expression representing the cartesian x-coordinate.
 export const ATAN2 = expose(
-  // @describe y A numeric expression representing the cartesian y-coordinate.
-  // @describe x A numeric expression representing the cartesian x-coordinate.
-  'ATAN2(y: NUMBER, x: NUMBER)',
-  {
-    description: 'The angle (in radians) from the X axis to a point.',
-    handle(y: EvaluationResultNumber, x: EvaluationResultNumber) {
-      return { kind: EvaluationResultKind.NUMBER, value: Math.atan2(y.value, x.value) }
-    },
+  `
+    @description The angle (in radians) from the X axis to a point.
+
+    ATAN2(y: NUMBER, x: NUMBER)
+  `,
+  (y: EvaluationResultNumber, x: EvaluationResultNumber) => {
+    return { kind: EvaluationResultKind.NUMBER, value: Math.atan2(y.value, x.value) }
   },
 )
 
-export const IMUL = expose('IMUL(x: NUMBER, y: NUMBER)', {
-  description: 'The result of 32-bit multiplication of two numbers.',
-  handle(x: EvaluationResultNumber, y: EvaluationResultNumber) {
+export const IMUL = expose(
+  `
+    @description The result of 32-bit multiplication of two numbers.
+
+    IMUL(x: NUMBER, y: NUMBER)
+  `,
+  (x: EvaluationResultNumber, y: EvaluationResultNumber) => {
     return { kind: EvaluationResultKind.NUMBER, value: Math.imul(x.value, y.value) }
   },
-})
+)
 
-export const SUM = expose('SUM(...args: T)', {
-  description: 'Returns the sum of all arguments',
-  handle(...args: EvaluationResult[]) {
+export const SUM = expose(
+  `
+    @description Returns the sum of all arguments
+
+    SUM(...args: T)
+  `,
+  (...args: EvaluationResult[]) => {
     let out = 0
 
     for (let arg of args) {
@@ -97,32 +119,48 @@ export const SUM = expose('SUM(...args: T)', {
 
     return { kind: EvaluationResultKind.NUMBER, value: out }
   },
-})
+)
 
-export const ADD = expose('ADD(lhs: NUMBER, rhs: NUMBER)', {
-  description: 'Add two numbers',
-  handle(lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) {
+export const ADD = expose(
+  `
+    @description Add two numbers
+
+    ADD(lhs: NUMBER, rhs: NUMBER)
+  `,
+  (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
     return { kind: EvaluationResultKind.NUMBER, value: lhs.value + rhs.value }
   },
-})
+)
 
-export const SUBTRACT = expose('SUBTRACT(lhs: NUMBER, rhs: NUMBER)', {
-  description: 'Subtract two numbers',
-  handle(lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) {
+export const SUBTRACT = expose(
+  `
+    @description Subtract two numbers
+
+    SUBTRACT(lhs: NUMBER, rhs: NUMBER)
+  `,
+  (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
     return { kind: EvaluationResultKind.NUMBER, value: lhs.value - rhs.value }
   },
-})
+)
 
-export const MULTIPLY = expose('MULTIPLY(lhs: NUMBER, rhs: NUMBER)', {
-  description: 'Multiply two numbers',
-  handle(lhs: EvaluationResultNumber, rhs: EvaluationResultNumber): EvaluationResult {
+export const MULTIPLY = expose(
+  `
+    @description Multiply two numbers
+
+    MULTIPLY(lhs: NUMBER, rhs: NUMBER)
+  `,
+  (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
     return { kind: EvaluationResultKind.NUMBER, value: lhs.value * rhs.value }
   },
-})
+)
 
-export const PRODUCT = expose('PRODUCT(...args: T)', {
-  description: 'Returns the product of all arguments',
-  handle(...args: EvaluationResult[]): EvaluationResult {
+export const PRODUCT = expose(
+  `
+    @description Returns the product of all arguments
+
+    PRODUCT(...args: T)
+  `,
+  (...args: EvaluationResult[]) => {
     let hasArgument = false
     let out = 1
 
@@ -147,57 +185,78 @@ export const PRODUCT = expose('PRODUCT(...args: T)', {
 
     return { kind: EvaluationResultKind.NUMBER, value: hasArgument ? out : 0 }
   },
-})
+)
 
-export const DIVIDE = expose('DIVIDE(lhs: NUMBER, rhs: NUMBER)', {
-  description: 'Divide the lhs by the rhs',
-  handle(lhs: EvaluationResultNumber, rhs: EvaluationResultNumber): EvaluationResult {
+export const DIVIDE = expose(
+  `
+    @description Divide the lhs by the rhs
+
+    DIVIDE(lhs: NUMBER, rhs: NUMBER)
+  `,
+  (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
     if (rhs.value === 0) {
       return { kind: EvaluationResultKind.ERROR, value: 'DIVIDE() cannot divide by zero' }
     }
 
     return { kind: EvaluationResultKind.NUMBER, value: lhs.value / rhs.value }
   },
-})
+)
 
-export const POWER = expose('POWER(lhs: NUMBER, rhs: NUMBER)', {
-  description: 'Power the lhs by the rhs',
-  handle(lhs: EvaluationResultNumber, rhs: EvaluationResultNumber): EvaluationResult {
+export const POWER = expose(
+  `
+    @description Power the lhs by the rhs
+
+    POWER(lhs: NUMBER, rhs: NUMBER)
+  `,
+  (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
     return { kind: EvaluationResultKind.NUMBER, value: lhs.value ** rhs.value }
   },
-})
+)
 
-export const MOD = expose('MOD(lhs: NUMBER, rhs: NUMBER)', {
-  description: 'Mod the lhs by the rhs',
-  handle(lhs: EvaluationResultNumber, rhs: EvaluationResultNumber): EvaluationResult {
+export const MOD = expose(
+  `
+    @description Mod the lhs by the rhs
+
+    MOD(lhs: NUMBER, rhs: NUMBER)
+  `,
+  (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
     if (rhs.value === 0) {
       return { kind: EvaluationResultKind.ERROR, value: 'MOD() cannot mod by zero' }
     }
 
     return { kind: EvaluationResultKind.NUMBER, value: lhs.value % rhs.value }
   },
-})
+)
 
-export const FLOOR = expose('FLOOR(value: NUMBER)', {
-  description: 'Floor the number',
-  handle(value: EvaluationResultNumber): EvaluationResult {
+export const FLOOR = expose(
+  `
+    @description Floor the number
+
+    FLOOR(value: NUMBER)
+  `,
+  (value: EvaluationResultNumber) => {
     return { kind: EvaluationResultKind.NUMBER, value: Math.floor(value.value) }
   },
-})
+)
 
-export const CEIL = expose('CEIL(value: NUMBER)', {
-  description: 'Ceil the number',
-  handle(value: EvaluationResultNumber): EvaluationResult {
+export const CEIL = expose(
+  `
+    @description Ceil the number
+
+    CEIL(value: NUMBER)
+  `,
+  (value: EvaluationResultNumber) => {
     return { kind: EvaluationResultKind.NUMBER, value: Math.ceil(value.value) }
   },
-})
+)
 
-export const ROUND = expose('ROUND(value: NUMBER, places?: NUMBER)', {
-  description: 'Ceil the number',
-  handle(
-    value: EvaluationResultNumber,
-    places: EvaluationResultNumber,
-  ): EvaluationResult {
+export const ROUND = expose(
+  `
+    @description Ceil the number
+
+    ROUND(value: NUMBER, places?: NUMBER)
+  `,
+  (value: EvaluationResultNumber, places: EvaluationResultNumber) => {
     let decimals = places?.value ?? 0
 
     return {
@@ -205,4 +264,4 @@ export const ROUND = expose('ROUND(value: NUMBER, places?: NUMBER)', {
       value: Math.round(value.value * 10 ** decimals) / 10 ** decimals,
     }
   },
-})
+)

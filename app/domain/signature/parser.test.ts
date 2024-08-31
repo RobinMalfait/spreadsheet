@@ -9,6 +9,7 @@ it('should parse a simple signature expression', () => {
     {
       "args": [],
       "name": "FOO",
+      "tags": [],
     }
   `)
 })
@@ -27,6 +28,7 @@ it('should parse a function with a required argument', () => {
         },
       ],
       "name": "ABS",
+      "tags": [],
     }
   `)
 })
@@ -45,6 +47,7 @@ it('should parse a function with an optional argument', () => {
         },
       ],
       "name": "ABS",
+      "tags": [],
     }
   `)
 })
@@ -63,6 +66,7 @@ it('should parse a function with a variadic argument', () => {
         },
       ],
       "name": "SUM",
+      "tags": [],
     }
   `)
 })
@@ -81,6 +85,7 @@ it('should parse a function with an optional variadic argument', () => {
         },
       ],
       "name": "SUM",
+      "tags": [],
     }
   `)
 })
@@ -100,6 +105,7 @@ it('should parse a function that accepts multiple types', () => {
         },
       ],
       "name": "FOO",
+      "tags": [],
     }
   `)
 })
@@ -120,6 +126,7 @@ it('should parse a function that accepts multiple types (3)', () => {
         },
       ],
       "name": "FOO",
+      "tags": [],
     }
   `)
 })
@@ -159,8 +166,49 @@ it('should parse a function that accepts multiple arguments, with multiple types
         },
       ],
       "name": "FOO",
+      "tags": [],
     }
   `)
+})
+
+describe('at-tags', () => {
+  it('should parse an at-tag', () => {
+    expect(
+      parse(
+        tokenize(`
+          @description The absolute value of a number
+          @param x The number to get the absolute value of
+
+          ABS(x: NUMBER)
+        `),
+      ),
+    ).toMatchInlineSnapshot(json`
+      {
+        "args": [
+          {
+            "name": "x",
+            "optional": false,
+            "types": [
+              "NUMBER",
+            ],
+            "variadic": false,
+          },
+        ],
+        "name": "ABS",
+        "tags": [
+          {
+            "kind": "description",
+            "value": "The absolute value of a number",
+          },
+          {
+            "kind": "param",
+            "name": "x",
+            "value": "The number to get the absolute value of",
+          },
+        ],
+      }
+    `)
+  })
 })
 
 describe('error handling', () => {

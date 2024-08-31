@@ -11,12 +11,90 @@ interface Argument {
 export interface Signature {
   name: string
   args: Argument[]
+
+  tags: Tag[]
 }
 
+enum TagKind {
+  DESCRIPTION = 'description',
+  PARAM = 'param',
+}
+
+interface DescriptionTag {
+  kind: TagKind.DESCRIPTION
+  value: string
+}
+
+interface ParamTag {
+  kind: TagKind.PARAM
+  name: string
+  value: string
+}
+
+type Tag = DescriptionTag | ParamTag
+
 export function parse(tokens: Token[]): Signature {
+  // @description The absolute value of a number
+  //  ^^^^^^^^^^^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  let tags: Tag[] = []
+
+  let next = tokens.shift()
+
+  // At-tags:
+  while (next?.kind === TokenKind.AT) {
+    next = tokens.shift()
+    if (next?.kind !== TokenKind.IDENTIFIER) {
+      throw new Error('Expected an at-tag name')
+    }
+
+    let tag = next.value
+    next = tokens.shift()
+
+    // @param x The number to get the absolute value of
+    //          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ DESCRIPTION
+    //        ^ IDENTIFIER
+    //  ^^^^^ TAG
+    if (tag === 'param') {
+      if (next?.kind !== TokenKind.IDENTIFIER) {
+        throw new Error('Expected a parameter name after the at-tag')
+      }
+
+      let name = next.value
+      next = tokens.shift()
+
+      if (next?.kind !== TokenKind.STRING) {
+        throw new Error('Expected a string after the at-tag')
+      }
+
+      let value = next.value
+      tags.push({
+        kind: TagKind.PARAM,
+        name,
+        value,
+      })
+
+      next = tokens.shift()
+      continue
+    }
+
+    if (next?.kind !== TokenKind.STRING) {
+      throw new Error('Expected a string after the at-tag')
+    }
+
+    let value = next.value
+    tags.push({
+      kind: TagKind.DESCRIPTION,
+      value,
+    })
+
+    next = tokens.shift()
+  }
+
+  // Signature:
+  let name = next
+
   // FOO()
   // ^^^
-  let name = tokens.shift()
   if (name?.kind !== TokenKind.IDENTIFIER) {
     throw new Error('Expected a function name')
   }
@@ -44,6 +122,8 @@ export function parse(tokens: Token[]): Signature {
     //     ^
     let next = tokens.shift()
     if (next?.kind === TokenKind.CLOSE_PAREN) break
+
+    // Arguments:
 
     let arg: Argument = {
       name: '',
@@ -121,6 +201,7 @@ export function parse(tokens: Token[]): Signature {
   return {
     name: name.value,
     args,
+    tags,
   } satisfies Signature
 }
 

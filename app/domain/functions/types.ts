@@ -2,9 +2,13 @@ import { printEvaluationResult } from '~/domain/evaluation'
 import { EvaluationResultKind } from '~/domain/evaluation-result'
 import { expose } from '~/domain/function-utils'
 
-export const TYPE = expose('TYPE(value: T)', {
-  description: 'Returns the type of a value',
-  handle(value) {
+export const TYPE = expose(
+  `
+    @description Returns the type of a value
+
+    TYPE(value: T)
+  `,
+  (value) => {
     switch (value.kind) {
       case EvaluationResultKind.ERROR:
         return { kind: EvaluationResultKind.STRING, value: 'error' }
@@ -23,11 +27,15 @@ export const TYPE = expose('TYPE(value: T)', {
         return value
     }
   },
-})
+)
 
-export const AS_NUMBER = expose('AS_NUMBER(value: T)', {
-  description: 'Converts a value to a number',
-  handle(value) {
+export const AS_NUMBER = expose(
+  `
+    @description Converts a value to a number
+
+    AS_NUMBER(value: T)
+  `,
+  (value) => {
     switch (value.kind) {
       // No need to convert an error to a number
       case EvaluationResultKind.ERROR:
@@ -62,11 +70,15 @@ export const AS_NUMBER = expose('AS_NUMBER(value: T)', {
         return value
     }
   },
-})
+)
 
-export const AS_STRING = expose('AS_STRING(value: T)', {
-  description: 'Converts a value to a string',
-  handle(value) {
+export const AS_STRING = expose(
+  `
+    @description Converts a value to a string
+
+    AS_STRING(value: T)
+  `,
+  (value) => {
     if (value.kind === EvaluationResultKind.STRING) {
       return value
     }
@@ -76,11 +88,15 @@ export const AS_STRING = expose('AS_STRING(value: T)', {
       value: printEvaluationResult(value),
     }
   },
-})
+)
 
-export const AS_BOOLEAN = expose('AS_BOOLEAN(value: T)', {
-  description: 'Converts a value to a boolean',
-  handle(value) {
+export const AS_BOOLEAN = expose(
+  `
+    @description Converts a value to a boolean
+
+    AS_BOOLEAN(value: T)
+  `,
+  (value) => {
     if (value.kind === EvaluationResultKind.BOOLEAN) {
       return value
     }
@@ -101,4 +117,4 @@ export const AS_BOOLEAN = expose('AS_BOOLEAN(value: T)', {
         return value
     }
   },
-})
+)

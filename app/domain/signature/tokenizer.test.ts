@@ -518,3 +518,80 @@ it('should tokenize a function with variadic arguments', () => {
     ]
   `)
 })
+
+it('should tokenize the `@description`', () => {
+  expect(
+    tokenize('@description Now this is a story, all about how'),
+  ).toMatchInlineSnapshot(json`
+    [
+      {
+        "kind": "AT",
+        "raw": "@",
+        "span": {
+          "end": 1,
+          "start": 0,
+        },
+      },
+      {
+        "kind": "IDENTIFIER",
+        "raw": "description",
+        "span": {
+          "end": 12,
+          "start": 1,
+        },
+        "value": "description",
+      },
+      {
+        "kind": "STRING",
+        "raw": "Now this is a story, all about how",
+        "span": {
+          "end": 47,
+          "start": 13,
+        },
+        "value": "Now this is a story, all about how",
+      },
+    ]
+  `)
+})
+
+it('should tokenize the `@param`', () => {
+  expect(tokenize('@param x The number to work with')).toMatchInlineSnapshot(json`
+    [
+      {
+        "kind": "AT",
+        "raw": "@",
+        "span": {
+          "end": 1,
+          "start": 0,
+        },
+      },
+      {
+        "kind": "IDENTIFIER",
+        "raw": "param",
+        "span": {
+          "end": 6,
+          "start": 1,
+        },
+        "value": "param",
+      },
+      {
+        "kind": "IDENTIFIER",
+        "raw": "x",
+        "span": {
+          "end": 8,
+          "start": 7,
+        },
+        "value": "x",
+      },
+      {
+        "kind": "STRING",
+        "raw": "The number to work with",
+        "span": {
+          "end": 32,
+          "start": 9,
+        },
+        "value": "The number to work with",
+      },
+    ]
+  `)
+})

@@ -1,9 +1,13 @@
 import { EvaluationResultKind } from '~/domain/evaluation-result'
 import { expose } from '~/domain/function-utils'
 
-export const DIGITS = expose('DIGITS()', {
-  description: 'A sequence of the digits from 0 through 9',
-  handle() {
+export const DIGITS = expose(
+  `
+    @description A sequence of the digits from 0 through 9
+
+    DIGITS()
+  `,
+  () => {
     return [
       { kind: EvaluationResultKind.NUMBER, value: 0 },
       { kind: EvaluationResultKind.NUMBER, value: 1 },
@@ -17,4 +21,4 @@ export const DIGITS = expose('DIGITS()', {
       { kind: EvaluationResultKind.NUMBER, value: 9 },
     ]
   },
-})
+)

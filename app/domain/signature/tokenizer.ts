@@ -10,6 +10,7 @@ const ZERO = 48 // 0
 const NINE = 57 // 9
 const COLON = 58 // :
 const QUESTION_MARK = 63 // ?
+const AT = 64 // @
 const UPPER_A = 65 // A
 const UPPER_Z = 90 // Z
 const UNDERSCORE = 95 // _
@@ -25,7 +26,9 @@ type Span = {
 export enum TokenKind {
   IDENTIFIER = 'IDENTIFIER',
   VARIADIC_MARKER = 'VARIADIC_MARKER',
+  STRING = 'STRING',
   OR = 'OR',
+  AT = 'AT',
   QUESTION_MARK = 'QUESTION_MARK',
   COLON = 'COLON',
   COMMA = 'COMMA',
@@ -37,7 +40,9 @@ export enum TokenKind {
 export type Token = (
   | { kind: TokenKind.IDENTIFIER; value: string }
   | { kind: TokenKind.VARIADIC_MARKER }
+  | { kind: TokenKind.STRING; value: string }
   | { kind: TokenKind.OR }
+  | { kind: TokenKind.AT }
   | { kind: TokenKind.QUESTION_MARK }
   | { kind: TokenKind.COLON }
   | { kind: TokenKind.COMMA }
@@ -48,7 +53,7 @@ export type Token = (
 
 export function tokenize(input: string): Token[] {
   let tokens: Token[] = []
-  let eol = input.length
+  let eof = input.length
 
   for (let idx = 0; idx < input.length; idx++) {
     let char = input.charCodeAt(idx)
@@ -59,25 +64,10 @@ export function tokenize(input: string): Token[] {
     }
 
     // Identifier
-    if ((char >= UPPER_A && char <= UPPER_Z) || (char >= LOWER_A && char <= LOWER_Z)) {
-      let start = idx
-      do {
-        char = input.charCodeAt(++idx)
-      } while (
-        ((char >= UPPER_A && char <= UPPER_Z) ||
-          (char >= LOWER_A && char <= LOWER_Z) ||
-          (char >= ZERO && char <= NINE) ||
-          char === UNDERSCORE) &&
-        idx < eol
-      )
-      let end = idx--
-
-      tokens.push({
-        kind: TokenKind.IDENTIFIER,
-        value: input.slice(start, end),
-        raw: input.slice(start, end),
-        span: { start, end },
-      })
+    let identifier = tokenizeIdentifier(input, idx)
+    if (identifier) {
+      tokens.push(identifier)
+      idx = identifier.span.end - 1
       continue
     }
 
@@ -99,6 +89,46 @@ export function tokenize(input: string): Token[] {
     // Or operator
     if (char === OR) {
       tokens.push({ kind: TokenKind.OR, raw: '|', span: { start: idx, end: idx + 1 } })
+      continue
+    }
+
+    // At sign
+    if (char === AT) {
+      tokens.push({ kind: TokenKind.AT, raw: '@', span: { start: idx, end: idx + 1 } })
+
+      // Identifier
+      let identifier = tokenizeIdentifier(input, idx + 1)
+      if (identifier === null) throw new Error('Expected identifier')
+      tokens.push(identifier)
+      idx = identifier.span.end
+
+      // Param expects an identifier
+      if (identifier.value === 'param') {
+        let identifier = tokenizeIdentifier(input, idx + 1)
+        if (identifier === null) throw new Error('Expected identifier')
+        tokens.push(identifier)
+        idx = identifier.span.end
+      }
+
+      // Skip whitespace
+      char = input.charCodeAt(idx)
+      while (char === SPACE || char === TAB || char === NEWLINE || char === LINE_FEED) {
+        char = input.charCodeAt(++idx)
+      }
+
+      // Rest until the end of the line is a string
+      let start = idx
+      do {
+        char = input.charCodeAt(++idx)
+      } while (char !== NEWLINE && char !== LINE_FEED && idx < eof)
+
+      tokens.push({
+        kind: TokenKind.STRING,
+        value: input.slice(start, idx).trim(),
+        raw: input.slice(start, idx),
+        span: { start, end: idx },
+      })
+
       continue
     }
 
@@ -153,4 +183,32 @@ export function tokenize(input: string): Token[] {
   }
 
   return tokens
+}
+
+function tokenizeIdentifier(input: string, idx: number) {
+  let char = input.charCodeAt(idx)
+  let eof = input.length
+
+  if ((char >= UPPER_A && char <= UPPER_Z) || (char >= LOWER_A && char <= LOWER_Z)) {
+    let start = idx
+    do {
+      char = input.charCodeAt(++idx)
+    } while (
+      ((char >= UPPER_A && char <= UPPER_Z) ||
+        (char >= LOWER_A && char <= LOWER_Z) ||
+        (char >= ZERO && char <= NINE) ||
+        char === UNDERSCORE) &&
+      idx < eof
+    )
+    let end = idx--
+
+    return {
+      kind: TokenKind.IDENTIFIER,
+      value: input.slice(start, end),
+      raw: input.slice(start, end),
+      span: { start, end },
+    }
+  }
+
+  return null
 }

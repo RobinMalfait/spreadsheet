@@ -6,13 +6,7 @@ import { validate } from '~/domain/signature/validate'
 export function expose<
   T extends EvaluationResult,
   R extends EvaluationResult | EvaluationResult[],
->(
-  signature: string,
-  options: {
-    description: string
-    handle: (...args: T[]) => R
-  },
-): (...args: T[]) => R {
+>(signature: string, handle: (...args: T[]) => R): (...args: T[]) => R {
   let sig = parse(tokenize(signature))
 
   return Object.assign(
@@ -21,8 +15,8 @@ export function expose<
       if (errors) return errors as R
 
       // Handle
-      return options.handle(...args) as R
+      return handle(...args) as R
     },
-    { signature, signatureAST: sig, description: options.description },
+    { signature, signatureAST: sig },
   )
 }
