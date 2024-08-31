@@ -22,7 +22,6 @@ import { expose } from '../function-utils'
 export const NOW = expose(
   `
     @description The current date and time
-
     NOW()
   `,
   () => {
@@ -38,7 +37,6 @@ export const NOW = expose(
 export const TODAY = expose(
   `
     @description The current date
-
     TODAY()
   `,
   () => {
@@ -54,7 +52,6 @@ export const TODAY = expose(
 export const TIME = expose(
   `
     @description The current time
-
     TIME()
   `,
   () => {
@@ -67,23 +64,24 @@ export const TIME = expose(
   },
 )
 
-// @describe date The date to extract the day from
 export const DAY = expose(
   `
     @description The day of the month
-
+    @param date The date to extract the day from
     DAY(date: DATETIME)
   `,
   (date: EvaluationResultDateTime) => {
-    return { kind: EvaluationResultKind.NUMBER, value: getDate(date.value) }
+    return {
+      kind: EvaluationResultKind.NUMBER,
+      value: getDate(date.value),
+    } satisfies EvaluationResult
   },
 )
 
-// @describe date The date to extract the month from
 export const MONTH = expose(
   `
     @description The month of the year
-
+    @param date The date to extract the month from
     MONTH(date: DATETIME)
   `,
   (date: EvaluationResultDateTime) => {
@@ -91,60 +89,67 @@ export const MONTH = expose(
   },
 )
 
-// @describe date The date to extract the year from
 export const YEAR = expose(
   `
     @description The year
-
+    @param date The date to extract the year from
     YEAR(date: DATETIME)
   `,
   (date: EvaluationResultDateTime) => {
-    return { kind: EvaluationResultKind.NUMBER, value: getYear(date.value) }
+    return {
+      kind: EvaluationResultKind.NUMBER,
+      value: getYear(date.value),
+    } satisfies EvaluationResult
   },
 )
 
-// @describe date The date to extract the hour from
 export const HOUR = expose(
   `
     @description The hour
-
+    @param date The date to extract the hour from
     HOUR(date: DATETIME)
   `,
   (date: EvaluationResultDateTime) => {
-    return { kind: EvaluationResultKind.NUMBER, value: getHours(date.value) }
+    return {
+      kind: EvaluationResultKind.NUMBER,
+      value: getHours(date.value),
+    } satisfies EvaluationResult
   },
 )
 
-// @describe date The date to extract the minute from
 export const MINUTE = expose(
   `
     @description The minute
-
+    @param date The date to extract the minute from
     MINUTE(date: DATETIME)
   `,
   (date: EvaluationResultDateTime) => {
-    return { kind: EvaluationResultKind.NUMBER, value: getMinutes(date.value) }
+    return {
+      kind: EvaluationResultKind.NUMBER,
+      value: getMinutes(date.value),
+    } satisfies EvaluationResult
   },
 )
 
-// @describe date The date to extract the second from
 export const SECOND = expose(
   `
     @description The second
-
+    @param date The date to extract the second from
     SECOND(date: DATETIME)
   `,
   (date: EvaluationResultDateTime) => {
-    return { kind: EvaluationResultKind.NUMBER, value: getSeconds(date.value) }
+    return {
+      kind: EvaluationResultKind.NUMBER,
+      value: getSeconds(date.value),
+    } satisfies EvaluationResult
   },
 )
 
-// @describe date The date to add days to
-// @describe days The number of days to add
 export const ADD_DAYS = expose(
   `
     @description Add days to a date
-
+    @param date The date to add days to
+    @param days The number of days to add
     ADD_DAYS(date: DATETIME, days: NUMBER)
   `,
   (date: EvaluationResultDateTime, days: EvaluationResultNumber) => {
@@ -157,12 +162,11 @@ export const ADD_DAYS = expose(
   },
 )
 
-// @describe date The date to subtract days from
-// @describe days The number of days to subtract
 export const SUB_DAYS = expose(
   `
     @description Subtract days from a date
-
+    @param date The date to subtract days from
+    @param days The number of days to subtract
     SUB_DAYS(date: DATETIME, days: NUMBER)
   `,
   (date: EvaluationResultDateTime, days: EvaluationResultNumber) => {
@@ -175,12 +179,11 @@ export const SUB_DAYS = expose(
   },
 )
 
-// @describe date The date to add hours to
-// @describe hours The number of hours to add
 export const ADD_HOURS = expose(
   `
     @description Add hours to a date
-
+    @param date The date to add hours to
+    @param hours The number of hours to add
     ADD_HOURS(date: DATETIME, hours: NUMBER)
   `,
   (date: EvaluationResultDateTime, hours: EvaluationResultNumber) => {
@@ -193,12 +196,11 @@ export const ADD_HOURS = expose(
   },
 )
 
-// @describe date The date to subtract hours from
-// @describe hours The number of hours to subtract
 export const SUB_HOURS = expose(
   `
     @description Subtract hours from a date
-
+    @param date The date to subtract hours from
+    @param hours The number of hours to subtract
     SUB_HOURS(date: DATETIME, hours: NUMBER)
   `,
   (date: EvaluationResultDateTime, hours: EvaluationResultNumber) => {

@@ -9,7 +9,6 @@ import { expose } from '~/domain/function-utils'
 export const CONCAT = expose(
   `
     @description Concatenates multiple strings together
-
     CONCAT(...args: T)
   `,
   (...args) => {
@@ -26,7 +25,6 @@ export const CONCAT = expose(
 export const JOIN = expose(
   `
     @description Joins multiple strings together with a delimiter
-
     JOIN(delimiter: STRING, ...args: T)
   `,
   (delimiter: EvaluationResultString, ...args) => {
@@ -43,7 +41,6 @@ export const JOIN = expose(
 export const LOWER = expose(
   `
     @description Converts a string to lowercase
-
     LOWER(arg: T)
   `,
   (arg) => {
@@ -57,7 +54,6 @@ export const LOWER = expose(
 export const UPPER = expose(
   `
     @description Converts a string to uppercase
-
     UPPER(arg: T)
   `,
   (arg) => {
@@ -71,7 +67,6 @@ export const UPPER = expose(
 export const LEN = expose(
   `
     @description Returns the length of a string
-
     LEN(arg: STRING)
   `,
   (arg: EvaluationResultString) => {
@@ -82,7 +77,6 @@ export const LEN = expose(
 export const TRIM = expose(
   `
     @description Removes leading and trailing whitespace from a string
-
     TRIM(arg: STRING)
   `,
   (arg: EvaluationResultString) => {
@@ -93,7 +87,6 @@ export const TRIM = expose(
 export const FIND_FIRST = expose(
   `
     @description Returns the first needle found in the haystack
-
     FIND_FIRST(haystack: STRING, ...needles: STRING)
   `,
   (haystack: EvaluationResultString, ...needles: EvaluationResultString[]) => {
@@ -116,7 +109,6 @@ export const FIND_FIRST = expose(
 export const FIND_LAST = expose(
   `
     @description Returns the last needle found in the haystack
-
     FIND_LAST(haystack: STRING, ...needles: STRING)
   `,
   (haystack: EvaluationResultString, ...needles: EvaluationResultString[]) => {
@@ -139,7 +131,6 @@ export const FIND_LAST = expose(
 export const REPLACE_ALL = expose(
   `
     @description Replaces all occurrences of the needles with their replacements
-
     REPLACE_ALL(haystack: STRING, ...zip?: STRING | NUMBER)
   `,
   (haystack: EvaluationResultString, ...zip: EvaluationResultString[]) => {
@@ -200,7 +191,6 @@ export const REPLACE_ALL = expose(
 export const TEXT_SLICE = expose(
   `
     @description Returns a slice of the string from startIdx to endIdx
-
     TEXT_SLICE(value: STRING, startIdx: NUMBER, endIdx?: NUMBER)
   `,
   (

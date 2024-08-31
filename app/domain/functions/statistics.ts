@@ -4,7 +4,6 @@ import { expose } from '~/domain/function-utils'
 export const COUNT = expose(
   `
     @description Count the number of NUMBER arguments
-
     COUNT(...values: T)
   `,
   (...args) => {
@@ -34,7 +33,6 @@ export const COUNT = expose(
 export const MIN = expose(
   `
     @description Returns the smallest NUMBER argument
-
     MIN(...values: T)
   `,
   (...args) => {
@@ -65,7 +63,6 @@ export const MIN = expose(
 export const MAX = expose(
   `
     @description Returns the largest NUMBER argument
-
     MAX(...values: T)
   `,
   (...args) => {
@@ -96,7 +93,6 @@ export const MAX = expose(
 export const AVERAGE = expose(
   `
     @description Returns the average of NUMBER arguments
-
     AVERAGE(...values: T)
   `,
   (...args) => {
@@ -131,7 +127,6 @@ export const AVERAGE = expose(
 export const MEDIAN = expose(
   `
     @description Returns the median of NUMBER arguments
-
     MEDIAN(...values: T)
   `,
   (...args) => {
@@ -157,7 +152,6 @@ export const MEDIAN = expose(
 export const MODE = expose(
   `
     @description Returns the mode of NUMBER arguments
-
     MODE(...values: T)
   `,
   (...args) => {

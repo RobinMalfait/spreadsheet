@@ -8,7 +8,6 @@ import { expose } from '~/domain/function-utils'
 export const PI = expose(
   `
     @description The number π
-
     PI()
   `,
   () => {
@@ -19,7 +18,6 @@ export const PI = expose(
 export const TAU = expose(
   `
     @description The number τ
-
     TAU()
   `,
   () => {
@@ -36,7 +34,6 @@ function exposeUnaryMathFunction(
     `
       @description ${description ?? `The ${name} function`}
       @param x A numeric expression
-
       ${name}(x: NUMBER)
     `,
     (arg: EvaluationResultNumber) => {
@@ -66,12 +63,11 @@ export const TAN = exposeUnaryMathFunction('TAN', Math.tan)
 export const TANH = exposeUnaryMathFunction('TANH', Math.tanh)
 export const TRUNC = exposeUnaryMathFunction('TRUNC', Math.trunc)
 
-// @describe y A numeric expression representing the cartesian y-coordinate.
-// @describe x A numeric expression representing the cartesian x-coordinate.
 export const ATAN2 = expose(
   `
     @description The angle (in radians) from the X axis to a point.
-
+    @param y A numeric expression representing the cartesian y-coordinate.
+    @param x A numeric expression representing the cartesian x-coordinate.
     ATAN2(y: NUMBER, x: NUMBER)
   `,
   (y: EvaluationResultNumber, x: EvaluationResultNumber) => {
@@ -82,7 +78,8 @@ export const ATAN2 = expose(
 export const IMUL = expose(
   `
     @description The result of 32-bit multiplication of two numbers.
-
+    @param x First number
+    @param y Second number
     IMUL(x: NUMBER, y: NUMBER)
   `,
   (x: EvaluationResultNumber, y: EvaluationResultNumber) => {
@@ -93,7 +90,6 @@ export const IMUL = expose(
 export const SUM = expose(
   `
     @description Returns the sum of all arguments
-
     SUM(...args: T)
   `,
   (...args: EvaluationResult[]) => {
@@ -124,7 +120,6 @@ export const SUM = expose(
 export const ADD = expose(
   `
     @description Add two numbers
-
     ADD(lhs: NUMBER, rhs: NUMBER)
   `,
   (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
@@ -135,7 +130,6 @@ export const ADD = expose(
 export const SUBTRACT = expose(
   `
     @description Subtract two numbers
-
     SUBTRACT(lhs: NUMBER, rhs: NUMBER)
   `,
   (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
@@ -146,7 +140,6 @@ export const SUBTRACT = expose(
 export const MULTIPLY = expose(
   `
     @description Multiply two numbers
-
     MULTIPLY(lhs: NUMBER, rhs: NUMBER)
   `,
   (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
@@ -157,7 +150,6 @@ export const MULTIPLY = expose(
 export const PRODUCT = expose(
   `
     @description Returns the product of all arguments
-
     PRODUCT(...args: T)
   `,
   (...args: EvaluationResult[]) => {
@@ -190,7 +182,6 @@ export const PRODUCT = expose(
 export const DIVIDE = expose(
   `
     @description Divide the lhs by the rhs
-
     DIVIDE(lhs: NUMBER, rhs: NUMBER)
   `,
   (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
@@ -205,7 +196,6 @@ export const DIVIDE = expose(
 export const POWER = expose(
   `
     @description Power the lhs by the rhs
-
     POWER(lhs: NUMBER, rhs: NUMBER)
   `,
   (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
@@ -216,7 +206,6 @@ export const POWER = expose(
 export const MOD = expose(
   `
     @description Mod the lhs by the rhs
-
     MOD(lhs: NUMBER, rhs: NUMBER)
   `,
   (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
@@ -231,7 +220,6 @@ export const MOD = expose(
 export const FLOOR = expose(
   `
     @description Floor the number
-
     FLOOR(value: NUMBER)
   `,
   (value: EvaluationResultNumber) => {
@@ -242,7 +230,6 @@ export const FLOOR = expose(
 export const CEIL = expose(
   `
     @description Ceil the number
-
     CEIL(value: NUMBER)
   `,
   (value: EvaluationResultNumber) => {
@@ -252,8 +239,7 @@ export const CEIL = expose(
 
 export const ROUND = expose(
   `
-    @description Ceil the number
-
+    @description Round the number
     ROUND(value: NUMBER, places?: NUMBER)
   `,
   (value: EvaluationResultNumber, places: EvaluationResultNumber) => {

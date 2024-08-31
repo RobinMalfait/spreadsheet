@@ -4,7 +4,6 @@ import { expose } from '~/domain/function-utils'
 export const TRUE = expose(
   `
     @description The boolean value true
-
     TRUE()
   `,
   () => {
@@ -15,7 +14,6 @@ export const TRUE = expose(
 export const FALSE = expose(
   `
     @description The boolean value false
-
     FALSE()
   `,
   () => {
@@ -23,13 +21,12 @@ export const FALSE = expose(
   },
 )
 
-// @describe test The condition to evaluate
-// @describe consequent The value to return if the condition is true
-// @describe alternate The value to return if the condition is false
 export const IF = expose(
   `
     @description Returns one value if a condition is true and another value if it is false
-
+    @param test The condition to evaluate
+    @param consequent The value to return if the condition is true
+    @param alternate The value to return if the condition is false
     IF(test: BOOLEAN, consequent: T, alternate: T)
   `,
   (test: EvaluationResult, consequent: EvaluationResult, alternate: EvaluationResult) => {
@@ -37,11 +34,10 @@ export const IF = expose(
   },
 )
 
-// @describe expressions The conditions to evaluate
 export const AND = expose(
   `
     @description Returns true if all conditions are true
-
+    @param expressions The conditions to evaluate
     AND(...expressions: T)
   `,
   (...args) => {
@@ -49,11 +45,10 @@ export const AND = expose(
   },
 )
 
-// @describe expressions The conditions to evaluate
 export const OR = expose(
   `
     @description Returns true if any condition is true
-
+    @param expressions The conditions to evaluate
     OR(...expressions: T)
   `,
   (...args) => {
@@ -61,11 +56,10 @@ export const OR = expose(
   },
 )
 
-// @describe value The condition to negate
 export const NOT = expose(
   `
     @description Returns true if the condition is false
-
+    @param value The condition to negate
     NOT(value: BOOLEAN)
   `,
   (lhs: EvaluationResult) => {

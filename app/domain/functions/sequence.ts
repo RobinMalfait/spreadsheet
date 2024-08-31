@@ -4,7 +4,6 @@ import { expose } from '~/domain/function-utils'
 export const DIGITS = expose(
   `
     @description A sequence of the digits from 0 through 9
-
     DIGITS()
   `,
   () => {

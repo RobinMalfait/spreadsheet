@@ -5,7 +5,6 @@ import { expose } from '~/domain/function-utils'
 export const TYPE = expose(
   `
     @description Returns the type of a value
-
     TYPE(value: T)
   `,
   (value) => {
@@ -32,7 +31,6 @@ export const TYPE = expose(
 export const AS_NUMBER = expose(
   `
     @description Converts a value to a number
-
     AS_NUMBER(value: T)
   `,
   (value) => {
@@ -75,7 +73,6 @@ export const AS_NUMBER = expose(
 export const AS_STRING = expose(
   `
     @description Converts a value to a string
-
     AS_STRING(value: T)
   `,
   (value) => {
@@ -93,7 +90,6 @@ export const AS_STRING = expose(
 export const AS_BOOLEAN = expose(
   `
     @description Converts a value to a boolean
-
     AS_BOOLEAN(value: T)
   `,
   (value) => {
