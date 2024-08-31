@@ -27,13 +27,15 @@ const PLACEHOLDER = /<!-- start:functions -->([\s\S]*)<!-- end:functions -->/g
 function generateDocs() {
   let out = ''
   for (let [category, fns] of categories) {
-    out += `## ${category}\n\n`
+    let functionNames = Array.from(Object.keys(fns).sort(collator.compare).entries())
 
-    for (let name of Object.keys(fns).sort(collator.compare)) {
+    out += `## ${category} (${functionNames.length})\n\n`
+
+    for (let [idx, name] of functionNames) {
       // @ts-expect-error
       let signature = fns[name as keyof typeof fns].signature as Signature
 
-      out += `### \`${printSignature(signature)}\`\n\n`
+      out += `### ${idx + 1}. \`${printSignature(signature)}\`\n\n`
       out += `> ${signature.description()}\n\n`
 
       // Param information

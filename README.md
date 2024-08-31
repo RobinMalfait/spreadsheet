@@ -45,101 +45,101 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-## Date functions
+## Date functions (13)
 
-### `ADD_DAYS(date: DATETIME, days: NUMBER)`
+### 1. `ADD_DAYS(date: DATETIME, days: NUMBER)`
 
 > Add days to a date
 
 - `date`: The date to add days to
 - `days`: The number of days to add
 
-### `ADD_HOURS(date: DATETIME, hours: NUMBER)`
+### 2. `ADD_HOURS(date: DATETIME, hours: NUMBER)`
 
 > Add hours to a date
 
 - `date`: The date to add hours to
 - `hours`: The number of hours to add
 
-### `DAY(date: DATETIME)`
+### 3. `DAY(date: DATETIME)`
 
 > The day of the month
 
 - `date`: The date to extract the day from
 
-### `HOUR(date: DATETIME)`
+### 4. `HOUR(date: DATETIME)`
 
 > The hour
 
 - `date`: The date to extract the hour from
 
-### `MINUTE(date: DATETIME)`
+### 5. `MINUTE(date: DATETIME)`
 
 > The minute
 
 - `date`: The date to extract the minute from
 
-### `MONTH(date: DATETIME)`
+### 6. `MONTH(date: DATETIME)`
 
 > The month of the year
 
 - `date`: The date to extract the month from
 
-### `NOW()`
+### 7. `NOW()`
 
 > The current date and time
 
 
-### `SECOND(date: DATETIME)`
+### 8. `SECOND(date: DATETIME)`
 
 > The second
 
 - `date`: The date to extract the second from
 
-### `SUB_DAYS(date: DATETIME, days: NUMBER)`
+### 9. `SUB_DAYS(date: DATETIME, days: NUMBER)`
 
 > Subtract days from a date
 
 - `date`: The date to subtract days from
 - `days`: The number of days to subtract
 
-### `SUB_HOURS(date: DATETIME, hours: NUMBER)`
+### 10. `SUB_HOURS(date: DATETIME, hours: NUMBER)`
 
 > Subtract hours from a date
 
 - `date`: The date to subtract hours from
 - `hours`: The number of hours to subtract
 
-### `TIME()`
+### 11. `TIME()`
 
 > The current time
 
 
-### `TODAY()`
+### 12. `TODAY()`
 
 > The current date
 
 
-### `YEAR(date: DATETIME)`
+### 13. `YEAR(date: DATETIME)`
 
 > The year
 
 - `date`: The date to extract the year from
 
-## Logic functions
+## Logic functions (6)
 
-### `AND(...expressions: T)`
+### 1. `AND(...expressions: T)`
 
 > Returns true if all conditions are true
 
 - `expressions`: The conditions to evaluate
 
-### `FALSE()`
+### 2. `FALSE()`
 
 > The boolean value false
 
 
-### `IF(test: BOOLEAN, consequent: T, alternate: T)`
+### 3. `IF(test: BOOLEAN, consequent: T, alternate: T)`
 
 > Returns one value if a condition is true and another value if it is false
 
@@ -147,333 +147,333 @@ Once you write a formula, you will get some syntax highlighting.
 - `consequent`: The value to return if the condition is true
 - `alternate`: The value to return if the condition is false
 
-### `NOT(value: BOOLEAN)`
+### 4. `NOT(value: BOOLEAN)`
 
 > Returns true if the condition is false
 
 - `value`: The condition to negate
 
-### `OR(...expressions: T)`
+### 5. `OR(...expressions: T)`
 
 > Returns true if any condition is true
 
 - `expressions`: The conditions to evaluate
 
-### `TRUE()`
+### 6. `TRUE()`
 
 > The boolean value true
 
 
-## Math functions
+## Math functions (35)
 
-### `ABS(x: NUMBER)`
+### 1. `ABS(x: NUMBER)`
 
 > The ABS function
 
 - `x`: A numeric expression
 
-### `ACOS(x: NUMBER)`
+### 2. `ACOS(x: NUMBER)`
 
 > The ACOS function
 
 - `x`: A numeric expression
 
-### `ACOSH(x: NUMBER)`
+### 3. `ACOSH(x: NUMBER)`
 
 > The ACOSH function
 
 - `x`: A numeric expression
 
-### `ADD(lhs: NUMBER, rhs: NUMBER)`
+### 4. `ADD(lhs: NUMBER, rhs: NUMBER)`
 
 > Add two numbers
 
 
-### `ASIN(x: NUMBER)`
+### 5. `ASIN(x: NUMBER)`
 
 > The ASIN function
 
 - `x`: A numeric expression
 
-### `ASINH(x: NUMBER)`
+### 6. `ASINH(x: NUMBER)`
 
 > The ASINH function
 
 - `x`: A numeric expression
 
-### `ATAN(x: NUMBER)`
+### 7. `ATAN(x: NUMBER)`
 
 > The ATAN function
 
 - `x`: A numeric expression
 
-### `ATAN2(y: NUMBER, x: NUMBER)`
+### 8. `ATAN2(y: NUMBER, x: NUMBER)`
 
 > The angle (in radians) from the X axis to a point.
 
 - `y`: A numeric expression representing the cartesian y-coordinate.
 - `x`: A numeric expression representing the cartesian x-coordinate.
 
-### `ATANH(x: NUMBER)`
+### 9. `ATANH(x: NUMBER)`
 
 > The ATANH function
 
 - `x`: A numeric expression
 
-### `CBRT(x: NUMBER)`
+### 10. `CBRT(x: NUMBER)`
 
 > The CBRT function
 
 - `x`: A numeric expression
 
-### `CEIL(value: NUMBER)`
+### 11. `CEIL(value: NUMBER)`
 
 > Ceil the number
 
 
-### `CLZ32(x: NUMBER)`
+### 12. `CLZ32(x: NUMBER)`
 
 > The CLZ32 function
 
 - `x`: A numeric expression
 
-### `COS(x: NUMBER)`
+### 13. `COS(x: NUMBER)`
 
 > The COS function
 
 - `x`: A numeric expression
 
-### `COSH(x: NUMBER)`
+### 14. `COSH(x: NUMBER)`
 
 > The COSH function
 
 - `x`: A numeric expression
 
-### `DIVIDE(lhs: NUMBER, rhs: NUMBER)`
+### 15. `DIVIDE(lhs: NUMBER, rhs: NUMBER)`
 
 > Divide the lhs by the rhs
 
 
-### `EXP(x: NUMBER)`
+### 16. `EXP(x: NUMBER)`
 
 > The EXP function
 
 - `x`: A numeric expression
 
-### `FLOOR(value: NUMBER)`
+### 17. `FLOOR(value: NUMBER)`
 
 > Floor the number
 
 
-### `IMUL(x: NUMBER, y: NUMBER)`
+### 18. `IMUL(x: NUMBER, y: NUMBER)`
 
 > The result of 32-bit multiplication of two numbers.
 
 - `x`: First number
 - `y`: Second number
 
-### `LOG(x: NUMBER)`
+### 19. `LOG(x: NUMBER)`
 
 > The LOG function
 
 - `x`: A numeric expression
 
-### `LOG10(x: NUMBER)`
+### 20. `LOG10(x: NUMBER)`
 
 > The LOG10 function
 
 - `x`: A numeric expression
 
-### `MOD(lhs: NUMBER, rhs: NUMBER)`
+### 21. `MOD(lhs: NUMBER, rhs: NUMBER)`
 
 > Mod the lhs by the rhs
 
 
-### `MULTIPLY(lhs: NUMBER, rhs: NUMBER)`
+### 22. `MULTIPLY(lhs: NUMBER, rhs: NUMBER)`
 
 > Multiply two numbers
 
 
-### `PI()`
+### 23. `PI()`
 
 > The number π
 
 
-### `POWER(lhs: NUMBER, rhs: NUMBER)`
+### 24. `POWER(lhs: NUMBER, rhs: NUMBER)`
 
 > Power the lhs by the rhs
 
 
-### `PRODUCT(...args: T)`
+### 25. `PRODUCT(...args: T)`
 
 > Returns the product of all arguments
 
 
-### `ROUND(value: NUMBER, places?: NUMBER)`
+### 26. `ROUND(value: NUMBER, places?: NUMBER)`
 
 > Round the number
 
 
-### `SIN(x: NUMBER)`
+### 27. `SIN(x: NUMBER)`
 
 > The SIN function
 
 - `x`: A numeric expression
 
-### `SINH(x: NUMBER)`
+### 28. `SINH(x: NUMBER)`
 
 > The SINH function
 
 - `x`: A numeric expression
 
-### `SQRT(x: NUMBER)`
+### 29. `SQRT(x: NUMBER)`
 
 > The SQRT function
 
 - `x`: A numeric expression
 
-### `SUBTRACT(lhs: NUMBER, rhs: NUMBER)`
+### 30. `SUBTRACT(lhs: NUMBER, rhs: NUMBER)`
 
 > Subtract two numbers
 
 
-### `SUM(...args: T)`
+### 31. `SUM(...args: T)`
 
 > Returns the sum of all arguments
 
 
-### `TAN(x: NUMBER)`
+### 32. `TAN(x: NUMBER)`
 
 > The TAN function
 
 - `x`: A numeric expression
 
-### `TANH(x: NUMBER)`
+### 33. `TANH(x: NUMBER)`
 
 > The TANH function
 
 - `x`: A numeric expression
 
-### `TAU()`
+### 34. `TAU()`
 
 > The number τ
 
 
-### `TRUNC(x: NUMBER)`
+### 35. `TRUNC(x: NUMBER)`
 
 > The TRUNC function
 
 - `x`: A numeric expression
 
-## Sequence functions
+## Sequence functions (1)
 
-### `DIGITS()`
+### 1. `DIGITS()`
 
 > A sequence of the digits from 0 through 9
 
 
-## Statistical functions
+## Statistical functions (6)
 
-### `AVERAGE(...values: T)`
+### 1. `AVERAGE(...values: T)`
 
 > Returns the average of NUMBER arguments
 
 
-### `COUNT(...values: T)`
+### 2. `COUNT(...values: T)`
 
 > Count the number of NUMBER arguments
 
 
-### `MAX(...values: T)`
+### 3. `MAX(...values: T)`
 
 > Returns the largest NUMBER argument
 
 
-### `MEDIAN(...values: T)`
+### 4. `MEDIAN(...values: T)`
 
 > Returns the median of NUMBER arguments
 
 
-### `MIN(...values: T)`
+### 5. `MIN(...values: T)`
 
 > Returns the smallest NUMBER argument
 
 
-### `MODE(...values: T)`
+### 6. `MODE(...values: T)`
 
 > Returns the mode of NUMBER arguments
 
 
-## Text functions
+## Text functions (10)
 
-### `CONCAT(...args: T)`
+### 1. `CONCAT(...args: T)`
 
 > Concatenates multiple strings together
 
 
-### `FIND_FIRST(haystack: STRING, ...needles: STRING)`
+### 2. `FIND_FIRST(haystack: STRING, ...needles: STRING)`
 
 > Returns the first needle found in the haystack
 
 
-### `FIND_LAST(haystack: STRING, ...needles: STRING)`
+### 3. `FIND_LAST(haystack: STRING, ...needles: STRING)`
 
 > Returns the last needle found in the haystack
 
 
-### `JOIN(delimiter: STRING, ...args: T)`
+### 4. `JOIN(delimiter: STRING, ...args: T)`
 
 > Joins multiple strings together with a delimiter
 
 
-### `LEN(arg: STRING)`
+### 5. `LEN(arg: STRING)`
 
 > Returns the length of a string
 
 
-### `LOWER(arg: T)`
+### 6. `LOWER(arg: T)`
 
 > Converts a string to lowercase
 
 
-### `REPLACE_ALL(haystack: STRING, ...zip?: STRING | NUMBER)`
+### 7. `REPLACE_ALL(haystack: STRING, ...zip?: STRING | NUMBER)`
 
 > Replaces all occurrences of the needles with their replacements
 
 
-### `TEXT_SLICE(value: STRING, startIdx: NUMBER, endIdx?: NUMBER)`
+### 8. `TEXT_SLICE(value: STRING, startIdx: NUMBER, endIdx?: NUMBER)`
 
 > Returns a slice of the string from startIdx to endIdx
 
 
-### `TRIM(arg: STRING)`
+### 9. `TRIM(arg: STRING)`
 
 > Removes leading and trailing whitespace from a string
 
 
-### `UPPER(arg: T)`
+### 10. `UPPER(arg: T)`
 
 > Converts a string to uppercase
 
 
-## Type functions
+## Type functions (4)
 
-### `AS_BOOLEAN(value: T)`
+### 1. `AS_BOOLEAN(value: T)`
 
 > Converts a value to a boolean
 
 
-### `AS_NUMBER(value: T)`
+### 2. `AS_NUMBER(value: T)`
 
 > Converts a value to a number
 
 
-### `AS_STRING(value: T)`
+### 3. `AS_STRING(value: T)`
 
 > Converts a value to a string
 
 
-### `TYPE(value: T)`
+### 4. `TYPE(value: T)`
 
 > Returns the type of a value
 
