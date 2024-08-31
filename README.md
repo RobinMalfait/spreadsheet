@@ -112,16 +112,16 @@ Once you write a formula, you will get some syntax highlighting.
    - [MIN(...values: T)](#min)
    - [MODE(...values: T)](#mode)
 - [Text functions](#text-functions)
-   - [CONCAT(...args: T)](#concat)
+   - [CONCAT(...values: T)](#concat)
    - [FIND_FIRST(haystack: STRING, ...needles: STRING)](#find_first)
    - [FIND_LAST(haystack: STRING, ...needles: STRING)](#find_last)
-   - [JOIN(delimiter: STRING, ...args: T)](#join)
-   - [LEN(arg: STRING)](#len)
-   - [LOWER(arg: T)](#lower)
+   - [JOIN(delimiter: STRING, ...values: T)](#join)
+   - [LEN(value: STRING)](#len)
+   - [LOWER(value: T)](#lower)
    - [REPLACE_ALL(haystack: STRING, ...zip?: STRING | NUMBER)](#replace_all)
-   - [TEXT_SLICE(value: STRING, startIdx: NUMBER, endIdx?: NUMBER)](#text_slice)
-   - [TRIM(arg: STRING)](#trim)
-   - [UPPER(arg: T)](#upper)
+   - [TEXT_SLICE(value: STRING, start: NUMBER, end?: NUMBER)](#text_slice)
+   - [TRIM(value: STRING)](#trim)
+   - [UPPER(value: T)](#upper)
 - [Type functions](#type-functions)
    - [AS_BOOLEAN(value: T)](#as_boolean)
    - [AS_NUMBER(value: T)](#as_number)
@@ -1253,11 +1253,20 @@ Returns the mode of NUMBER arguments.
 ### Text functions
 
 <a name="concat"></a>
-#### CONCAT(...args: T)
+#### CONCAT(...values: T)
 
 [Back to top](#functions)
 
-Concatenates multiple strings together
+Concatenates multiple strings together.
+
+- `values`: The strings to concatenate.
+
+#### Examples:
+
+```ts
+=CONCAT("hello", " ", "world")
+// hello world
+```
 
 ---
 
@@ -1266,7 +1275,22 @@ Concatenates multiple strings together
 
 [Back to top](#functions)
 
-Returns the first needle found in the haystack
+Returns the first needle found in the haystack.
+
+- `haystack`: The string to search in.
+- `needles`: The strings to search for.
+
+#### Examples:
+
+```ts
+=FIND_FIRST("The quick brown fox jumps over the lazy dog", "fox", "dog")
+// fox
+```
+
+```ts
+=FIND_FIRST("The quick brown fox jumps over the lazy dog", "dog", "fox")
+// fox
+```
 
 ---
 
@@ -1275,34 +1299,77 @@ Returns the first needle found in the haystack
 
 [Back to top](#functions)
 
-Returns the last needle found in the haystack
+Returns the last needle found in the haystack.
+
+- `haystack`: The string to search in.
+- `needles`: The strings to search for.
+
+#### Examples:
+
+```ts
+=FIND_LAST("The quick brown fox jumps over the lazy dog", "fox", "dog")
+// dog
+```
+
+```ts
+=FIND_LAST("The quick brown fox jumps over the lazy dog", "dog", "fox")
+// dog
+```
 
 ---
 
 <a name="join"></a>
-#### JOIN(delimiter: STRING, ...args: T)
+#### JOIN(delimiter: STRING, ...values: T)
 
 [Back to top](#functions)
 
-Joins multiple strings together with a delimiter
+Joins multiple strings together with a delimiter.
+
+- `delimiter`: The string to insert between each value.
+- `values`: The values to join.
+
+#### Examples:
+
+```ts
+=JOIN("-", 1, 2, "hello", "world", TRUE())
+// 1-2-hello-world-TRUE
+```
 
 ---
 
 <a name="len"></a>
-#### LEN(arg: STRING)
+#### LEN(value: STRING)
 
 [Back to top](#functions)
 
-Returns the length of a string
+Returns the length of a string.
+
+- `value`: The string to measure.
+
+#### Examples:
+
+```ts
+=LEN("Hello, World!")
+// 13
+```
 
 ---
 
 <a name="lower"></a>
-#### LOWER(arg: T)
+#### LOWER(value: T)
 
 [Back to top](#functions)
 
-Converts a string to lowercase
+Converts a string to lowercase.
+
+- `value`: The string to convert.
+
+#### Examples:
+
+```ts
+=LOWER("Hello, World!")
+// hello, world!
+```
 
 ---
 
@@ -1311,34 +1378,88 @@ Converts a string to lowercase
 
 [Back to top](#functions)
 
-Replaces all occurrences of the needles with their replacements
+Replaces all occurrences of the needles with their replacements.
+
+- `haystack`: The string to search in.
+- `zip`: The strings to search for and their replacements.
+
+#### Examples:
+
+```ts
+=REPLACE_ALL("The quick brown fox jumps over the lazy dog", "fox", "cat", "dog", "wolf")
+// The quick brown cat jumps over the lazy wolf
+```
 
 ---
 
 <a name="text_slice"></a>
-#### TEXT_SLICE(value: STRING, startIdx: NUMBER, endIdx?: NUMBER)
+#### TEXT_SLICE(value: STRING, start: NUMBER, end?: NUMBER)
 
 [Back to top](#functions)
 
-Returns a slice of the string from startIdx to endIdx
+Returns a section of a string.
+
+- `value`: The string to slice.
+- `start`: The index to the beginning of the specified portion of the `value`.
+- `end`: The index to the end of the specified portion of the `value`. The substring includes the characters up to, but not including, the character indicated by `end`. If this value is not specified, the substring continues to the end of the `value`.
+
+#### Examples:
+
+```ts
+=TEXT_SLICE("The quick brown fox jumps over the lazy dog", 0, 19)
+// The quick brown fox
+```
+
+```ts
+=TEXT_SLICE("The quick brown fox jumps over the lazy dog", 40)
+// dog
+```
+
+```ts
+=TEXT_SLICE("The quick brown fox jumps over the lazy dog", -3)
+// dog
+```
+
+```ts
+=TEXT_SLICE("The quick brown fox jumps over the lazy dog", 10, 19)
+// brown fox
+```
 
 ---
 
 <a name="trim"></a>
-#### TRIM(arg: STRING)
+#### TRIM(value: STRING)
 
 [Back to top](#functions)
 
-Removes leading and trailing whitespace from a string
+Removes leading and trailing whitespace from a string.
+
+- `value`: The string to trim.
+
+#### Examples:
+
+```ts
+=TRIM("  Hello, World!  ")
+// Hello, World!
+```
 
 ---
 
 <a name="upper"></a>
-#### UPPER(arg: T)
+#### UPPER(value: T)
 
 [Back to top](#functions)
 
-Converts a string to uppercase
+Converts a string to uppercase.
+
+- `value`: The string to convert.
+
+#### Examples:
+
+```ts
+=UPPER("Hello, World!")
+// HELLO, WORLD!
+```
 
 ### Type functions
 
