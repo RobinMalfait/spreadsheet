@@ -26,6 +26,23 @@ const PLACEHOLDER = /<!-- start:functions -->([\s\S]*)<!-- end:functions -->/g
 
 function generateDocs() {
   let out = ''
+
+  out += categories
+    .flatMap(([category, fns]) => {
+      return [
+        `- [${category}](#${category.toLowerCase().replace(/ /g, '-')})`,
+        ...Object.keys(fns).map((name) => {
+          // @ts-expect-error
+          let signature = fns[name as keyof typeof fns].signature as Signature
+
+          return `   - [\`${printSignature(signature)}\`](#${signature.name.toLowerCase()})`
+        }),
+      ]
+    })
+    .join('\n')
+
+  out += '\n\n'
+
   for (let [category, fns] of categories) {
     let functionNames = Array.from(Object.keys(fns).sort(collator.compare).entries())
 
@@ -35,7 +52,13 @@ function generateDocs() {
       // @ts-expect-error
       let signature = fns[name as keyof typeof fns].signature as Signature
 
-      out += `#### ${idx + 1}. \`${printSignature(signature)}\`\n\n`
+      // Header
+      out += `<a name="${signature.name.toLowerCase()}"></a>\n#### ${`${idx + 1}. \`${printSignature(signature)}\``}\n\n`
+
+      // Link back to the top
+      out += '[Back to top](#functions)\n\n'
+
+      // Description
       out += `${signature.description()}\n\n`
 
       // Param information
@@ -45,11 +68,15 @@ function generateDocs() {
         out += `- \`${tag.name}\`: ${tag.value}\n`
       }
 
-      out += '\n'
+      if (idx === functionNames.length - 1) {
+        out += '\n'
+      } else {
+        out += '\n---\n\n'
+      }
     }
   }
 
-  return out.trim()
+  return out.trim().replace(/\n{3,}/g, '\n\n')
 }
 
 Bun.write(
