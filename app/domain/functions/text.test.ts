@@ -40,7 +40,7 @@ describe('JOIN()', () => {
 
       Errors:
 
-      · A1: JOIN(delimiter: STRING, ...args: T) Argument \`delimiter\` was not provided
+      · A1: JOIN(delimiter: STRING, ...values: T) Argument \`delimiter\` was not provided
       "
     `)
   })
@@ -59,7 +59,7 @@ describe('JOIN()', () => {
 
       Errors:
 
-      · A1: JOIN(delimiter: STRING, ...args: T) Argument \`delimiter\` received a \`NUMBER\`
+      · A1: JOIN(delimiter: STRING, ...values: T) Argument \`delimiter\` received a \`NUMBER\`
       "
     `)
   })
@@ -98,7 +98,7 @@ describe('LOWER()', () => {
 
       Errors:
 
-      · A1: LOWER(arg: T) Argument \`arg\` was not provided
+      · A1: LOWER(value: T) Argument \`value\` was not provided
       "
     `)
   })
@@ -117,7 +117,7 @@ describe('LOWER()', () => {
 
       Errors:
 
-      · A1: LOWER(arg: T) takes at most 1 argument, got 2
+      · A1: LOWER(value: T) takes at most 1 argument, got 2
       "
     `)
   })
@@ -158,7 +158,7 @@ describe('UPPER()', () => {
 
       Errors:
 
-      · A1: UPPER(arg: T) Argument \`arg\` was not provided
+      · A1: UPPER(value: T) Argument \`value\` was not provided
       "
     `)
   })
@@ -177,7 +177,7 @@ describe('UPPER()', () => {
 
       Errors:
 
-      · A1: UPPER(arg: T) takes at most 1 argument, got 2
+      · A1: UPPER(value: T) takes at most 1 argument, got 2
       "
     `)
   })
@@ -218,7 +218,7 @@ describe('LEN()', () => {
 
       Errors:
 
-      · A1: LEN(arg: STRING) Argument \`arg\` was not provided
+      · A1: LEN(value: STRING) Argument \`value\` was not provided
       "
     `)
   })
@@ -237,7 +237,7 @@ describe('LEN()', () => {
 
       Errors:
 
-      · A1: LEN(arg: STRING) takes at most 1 argument, got 2
+      · A1: LEN(value: STRING) takes at most 1 argument, got 2
       "
     `)
   })
@@ -256,7 +256,7 @@ describe('LEN()', () => {
 
       Errors:
 
-      · A1: LEN(arg: STRING) Argument \`arg\` received a \`NUMBER\`
+      · A1: LEN(value: STRING) Argument \`value\` received a \`NUMBER\`
       "
     `)
   })
@@ -293,7 +293,7 @@ describe('TRIM()', () => {
 
       Errors:
 
-      · A1: TRIM(arg: STRING) Argument \`arg\` was not provided
+      · A1: TRIM(value: STRING) Argument \`value\` was not provided
       "
     `)
   })
@@ -312,7 +312,7 @@ describe('TRIM()', () => {
 
       Errors:
 
-      · A1: TRIM(arg: STRING) takes at most 1 argument, got 2
+      · A1: TRIM(value: STRING) takes at most 1 argument, got 2
       "
     `)
   })
@@ -331,7 +331,7 @@ describe('TRIM()', () => {
 
       Errors:
 
-      · A1: TRIM(arg: STRING) Argument \`arg\` received a \`NUMBER\`
+      · A1: TRIM(value: STRING) Argument \`value\` received a \`NUMBER\`
       "
     `)
   })
@@ -646,7 +646,7 @@ describe('TEXT_SLICE()', () => {
 
       Errors:
 
-      · A1: TEXT_SLICE(value: STRING, startIdx: NUMBER, endIdx?: NUMBER) Argument \`value\` was not provided
+      · A1: TEXT_SLICE(value: STRING, start: NUMBER, end?: NUMBER) Argument \`value\` was not provided
       "
     `)
   })
@@ -665,7 +665,7 @@ describe('TEXT_SLICE()', () => {
 
       Errors:
 
-      · A1: TEXT_SLICE(value: STRING, startIdx: NUMBER, endIdx?: NUMBER) Argument \`value\` received a \`NUMBER\`
+      · A1: TEXT_SLICE(value: STRING, start: NUMBER, end?: NUMBER) Argument \`value\` received a \`NUMBER\`
       "
     `)
   })
@@ -684,7 +684,7 @@ describe('TEXT_SLICE()', () => {
 
       Errors:
 
-      · A1: TEXT_SLICE(value: STRING, startIdx: NUMBER, endIdx?: NUMBER) Argument \`startIdx\` received a \`STRING\`
+      · A1: TEXT_SLICE(value: STRING, start: NUMBER, end?: NUMBER) Argument \`start\` received a \`STRING\`
       "
     `)
   })
@@ -703,7 +703,7 @@ describe('TEXT_SLICE()', () => {
 
       Errors:
 
-      · A1: TEXT_SLICE(value: STRING, startIdx: NUMBER, endIdx?: NUMBER) Argument \`endIdx\` received a \`STRING\`
+      · A1: TEXT_SLICE(value: STRING, start: NUMBER, end?: NUMBER) Argument \`end\` received a \`STRING\`
       "
     `)
   })

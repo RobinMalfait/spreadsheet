@@ -10,7 +10,8 @@
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc",
     "test": "vitest",
-    "format": "biome format --write ."
+    "format": "biome format --write .",
+    "generate:docs": "bun ./scripts/generate-documentation.ts"
   },
   "dependencies": {
     "@headlessui/react": "^2.1.3",
@@ -28,6 +29,7 @@
     "@biomejs/biome": "1.8.3",
     "@remix-run/dev": "^2.11.2",
     "@tailwindcss/vite": "^4.0.0-alpha.19",
+    "@types/bun": "^1.1.8",
     "@types/cli-table": "^0.3.4",
     "@types/react": "^18.3.4",
     "@types/react-dom": "^18.3.0",

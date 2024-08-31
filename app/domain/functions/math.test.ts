@@ -1899,7 +1899,7 @@ describe('SUM()', () => {
 
       Errors:
 
-      · A1: SUM(...args: T) Argument \`args\` was not provided
+      · A1: SUM(...values: T) Argument \`values\` was not provided
       "
     `)
   })
@@ -1975,7 +1975,7 @@ describe('ADD()', () => {
 
       Errors:
 
-      · A1: ADD(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` was not provided
+      · A1: ADD(x: NUMBER, y: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -1994,7 +1994,7 @@ describe('ADD()', () => {
 
       Errors:
 
-      · A1: ADD(lhs: NUMBER, rhs: NUMBER) Argument \`rhs\` was not provided
+      · A1: ADD(x: NUMBER, y: NUMBER) Argument \`y\` was not provided
       "
     `)
   })
@@ -2013,7 +2013,7 @@ describe('ADD()', () => {
 
       Errors:
 
-      · A1: ADD(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
+      · A1: ADD(x: NUMBER, y: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2032,7 +2032,7 @@ describe('ADD()', () => {
 
       Errors:
 
-      · A1: ADD(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
+      · A1: ADD(x: NUMBER, y: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2051,7 +2051,7 @@ describe('ADD()', () => {
 
       Errors:
 
-      · A1: ADD(lhs: NUMBER, rhs: NUMBER) takes at most 2 arguments, got 3
+      · A1: ADD(x: NUMBER, y: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -2091,7 +2091,7 @@ describe('SUBTRACT()', () => {
 
       Errors:
 
-      · A1: SUBTRACT(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` was not provided
+      · A1: SUBTRACT(x: NUMBER, y: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -2110,7 +2110,7 @@ describe('SUBTRACT()', () => {
 
       Errors:
 
-      · A1: SUBTRACT(lhs: NUMBER, rhs: NUMBER) Argument \`rhs\` was not provided
+      · A1: SUBTRACT(x: NUMBER, y: NUMBER) Argument \`y\` was not provided
       "
     `)
   })
@@ -2129,7 +2129,7 @@ describe('SUBTRACT()', () => {
 
       Errors:
 
-      · A1: SUBTRACT(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
+      · A1: SUBTRACT(x: NUMBER, y: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2148,7 +2148,7 @@ describe('SUBTRACT()', () => {
 
       Errors:
 
-      · A1: SUBTRACT(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
+      · A1: SUBTRACT(x: NUMBER, y: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2167,7 +2167,7 @@ describe('SUBTRACT()', () => {
 
       Errors:
 
-      · A1: SUBTRACT(lhs: NUMBER, rhs: NUMBER) takes at most 2 arguments, got 3
+      · A1: SUBTRACT(x: NUMBER, y: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -2207,7 +2207,7 @@ describe('MULTIPLY()', () => {
 
       Errors:
 
-      · A1: MULTIPLY(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` was not provided
+      · A1: MULTIPLY(x: NUMBER, y: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -2226,7 +2226,7 @@ describe('MULTIPLY()', () => {
 
       Errors:
 
-      · A1: MULTIPLY(lhs: NUMBER, rhs: NUMBER) Argument \`rhs\` was not provided
+      · A1: MULTIPLY(x: NUMBER, y: NUMBER) Argument \`y\` was not provided
       "
     `)
   })
@@ -2245,7 +2245,7 @@ describe('MULTIPLY()', () => {
 
       Errors:
 
-      · A1: MULTIPLY(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
+      · A1: MULTIPLY(x: NUMBER, y: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2264,7 +2264,7 @@ describe('MULTIPLY()', () => {
 
       Errors:
 
-      · A1: MULTIPLY(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
+      · A1: MULTIPLY(x: NUMBER, y: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2283,7 +2283,7 @@ describe('MULTIPLY()', () => {
 
       Errors:
 
-      · A1: MULTIPLY(lhs: NUMBER, rhs: NUMBER) takes at most 2 arguments, got 3
+      · A1: MULTIPLY(x: NUMBER, y: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -2323,7 +2323,7 @@ describe('PRODUCT()', () => {
 
       Errors:
 
-      · A1: PRODUCT(...args: T) Argument \`args\` was not provided
+      · A1: PRODUCT(...values: T) Argument \`values\` was not provided
       "
     `)
   })
@@ -2399,7 +2399,7 @@ describe('DIVIDE()', () => {
 
       Errors:
 
-      · A1: DIVIDE(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` was not provided
+      · A1: DIVIDE(x: NUMBER, y: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -2418,7 +2418,7 @@ describe('DIVIDE()', () => {
 
       Errors:
 
-      · A1: DIVIDE(lhs: NUMBER, rhs: NUMBER) Argument \`rhs\` was not provided
+      · A1: DIVIDE(x: NUMBER, y: NUMBER) Argument \`y\` was not provided
       "
     `)
   })
@@ -2437,7 +2437,7 @@ describe('DIVIDE()', () => {
 
       Errors:
 
-      · A1: DIVIDE(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
+      · A1: DIVIDE(x: NUMBER, y: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2456,7 +2456,7 @@ describe('DIVIDE()', () => {
 
       Errors:
 
-      · A1: DIVIDE(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
+      · A1: DIVIDE(x: NUMBER, y: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2475,7 +2475,7 @@ describe('DIVIDE()', () => {
 
       Errors:
 
-      · A1: DIVIDE(lhs: NUMBER, rhs: NUMBER) takes at most 2 arguments, got 3
+      · A1: DIVIDE(x: NUMBER, y: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -2534,7 +2534,7 @@ describe('POWER()', () => {
 
       Errors:
 
-      · A1: POWER(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` was not provided
+      · A1: POWER(x: NUMBER, y: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -2553,7 +2553,7 @@ describe('POWER()', () => {
 
       Errors:
 
-      · A1: POWER(lhs: NUMBER, rhs: NUMBER) Argument \`rhs\` was not provided
+      · A1: POWER(x: NUMBER, y: NUMBER) Argument \`y\` was not provided
       "
     `)
   })
@@ -2572,7 +2572,7 @@ describe('POWER()', () => {
 
       Errors:
 
-      · A1: POWER(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
+      · A1: POWER(x: NUMBER, y: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2591,7 +2591,7 @@ describe('POWER()', () => {
 
       Errors:
 
-      · A1: POWER(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
+      · A1: POWER(x: NUMBER, y: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2610,7 +2610,7 @@ describe('POWER()', () => {
 
       Errors:
 
-      · A1: POWER(lhs: NUMBER, rhs: NUMBER) takes at most 2 arguments, got 3
+      · A1: POWER(x: NUMBER, y: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -2650,7 +2650,7 @@ describe('MOD()', () => {
 
       Errors:
 
-      · A1: MOD(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` was not provided
+      · A1: MOD(x: NUMBER, y: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -2669,7 +2669,7 @@ describe('MOD()', () => {
 
       Errors:
 
-      · A1: MOD(lhs: NUMBER, rhs: NUMBER) Argument \`rhs\` was not provided
+      · A1: MOD(x: NUMBER, y: NUMBER) Argument \`y\` was not provided
       "
     `)
   })
@@ -2688,7 +2688,7 @@ describe('MOD()', () => {
 
       Errors:
 
-      · A1: MOD(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
+      · A1: MOD(x: NUMBER, y: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2707,7 +2707,7 @@ describe('MOD()', () => {
 
       Errors:
 
-      · A1: MOD(lhs: NUMBER, rhs: NUMBER) Argument \`lhs\` received a \`BOOLEAN\`
+      · A1: MOD(x: NUMBER, y: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2726,7 +2726,7 @@ describe('MOD()', () => {
 
       Errors:
 
-      · A1: MOD(lhs: NUMBER, rhs: NUMBER) Argument \`rhs\` received a \`BOOLEAN\`
+      · A1: MOD(x: NUMBER, y: NUMBER) Argument \`y\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2745,7 +2745,7 @@ describe('MOD()', () => {
 
       Errors:
 
-      · A1: MOD(lhs: NUMBER, rhs: NUMBER) takes at most 2 arguments, got 3
+      · A1: MOD(x: NUMBER, y: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })
@@ -2804,7 +2804,7 @@ describe('FLOOR()', () => {
 
       Errors:
 
-      · A1: FLOOR(value: NUMBER) Argument \`value\` was not provided
+      · A1: FLOOR(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -2823,7 +2823,7 @@ describe('FLOOR()', () => {
 
       Errors:
 
-      · A1: FLOOR(value: NUMBER) Argument \`value\` received a \`BOOLEAN\`
+      · A1: FLOOR(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2842,7 +2842,7 @@ describe('FLOOR()', () => {
 
       Errors:
 
-      · A1: FLOOR(value: NUMBER) takes at most 1 argument, got 3
+      · A1: FLOOR(x: NUMBER) takes at most 1 argument, got 3
       "
     `)
   })
@@ -2879,7 +2879,7 @@ describe('CEIL()', () => {
 
       Errors:
 
-      · A1: CEIL(value: NUMBER) Argument \`value\` was not provided
+      · A1: CEIL(x: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -2898,7 +2898,7 @@ describe('CEIL()', () => {
 
       Errors:
 
-      · A1: CEIL(value: NUMBER) Argument \`value\` received a \`BOOLEAN\`
+      · A1: CEIL(x: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2917,7 +2917,7 @@ describe('CEIL()', () => {
 
       Errors:
 
-      · A1: CEIL(value: NUMBER) takes at most 1 argument, got 3
+      · A1: CEIL(x: NUMBER) takes at most 1 argument, got 3
       "
     `)
   })
@@ -2954,7 +2954,7 @@ describe('ROUND()', () => {
 
       Errors:
 
-      · A1: ROUND(value: NUMBER, places?: NUMBER) Argument \`value\` was not provided
+      · A1: ROUND(x: NUMBER, places?: NUMBER) Argument \`x\` was not provided
       "
     `)
   })
@@ -2973,7 +2973,7 @@ describe('ROUND()', () => {
 
       Errors:
 
-      · A1: ROUND(value: NUMBER, places?: NUMBER) Argument \`value\` received a \`BOOLEAN\`
+      · A1: ROUND(x: NUMBER, places?: NUMBER) Argument \`x\` received a \`BOOLEAN\`
       "
     `)
   })
@@ -2992,7 +2992,7 @@ describe('ROUND()', () => {
 
       Errors:
 
-      · A1: ROUND(value: NUMBER, places?: NUMBER) Argument \`places\` received a \`STRING\`
+      · A1: ROUND(x: NUMBER, places?: NUMBER) Argument \`places\` received a \`STRING\`
       "
     `)
   })
@@ -3011,7 +3011,7 @@ describe('ROUND()', () => {
 
       Errors:
 
-      · A1: ROUND(value: NUMBER, places?: NUMBER) takes at most 2 arguments, got 3
+      · A1: ROUND(x: NUMBER, places?: NUMBER) takes at most 2 arguments, got 3
       "
     `)
   })

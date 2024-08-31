@@ -186,6 +186,8 @@ describe('at-tags', () => {
         tokenize(`
           @description The absolute value of a number
           @param x The number to get the absolute value of
+          @example ABS(123)
+          @example ABS(-123)
 
           ABS(x: NUMBER)
         `),
@@ -213,6 +215,14 @@ describe('at-tags', () => {
             "kind": "param",
             "name": "x",
             "value": "The number to get the absolute value of",
+          },
+          {
+            "kind": "example",
+            "value": "ABS(123)",
+          },
+          {
+            "kind": "example",
+            "value": "ABS(-123)",
           },
         ],
       }

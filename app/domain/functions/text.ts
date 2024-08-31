@@ -8,14 +8,16 @@ import { expose } from '~/domain/function-utils'
 
 export const CONCAT = expose(
   `
-    @description Concatenates multiple strings together
-    CONCAT(...args: T)
+    @description Concatenates multiple strings together.
+    @param values The strings to concatenate.
+    @example CONCAT("hello", " ", "world")
+    CONCAT(...values: T)
   `,
-  (...args) => {
+  (...values) => {
     let out = ''
 
-    for (let arg of args) {
-      out += printEvaluationResult(arg)
+    for (let value of values) {
+      out += printEvaluationResult(value)
     }
 
     return { kind: EvaluationResultKind.STRING, value: out }
@@ -24,14 +26,17 @@ export const CONCAT = expose(
 
 export const JOIN = expose(
   `
-    @description Joins multiple strings together with a delimiter
-    JOIN(delimiter: STRING, ...args: T)
+    @description Joins multiple strings together with a delimiter.
+    @param delimiter The string to insert between each value.
+    @param values The values to join.
+    @example JOIN("-", 1, 2, "hello", "world", TRUE())
+    JOIN(delimiter: STRING, ...values: T)
   `,
-  (delimiter: EvaluationResultString, ...args) => {
+  (delimiter: EvaluationResultString, ...values) => {
     let out: string[] = []
 
-    for (let arg of args) {
-      out.push(printEvaluationResult(arg))
+    for (let value of values) {
+      out.push(printEvaluationResult(value))
     }
 
     return { kind: EvaluationResultKind.STRING, value: out.join(delimiter.value) }
@@ -40,53 +45,65 @@ export const JOIN = expose(
 
 export const LOWER = expose(
   `
-    @description Converts a string to lowercase
-    LOWER(arg: T)
+    @description Converts a string to lowercase.
+    @param value The string to convert.
+    @example LOWER("Hello, World!")
+    LOWER(value: T)
   `,
-  (arg) => {
+  (value) => {
     return {
       kind: EvaluationResultKind.STRING,
-      value: printEvaluationResult(arg).toLowerCase(),
+      value: printEvaluationResult(value).toLowerCase(),
     }
   },
 )
 
 export const UPPER = expose(
   `
-    @description Converts a string to uppercase
-    UPPER(arg: T)
+    @description Converts a string to uppercase.
+    @param value The string to convert.
+    @example UPPER("Hello, World!")
+    UPPER(value: T)
   `,
-  (arg) => {
+  (value) => {
     return {
       kind: EvaluationResultKind.STRING,
-      value: printEvaluationResult(arg).toUpperCase(),
+      value: printEvaluationResult(value).toUpperCase(),
     }
   },
 )
 
 export const LEN = expose(
   `
-    @description Returns the length of a string
-    LEN(arg: STRING)
+    @description Returns the length of a string.
+    @param value The string to measure.
+    @example LEN("Hello, World!")
+    LEN(value: STRING)
   `,
-  (arg: EvaluationResultString) => {
-    return { kind: EvaluationResultKind.NUMBER, value: arg.value.length }
+  (value: EvaluationResultString) => {
+    return { kind: EvaluationResultKind.NUMBER, value: value.value.length }
   },
 )
 
 export const TRIM = expose(
   `
-    @description Removes leading and trailing whitespace from a string
-    TRIM(arg: STRING)
+    @description Removes leading and trailing whitespace from a string.
+    @param value The string to trim.
+    @example TRIM("  Hello, World!  ")
+    TRIM(value: STRING)
   `,
-  (arg: EvaluationResultString) => {
-    return { kind: EvaluationResultKind.STRING, value: arg.value.trim() }
+  (value: EvaluationResultString) => {
+    return { kind: EvaluationResultKind.STRING, value: value.value.trim() }
   },
 )
 
 export const FIND_FIRST = expose(
   `
-    @description Returns the first needle found in the haystack
+    @description Returns the first needle found in the haystack.
+    @param haystack The string to search in.
+    @param needles The strings to search for.
+    @example FIND_FIRST("The quick brown fox jumps over the lazy dog", "fox", "dog")
+    @example FIND_FIRST("The quick brown fox jumps over the lazy dog", "dog", "fox")
     FIND_FIRST(haystack: STRING, ...needles: STRING)
   `,
   (haystack: EvaluationResultString, ...needles: EvaluationResultString[]) => {
@@ -108,7 +125,11 @@ export const FIND_FIRST = expose(
 
 export const FIND_LAST = expose(
   `
-    @description Returns the last needle found in the haystack
+    @description Returns the last needle found in the haystack.
+    @param haystack The string to search in.
+    @param needles The strings to search for.
+    @example FIND_LAST("The quick brown fox jumps over the lazy dog", "fox", "dog")
+    @example FIND_LAST("The quick brown fox jumps over the lazy dog", "dog", "fox")
     FIND_LAST(haystack: STRING, ...needles: STRING)
   `,
   (haystack: EvaluationResultString, ...needles: EvaluationResultString[]) => {
@@ -130,7 +151,10 @@ export const FIND_LAST = expose(
 
 export const REPLACE_ALL = expose(
   `
-    @description Replaces all occurrences of the needles with their replacements
+    @description Replaces all occurrences of the needles with their replacements.
+    @param haystack The string to search in.
+    @param zip The strings to search for and their replacements.
+    @example REPLACE_ALL("The quick brown fox jumps over the lazy dog", "fox", "cat", "dog", "wolf")
     REPLACE_ALL(haystack: STRING, ...zip?: STRING | NUMBER)
   `,
   (haystack: EvaluationResultString, ...zip: EvaluationResultString[]) => {
@@ -190,17 +214,24 @@ export const REPLACE_ALL = expose(
 
 export const TEXT_SLICE = expose(
   `
-    @description Returns a slice of the string from startIdx to endIdx
-    TEXT_SLICE(value: STRING, startIdx: NUMBER, endIdx?: NUMBER)
+    @description Returns a section of a string.
+    @param value The string to slice.
+    @param start The index to the beginning of the specified portion of the \`value\`.
+    @param end The index to the end of the specified portion of the \`value\`. The substring includes the characters up to, but not including, the character indicated by \`end\`. If this value is not specified, the substring continues to the end of the \`value\`.
+    @example TEXT_SLICE("The quick brown fox jumps over the lazy dog", 0, 19)
+    @example TEXT_SLICE("The quick brown fox jumps over the lazy dog", 40)
+    @example TEXT_SLICE("The quick brown fox jumps over the lazy dog", -3)
+    @example TEXT_SLICE("The quick brown fox jumps over the lazy dog", 10, 19)
+    TEXT_SLICE(value: STRING, start: NUMBER, end?: NUMBER)
   `,
   (
     value: EvaluationResultString,
-    startIdx: EvaluationResultNumber,
-    endIdx?: EvaluationResultNumber,
+    start: EvaluationResultNumber,
+    end?: EvaluationResultNumber,
   ) => {
     return {
       kind: EvaluationResultKind.STRING,
-      value: value.value.slice(startIdx.value, endIdx?.value),
+      value: value.value.slice(start.value, end?.value),
     }
   },
 )

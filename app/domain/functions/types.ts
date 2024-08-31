@@ -4,7 +4,14 @@ import { expose } from '~/domain/function-utils'
 
 export const TYPE = expose(
   `
-    @description Returns the type of a value
+    @description Returns the type of a value.
+    @param value The value to check.
+    @example TYPE(1)
+    @example TYPE("hello")
+    @example TYPE(TRUE())
+    @example TYPE(NOW())
+    @example TYPE(UNKNOWN_FUNCTION())
+    @example TYPE(B1)
     TYPE(value: T)
   `,
   (value) => {
@@ -30,7 +37,14 @@ export const TYPE = expose(
 
 export const AS_NUMBER = expose(
   `
-    @description Converts a value to a number
+    @description Tries to convert a value to a number.
+    @param value The value to convert.
+    @example AS_NUMBER(1)
+    @example AS_NUMBER("123")
+    @example AS_NUMBER("million")
+    @example AS_NUMBER(TRUE())
+    @example AS_NUMBER(FALSE())
+    @example AS_NUMBER(NOW())
     AS_NUMBER(value: T)
   `,
   (value) => {
@@ -72,7 +86,14 @@ export const AS_NUMBER = expose(
 
 export const AS_STRING = expose(
   `
-    @description Converts a value to a string
+    @description Tries to convert a value to a string.
+    @param value The value to convert.
+    @example AS_STRING(1)
+    @example AS_STRING("123")
+    @example AS_STRING(TRUE())
+    @example AS_STRING(FALSE())
+    @example AS_STRING(NOW())
+    @example AS_STRING(TIME())
     AS_STRING(value: T)
   `,
   (value) => {
@@ -89,7 +110,15 @@ export const AS_STRING = expose(
 
 export const AS_BOOLEAN = expose(
   `
-    @description Converts a value to a boolean
+    @description Tries to convert a value to a boolean.
+    @param value The value to convert.
+    @example AS_BOOLEAN(0)
+    @example AS_BOOLEAN(1)
+    @example AS_BOOLEAN("123")
+    @example AS_BOOLEAN("0")
+    @example AS_BOOLEAN(TRUE())
+    @example AS_BOOLEAN(FALSE())
+    @example AS_BOOLEAN(NOW())
     AS_BOOLEAN(value: T)
   `,
   (value) => {

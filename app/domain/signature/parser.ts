@@ -17,13 +17,19 @@ export interface Signature {
   description(): string
 }
 
-enum TagKind {
+export enum TagKind {
   DESCRIPTION = 'description',
+  EXAMPLE = 'example',
   PARAM = 'param',
 }
 
 interface DescriptionTag {
   kind: TagKind.DESCRIPTION
+  value: string
+}
+
+interface ExampleTag {
+  kind: TagKind.EXAMPLE
   value: string
 }
 
@@ -33,11 +39,12 @@ interface ParamTag {
   value: string
 }
 
-type Tag = DescriptionTag | ParamTag
+type Tag = DescriptionTag | ExampleTag | ParamTag
 
 export function parse(tokens: Token[]): Signature {
   // @description The absolute value of a number
   //  ^^^^^^^^^^^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //  ^ TAG NAME  ^ VALUE
   let tags: Tag[] = []
 
   let next = tokens.shift()
@@ -84,10 +91,19 @@ export function parse(tokens: Token[]): Signature {
     }
 
     let value = next.value
-    tags.push({
-      kind: TagKind.DESCRIPTION,
-      value,
-    })
+    if (tag === 'description') {
+      tags.push({
+        kind: TagKind.DESCRIPTION,
+        value,
+      })
+    } else if (tag === 'example') {
+      tags.push({
+        kind: TagKind.EXAMPLE,
+        value,
+      })
+    } else {
+      throw new Error(`Unknown tag: ${tag}`)
+    }
 
     next = tokens.shift()
   }

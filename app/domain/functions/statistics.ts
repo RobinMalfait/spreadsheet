@@ -3,7 +3,9 @@ import { expose } from '~/domain/function-utils'
 
 export const COUNT = expose(
   `
-    @description Count the number of NUMBER arguments
+    @description Count the number of NUMBER arguments.
+    @param values The values to count.
+    @example COUNT(1, 2, TRUE(), "hello world", 3.2)
     COUNT(...values: T)
   `,
   (...args) => {
@@ -32,7 +34,9 @@ export const COUNT = expose(
 
 export const MIN = expose(
   `
-    @description Returns the smallest NUMBER argument
+    @description Returns the smallest NUMBER argument.
+    @param values The values to compare.
+    @example MIN(5, 4, 1, 2, 3)
     MIN(...values: T)
   `,
   (...args) => {
@@ -62,7 +66,9 @@ export const MIN = expose(
 
 export const MAX = expose(
   `
-    @description Returns the largest NUMBER argument
+    @description Returns the largest NUMBER argument.
+    @param values The values to compare.
+    @example MAX(1, 3, 2, 5, 4)
     MAX(...values: T)
   `,
   (...args) => {
@@ -92,7 +98,9 @@ export const MAX = expose(
 
 export const AVERAGE = expose(
   `
-    @description Returns the average of NUMBER arguments
+    @description Returns the average of NUMBER arguments.
+    @param values The values to compare.
+    @example AVERAGE(1, 3, 2, 5, 4)
     AVERAGE(...values: T)
   `,
   (...args) => {
@@ -126,7 +134,9 @@ export const AVERAGE = expose(
 
 export const MEDIAN = expose(
   `
-    @description Returns the median of NUMBER arguments
+    @description Returns the median of NUMBER arguments.
+    @param values The values to compare.
+    @example MEDIAN(1, 3, 2, 5, 4)
     MEDIAN(...values: T)
   `,
   (...args) => {
@@ -151,7 +161,9 @@ export const MEDIAN = expose(
 
 export const MODE = expose(
   `
-    @description Returns the mode of NUMBER arguments
+    @description Returns the mode of NUMBER arguments.
+    @param values The values to compare.
+    @example MODE(3, 2, 1, 3, 3, 4, 5, 8, 9, 1)
     MODE(...values: T)
   `,
   (...args) => {
