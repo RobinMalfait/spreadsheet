@@ -54,7 +54,7 @@ function generateDocs() {
   for (let [category, fns] of categories) {
     let functionNames = Array.from(Object.keys(fns).sort(collator.compare).entries())
 
-    out += `### ${category} (${functionNames.length})\n\n`
+    out += `### ${category}\n\n`
 
     for (let [idx, name] of functionNames) {
       // @ts-expect-error

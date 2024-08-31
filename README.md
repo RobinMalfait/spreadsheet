@@ -128,7 +128,7 @@ Once you write a formula, you will get some syntax highlighting.
    - [AS_STRING(value: T)](#as_string)
    - [TYPE(value: T)](#type)
 
-### Date functions (13)
+### Date functions
 
 <a name="add_days"></a>
 #### ADD_DAYS(date: DATETIME, days: NUMBER)
@@ -360,7 +360,7 @@ The current year of the given date.
 // 2013
 ```
 
-### Logic functions (6)
+### Logic functions
 
 <a name="and"></a>
 #### AND(...expressions: T)
@@ -486,7 +486,7 @@ The boolean value true.
 // TRUE
 ```
 
-### Math functions (35)
+### Math functions
 
 <a name="abs"></a>
 #### ABS(x: NUMBER)
@@ -1126,7 +1126,7 @@ The TRUNC function.
 // 1
 ```
 
-### Sequence functions (1)
+### Sequence functions
 
 <a name="digits"></a>
 #### DIGITS()
@@ -1135,7 +1135,7 @@ The TRUNC function.
 
 A sequence of the digits from 0 through 9
 
-### Statistical functions (6)
+### Statistical functions
 
 <a name="average"></a>
 #### AVERAGE(...values: T)
@@ -1189,7 +1189,7 @@ Returns the smallest NUMBER argument
 
 Returns the mode of NUMBER arguments
 
-### Text functions (10)
+### Text functions
 
 <a name="concat"></a>
 #### CONCAT(...args: T)
@@ -1279,7 +1279,7 @@ Removes leading and trailing whitespace from a string
 
 Converts a string to uppercase
 
-### Type functions (4)
+### Type functions
 
 <a name="as_boolean"></a>
 #### AS_BOOLEAN(value: T)
