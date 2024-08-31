@@ -17,6 +17,6 @@ export function expose<
       // Handle
       return handle(...args) as R
     },
-    { signature, signatureAST: sig },
+    { signature: sig },
   )
 }

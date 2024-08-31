@@ -13,6 +13,8 @@ export interface Signature {
   args: Argument[]
 
   tags: Tag[]
+
+  description(): string
 }
 
 enum TagKind {
@@ -202,6 +204,9 @@ export function parse(tokens: Token[]): Signature {
     name: name.value,
     args,
     tags,
+    description() {
+      return tags.find((tag) => tag.kind === TagKind.DESCRIPTION)?.value ?? ''
+    },
   } satisfies Signature
 }
 

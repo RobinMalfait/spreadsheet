@@ -30,6 +30,7 @@ import { printEvaluationResult } from '~/domain/evaluation'
 import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
 import { parse, parseLocation, printExpression, printLocation } from '~/domain/expression'
 import * as functions from '~/domain/functions'
+import { type Signature, printSignature } from '~/domain/signature/parser'
 import { Spreadsheet } from '~/domain/spreadsheet'
 import { type Token, TokenKind, printTokens, tokenize } from '~/domain/tokenizer'
 import { VersionControl } from '~/domain/version-control'
@@ -720,18 +721,19 @@ export default function Index() {
                   anchor="bottom start"
                   className="inset-ring-1 inset-ring-black/10 z-20 w-96 overflow-auto rounded-md bg-white py-1.5 text-base shadow-lg [--anchor-gap:var(--spacing-2)] [--anchor-padding:var(--spacing-2)] empty:invisible focus:outline-none sm:text-sm"
                 >
-                  {({ option }) => {
-                    // @ts-expect-error
-                    let { signature, description } = functions[option]
+                  {({ option }: { option: keyof typeof functions }) => {
+                    let signature = (
+                      functions[option] as unknown as { signature: Signature }
+                    ).signature as Signature
 
                     return (
                       <ComboboxOption
                         value={option}
                         className="group relative w-full cursor-default select-none px-3 py-2 text-gray-900 data-focus:bg-slate-100"
                       >
-                        <span className="font-mono">{signature}</span>
+                        <span className="font-mono">{printSignature(signature)}</span>
                         <p className="text-xs group-not-data-focus:hidden">
-                          {description}
+                          {signature.description()}
                         </p>
                       </ComboboxOption>
                     )

@@ -8,6 +8,7 @@ it('should parse a simple signature expression', () => {
   expect(parse(tokenize('FOO()'))).toMatchInlineSnapshot(json`
     {
       "args": [],
+      "description": [Function],
       "name": "FOO",
       "tags": [],
     }
@@ -27,6 +28,7 @@ it('should parse a function with a required argument', () => {
           "variadic": false,
         },
       ],
+      "description": [Function],
       "name": "ABS",
       "tags": [],
     }
@@ -46,6 +48,7 @@ it('should parse a function with an optional argument', () => {
           "variadic": false,
         },
       ],
+      "description": [Function],
       "name": "ABS",
       "tags": [],
     }
@@ -65,6 +68,7 @@ it('should parse a function with a variadic argument', () => {
           "variadic": true,
         },
       ],
+      "description": [Function],
       "name": "SUM",
       "tags": [],
     }
@@ -84,6 +88,7 @@ it('should parse a function with an optional variadic argument', () => {
           "variadic": true,
         },
       ],
+      "description": [Function],
       "name": "SUM",
       "tags": [],
     }
@@ -104,6 +109,7 @@ it('should parse a function that accepts multiple types', () => {
           "variadic": false,
         },
       ],
+      "description": [Function],
       "name": "FOO",
       "tags": [],
     }
@@ -125,6 +131,7 @@ it('should parse a function that accepts multiple types (3)', () => {
           "variadic": false,
         },
       ],
+      "description": [Function],
       "name": "FOO",
       "tags": [],
     }
@@ -165,6 +172,7 @@ it('should parse a function that accepts multiple arguments, with multiple types
           "variadic": false,
         },
       ],
+      "description": [Function],
       "name": "FOO",
       "tags": [],
     }
@@ -194,6 +202,7 @@ describe('at-tags', () => {
             "variadic": false,
           },
         ],
+        "description": [Function],
         "name": "ABS",
         "tags": [
           {
