@@ -722,9 +722,7 @@ export default function Index() {
                   className="inset-ring-1 inset-ring-black/10 z-20 w-96 overflow-auto rounded-md bg-white py-1.5 text-base shadow-lg [--anchor-gap:var(--spacing-2)] [--anchor-padding:var(--spacing-2)] empty:invisible focus:outline-none sm:text-sm"
                 >
                   {({ option }: { option: keyof typeof functions }) => {
-                    let signature = (
-                      functions[option] as unknown as { signature: Signature }
-                    ).signature as Signature
+                    let signature = functions[option].signature
 
                     return (
                       <ComboboxOption
