@@ -21,7 +21,7 @@ describe('AS_NUMBER()', () => {
 
       Errors:
 
-      · A1: AS_NUMBER() expects a value as the first argument, got <nothing>
+      · A1: AS_NUMBER(value: T) Argument \`value\` was not provided
       "
     `)
   })
@@ -40,7 +40,7 @@ describe('AS_NUMBER()', () => {
 
       Errors:
 
-      · A1: AS_NUMBER() does not take more than one argument, got 456
+      · A1: AS_NUMBER(value: T) takes at most 1 argument, got 2
       "
     `)
   })
@@ -106,7 +106,7 @@ describe('AS_STRING()', () => {
 
       Errors:
 
-      · A1: AS_STRING() expects a value as the first argument, got <nothing>
+      · A1: AS_STRING(value: T) Argument \`value\` was not provided
       "
     `)
   })
@@ -125,7 +125,7 @@ describe('AS_STRING()', () => {
 
       Errors:
 
-      · A1: AS_STRING() does not take more than one argument, got 456
+      · A1: AS_STRING(value: T) takes at most 1 argument, got 2
       "
     `)
   })
@@ -187,7 +187,7 @@ describe('AS_BOOLEAN()', () => {
 
       Errors:
 
-      · A1: AS_BOOLEAN() expects a value as the first argument, got <nothing>
+      · A1: AS_BOOLEAN(value: T) Argument \`value\` was not provided
       "
     `)
   })
@@ -206,7 +206,7 @@ describe('AS_BOOLEAN()', () => {
 
       Errors:
 
-      · A1: AS_BOOLEAN() does not take more than one argument, got 456
+      · A1: AS_BOOLEAN(value: T) takes at most 1 argument, got 2
       "
     `)
   })
