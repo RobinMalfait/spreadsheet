@@ -554,7 +554,7 @@ export default function Index() {
   let dependencies = spreadsheet.dependencies(cell)
 
   return (
-    <div className="flex h-screen w-screen flex-col overflow-hidden font-sans">
+    <div className="isolate flex h-screen w-screen flex-col overflow-hidden font-sans">
       <div className="flex items-center border-gray-300 border-b">
         <div className="w-16 shrink-0 py-1.5 text-center text-sm">{cell}</div>
         <div className="-ml-[2px] font-thin text-gray-300">|</div>
