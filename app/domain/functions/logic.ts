@@ -3,7 +3,8 @@ import { expose } from '~/domain/function-utils'
 
 export const TRUE = expose(
   `
-    @description The boolean value true
+    @description The boolean value true.
+    @example TRUE()
     TRUE()
   `,
   () => {
@@ -13,7 +14,8 @@ export const TRUE = expose(
 
 export const FALSE = expose(
   `
-    @description The boolean value false
+    @description The boolean value false.
+    @example FALSE()
     FALSE()
   `,
   () => {
@@ -23,10 +25,12 @@ export const FALSE = expose(
 
 export const IF = expose(
   `
-    @description Returns one value if a condition is true and another value if it is false
-    @param test The condition to evaluate
-    @param consequent The value to return if the condition is true
-    @param alternate The value to return if the condition is false
+    @description Returns one value if a condition is true and another value if it is false.
+    @param test The condition to evaluate.
+    @param consequent The value to return if the condition is true.
+    @param alternate The value to return if the condition is false.
+    @example IF(TRUE(), "huge if true", "huge if false")
+    @example IF(FALSE(), "huge if true", "huge if false")
     IF(test: BOOLEAN, consequent: T, alternate: T)
   `,
   (test: EvaluationResult, consequent: EvaluationResult, alternate: EvaluationResult) => {
@@ -36,8 +40,10 @@ export const IF = expose(
 
 export const AND = expose(
   `
-    @description Returns true if all conditions are true
-    @param expressions The conditions to evaluate
+    @description Returns true if all conditions are true.
+    @param expressions The conditions to evaluate.
+    @example AND(TRUE(), TRUE(), TRUE())
+    @example AND(TRUE(), TRUE(), FALSE())
     AND(...expressions: T)
   `,
   (...args) => {
@@ -47,8 +53,10 @@ export const AND = expose(
 
 export const OR = expose(
   `
-    @description Returns true if any condition is true
-    @param expressions The conditions to evaluate
+    @description Returns true if any condition is true.
+    @param expressions The conditions to evaluate.
+    @example OR(TRUE(), TRUE(), TRUE())
+    @example OR(TRUE(), TRUE(), FALSE())
     OR(...expressions: T)
   `,
   (...args) => {
@@ -58,8 +66,10 @@ export const OR = expose(
 
 export const NOT = expose(
   `
-    @description Returns true if the condition is false
-    @param value The condition to negate
+    @description Returns true if the condition is false.
+    @param value The condition to negate.
+    @example NOT(TRUE())
+    @example NOT(FALSE())
     NOT(value: BOOLEAN)
   `,
   (lhs: EvaluationResult) => {
