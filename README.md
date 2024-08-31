@@ -113,8 +113,8 @@ Once you write a formula, you will get some syntax highlighting.
    - [MODE(...values: T)](#mode)
 - [Text functions](#text-functions)
    - [CONCAT(...values: T)](#concat)
-   - [FIND_FIRST(haystack: STRING, ...needles: STRING | NUMBER)](#find_first)
-   - [FIND_LAST(haystack: STRING, ...needles: STRING | NUMBER)](#find_last)
+   - [FIND_FIRST(haystack: STRING, ...needles: STRING)](#find_first)
+   - [FIND_LAST(haystack: STRING, ...needles: STRING)](#find_last)
    - [JOIN(delimiter: STRING, ...values: T)](#join)
    - [LEN(value: STRING)](#len)
    - [LOWER(value: T)](#lower)
@@ -124,8 +124,11 @@ Once you write a formula, you will get some syntax highlighting.
    - [UPPER(value: T)](#upper)
 - [Type functions](#type-functions)
    - [AS_BOOLEAN(value: T)](#as_boolean)
+   - [AS_BOOLEANS(...values: T)](#as_booleans)
    - [AS_NUMBER(value: T)](#as_number)
+   - [AS_NUMBERS(...values: T)](#as_numbers)
    - [AS_STRING(value: T)](#as_string)
+   - [AS_STRINGS(...values: T)](#as_strings)
    - [TYPE(value: T)](#type)
 
 ### Date functions
@@ -1336,7 +1339,7 @@ Concatenates multiple strings together.
 ---
 
 <a name="find_first"></a>
-#### FIND_FIRST(haystack: STRING, ...needles: STRING | NUMBER)
+#### FIND_FIRST(haystack: STRING, ...needles: STRING)
 
 [Back to top](#functions)
 
@@ -1360,7 +1363,7 @@ Returns the first needle found in the haystack.
 ---
 
 <a name="find_last"></a>
-#### FIND_LAST(haystack: STRING, ...needles: STRING | NUMBER)
+#### FIND_LAST(haystack: STRING, ...needles: STRING)
 
 [Back to top](#functions)
 
@@ -1588,6 +1591,29 @@ Tries to convert a value to a boolean.
 
 ---
 
+<a name="as_booleans"></a>
+#### AS_BOOLEANS(...values: T)
+
+[Back to top](#functions)
+
+Tries to convert a list of values to booleans.
+
+- `values`: The values to convert.
+
+#### Examples:
+
+```ts
+// Dependencies:
+=TRUE() // TRUE
+=FALSE() // FALSE
+=NOW() // 2013-01-21 08:15:20
+
+=AS_BOOLEANS(0, 1, "123", "0", TRUE(), FALSE(), NOW())
+// ERROR: Expected a single result
+```
+
+---
+
 <a name="as_number"></a>
 #### AS_NUMBER(value: T)
 
@@ -1636,6 +1662,29 @@ Tries to convert a value to a number.
 
 =AS_NUMBER(NOW())
 // 1358752520000
+```
+
+---
+
+<a name="as_numbers"></a>
+#### AS_NUMBERS(...values: T)
+
+[Back to top](#functions)
+
+Tries to convert a list of values to numbers.
+
+- `values`: The values to convert.
+
+#### Examples:
+
+```ts
+// Dependencies:
+=TRUE() // TRUE
+=FALSE() // FALSE
+=NOW() // 2013-01-21 08:15:20
+
+=AS_NUMBERS(1, "123", "million", TRUE(), FALSE(), NOW())
+// ERROR: Expected a single result
 ```
 
 ---
@@ -1691,6 +1740,30 @@ Tries to convert a value to a string.
 
 =AS_STRING(TIME())
 // "08:15:20"
+```
+
+---
+
+<a name="as_strings"></a>
+#### AS_STRINGS(...values: T)
+
+[Back to top](#functions)
+
+Tries to convert a list of values to strings.
+
+- `values`: The values to convert.
+
+#### Examples:
+
+```ts
+// Dependencies:
+=TRUE() // TRUE
+=FALSE() // FALSE
+=NOW() // 2013-01-21 08:15:20
+=TIME() // 08:15:20
+
+=AS_STRINGS(1, "123", TRUE(), FALSE(), NOW(), TIME())
+// ERROR: Expected a single result
 ```
 
 ---

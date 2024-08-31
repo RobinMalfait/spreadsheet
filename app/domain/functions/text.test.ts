@@ -368,7 +368,7 @@ describe('FIND_FIRST()', () => {
 
       Errors:
 
-      · A1: FIND_FIRST(haystack: STRING, ...needles: STRING | NUMBER) Argument \`haystack\` was not provided
+      · A1: FIND_FIRST(haystack: STRING, ...needles: STRING) Argument \`haystack\` was not provided
       "
     `)
   })
@@ -387,7 +387,7 @@ describe('FIND_FIRST()', () => {
 
       Errors:
 
-      · A1: FIND_FIRST(haystack: STRING, ...needles: STRING | NUMBER) Argument \`needles\` was not provided
+      · A1: FIND_FIRST(haystack: STRING, ...needles: STRING) Argument \`needles\` was not provided
       "
     `)
   })
@@ -406,7 +406,7 @@ describe('FIND_FIRST()', () => {
 
       Errors:
 
-      · A1: FIND_FIRST(haystack: STRING, ...needles: STRING | NUMBER) Argument \`haystack\` received a \`NUMBER\`
+      · A1: FIND_FIRST(haystack: STRING, ...needles: STRING) Argument \`haystack\` received a \`NUMBER\`
       "
     `)
   })
@@ -459,7 +459,7 @@ describe('FIND_LAST()', () => {
 
       Errors:
 
-      · A1: FIND_LAST(haystack: STRING, ...needles: STRING | NUMBER) Argument \`haystack\` was not provided
+      · A1: FIND_LAST(haystack: STRING, ...needles: STRING) Argument \`haystack\` was not provided
       "
     `)
   })
@@ -478,7 +478,7 @@ describe('FIND_LAST()', () => {
 
       Errors:
 
-      · A1: FIND_LAST(haystack: STRING, ...needles: STRING | NUMBER) Argument \`needles\` was not provided
+      · A1: FIND_LAST(haystack: STRING, ...needles: STRING) Argument \`needles\` was not provided
       "
     `)
   })
@@ -497,7 +497,7 @@ describe('FIND_LAST()', () => {
 
       Errors:
 
-      · A1: FIND_LAST(haystack: STRING, ...needles: STRING | NUMBER) Argument \`haystack\` received a \`NUMBER\`
+      · A1: FIND_LAST(haystack: STRING, ...needles: STRING) Argument \`haystack\` received a \`NUMBER\`
       "
     `)
   })

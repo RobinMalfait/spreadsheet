@@ -187,19 +187,19 @@ export default function Index() {
 
       vcs.commit(
         'B9',
-        '=AS_NUMBER(FIND_FIRST(A9, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(A9, DIGITS()))',
+        '=AS_NUMBER(FIND_FIRST(A9, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(A9, AS_STRINGS(DIGITS())))',
       )
       vcs.commit(
         'B10',
-        '=AS_NUMBER(FIND_FIRST(A10, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(A10, DIGITS()))',
+        '=AS_NUMBER(FIND_FIRST(A10, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(A10, AS_STRINGS(DIGITS())))',
       )
       vcs.commit(
         'B11',
-        '=AS_NUMBER(FIND_FIRST(A11, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(A11, DIGITS()))',
+        '=AS_NUMBER(FIND_FIRST(A11, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(A11, AS_STRINGS(DIGITS())))',
       )
       vcs.commit(
         'B12',
-        '=AS_NUMBER(FIND_FIRST(A12, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(A12, DIGITS()))',
+        '=AS_NUMBER(FIND_FIRST(A12, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(A12, AS_STRINGS(DIGITS())))',
       )
 
       vcs.commit('B4', '=SUM(B9:B12)')
@@ -244,31 +244,31 @@ export default function Index() {
 
       vcs.commit(
         'E9',
-        '=AS_NUMBER(FIND_FIRST(D9, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(D9, DIGITS()))',
+        '=AS_NUMBER(FIND_FIRST(D9, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(D9, AS_STRINGS(DIGITS())))',
       )
       vcs.commit(
         'E10',
-        '=AS_NUMBER(FIND_FIRST(D10, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(D10, DIGITS()))',
+        '=AS_NUMBER(FIND_FIRST(D10, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(D10, AS_STRINGS(DIGITS())))',
       )
       vcs.commit(
         'E11',
-        '=AS_NUMBER(FIND_FIRST(D11, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(D11, DIGITS()))',
+        '=AS_NUMBER(FIND_FIRST(D11, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(D11, AS_STRINGS(DIGITS())))',
       )
       vcs.commit(
         'E12',
-        '=AS_NUMBER(FIND_FIRST(D12, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(D12, DIGITS()))',
+        '=AS_NUMBER(FIND_FIRST(D12, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(D12, AS_STRINGS(DIGITS())))',
       )
       vcs.commit(
         'E13',
-        '=AS_NUMBER(FIND_FIRST(D13, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(D13, DIGITS()))',
+        '=AS_NUMBER(FIND_FIRST(D13, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(D13, AS_STRINGS(DIGITS())))',
       )
       vcs.commit(
         'E14',
-        '=AS_NUMBER(FIND_FIRST(D14, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(D14, DIGITS()))',
+        '=AS_NUMBER(FIND_FIRST(D14, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(D14, AS_STRINGS(DIGITS())))',
       )
       vcs.commit(
         'E15',
-        '=AS_NUMBER(FIND_FIRST(D15, DIGITS())) * 10 + AS_NUMBER(FIND_LAST(D15, DIGITS()))',
+        '=AS_NUMBER(FIND_FIRST(D15, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(D15, AS_STRINGS(DIGITS())))',
       )
 
       vcs.commit('B5', '=SUM(E9:E15)')

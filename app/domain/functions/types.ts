@@ -84,6 +84,18 @@ export const AS_NUMBER = expose(
   },
 )
 
+export const AS_NUMBERS = expose(
+  `
+    @description Tries to convert a list of values to numbers.
+    @param values The values to convert.
+    @example AS_NUMBERS(1, "123", "million", TRUE(), FALSE(), NOW())
+    AS_NUMBERS(...values: T)
+  `,
+  (...values) => {
+    return values.map((value) => AS_NUMBER(value))
+  },
+)
+
 export const AS_STRING = expose(
   `
     @description Tries to convert a value to a string.
@@ -105,6 +117,18 @@ export const AS_STRING = expose(
       kind: EvaluationResultKind.STRING,
       value: printEvaluationResult(value),
     }
+  },
+)
+
+export const AS_STRINGS = expose(
+  `
+    @description Tries to convert a list of values to strings.
+    @param values The values to convert.
+    @example AS_STRINGS(1, "123", TRUE(), FALSE(), NOW(), TIME())
+    AS_STRINGS(...values: T)
+  `,
+  (...values) => {
+    return values.map((value) => AS_STRING(value))
   },
 )
 
@@ -141,5 +165,17 @@ export const AS_BOOLEAN = expose(
         value satisfies never
         return value
     }
+  },
+)
+
+export const AS_BOOLEANS = expose(
+  `
+    @description Tries to convert a list of values to booleans.
+    @param values The values to convert.
+    @example AS_BOOLEANS(0, 1, "123", "0", TRUE(), FALSE(), NOW())
+    AS_BOOLEANS(...values: T)
+  `,
+  (...values) => {
+    return values.map((value) => AS_BOOLEAN(value))
   },
 )
