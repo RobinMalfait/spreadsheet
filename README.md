@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-## Date functions (13)
+### Date functions (13)
 
 #### 1. `ADD_DAYS(date: DATETIME, days: NUMBER)`
 
@@ -126,7 +126,7 @@ The year
 
 - `date`: The date to extract the year from
 
-## Logic functions (6)
+### Logic functions (6)
 
 #### 1. `AND(...expressions: T)`
 
@@ -164,7 +164,7 @@ Returns true if any condition is true
 The boolean value true
 
 
-## Math functions (35)
+### Math functions (35)
 
 #### 1. `ABS(x: NUMBER)`
 
@@ -365,14 +365,14 @@ The TRUNC function
 
 - `x`: A numeric expression
 
-## Sequence functions (1)
+### Sequence functions (1)
 
 #### 1. `DIGITS()`
 
 A sequence of the digits from 0 through 9
 
 
-## Statistical functions (6)
+### Statistical functions (6)
 
 #### 1. `AVERAGE(...values: T)`
 
@@ -404,7 +404,7 @@ Returns the smallest NUMBER argument
 Returns the mode of NUMBER arguments
 
 
-## Text functions (10)
+### Text functions (10)
 
 #### 1. `CONCAT(...args: T)`
 
@@ -456,7 +456,7 @@ Removes leading and trailing whitespace from a string
 Converts a string to uppercase
 
 
-## Type functions (4)
+### Type functions (4)
 
 #### 1. `AS_BOOLEAN(value: T)`
 
