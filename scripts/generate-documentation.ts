@@ -1,6 +1,8 @@
 import { setSystemTime } from 'bun:test'
-import { printEvaluationResult } from '~/domain/evaluation'
+import { AstKind } from '~/domain/ast'
+import { evaluateExpression, printEvaluationResult } from '~/domain/evaluation'
 import { EvaluationResultKind } from '~/domain/evaluation-result'
+import { parse, printExpression } from '~/domain/expression'
 import * as dateFunctions from '~/domain/functions/date'
 import * as logicFunctions from '~/domain/functions/logic'
 import * as mathFunctions from '~/domain/functions/math'
@@ -10,6 +12,8 @@ import * as textFunctions from '~/domain/functions/text'
 import * as typeFunctions from '~/domain/functions/types'
 import { type Signature, TagKind, printSignature } from '~/domain/signature/parser'
 import { Spreadsheet } from '~/domain/spreadsheet'
+import { tokenize } from '~/domain/tokenizer'
+import { WalkAction, walk } from '~/domain/walk-ast'
 
 const collator = new Intl.Collator('en', { sensitivity: 'base' })
 
@@ -89,9 +93,38 @@ function generateDocs() {
         for (let tag of signature.tags) {
           if (tag.kind !== TagKind.EXAMPLE) continue
 
+          // Start of the example block
+          out += '\n```ts\n'
+
+          // Figure out the functions that we rely on
+          let dependencies = new Set()
+          let tokens = tokenize(tag.value)
+          let ast = parse(tokens)
+          walk([ast], (node) => {
+            if (node.kind !== AstKind.FUNCTION) return WalkAction.Continue
+            if (ast === node) return WalkAction.Continue
+
+            dependencies.add(printExpression(node))
+            return WalkAction.Continue
+          })
+
+          if (dependencies.size > 0) {
+            out += '// Dependencies:\n'
+            for (let dep of dependencies) {
+              spreadsheet.set('A1', `=${dep}`)
+              let result = spreadsheet.evaluate('A1')
+              out += `=${dep} // ${
+                result?.kind === EvaluationResultKind.STRING
+                  ? `"${printEvaluationResult(result)}"`
+                  : printEvaluationResult(result)
+              }\n`
+            }
+            out += '\n'
+          }
+
+          // Prepare the spreadsheet
           spreadsheet.set('A1', `=${tag.value}`)
 
-          out += '\n```ts\n'
           out += `=${tag.value}\n`
           let result = spreadsheet.evaluate('A1')
           if (result?.kind === EvaluationResultKind.STRING) {
@@ -99,6 +132,8 @@ function generateDocs() {
           } else {
             out += `// ${printEvaluationResult(result)}`
           }
+
+          // End of the example block
           out += '\n```\n'
         }
       }

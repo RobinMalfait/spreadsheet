@@ -143,6 +143,9 @@ Add a certain amount of days to a date.
 #### Examples:
 
 ```ts
+// Dependencies:
+=TODAY() // 2013-01-21
+
 =ADD_DAYS(TODAY(), 7)
 // 2013-01-28
 ```
@@ -162,6 +165,9 @@ Add a certain amount of hours to a date.
 #### Examples:
 
 ```ts
+// Dependencies:
+=NOW() // 2013-01-21 08:15:20
+
 =ADD_HOURS(NOW(), 8)
 // 2013-01-21 16:15:20
 ```
@@ -180,6 +186,9 @@ The current day of the given date.
 #### Examples:
 
 ```ts
+// Dependencies:
+=TODAY() // 2013-01-21
+
 =DAY(TODAY())
 // 21
 ```
@@ -198,6 +207,9 @@ The current hour of the given date.
 #### Examples:
 
 ```ts
+// Dependencies:
+=NOW() // 2013-01-21 08:15:20
+
 =HOUR(NOW())
 // 8
 ```
@@ -216,6 +228,9 @@ The current minute of the given date.
 #### Examples:
 
 ```ts
+// Dependencies:
+=NOW() // 2013-01-21 08:15:20
+
 =MINUTE(NOW())
 // 15
 ```
@@ -234,6 +249,9 @@ The current month of the given date. The month is 1-indexed.
 #### Examples:
 
 ```ts
+// Dependencies:
+=TODAY() // 2013-01-21
+
 =MONTH(TODAY())
 // 1
 ```
@@ -268,6 +286,9 @@ The current second of the given date.
 #### Examples:
 
 ```ts
+// Dependencies:
+=NOW() // 2013-01-21 08:15:20
+
 =SECOND(NOW())
 // 20
 ```
@@ -287,6 +308,9 @@ Subtract a certain amount of days from a date.
 #### Examples:
 
 ```ts
+// Dependencies:
+=TODAY() // 2013-01-21
+
 =SUB_DAYS(TODAY(), 7)
 // 2013-01-14
 ```
@@ -306,6 +330,9 @@ Subtract a certain amount of hours from a date.
 #### Examples:
 
 ```ts
+// Dependencies:
+=NOW() // 2013-01-21 08:15:20
+
 =SUB_HOURS(NOW(), 8)
 // 2013-01-21 00:15:20
 ```
@@ -356,6 +383,9 @@ The current year of the given date.
 #### Examples:
 
 ```ts
+// Dependencies:
+=TODAY() // 2013-01-21
+
 =YEAR(TODAY())
 // 2013
 ```
@@ -374,11 +404,18 @@ Returns true if all conditions are true.
 #### Examples:
 
 ```ts
+// Dependencies:
+=TRUE() // TRUE
+
 =AND(TRUE(), TRUE(), TRUE())
 // TRUE
 ```
 
 ```ts
+// Dependencies:
+=TRUE() // TRUE
+=FALSE() // FALSE
+
 =AND(TRUE(), TRUE(), FALSE())
 // FALSE
 ```
@@ -415,11 +452,17 @@ Returns one value if a condition is true and another value if it is false.
 #### Examples:
 
 ```ts
+// Dependencies:
+=TRUE() // TRUE
+
 =IF(TRUE(), "huge if true", "huge if false")
 // "huge if true"
 ```
 
 ```ts
+// Dependencies:
+=FALSE() // FALSE
+
 =IF(FALSE(), "huge if true", "huge if false")
 // "huge if false"
 ```
@@ -438,11 +481,17 @@ Returns true if the condition is false.
 #### Examples:
 
 ```ts
+// Dependencies:
+=TRUE() // TRUE
+
 =NOT(TRUE())
 // FALSE
 ```
 
 ```ts
+// Dependencies:
+=FALSE() // FALSE
+
 =NOT(FALSE())
 // TRUE
 ```
@@ -461,11 +510,18 @@ Returns true if any condition is true.
 #### Examples:
 
 ```ts
+// Dependencies:
+=TRUE() // TRUE
+
 =OR(TRUE(), TRUE(), TRUE())
 // TRUE
 ```
 
 ```ts
+// Dependencies:
+=TRUE() // TRUE
+=FALSE() // FALSE
+
 =OR(TRUE(), TRUE(), FALSE())
 // TRUE
 ```
@@ -961,6 +1017,9 @@ Rounds a number to a certain number of decimal places.
 ```
 
 ```ts
+// Dependencies:
+=PI() // 3.141592653589793
+
 =ROUND(PI(), 2)
 // 3.14
 ```
@@ -1138,6 +1197,9 @@ A sequence of the digits from 0 through 9.
 #### Examples:
 
 ```ts
+// Dependencies:
+=DIGITS() // ERROR: Expected a single result
+
 =JOIN(", ", DIGITS())
 // "0, 1, 2, 3, 4, 5, 6, 7, 8, 9"
 ```
@@ -1174,6 +1236,9 @@ Count the number of NUMBER arguments.
 #### Examples:
 
 ```ts
+// Dependencies:
+=TRUE() // TRUE
+
 =COUNT(1, 2, TRUE(), "hello world", 3.2)
 // 3
 ```
@@ -1331,6 +1396,9 @@ Joins multiple strings together with a delimiter.
 #### Examples:
 
 ```ts
+// Dependencies:
+=TRUE() // TRUE
+
 =JOIN("-", 1, 2, "hello", "world", TRUE())
 // "1-2-hello-world-TRUE"
 ```
@@ -1495,16 +1563,25 @@ Tries to convert a value to a boolean.
 ```
 
 ```ts
+// Dependencies:
+=TRUE() // TRUE
+
 =AS_BOOLEAN(TRUE())
 // TRUE
 ```
 
 ```ts
+// Dependencies:
+=FALSE() // FALSE
+
 =AS_BOOLEAN(FALSE())
 // FALSE
 ```
 
 ```ts
+// Dependencies:
+=NOW() // 2013-01-21 08:15:20
+
 =AS_BOOLEAN(NOW())
 // TRUE
 ```
@@ -1538,16 +1615,25 @@ Tries to convert a value to a number.
 ```
 
 ```ts
+// Dependencies:
+=TRUE() // TRUE
+
 =AS_NUMBER(TRUE())
 // 1
 ```
 
 ```ts
+// Dependencies:
+=FALSE() // FALSE
+
 =AS_NUMBER(FALSE())
 // 0
 ```
 
 ```ts
+// Dependencies:
+=NOW() // 2013-01-21 08:15:20
+
 =AS_NUMBER(NOW())
 // 1358752520000
 ```
@@ -1576,21 +1662,33 @@ Tries to convert a value to a string.
 ```
 
 ```ts
+// Dependencies:
+=TRUE() // TRUE
+
 =AS_STRING(TRUE())
 // "TRUE"
 ```
 
 ```ts
+// Dependencies:
+=FALSE() // FALSE
+
 =AS_STRING(FALSE())
 // "FALSE"
 ```
 
 ```ts
+// Dependencies:
+=NOW() // 2013-01-21 08:15:20
+
 =AS_STRING(NOW())
 // "2013-01-21 08:15:20"
 ```
 
 ```ts
+// Dependencies:
+=TIME() // 08:15:20
+
 =AS_STRING(TIME())
 // "08:15:20"
 ```
@@ -1619,16 +1717,25 @@ Returns the type of a value.
 ```
 
 ```ts
+// Dependencies:
+=TRUE() // TRUE
+
 =TYPE(TRUE())
 // "boolean"
 ```
 
 ```ts
+// Dependencies:
+=NOW() // 2013-01-21 08:15:20
+
 =TYPE(NOW())
 // "datetime"
 ```
 
 ```ts
+// Dependencies:
+=UNKNOWN_FUNCTION() // ERROR: Unknown function `UNKNOWN_FUNCTION`
+
 =TYPE(UNKNOWN_FUNCTION())
 // "error"
 ```
