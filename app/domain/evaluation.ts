@@ -129,6 +129,16 @@ export function evaluateExpression(
         let referenceCellAST = spreadsheet.getAST(referenceCell.name)
         if (!referenceCellAST) return { kind: EvaluationResultKind.EMPTY, value: '' }
 
+        // Inheriting a formula from a cell that itself has the
+        // `INHERIT_FORMULA` function should proxy through to the cell that the
+        // reference cell is inheriting from.
+        if (
+          referenceCellAST.kind === AstKind.FUNCTION &&
+          referenceCellAST.name === 'INHERIT_FORMULA'
+        ) {
+          return evaluateExpression(referenceCellAST, spreadsheet, cell)
+        }
+
         // Clone the reference cell AST so we don't modify the original
         referenceCellAST = structuredClone(referenceCellAST)
 

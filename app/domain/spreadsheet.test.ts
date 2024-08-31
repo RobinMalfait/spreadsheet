@@ -539,7 +539,7 @@ describe('privileged functions', () => {
     spreadsheet.set('B3', '=INHERIT_FORMULA(B2)')
 
     spreadsheet.set('A4', '50')
-    spreadsheet.set('B4', '=INHERIT_FORMULA(B2)')
+    spreadsheet.set('B4', '=INHERIT_FORMULA(B3)')
 
     spreadsheet.set('A6', 'Grand total:')
     spreadsheet.set('B6', '=SUM(B2:B4)')
