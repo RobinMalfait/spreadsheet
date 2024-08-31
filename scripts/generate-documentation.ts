@@ -1,3 +1,5 @@
+import { setSystemTime } from 'bun:test'
+import { printEvaluationResult } from '~/domain/evaluation'
 import * as dateFunctions from '~/domain/functions/date'
 import * as logicFunctions from '~/domain/functions/logic'
 import * as mathFunctions from '~/domain/functions/math'
@@ -6,8 +8,12 @@ import * as statisticsFunctions from '~/domain/functions/statistics'
 import * as textFunctions from '~/domain/functions/text'
 import * as typeFunctions from '~/domain/functions/types'
 import { type Signature, TagKind, printSignature } from '~/domain/signature/parser'
+import { Spreadsheet } from '~/domain/spreadsheet'
 
 const collator = new Intl.Collator('en', { sensitivity: 'base' })
+
+// Mock the current date/time, so that the examples are deterministic
+setSystemTime(new Date(2013, 0, 21, 8, 15, 20))
 
 const categories = [
   ['Date functions', dateFunctions],
@@ -18,6 +24,8 @@ const categories = [
   ['Text functions', textFunctions],
   ['Type functions', typeFunctions],
 ] as const
+
+const spreadsheet = new Spreadsheet()
 
 const README = Bun.file('README.md')
 const contents = await README.text()
@@ -69,6 +77,18 @@ function generateDocs() {
         if (tag.kind !== TagKind.PARAM) continue
 
         out += `- \`${tag.name}\`: ${tag.value}\n`
+      }
+
+      // Evaluate examples
+      for (let tag of signature.tags) {
+        if (tag.kind !== TagKind.EXAMPLE) continue
+
+        spreadsheet.set('A1', `=${tag.value}`)
+
+        out += '\n```ts\n'
+        out += `=${tag.value}\n`
+        out += `// ${printEvaluationResult(spreadsheet.evaluate('A1'))}`
+        out += '\n```\n'
       }
 
       if (idx === functionNames.length - 1) {

@@ -140,6 +140,11 @@ Add days to a date
 - `date`: The date to add days to
 - `days`: The number of days to add
 
+```ts
+=ADD_DAYS(TODAY(), 7)
+// 2013-01-28
+```
+
 ---
 
 <a name="add_hours"></a>
@@ -152,6 +157,11 @@ Add hours to a date
 - `date`: The date to add hours to
 - `hours`: The number of hours to add
 
+```ts
+=ADD_HOURS(NOW(), 8)
+// 2013-01-21 16:15:20
+```
+
 ---
 
 <a name="day"></a>
@@ -159,9 +169,14 @@ Add hours to a date
 
 [Back to top](#functions)
 
-The day of the month
+The day of the month from the given date
 
-- `date`: The date to extract the day from
+- `date`: The date to extract the current day from
+
+```ts
+=DAY(TODAY())
+// 21
+```
 
 ---
 
@@ -170,9 +185,14 @@ The day of the month
 
 [Back to top](#functions)
 
-The hour
+The hour of the day from the given date
 
-- `date`: The date to extract the hour from
+- `date`: The date to extract the current hour from
+
+```ts
+=HOUR(NOW())
+// 8
+```
 
 ---
 
@@ -181,9 +201,14 @@ The hour
 
 [Back to top](#functions)
 
-The minute
+The minute of the day from the given date
 
-- `date`: The date to extract the minute from
+- `date`: The date to extract the current minute from
+
+```ts
+=MINUTE(NOW())
+// 15
+```
 
 ---
 
@@ -192,9 +217,14 @@ The minute
 
 [Back to top](#functions)
 
-The month of the year
+The month of the year from the given date
 
-- `date`: The date to extract the month from
+- `date`: The date to extract the current month from
+
+```ts
+=MONTH(TODAY())
+// 1
+```
 
 ---
 
@@ -203,7 +233,12 @@ The month of the year
 
 [Back to top](#functions)
 
-The current date and time
+The current date and time represented as a datetime
+
+```ts
+=NOW()
+// 2013-01-21 08:15:20
+```
 
 ---
 
@@ -212,9 +247,14 @@ The current date and time
 
 [Back to top](#functions)
 
-The second
+The second of the minute from the given date
 
-- `date`: The date to extract the second from
+- `date`: The date to extract the current seconds from
+
+```ts
+=SECOND(NOW())
+// 20
+```
 
 ---
 
@@ -228,6 +268,11 @@ Subtract days from a date
 - `date`: The date to subtract days from
 - `days`: The number of days to subtract
 
+```ts
+=SUB_DAYS(TODAY(), 7)
+// 2013-01-14
+```
+
 ---
 
 <a name="sub_hours"></a>
@@ -240,6 +285,11 @@ Subtract hours from a date
 - `date`: The date to subtract hours from
 - `hours`: The number of hours to subtract
 
+```ts
+=SUB_HOURS(NOW(), 8)
+// 2013-01-21 00:15:20
+```
+
 ---
 
 <a name="time"></a>
@@ -247,7 +297,12 @@ Subtract hours from a date
 
 [Back to top](#functions)
 
-The current time
+The current time represented as a datetime
+
+```ts
+=TIME()
+// 08:15:20
+```
 
 ---
 
@@ -256,7 +311,12 @@ The current time
 
 [Back to top](#functions)
 
-The current date
+The current date represented as a datetime
+
+```ts
+=TODAY()
+// 2013-01-21
+```
 
 ---
 
@@ -265,9 +325,14 @@ The current date
 
 [Back to top](#functions)
 
-The year
+The year from the given date
 
-- `date`: The date to extract the year from
+- `date`: The date to extract the current year from
+
+```ts
+=YEAR(TODAY())
+// 2013
+```
 
 ### Logic functions (6)
 
