@@ -7,11 +7,11 @@ import { tokenize } from '~/domain/tokenizer'
 import { WalkAction, walk } from '~/domain/walk-ast'
 
 export class Spreadsheet {
-  // Track each individual cell and it's contents. AST is pre-parsed.
-  #cells = new Map<string, [raw: string, ast: AST]>()
+  // Track the raw contents of each cell. This is the original input.
+  #rawCells = new Map<string, string>()
 
-  // Track formatting for each cell
-  #formatting = new Map<string, AST>()
+  // Track each individual cell and it's contents. AST is pre-parsed.
+  #cells = new Map<string, AST>()
 
   // Track all dependencies for each cell.
   #dependencies = new Map<string, Set<string>>()
@@ -23,15 +23,11 @@ export class Spreadsheet {
   }
 
   has(cell: string): boolean {
-    return this.#cells.has(cell)
+    return this.#rawCells.has(cell)
   }
 
   get(cell: string): string {
-    let result = this.#cells.get(cell)
-    if (result) {
-      return result[0]
-    }
-    return ''
+    return this.#rawCells.get(cell) ?? ''
   }
 
   set(
@@ -39,6 +35,7 @@ export class Spreadsheet {
     value: string,
   ): Extract<EvaluationResult, { kind: EvaluationResultKind.ERROR }> | null {
     // Reset state
+    this.#rawCells.delete(cell)
     this.#cells.delete(cell)
 
     // Clear existing dependencies for this cell
@@ -57,6 +54,9 @@ export class Spreadsheet {
     let expression = value[0] === '=' ? value.slice(1) : `"${value}"`
     if (expression.trim() === '') return null
 
+    // Track the raw value
+    this.#rawCells.set(cell, value)
+
     try {
       let tokens = tokenize(expression)
       let ast = parse(tokens)
@@ -70,7 +70,8 @@ export class Spreadsheet {
         return WalkAction.Continue
       })
 
-      this.#cells.set(cell, [value, ast])
+      // Save the AST
+      this.#cells.set(cell, ast)
 
       // Save dependencies
       if (dependencies.size > 0) this.#dependencies.set(cell, dependencies)
@@ -100,8 +101,7 @@ export class Spreadsheet {
     let cached = this.#evaluationCache.get(cell)
     if (cached) return cached
 
-    // TODO: Should this be moved to the `set` method?
-    if (result[1].kind === AstKind.RANGE) {
+    if (result.kind === AstKind.RANGE) {
       return {
         kind: EvaluationResultKind.ERROR,
         value: 'Cannot reference a range to a cell',
@@ -149,7 +149,7 @@ export class Spreadsheet {
       }
     }
 
-    let out = evaluateExpression(result[1], this)
+    let out = evaluateExpression(result, this)
     if (Array.isArray(out)) {
       out = {
         kind: EvaluationResultKind.ERROR,
