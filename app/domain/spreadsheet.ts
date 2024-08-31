@@ -1,7 +1,13 @@
 import { type AST, AstKind } from '~/domain/ast'
 import { evaluateExpression } from '~/domain/evaluation'
 import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
-import { parse } from '~/domain/expression'
+import {
+  Lock,
+  locationDelta,
+  parse,
+  parseLocation,
+  printLocation,
+} from '~/domain/expression'
 import * as functions from '~/domain/functions'
 import { tokenize } from '~/domain/tokenizer'
 import { WalkAction, walk } from '~/domain/walk-ast'
@@ -14,7 +20,7 @@ export class Spreadsheet {
   #cells = new Map<string, AST>()
 
   // Track all dependencies for each cell.
-  #dependencies = new Map<string, Set<string>>()
+  #dependencies = new Map<string, Map<string, string>>()
 
   #evaluationCache = new Map<string, EvaluationResult | null>()
 
@@ -30,6 +36,10 @@ export class Spreadsheet {
     return this.#rawCells.get(cell) ?? ''
   }
 
+  getAST(cell: string): AST | undefined {
+    return this.#cells.get(cell)
+  }
+
   set(
     cell: string,
     value: string,
@@ -41,7 +51,7 @@ export class Spreadsheet {
     // Clear existing dependencies for this cell
     let dependencies = this.#dependencies.get(cell)
     if (dependencies) dependencies.clear()
-    else dependencies = new Set()
+    else dependencies = new Map()
 
     // Clear the full evaluation cache. Very naive, but let's re-compute
     // everything the moment _something_ changes.
@@ -64,7 +74,7 @@ export class Spreadsheet {
       // Track all references in the AST
       walk([ast], (node) => {
         if (node.kind === AstKind.CELL) {
-          dependencies.add(node.name)
+          dependencies.set(node.name, node.raw)
         }
 
         return WalkAction.Continue
@@ -91,7 +101,47 @@ export class Spreadsheet {
   }
 
   dependencies(cell: string): Set<string> {
-    return new Set(this.#dependencies.get(cell))
+    return new Set(this.#dependencies.get(cell)?.keys())
+  }
+
+  inheritedDependencies(cell: string): Set<string> {
+    let dependencies = new Set<string>()
+
+    let ast = this.#cells.get(cell)
+
+    if (ast?.kind !== AstKind.FUNCTION || ast?.name !== 'INHERIT_FORMULA') {
+      return dependencies
+    }
+
+    if (ast.args.length !== 1) {
+      return dependencies
+    }
+
+    if (ast.args[0]?.kind !== AstKind.CELL) {
+      return dependencies
+    }
+
+    let referenceCell = ast.args[0]
+    let currentCell = parseLocation(cell)
+    let delta = locationDelta(referenceCell.loc, currentCell)
+
+    let dependenciesOfReference = this.#dependencies.get(ast.args[0].name)?.values() ?? []
+    for (let dependency of dependenciesOfReference) {
+      let cell = parseLocation(dependency)
+      // Only update the column if it's not locked
+      if ((cell.lock & Lock.COL) !== Lock.COL) {
+        cell.col += delta.col
+      }
+
+      // Only update the row if it's not locked
+      if ((cell.lock & Lock.ROW) !== Lock.ROW) {
+        cell.row += delta.row
+      }
+
+      dependencies.add(printLocation(cell))
+    }
+
+    return dependencies
   }
 
   evaluate(cell: string): EvaluationResult {
@@ -112,7 +162,7 @@ export class Spreadsheet {
     let dependencies = this.#dependencies.get(cell)
     if (dependencies && dependencies.size > 0) {
       let handled = new Set<string>()
-      let todo = Array.from(dependencies)
+      let todo = Array.from(dependencies.keys())
 
       // Track where we came from
       let previous = cell
@@ -140,7 +190,7 @@ export class Spreadsheet {
           let transitiveDependencies = this.#dependencies.get(next)
           if (!transitiveDependencies) continue
 
-          for (let other of transitiveDependencies) {
+          for (let other of transitiveDependencies.keys()) {
             if (!handled.has(other)) {
               todo.push(other)
             }
@@ -149,7 +199,7 @@ export class Spreadsheet {
       }
     }
 
-    let out = evaluateExpression(result, this)
+    let out = evaluateExpression(result, this, cell)
     if (Array.isArray(out)) {
       out = {
         kind: EvaluationResultKind.ERROR,

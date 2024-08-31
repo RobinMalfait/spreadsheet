@@ -195,18 +195,9 @@ export default function Index() {
         'B9',
         '=AS_NUMBER(FIND_FIRST(A9, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(A9, AS_STRINGS(DIGITS())))',
       )
-      vcs.commit(
-        'B10',
-        '=AS_NUMBER(FIND_FIRST(A10, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(A10, AS_STRINGS(DIGITS())))',
-      )
-      vcs.commit(
-        'B11',
-        '=AS_NUMBER(FIND_FIRST(A11, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(A11, AS_STRINGS(DIGITS())))',
-      )
-      vcs.commit(
-        'B12',
-        '=AS_NUMBER(FIND_FIRST(A12, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(A12, AS_STRINGS(DIGITS())))',
-      )
+      vcs.commit('B10', '=INHERIT_FORMULA(B9)')
+      vcs.commit('B11', '=INHERIT_FORMULA(B9)')
+      vcs.commit('B12', '=INHERIT_FORMULA(B9)')
 
       vcs.commit('B4', '=SUM(B9:B12)')
 
@@ -223,59 +214,23 @@ export default function Index() {
         'D9',
         '=REPLACE_ALL(C9, "one", 1, "two", 2, "three", 3, "four", 4, "five", 5, "six", 6, "seven", 7, "eight", 8, "nine", 9)',
       )
-      vcs.commit(
-        'D10',
-        '=REPLACE_ALL(C10, "one", 1, "two", 2, "three", 3, "four", 4, "five", 5, "six", 6, "seven", 7, "eight", 8, "nine", 9)',
-      )
-      vcs.commit(
-        'D11',
-        '=REPLACE_ALL(C11, "one", 1, "two", 2, "three", 3, "four", 4, "five", 5, "six", 6, "seven", 7, "eight", 8, "nine", 9)',
-      )
-      vcs.commit(
-        'D12',
-        '=REPLACE_ALL(C12, "one", 1, "two", 2, "three", 3, "four", 4, "five", 5, "six", 6, "seven", 7, "eight", 8, "nine", 9)',
-      )
-      vcs.commit(
-        'D13',
-        '=REPLACE_ALL(C13, "one", 1, "two", 2, "three", 3, "four", 4, "five", 5, "six", 6, "seven", 7, "eight", 8, "nine", 9)',
-      )
-      vcs.commit(
-        'D14',
-        '=REPLACE_ALL(C14, "one", 1, "two", 2, "three", 3, "four", 4, "five", 5, "six", 6, "seven", 7, "eight", 8, "nine", 9)',
-      )
-      vcs.commit(
-        'D15',
-        '=REPLACE_ALL(C15, "one", 1, "two", 2, "three", 3, "four", 4, "five", 5, "six", 6, "seven", 7, "eight", 8, "nine", 9)',
-      )
+      vcs.commit('D10', '=INHERIT_FORMULA(D9)')
+      vcs.commit('D11', '=INHERIT_FORMULA(D9)')
+      vcs.commit('D12', '=INHERIT_FORMULA(D9)')
+      vcs.commit('D13', '=INHERIT_FORMULA(D9)')
+      vcs.commit('D14', '=INHERIT_FORMULA(D9)')
+      vcs.commit('D15', '=INHERIT_FORMULA(D9)')
 
       vcs.commit(
         'E9',
         '=AS_NUMBER(FIND_FIRST(D9, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(D9, AS_STRINGS(DIGITS())))',
       )
-      vcs.commit(
-        'E10',
-        '=AS_NUMBER(FIND_FIRST(D10, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(D10, AS_STRINGS(DIGITS())))',
-      )
-      vcs.commit(
-        'E11',
-        '=AS_NUMBER(FIND_FIRST(D11, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(D11, AS_STRINGS(DIGITS())))',
-      )
-      vcs.commit(
-        'E12',
-        '=AS_NUMBER(FIND_FIRST(D12, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(D12, AS_STRINGS(DIGITS())))',
-      )
-      vcs.commit(
-        'E13',
-        '=AS_NUMBER(FIND_FIRST(D13, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(D13, AS_STRINGS(DIGITS())))',
-      )
-      vcs.commit(
-        'E14',
-        '=AS_NUMBER(FIND_FIRST(D14, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(D14, AS_STRINGS(DIGITS())))',
-      )
-      vcs.commit(
-        'E15',
-        '=AS_NUMBER(FIND_FIRST(D15, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(D15, AS_STRINGS(DIGITS())))',
-      )
+      vcs.commit('E10', '=INHERIT_FORMULA(E9)')
+      vcs.commit('E11', '=INHERIT_FORMULA(E9)')
+      vcs.commit('E12', '=INHERIT_FORMULA(E9)')
+      vcs.commit('E13', '=INHERIT_FORMULA(E9)')
+      vcs.commit('E14', '=INHERIT_FORMULA(E9)')
+      vcs.commit('E15', '=INHERIT_FORMULA(E9)')
 
       vcs.commit('B5', '=SUM(E9:E15)')
     } else if (window.location.search === '?demo-payroll') {
@@ -299,8 +254,8 @@ export default function Index() {
       vcs.commit('A8', 'Total:')
       vcs.commit('B8', '=SUM(B4:B6)')
       vcs.commit('C4', '=ROUND(PRODUCT(B4, $F$3), 2)')
-      vcs.commit('C5', '=ROUND(PRODUCT(B5, $F$3), 2)')
-      vcs.commit('C6', '=ROUND(PRODUCT(B6, $F$3), 2)')
+      vcs.commit('C5', '=INHERIT_FORMULA(C4)')
+      vcs.commit('C6', '=INHERIT_FORMULA(C4)')
       vcs.commit('C8', '=SUM(C4:C6)')
     } else if (window.location.search === '?demo-fat-burning-zone') {
       vcs.commit('A1', 'Fat Burning Zone')
@@ -566,6 +521,7 @@ export default function Index() {
 
   // Dependencies of the current cell
   let dependencies = spreadsheet.dependencies(cell)
+  let inheritedDependencies = spreadsheet.inheritedDependencies(cell)
 
   return (
     <div className="isolate flex h-screen w-screen flex-col overflow-hidden font-sans">
@@ -922,6 +878,17 @@ export default function Index() {
                       !dependencies.has(rightCell(id)) && 'before:border-r-2',
                       !dependencies.has(topCell(id)) && 'before:border-t-2',
                       !dependencies.has(bottomCell(id)) && 'before:border-b-2',
+                    ),
+
+                  // Inherited dependency of the current cell
+                  cell !== id &&
+                    inheritedDependencies.has(id) &&
+                    clsx(
+                      'before:pointer-events-none before:absolute before:inset-0 before:border-emerald-500 before:border-dashed before:bg-emerald-200/20',
+                      !inheritedDependencies.has(leftCell(id)) && 'before:border-l-2',
+                      !inheritedDependencies.has(rightCell(id)) && 'before:border-r-2',
+                      !inheritedDependencies.has(topCell(id)) && 'before:border-t-2',
+                      !inheritedDependencies.has(bottomCell(id)) && 'before:border-b-2',
                     ),
                 )}
                 ref={(e) => {

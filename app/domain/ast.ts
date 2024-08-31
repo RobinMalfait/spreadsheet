@@ -1,3 +1,5 @@
+import type { Location } from '~/domain/expression'
+
 export enum AstKind {
   CELL = 'CELL',
   RANGE = 'RANGE',
@@ -18,10 +20,7 @@ export interface AstCell extends Span {
   kind: AstKind.CELL
   name: string
   raw: string
-  loc: {
-    col: number
-    row: number
-  }
+  loc: Location
 }
 
 export interface AstCellRange extends Span {

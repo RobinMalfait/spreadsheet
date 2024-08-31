@@ -524,6 +524,48 @@ describe('expressions', () => {
   })
 })
 
+describe('privileged functions', () => {
+  it('should be possible to inherit a formula from another cell via `INHERIT_FORMULA`', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', 'Hours')
+    spreadsheet.set('B1', 'Total')
+    spreadsheet.set('D1', 'Rate:')
+    spreadsheet.set('E1', '=12.45')
+
+    spreadsheet.set('A2', '40')
+    spreadsheet.set('B2', '=ROUND(PRODUCT(A2, $E$1), 2)')
+
+    spreadsheet.set('A3', '38')
+    spreadsheet.set('B3', '=INHERIT_FORMULA(B2)')
+
+    spreadsheet.set('A4', '50')
+    spreadsheet.set('B4', '=INHERIT_FORMULA(B2)')
+
+    spreadsheet.set('A6', 'Grand total:')
+    spreadsheet.set('B6', '=SUM(B2:B4)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬──────────────┬────────┬───┬───────┬───────┐
+      │   │ A            │ B      │ C │ D     │ E     │
+      ├───┼──────────────┼────────┼───┼───────┼───────┤
+      │ 1 │ Hours        │ Total  │   │ Rate: │ 12.45 │
+      ├───┼──────────────┼────────┼───┼───────┼───────┤
+      │ 2 │ 40           │ 498    │   │       │       │
+      ├───┼──────────────┼────────┼───┼───────┼───────┤
+      │ 3 │ 38           │ 473.1  │   │       │       │
+      ├───┼──────────────┼────────┼───┼───────┼───────┤
+      │ 4 │ 50           │ 622.5  │   │       │       │
+      ├───┼──────────────┼────────┼───┼───────┼───────┤
+      │ 5 │              │        │   │       │       │
+      ├───┼──────────────┼────────┼───┼───────┼───────┤
+      │ 6 │ Grand total: │ 1593.6 │   │       │       │
+      └───┴──────────────┴────────┴───┴───────┴───────┘
+      "
+    `)
+  })
+})
+
 describe('errors', () => {
   it('should not be possible to reference yourself directly', () => {
     let spreadsheet = new Spreadsheet()

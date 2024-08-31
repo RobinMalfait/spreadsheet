@@ -1,13 +1,15 @@
 import { format } from 'date-fns'
 import { type AST, AstKind, BinaryExpressionOperator } from '~/domain/ast'
+import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
+import { applyLocationDelta, locationDelta, parseLocation } from '~/domain/expression'
 import * as functions from '~/domain/functions'
 import type { Spreadsheet } from '~/domain/spreadsheet'
-import { expandRange } from '~/domain/walk-ast'
-import { type EvaluationResult, EvaluationResultKind } from './evaluation-result'
+import { WalkAction, expandRange, walk } from '~/domain/walk-ast'
 
 export function evaluateExpression(
   ast: AST,
   spreadsheet: Spreadsheet,
+  cell: string,
 ): EvaluationResult | EvaluationResult[] {
   switch (ast.kind) {
     case AstKind.NUMBER_LITERAL:
@@ -47,7 +49,7 @@ export function evaluateExpression(
     }
 
     case AstKind.BINARY_EXPRESSION: {
-      let lhs = evaluateExpression(ast.lhs, spreadsheet)
+      let lhs = evaluateExpression(ast.lhs, spreadsheet, cell)
       if (Array.isArray(lhs)) {
         return {
           kind: EvaluationResultKind.ERROR,
@@ -56,7 +58,7 @@ export function evaluateExpression(
       }
       if (lhs.kind === EvaluationResultKind.ERROR) return lhs
 
-      let rhs = evaluateExpression(ast.rhs, spreadsheet)
+      let rhs = evaluateExpression(ast.rhs, spreadsheet, cell)
       if (Array.isArray(rhs)) {
         return {
           kind: EvaluationResultKind.ERROR,
@@ -107,6 +109,47 @@ export function evaluateExpression(
     }
 
     case AstKind.FUNCTION: {
+      // Special case for `INHERIT_FORMULA`
+      if (ast.name === 'INHERIT_FORMULA') {
+        if (ast.args.length !== 1) {
+          return {
+            kind: EvaluationResultKind.ERROR,
+            value: 'Expected exactly one argument',
+          }
+        }
+
+        if (ast.args[0]?.kind !== AstKind.CELL) {
+          return { kind: EvaluationResultKind.ERROR, value: 'Expected a cell reference' }
+        }
+
+        let referenceCell = ast.args[0]
+        let currentCell = parseLocation(cell)
+        let delta = locationDelta(referenceCell.loc, currentCell)
+
+        let referenceCellAST = spreadsheet.getAST(referenceCell.name)
+        if (!referenceCellAST) return { kind: EvaluationResultKind.EMPTY, value: '' }
+
+        // Clone the reference cell AST so we don't modify the original
+        referenceCellAST = structuredClone(referenceCellAST)
+
+        // Update all cell references in the cloned AST to make them relative to
+        // the current cell.
+        walk([referenceCellAST], (node) => {
+          if (node.kind === AstKind.CELL) {
+            applyLocationDelta(node, delta)
+          }
+
+          if (node.kind === AstKind.RANGE) {
+            applyLocationDelta(node.start, delta)
+            applyLocationDelta(node.end, delta)
+          }
+
+          return WalkAction.Continue
+        })
+
+        return evaluateExpression(referenceCellAST, spreadsheet, cell)
+      }
+
       if (!Object.hasOwn(functions, ast.name)) {
         return {
           kind: EvaluationResultKind.ERROR,
@@ -115,9 +158,8 @@ export function evaluateExpression(
       }
 
       let fn = functions[ast.name as keyof typeof functions]
-      let args = ast.args.flatMap((arg) => evaluateExpression(arg, spreadsheet))
+      let args = ast.args.flatMap((arg) => evaluateExpression(arg, spreadsheet, cell))
 
-      // checking that here.
       return fn(...args)
     }
   }

@@ -378,7 +378,7 @@ export type Location = {
   lock: number
 }
 
-enum Lock {
+export enum Lock {
   COL = 1 << 0,
   ROW = 1 << 1,
 }
@@ -410,6 +410,30 @@ export function parseLocation(input: string): Location {
   let row = Number(input.slice(idx))
 
   return { col, row, lock }
+}
+
+export function locationDelta(a: Location, b: Location) {
+  return {
+    col: b.col - a.col,
+    row: b.row - a.row,
+  }
+}
+
+export function applyLocationDelta(cell: AstCell, delta: { col: number; row: number }) {
+  // Only update the column if it's not locked
+  if ((cell.loc.lock & Lock.COL) !== Lock.COL) {
+    cell.loc.col += delta.col
+  }
+
+  // Only update the row if it's not locked
+  if ((cell.loc.lock & Lock.ROW) !== Lock.ROW) {
+    cell.loc.row += delta.row
+  }
+
+  // Update the name / raw values. The name does not include the lock characters
+  // but the raw value does.
+  cell.name = printLocation(cell.loc, false)
+  cell.raw = printLocation(cell.loc, true)
 }
 
 export function parseColNumber(input: string) {
