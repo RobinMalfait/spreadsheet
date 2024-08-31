@@ -1133,7 +1133,14 @@ The TRUNC function.
 
 [Back to top](#functions)
 
-A sequence of the digits from 0 through 9
+A sequence of the digits from 0 through 9.
+
+#### Examples:
+
+```ts
+=JOIN(", ", DIGITS())
+// 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+```
 
 ### Statistical functions
 
