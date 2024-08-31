@@ -270,7 +270,7 @@ export const CEIL = expose(
 
 export const ROUND = expose(
   `
-    @description Round the number to the nearest integer (or ).
+    @description Rounds a number to a certain number of decimal places.
     @param value The number to round.
     @param places The number of decimal places to round to.
     @example ROUND(1.5)

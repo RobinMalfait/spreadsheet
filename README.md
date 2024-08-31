@@ -948,7 +948,7 @@ Returns the product of all arguments.
 
 [Back to top](#functions)
 
-Round the number to the nearest integer (or ).
+Rounds a number to a certain number of decimal places.
 
 - `value`: The number to round.
 - `places`: The number of decimal places to round to.
