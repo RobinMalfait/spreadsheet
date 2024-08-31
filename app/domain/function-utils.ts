@@ -15,11 +15,14 @@ export function expose<
 ): (...args: T[]) => R {
   let sig = parse(tokenize(signature))
 
-  return (...args: T[]) => {
-    let errors = validate(sig, args)
-    if (errors) return errors as R
+  return Object.assign(
+    (...args: T[]) => {
+      let errors = validate(sig, args)
+      if (errors) return errors as R
 
-    // Handle
-    return options.handle(...args) as R
-  }
+      // Handle
+      return options.handle(...args) as R
+    },
+    { signature, signatureAST: sig, description: options.description },
+  )
 }

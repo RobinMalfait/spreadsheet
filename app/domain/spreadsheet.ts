@@ -5,7 +5,6 @@ import { parse } from '~/domain/expression'
 import * as functions from '~/domain/functions'
 import { tokenize } from '~/domain/tokenizer'
 import { WalkAction, walk } from '~/domain/walk-ast'
-import { DefaultMap } from '~/utils/default-map'
 
 export class Spreadsheet {
   // Track each individual cell and it's contents. AST is pre-parsed.
