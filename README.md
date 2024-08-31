@@ -135,9 +135,9 @@ Once you write a formula, you will get some syntax highlighting.
 
 [Back to top](#functions)
 
-Add days to a date.
+Add a certain amount of days to a date.
 
-- `date`: The date to add days to.
+- `date`: The date to add the days to.
 - `days`: The number of days to add.
 
 ```ts
@@ -152,10 +152,10 @@ Add days to a date.
 
 [Back to top](#functions)
 
-Add hours to a date.
+Add a certain amount of hours to a date.
 
-- `date`: The date to add hours to.
-- `hours`: The number of hours to add.
+- `date`: The date to add the hours to.
+- `days`: The number of hours to add.
 
 ```ts
 =ADD_HOURS(NOW(), 8)
@@ -169,7 +169,7 @@ Add hours to a date.
 
 [Back to top](#functions)
 
-The day of the month from the given date.
+The current day of the given date.
 
 - `date`: The date to extract the current day from.
 
@@ -185,7 +185,7 @@ The day of the month from the given date.
 
 [Back to top](#functions)
 
-The hour of the day from the given date.
+The current hour of the given date.
 
 - `date`: The date to extract the current hour from.
 
@@ -201,7 +201,7 @@ The hour of the day from the given date.
 
 [Back to top](#functions)
 
-The minute of the day from the given date.
+The current minute of the given date.
 
 - `date`: The date to extract the current minute from.
 
@@ -217,7 +217,7 @@ The minute of the day from the given date.
 
 [Back to top](#functions)
 
-The month of the year from the given date.
+The current month of the given date. The month is 1-indexed.
 
 - `date`: The date to extract the current month from.
 
@@ -247,7 +247,7 @@ The current date and time represented as a datetime.
 
 [Back to top](#functions)
 
-The second of the minute from the given date.
+The current second of the given date.
 
 - `date`: The date to extract the current seconds from.
 
@@ -263,9 +263,9 @@ The second of the minute from the given date.
 
 [Back to top](#functions)
 
-Subtract days from a date.
+Subtract a certain amount of days from a date.
 
-- `date`: The date to subtract days from.
+- `date`: The date to subtract the days from.
 - `days`: The number of days to subtract.
 
 ```ts
@@ -280,10 +280,10 @@ Subtract days from a date.
 
 [Back to top](#functions)
 
-Subtract hours from a date.
+Subtract a certain amount of hours from a date.
 
-- `date`: The date to subtract hours from.
-- `hours`: The number of hours to subtract.
+- `date`: The date to subtract the hours from.
+- `days`: The number of hours to subtract.
 
 ```ts
 =SUB_HOURS(NOW(), 8)
@@ -325,7 +325,7 @@ The current date represented as a datetime.
 
 [Back to top](#functions)
 
-The year from the given date.
+The current year of the given date.
 
 - `date`: The date to extract the current year from.
 

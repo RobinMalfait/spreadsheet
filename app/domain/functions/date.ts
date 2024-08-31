@@ -68,7 +68,7 @@ export const TIME = expose(
 
 export const DAY = expose(
   `
-    @description The day of the month from the given date.
+    @description The current day of the given date.
     @param date The date to extract the current day from.
     @example DAY(TODAY())
     DAY(date: DATETIME)
@@ -80,7 +80,7 @@ export const DAY = expose(
 
 export const MONTH = expose(
   `
-    @description The month of the year from the given date.
+    @description The current month of the given date. The month is 1-indexed.
     @param date The date to extract the current month from.
     @example MONTH(TODAY())
     MONTH(date: DATETIME)
@@ -92,7 +92,7 @@ export const MONTH = expose(
 
 export const YEAR = expose(
   `
-    @description The year from the given date.
+    @description The current year of the given date.
     @param date The date to extract the current year from.
     @example YEAR(TODAY())
     YEAR(date: DATETIME)
@@ -107,7 +107,7 @@ export const YEAR = expose(
 
 export const HOUR = expose(
   `
-    @description The hour of the day from the given date.
+    @description The current hour of the given date.
     @param date The date to extract the current hour from.
     @example HOUR(NOW())
     HOUR(date: DATETIME)
@@ -122,7 +122,7 @@ export const HOUR = expose(
 
 export const MINUTE = expose(
   `
-    @description The minute of the day from the given date.
+    @description The current minute of the given date.
     @param date The date to extract the current minute from.
     @example MINUTE(NOW())
     MINUTE(date: DATETIME)
@@ -137,7 +137,7 @@ export const MINUTE = expose(
 
 export const SECOND = expose(
   `
-    @description The second of the minute from the given date.
+    @description The current second of the given date.
     @param date The date to extract the current seconds from.
     @example SECOND(NOW())
     SECOND(date: DATETIME)
@@ -152,8 +152,8 @@ export const SECOND = expose(
 
 export const ADD_DAYS = expose(
   `
-    @description Add days to a date.
-    @param date The date to add days to.
+    @description Add a certain amount of days to a date.
+    @param date The date to add the days to.
     @param days The number of days to add.
     @example ADD_DAYS(TODAY(), 7)
     ADD_DAYS(date: DATETIME, days: NUMBER)
@@ -170,8 +170,8 @@ export const ADD_DAYS = expose(
 
 export const SUB_DAYS = expose(
   `
-    @description Subtract days from a date.
-    @param date The date to subtract days from.
+    @description Subtract a certain amount of days from a date.
+    @param date The date to subtract the days from.
     @param days The number of days to subtract.
     @example SUB_DAYS(TODAY(), 7)
     SUB_DAYS(date: DATETIME, days: NUMBER)
@@ -188,9 +188,9 @@ export const SUB_DAYS = expose(
 
 export const ADD_HOURS = expose(
   `
-    @description Add hours to a date.
-    @param date The date to add hours to.
-    @param hours The number of hours to add.
+    @description Add a certain amount of hours to a date.
+    @param date The date to add the hours to.
+    @param days The number of hours to add.
     @example ADD_HOURS(NOW(), 8)
     ADD_HOURS(date: DATETIME, hours: NUMBER)
   `,
@@ -206,9 +206,9 @@ export const ADD_HOURS = expose(
 
 export const SUB_HOURS = expose(
   `
-    @description Subtract hours from a date.
-    @param date The date to subtract hours from.
-    @param hours The number of hours to subtract.
+    @description Subtract a certain amount of hours from a date.
+    @param date The date to subtract the hours from.
+    @param days The number of hours to subtract.
     @example SUB_HOURS(NOW(), 8)
     SUB_HOURS(date: DATETIME, hours: NUMBER)
   `,
