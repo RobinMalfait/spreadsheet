@@ -135,10 +135,10 @@ Once you write a formula, you will get some syntax highlighting.
 
 [Back to top](#functions)
 
-Add days to a date
+Add days to a date.
 
-- `date`: The date to add days to
-- `days`: The number of days to add
+- `date`: The date to add days to.
+- `days`: The number of days to add.
 
 ```ts
 =ADD_DAYS(TODAY(), 7)
@@ -152,10 +152,10 @@ Add days to a date
 
 [Back to top](#functions)
 
-Add hours to a date
+Add hours to a date.
 
-- `date`: The date to add hours to
-- `hours`: The number of hours to add
+- `date`: The date to add hours to.
+- `hours`: The number of hours to add.
 
 ```ts
 =ADD_HOURS(NOW(), 8)
@@ -169,9 +169,9 @@ Add hours to a date
 
 [Back to top](#functions)
 
-The day of the month from the given date
+The day of the month from the given date.
 
-- `date`: The date to extract the current day from
+- `date`: The date to extract the current day from.
 
 ```ts
 =DAY(TODAY())
@@ -185,9 +185,9 @@ The day of the month from the given date
 
 [Back to top](#functions)
 
-The hour of the day from the given date
+The hour of the day from the given date.
 
-- `date`: The date to extract the current hour from
+- `date`: The date to extract the current hour from.
 
 ```ts
 =HOUR(NOW())
@@ -201,9 +201,9 @@ The hour of the day from the given date
 
 [Back to top](#functions)
 
-The minute of the day from the given date
+The minute of the day from the given date.
 
-- `date`: The date to extract the current minute from
+- `date`: The date to extract the current minute from.
 
 ```ts
 =MINUTE(NOW())
@@ -217,9 +217,9 @@ The minute of the day from the given date
 
 [Back to top](#functions)
 
-The month of the year from the given date
+The month of the year from the given date.
 
-- `date`: The date to extract the current month from
+- `date`: The date to extract the current month from.
 
 ```ts
 =MONTH(TODAY())
@@ -233,7 +233,7 @@ The month of the year from the given date
 
 [Back to top](#functions)
 
-The current date and time represented as a datetime
+The current date and time represented as a datetime.
 
 ```ts
 =NOW()
@@ -247,9 +247,9 @@ The current date and time represented as a datetime
 
 [Back to top](#functions)
 
-The second of the minute from the given date
+The second of the minute from the given date.
 
-- `date`: The date to extract the current seconds from
+- `date`: The date to extract the current seconds from.
 
 ```ts
 =SECOND(NOW())
@@ -263,10 +263,10 @@ The second of the minute from the given date
 
 [Back to top](#functions)
 
-Subtract days from a date
+Subtract days from a date.
 
-- `date`: The date to subtract days from
-- `days`: The number of days to subtract
+- `date`: The date to subtract days from.
+- `days`: The number of days to subtract.
 
 ```ts
 =SUB_DAYS(TODAY(), 7)
@@ -280,10 +280,10 @@ Subtract days from a date
 
 [Back to top](#functions)
 
-Subtract hours from a date
+Subtract hours from a date.
 
-- `date`: The date to subtract hours from
-- `hours`: The number of hours to subtract
+- `date`: The date to subtract hours from.
+- `hours`: The number of hours to subtract.
 
 ```ts
 =SUB_HOURS(NOW(), 8)
@@ -297,7 +297,7 @@ Subtract hours from a date
 
 [Back to top](#functions)
 
-The current time represented as a datetime
+The current time represented as a datetime.
 
 ```ts
 =TIME()
@@ -311,7 +311,7 @@ The current time represented as a datetime
 
 [Back to top](#functions)
 
-The current date represented as a datetime
+The current date represented as a datetime.
 
 ```ts
 =TODAY()
@@ -325,9 +325,9 @@ The current date represented as a datetime
 
 [Back to top](#functions)
 
-The year from the given date
+The year from the given date.
 
-- `date`: The date to extract the current year from
+- `date`: The date to extract the current year from.
 
 ```ts
 =YEAR(TODAY())
