@@ -40,7 +40,7 @@ describe('JOIN()', () => {
 
       Errors:
 
-      · A1: JOIN() expects a string as the delimiter, got <nothing>
+      · A1: JOIN(delimiter: STRING, ...args: T) Argument \`delimiter\` was not provided
       "
     `)
   })
@@ -59,7 +59,7 @@ describe('JOIN()', () => {
 
       Errors:
 
-      · A1: JOIN() expects a string as the delimiter, got 1
+      · A1: JOIN(delimiter: STRING, ...args: T) Argument \`delimiter\` received a \`NUMBER\`
       "
     `)
   })
@@ -98,7 +98,7 @@ describe('LOWER()', () => {
 
       Errors:
 
-      · A1: LOWER() expects a value as the first argument, got <nothing>
+      · A1: LOWER(arg: T) Argument \`arg\` was not provided
       "
     `)
   })
@@ -117,7 +117,7 @@ describe('LOWER()', () => {
 
       Errors:
 
-      · A1: LOWER() does not take more than one argument, got World
+      · A1: LOWER(arg: T) takes at most 1 argument, got 2
       "
     `)
   })
@@ -158,7 +158,7 @@ describe('UPPER()', () => {
 
       Errors:
 
-      · A1: UPPER() expects a value as the first argument, got <nothing>
+      · A1: UPPER(arg: T) Argument \`arg\` was not provided
       "
     `)
   })
@@ -177,7 +177,7 @@ describe('UPPER()', () => {
 
       Errors:
 
-      · A1: UPPER() does not take more than one argument, got World
+      · A1: UPPER(arg: T) takes at most 1 argument, got 2
       "
     `)
   })
@@ -218,7 +218,7 @@ describe('LEN()', () => {
 
       Errors:
 
-      · A1: LEN() expects a value as the first argument, got <nothing>
+      · A1: LEN(arg: STRING) Argument \`arg\` was not provided
       "
     `)
   })
@@ -237,7 +237,7 @@ describe('LEN()', () => {
 
       Errors:
 
-      · A1: LEN() does not take more than one argument, got World
+      · A1: LEN(arg: STRING) takes at most 1 argument, got 2
       "
     `)
   })
@@ -256,7 +256,7 @@ describe('LEN()', () => {
 
       Errors:
 
-      · A1: LEN() expects a string as the first argument, got 1
+      · A1: LEN(arg: STRING) Argument \`arg\` received a \`NUMBER\`
       "
     `)
   })
@@ -293,7 +293,7 @@ describe('TRIM()', () => {
 
       Errors:
 
-      · A1: TRIM() expects a value as the first argument, got <nothing>
+      · A1: TRIM(arg: STRING) Argument \`arg\` was not provided
       "
     `)
   })
@@ -312,7 +312,7 @@ describe('TRIM()', () => {
 
       Errors:
 
-      · A1: TRIM() does not take more than one argument, got World
+      · A1: TRIM(arg: STRING) takes at most 1 argument, got 2
       "
     `)
   })
@@ -331,7 +331,7 @@ describe('TRIM()', () => {
 
       Errors:
 
-      · A1: TRIM() expects a string as the first argument, got 1
+      · A1: TRIM(arg: STRING) Argument \`arg\` received a \`NUMBER\`
       "
     `)
   })
@@ -368,7 +368,7 @@ describe('FIND_FIRST()', () => {
 
       Errors:
 
-      · A1: FIND_FIRST() expects a string as the first argument, got <nothing>
+      · A1: FIND_FIRST(haystack: STRING, ...needles: STRING) Argument \`haystack\` was not provided
       "
     `)
   })
@@ -387,7 +387,7 @@ describe('FIND_FIRST()', () => {
 
       Errors:
 
-      · A1: FIND_FIRST() expects at least one needle
+      · A1: FIND_FIRST(haystack: STRING, ...needles: STRING) Argument \`needles\` was not provided
       "
     `)
   })
@@ -406,7 +406,7 @@ describe('FIND_FIRST()', () => {
 
       Errors:
 
-      · A1: FIND_FIRST() expects a string as the first argument, got 123
+      · A1: FIND_FIRST(haystack: STRING, ...needles: STRING) Argument \`haystack\` received a \`NUMBER\`
       "
     `)
   })
@@ -459,7 +459,7 @@ describe('FIND_LAST()', () => {
 
       Errors:
 
-      · A1: FIND_LAST() expects a string as the first argument, got <nothing>
+      · A1: FIND_LAST(haystack: STRING, ...needles: STRING) Argument \`haystack\` was not provided
       "
     `)
   })
@@ -478,7 +478,7 @@ describe('FIND_LAST()', () => {
 
       Errors:
 
-      · A1: FIND_LAST() expects at least one needle
+      · A1: FIND_LAST(haystack: STRING, ...needles: STRING) Argument \`needles\` was not provided
       "
     `)
   })
@@ -497,7 +497,7 @@ describe('FIND_LAST()', () => {
 
       Errors:
 
-      · A1: FIND_LAST() expects a string as the first argument, got 123
+      · A1: FIND_LAST(haystack: STRING, ...needles: STRING) Argument \`haystack\` received a \`NUMBER\`
       "
     `)
   })
@@ -550,7 +550,7 @@ describe('REPLACE_ALL()', () => {
 
       Errors:
 
-      · A1: REPLACE_ALL() expects a string as the first three arguments, got <nothing>
+      · A1: REPLACE_ALL(haystack: STRING, ...zip?: STRING | NUMBER) Argument \`haystack\` was not provided
       "
     `)
   })
@@ -569,7 +569,7 @@ describe('REPLACE_ALL()', () => {
 
       Errors:
 
-      · A1: REPLACE_ALL() expects a string as the first three arguments, got 123
+      · A1: REPLACE_ALL(haystack: STRING, ...zip?: STRING | NUMBER) Argument \`haystack\` received a \`NUMBER\`
       "
     `)
   })
@@ -646,7 +646,7 @@ describe('TEXT_SLICE()', () => {
 
       Errors:
 
-      · A1: TEXT_SLICE() expects a string as the first argument, got <nothing>
+      · A1: TEXT_SLICE(value: STRING, startIdx: NUMBER, endIdx?: NUMBER) Argument \`value\` was not provided
       "
     `)
   })
@@ -665,7 +665,7 @@ describe('TEXT_SLICE()', () => {
 
       Errors:
 
-      · A1: TEXT_SLICE() expects a string as the first argument, got 123
+      · A1: TEXT_SLICE(value: STRING, startIdx: NUMBER, endIdx?: NUMBER) Argument \`value\` received a \`NUMBER\`
       "
     `)
   })
@@ -684,7 +684,7 @@ describe('TEXT_SLICE()', () => {
 
       Errors:
 
-      · A1: TEXT_SLICE() expects a number as the second argument, got one
+      · A1: TEXT_SLICE(value: STRING, startIdx: NUMBER, endIdx?: NUMBER) Argument \`startIdx\` received a \`STRING\`
       "
     `)
   })
@@ -703,7 +703,7 @@ describe('TEXT_SLICE()', () => {
 
       Errors:
 
-      · A1: TEXT_SLICE() expects a number as the third argument, got two
+      · A1: TEXT_SLICE(value: STRING, startIdx: NUMBER, endIdx?: NUMBER) Argument \`endIdx\` received a \`STRING\`
       "
     `)
   })
