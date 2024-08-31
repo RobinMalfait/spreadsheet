@@ -1149,7 +1149,16 @@ A sequence of the digits from 0 through 9.
 
 [Back to top](#functions)
 
-Returns the average of NUMBER arguments
+Returns the average of NUMBER arguments.
+
+- `values`: The values to compare.
+
+#### Examples:
+
+```ts
+=AVERAGE(1, 3, 2, 5, 4)
+// 3
+```
 
 ---
 
@@ -1158,7 +1167,16 @@ Returns the average of NUMBER arguments
 
 [Back to top](#functions)
 
-Count the number of NUMBER arguments
+Count the number of NUMBER arguments.
+
+- `values`: The values to count.
+
+#### Examples:
+
+```ts
+=COUNT(1, 2, TRUE(), "hello world", 3.2)
+// 3
+```
 
 ---
 
@@ -1167,7 +1185,16 @@ Count the number of NUMBER arguments
 
 [Back to top](#functions)
 
-Returns the largest NUMBER argument
+Returns the largest NUMBER argument.
+
+- `values`: The values to compare.
+
+#### Examples:
+
+```ts
+=MAX(1, 3, 2, 5, 4)
+// 5
+```
 
 ---
 
@@ -1176,7 +1203,16 @@ Returns the largest NUMBER argument
 
 [Back to top](#functions)
 
-Returns the median of NUMBER arguments
+Returns the median of NUMBER arguments.
+
+- `values`: The values to compare.
+
+#### Examples:
+
+```ts
+=MEDIAN(1, 3, 2, 5, 4)
+// 3
+```
 
 ---
 
@@ -1185,7 +1221,16 @@ Returns the median of NUMBER arguments
 
 [Back to top](#functions)
 
-Returns the smallest NUMBER argument
+Returns the smallest NUMBER argument.
+
+- `values`: The values to compare.
+
+#### Examples:
+
+```ts
+=MIN(5, 4, 1, 2, 3)
+// 1
+```
 
 ---
 
@@ -1194,7 +1239,16 @@ Returns the smallest NUMBER argument
 
 [Back to top](#functions)
 
-Returns the mode of NUMBER arguments
+Returns the mode of NUMBER arguments.
+
+- `values`: The values to compare.
+
+#### Examples:
+
+```ts
+=MODE(3, 2, 1, 3, 3, 4, 5, 8, 9, 1)
+// 3
+```
 
 ### Text functions
 
