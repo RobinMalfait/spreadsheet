@@ -26,6 +26,21 @@ describe('DIGITS()', () => {
     `)
   })
 
+  it('should spill all the digits', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=DIGITS()')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐
+      │   │ A │ B │ C │ D │ E │ F │ G │ H │ I │ J │
+      ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤
+      │ 1 │ 0 │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │
+      └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘
+      "
+    `)
+  })
+
   it('should result in the sum of all digits', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', '=SUM(DIGITS())')

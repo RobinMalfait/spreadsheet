@@ -6,6 +6,12 @@ import { type Location, parseLocation, printLocation } from '~/domain/expression
 import type { Spreadsheet } from '~/domain/spreadsheet'
 
 export function visualizeSpreadsheet(spreadsheet: Spreadsheet) {
+  // Evaluate known cells (not spilled). This will ensure that not-yet evaluated
+  // cells are evaluated (aka, spilled cells).
+  for (let cell of spreadsheet.cellNames) {
+    spreadsheet.evaluate(cell)
+  }
+
   let cells = spreadsheet.cellNames.map((cell) => parseLocation(cell))
 
   let first: Location = {

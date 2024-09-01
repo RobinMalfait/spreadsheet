@@ -11,6 +11,7 @@ import {
 import * as functions from '~/domain/functions'
 import { tokenize } from '~/domain/tokenizer'
 import { WalkAction, walk } from '~/domain/walk-ast'
+import { DefaultMap } from '~/utils/default-map'
 
 export class Spreadsheet {
   // Track the raw contents of each cell. This is the original input.
@@ -19,13 +20,26 @@ export class Spreadsheet {
   // Track each individual cell and it's contents. AST is pre-parsed.
   #cells = new Map<string, AST>()
 
+  // Track the spilled cells and the origin cell
+  #spilled = new Map<string, string>()
+
+  // Track the origin cell, and the cells it spilled into
+  #spilledInto = new DefaultMap(() => new Set<string>())
+
   // Track all dependencies for each cell.
   #dependencies = new Map<string, Map<string, string>>()
 
   #evaluationCache = new Map<string, EvaluationResult | null>()
 
   get cellNames() {
-    return Array.from(this.#cells.keys())
+    let cells = new Set<string>()
+    for (let cell of this.#cells.keys()) {
+      cells.add(cell)
+    }
+    for (let cell of this.#spilled.keys()) {
+      cells.add(cell)
+    }
+    return Array.from(cells)
   }
 
   has(cell: string): boolean {
@@ -124,6 +138,12 @@ export class Spreadsheet {
     return new Set(this.#dependencies.get(cell)?.keys())
   }
 
+  spillDependencies(cell: string): Set<string> {
+    let spilledFrom = this.#spilled.get(cell)
+    if (!spilledFrom) return new Set()
+    return new Set([spilledFrom])
+  }
+
   inheritedDependencies(cell: string): Set<string> {
     let dependencies = new Set<string>()
 
@@ -165,11 +185,11 @@ export class Spreadsheet {
   }
 
   evaluate(cell: string): EvaluationResult {
-    let result = this.#cells.get(cell)
-    if (!result) return { kind: EvaluationResultKind.EMPTY, value: '<empty>' }
-
     let cached = this.#evaluationCache.get(cell)
     if (cached) return cached
+
+    let result = this.#cells.get(cell)
+    if (!result) return { kind: EvaluationResultKind.EMPTY, value: '<empty>' }
 
     if (result.kind === AstKind.RANGE) {
       return {
@@ -221,11 +241,50 @@ export class Spreadsheet {
 
     let out = evaluateExpression(result, this, cell)
     if (Array.isArray(out)) {
-      out = {
-        kind: EvaluationResultKind.ERROR,
-        value: 'Expected a single result',
+      // Let's try to spill the result
+      let start = parseLocation(cell)
+
+      // Cleanup existing spills
+      for (let other of this.#spilledInto.get(cell)) {
+        this.#evaluationCache.delete(other)
+        this.#spilled.delete(other)
       }
+      // Cleanup my own spills
+      this.#spilledInto.get(cell).clear()
+
+      let spilled: [cell: string, value: EvaluationResult | undefined][] = [
+        [cell, out[0]],
+      ]
+
+      for (let idx = 1; idx < out.length; idx++) {
+        let other = printLocation({ ...start, col: start.col + idx })
+        let value = out[idx]
+        if (!value) {
+          return { kind: EvaluationResultKind.ERROR, value: 'Expected a single result' }
+        }
+
+        if (this.#cells.has(other)) {
+          return {
+            kind: EvaluationResultKind.ERROR,
+            value: 'Cannot spill into an existing cell',
+          }
+        }
+
+        spilled.push([other, value])
+      }
+
+      for (let [otherCell, value] of spilled) {
+        if (!value) continue
+        this.#spilled.set(otherCell, cell)
+        this.#spilledInto.get(cell).add(otherCell)
+        this.#evaluationCache.set(otherCell, value)
+      }
+
+      let mainCellValue = out[0]
+      if (mainCellValue) return mainCellValue
+      return { kind: EvaluationResultKind.ERROR, value: 'Expected a single result' }
     }
+
     this.#evaluationCache.set(cell, out)
     return out
   }

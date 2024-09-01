@@ -1274,7 +1274,7 @@ A sequence of the digits from 0 through 9.
 
 ```ts
 // Dependencies:
-=DIGITS() // ERROR: Expected a single result
+=DIGITS() // 0
 
 =JOIN(", ", DIGITS())
 // "0, 1, 2, 3, 4, 5, 6, 7, 8, 9"
@@ -1730,7 +1730,7 @@ Tries to convert a list of values to booleans.
 =NOW() // 2013-01-21 08:15:20
 
 =AS_BOOLEANS(0, 1, "123", "0", TRUE(), FALSE(), NOW())
-// ERROR: Expected a single result
+// FALSE
 ```
 
 ---
@@ -1805,7 +1805,7 @@ Tries to convert a list of values to numbers.
 =NOW() // 2013-01-21 08:15:20
 
 =AS_NUMBERS(1, "123", "million", TRUE(), FALSE(), NOW())
-// ERROR: Expected a single result
+// 1
 ```
 
 ---
@@ -1884,7 +1884,7 @@ Tries to convert a list of values to strings.
 =TIME() // 08:15:20
 
 =AS_STRINGS(1, "123", TRUE(), FALSE(), NOW(), TIME())
-// ERROR: Expected a single result
+// "1"
 ```
 
 ---

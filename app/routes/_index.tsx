@@ -167,7 +167,13 @@ export default function Index() {
     window.spreadsheet = spreadsheet
 
     // Demo modes
-    if (window.location.search === '?demo-aoc-2023-01') {
+    if (window.location.search === '?demo-spills') {
+      vcs.commit('A1', 'Spills:')
+      vcs.commit('B1', '=DIGITS()')
+      vcs.commit('A2', 'Double:')
+      vcs.commit('B2', '=B1 * 2')
+      vcs.commit('C2:K2', '=INHERIT_FORMULA(B2)')
+    } else if (window.location.search === '?demo-aoc-2023-01') {
       vcs.commit('A1', 'Advent of Code')
       vcs.commit('B1', '2023 - Day 01')
 
@@ -519,6 +525,7 @@ export default function Index() {
   // Dependencies of the current cell
   let dependencies = spreadsheet.dependencies(cell)
   let inheritedDependencies = spreadsheet.inheritedDependencies(cell)
+  let spillDependencies = spreadsheet.spillDependencies(cell)
 
   return (
     <div className="isolate flex h-screen w-screen flex-col overflow-hidden font-sans">
@@ -886,6 +893,17 @@ export default function Index() {
                       !inheritedDependencies.has(rightCell(id)) && 'before:border-r-2',
                       !inheritedDependencies.has(topCell(id)) && 'before:border-t-2',
                       !inheritedDependencies.has(bottomCell(id)) && 'before:border-b-2',
+                    ),
+
+                  // Inherited dependency of the current cell
+                  cell !== id &&
+                    spillDependencies.has(id) &&
+                    clsx(
+                      'before:pointer-events-none before:absolute before:inset-0 before:border-gray-500 before:border-dashed before:bg-gray-200/20',
+                      !spillDependencies.has(leftCell(id)) && 'before:border-l-2',
+                      !spillDependencies.has(rightCell(id)) && 'before:border-r-2',
+                      !spillDependencies.has(topCell(id)) && 'before:border-t-2',
+                      !spillDependencies.has(bottomCell(id)) && 'before:border-b-2',
                     ),
                 )}
                 ref={(e) => {
