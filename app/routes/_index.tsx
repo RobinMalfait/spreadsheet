@@ -195,9 +195,7 @@ export default function Index() {
         'B9',
         '=AS_NUMBER(FIND_FIRST(A9, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(A9, AS_STRINGS(DIGITS())))',
       )
-      vcs.commit('B10', '=INHERIT_FORMULA(B9)')
-      vcs.commit('B11', '=INHERIT_FORMULA(B9)')
-      vcs.commit('B12', '=INHERIT_FORMULA(B9)')
+      vcs.commit('B10:B12', '=INHERIT_FORMULA(B9)')
 
       vcs.commit('B4', '=SUM(B9:B12)')
 
@@ -254,8 +252,7 @@ export default function Index() {
       vcs.commit('A8', 'Total:')
       vcs.commit('B8', '=SUM(B4:B6)')
       vcs.commit('C4', '=ROUND(PRODUCT(B4, $F$3), 2)')
-      vcs.commit('C5', '=INHERIT_FORMULA(C4)')
-      vcs.commit('C6', '=INHERIT_FORMULA(C4)')
+      vcs.commit('C5:C6', '=INHERIT_FORMULA(C4)')
       vcs.commit('C8', '=SUM(C4:C6)')
     } else if (window.location.search === '?demo-fat-burning-zone') {
       vcs.commit('A1', 'Fat Burning Zone')

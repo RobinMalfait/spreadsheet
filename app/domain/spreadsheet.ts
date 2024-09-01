@@ -44,6 +44,26 @@ export class Spreadsheet {
     cell: string,
     value: string,
   ): Extract<EvaluationResult, { kind: EvaluationResultKind.ERROR }> | null {
+    // Setting the value of a full range
+    if (cell.includes(':')) {
+      let [start, end] = cell.split(':').map((cell) => parseLocation(cell))
+
+      if (!start || !end) {
+        return {
+          kind: EvaluationResultKind.ERROR,
+          value: 'Invalid range',
+        }
+      }
+
+      for (let col = start.col; col <= end.col; col++) {
+        for (let row = start.row; row <= end.row; row++) {
+          this.set(`${String.fromCharCode(col + 65 - 1)}${row}`, value)
+        }
+      }
+
+      return null
+    }
+
     // Reset state
     this.#rawCells.delete(cell)
     this.#cells.delete(cell)
