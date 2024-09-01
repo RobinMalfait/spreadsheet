@@ -119,6 +119,13 @@ export const FIND_FIRST = expose(
       }
     }
 
+    if (index === -1) {
+      return {
+        kind: EvaluationResultKind.ERROR,
+        value: 'Could not find any of the needles in the haystack.',
+      }
+    }
+
     return { kind: EvaluationResultKind.STRING, value }
   },
 )
@@ -140,6 +147,13 @@ export const FIND_FIRST_INDEX = expose(
 
       if (idx !== -1 && (index === -1 || idx < index)) {
         index = idx
+      }
+    }
+
+    if (index === -1) {
+      return {
+        kind: EvaluationResultKind.ERROR,
+        value: 'Could not find any of the needles in the haystack.',
       }
     }
 
@@ -169,6 +183,13 @@ export const FIND_LAST = expose(
       }
     }
 
+    if (index === -1) {
+      return {
+        kind: EvaluationResultKind.ERROR,
+        value: 'Could not find any of the needles in the haystack.',
+      }
+    }
+
     return { kind: EvaluationResultKind.STRING, value: value }
   },
 )
@@ -190,6 +211,13 @@ export const FIND_LAST_INDEX = expose(
 
       if (idx !== -1 && (index === -1 || idx > index)) {
         index = idx
+      }
+    }
+
+    if (index === -1) {
+      return {
+        kind: EvaluationResultKind.ERROR,
+        value: 'Could not find any of the needles in the haystack.',
       }
     }
 

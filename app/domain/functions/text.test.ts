@@ -418,11 +418,15 @@ describe('FIND_FIRST()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────────────────────────────────────────┬───┐
-      │   │ A                                           │ B │
-      ├───┼─────────────────────────────────────────────┼───┤
-      │ 1 │ The quick brown fox jumps over the lazy dog │   │
-      └───┴─────────────────────────────────────────────┴───┘
+      ┌───┬─────────────────────────────────────────────┬───────┐
+      │   │ A                                           │ B     │
+      ├───┼─────────────────────────────────────────────┼───────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ Error │
+      └───┴─────────────────────────────────────────────┴───────┘
+
+      Errors:
+
+      · B1: Could not find any of the needles in the haystack.
       "
     `)
   })
@@ -509,11 +513,15 @@ describe('FIND_FIRST_INDEX()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────────────────────────────────────────┬────┐
-      │   │ A                                           │ B  │
-      ├───┼─────────────────────────────────────────────┼────┤
-      │ 1 │ The quick brown fox jumps over the lazy dog │ -1 │
-      └───┴─────────────────────────────────────────────┴────┘
+      ┌───┬─────────────────────────────────────────────┬───────┐
+      │   │ A                                           │ B     │
+      ├───┼─────────────────────────────────────────────┼───────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ Error │
+      └───┴─────────────────────────────────────────────┴───────┘
+
+      Errors:
+
+      · B1: Could not find any of the needles in the haystack.
       "
     `)
   })
@@ -600,11 +608,15 @@ describe('FIND_LAST()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────────────────────────────────────────┬───┐
-      │   │ A                                           │ B │
-      ├───┼─────────────────────────────────────────────┼───┤
-      │ 1 │ The quick brown fox jumps over the lazy dog │   │
-      └───┴─────────────────────────────────────────────┴───┘
+      ┌───┬─────────────────────────────────────────────┬───────┐
+      │   │ A                                           │ B     │
+      ├───┼─────────────────────────────────────────────┼───────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ Error │
+      └───┴─────────────────────────────────────────────┴───────┘
+
+      Errors:
+
+      · B1: Could not find any of the needles in the haystack.
       "
     `)
   })
@@ -691,11 +703,15 @@ describe('FIND_LAST_INDEX()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────────────────────────────────────────┬────┐
-      │   │ A                                           │ B  │
-      ├───┼─────────────────────────────────────────────┼────┤
-      │ 1 │ The quick brown fox jumps over the lazy dog │ -1 │
-      └───┴─────────────────────────────────────────────┴────┘
+      ┌───┬─────────────────────────────────────────────┬───────┐
+      │   │ A                                           │ B     │
+      ├───┼─────────────────────────────────────────────┼───────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ Error │
+      └───┴─────────────────────────────────────────────┴───────┘
+
+      Errors:
+
+      · B1: Could not find any of the needles in the haystack.
       "
     `)
   })
