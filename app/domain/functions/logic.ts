@@ -23,6 +23,50 @@ export const FALSE = expose(
   },
 )
 
+export const SWITCH = expose(
+  `
+    @description Returns the matching value for the first condition that is true.
+    @param value The value to test against the conditions.
+    @param cases The cases and the values to return.
+    @example SWITCH(1, 1, "st", 2, "nd", 3, "rd", "th")
+    @example SWITCH(2, 1, "st", 2, "nd", 3, "rd", "th")
+    @example SWITCH(3, 1, "st", 2, "nd", 3, "rd", "th")
+    @example SWITCH(4, 1, "st", 2, "nd", 3, "rd", "th")
+    @example SWITCH(5, 1, "st", 2, "nd", 3, "rd", "th")
+    SWITCH(value: T, ...cases: T, default?: T)
+  `,
+  (value: EvaluationResult, ...cases: EvaluationResult[]) => {
+    let defaultValue = cases.length & 1 ? cases.pop() : null
+
+    // Try to find a matching case
+    for (let i = 0; i < cases.length; i += 2) {
+      let condition = cases[i]
+      let result = cases[i + 1]
+
+      if (!condition) {
+        return { kind: EvaluationResultKind.ERROR, value: 'SWITCH() Missing case' }
+      }
+
+      if (!result) {
+        return { kind: EvaluationResultKind.ERROR, value: 'SWITCH() Missing value' }
+      }
+
+      if (condition.value === value.value) {
+        return result
+      }
+    }
+
+    // No matching cases, try the default
+    if (defaultValue) return defaultValue
+
+    // Still nothing, let's error
+    return {
+      kind: EvaluationResultKind.ERROR,
+      value: `SWITCH(${value.value}) No matching case found`,
+    }
+  },
+)
+
 export const IF = expose(
   `
     @description Returns one value if a condition is true and another value if it is false.

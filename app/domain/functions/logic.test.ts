@@ -146,6 +146,95 @@ describe('IF()', () => {
   })
 })
 
+describe('IF()', () => {
+  it('should error when no value is provided', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=SWITCH()')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: SWITCH(value: T, ...cases: T, default?: T) Argument \`value\` was not provided
+      "
+    `)
+  })
+
+  it('should error when no cases are provided', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=SWITCH(123)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: SWITCH(value: T, ...cases: T, default?: T) Argument \`cases\` was not provided
+      "
+    `)
+  })
+
+  it('should error when no case matches and no default was provided', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=SWITCH("ABC", "FOO", 1, "BAR", 2)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: SWITCH(ABC) No matching case found
+      "
+    `)
+  })
+
+  it('should find the matching case, and return its value', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=SWITCH(2, 1, "One", 2, "Two", 3, "Three")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────┐
+      │   │ A   │
+      ├───┼─────┤
+      │ 1 │ Two │
+      └───┴─────┘
+      "
+    `)
+  })
+
+  it('should result in the default value when no match is found', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=SWITCH(8, 1, "One", 2, "Two", 3, "Three", "Other")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Other │
+      └───┴───────┘
+      "
+    `)
+  })
+})
+
 describe('IF_ERROR()', () => {
   it('should error when the value is not provided at all', () => {
     let spreadsheet = new Spreadsheet()

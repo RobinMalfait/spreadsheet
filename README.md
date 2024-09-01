@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **82** built-in functions available.
+There are **83** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -68,6 +68,7 @@ There are **82** built-in functions available.
    - [IF_ERROR(value: T, fallback: T)](#if_error)
    - [NOT(value: BOOLEAN)](#not)
    - [OR(...expressions: T)](#or)
+   - [SWITCH(value: T, ...cases: T, default?: T)](#switch)
    - [TRUE()](#true)
 - [Math functions](#math-functions)
    - [ABS(x: NUMBER)](#abs)
@@ -558,6 +559,45 @@ Returns true if any condition is true.
 
 =OR(TRUE(), TRUE(), FALSE())
 // TRUE
+```
+
+---
+
+<a name="switch"></a>
+#### SWITCH(value: T, ...cases: T, default?: T)
+
+[Back to top](#functions)
+
+Returns the matching value for the first condition that is true.
+
+- `value`: The value to test against the conditions.
+- `cases`: The cases and the values to return.
+
+#### Examples:
+
+```ts
+=SWITCH(1, 1, "st", 2, "nd", 3, "rd", "th")
+// "st"
+```
+
+```ts
+=SWITCH(2, 1, "st", 2, "nd", 3, "rd", "th")
+// "nd"
+```
+
+```ts
+=SWITCH(3, 1, "st", 2, "nd", 3, "rd", "th")
+// "rd"
+```
+
+```ts
+=SWITCH(4, 1, "st", 2, "nd", 3, "rd", "th")
+// "th"
+```
+
+```ts
+=SWITCH(5, 1, "st", 2, "nd", 3, "rd", "th")
+// "th"
 ```
 
 ---
