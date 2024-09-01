@@ -1831,12 +1831,5 @@ Returns the type of a value.
 
 Inherit a formula from another cell. References to other cells in the formula will be updated to be relative to the current cell.
 
-#### Examples:
-
-```ts
-=INHERIT_FORMULA(B1)
-// 
-```
-
 <!-- end:functions -->
 

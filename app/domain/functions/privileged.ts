@@ -8,7 +8,6 @@ import { WalkAction, walk } from '~/domain/walk-ast'
 export const INHERIT_FORMULA = withSignature(
   `
     @description Inherit a formula from another cell. References to other cells in the formula will be updated to be relative to the current cell.
-    @example INHERIT_FORMULA(B1)
     INHERIT_FORMULA(cell: CELL)
   `,
   (ctx) => {
