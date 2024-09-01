@@ -139,9 +139,18 @@ export class Spreadsheet {
   }
 
   spillDependencies(cell: string): Set<string> {
+    let spills = new Set<string>()
+
+    // The current cell spilled into other cells
+    for (let other of this.#spilledInto.get(cell)) {
+      spills.add(other)
+    }
+
+    // The cell was spilled from another cell
     let spilledFrom = this.#spilled.get(cell)
-    if (!spilledFrom) return new Set()
-    return new Set([spilledFrom])
+    if (spilledFrom) spills.add(spilledFrom)
+
+    return spills
   }
 
   inheritedDependencies(cell: string): Set<string> {
