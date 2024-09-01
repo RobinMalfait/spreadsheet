@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **81** built-in functions available.
+There are **82** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -65,6 +65,7 @@ There are **81** built-in functions available.
    - [AND(...expressions: T)](#and)
    - [FALSE()](#false)
    - [IF(test: BOOLEAN, consequent: T, alternate: T)](#if)
+   - [IF_ERROR(value: T, fallback: T)](#if_error)
    - [NOT(value: BOOLEAN)](#not)
    - [OR(...expressions: T)](#or)
    - [TRUE()](#true)
@@ -474,6 +475,30 @@ Returns one value if a condition is true and another value if it is false.
 
 =IF(FALSE(), "huge if true", "huge if false")
 // "huge if false"
+```
+
+---
+
+<a name="if_error"></a>
+#### IF_ERROR(value: T, fallback: T)
+
+[Back to top](#functions)
+
+Returns one value if a condition is an error and another value if it is not.
+
+- `value`: The value to test against an error.
+- `fallback`: The value to return if the condition is an error.
+
+#### Examples:
+
+```ts
+=IF_ERROR(123 / 1, 0)
+// 123
+```
+
+```ts
+=IF_ERROR(123 / 0, 0)
+// 0
 ```
 
 ---

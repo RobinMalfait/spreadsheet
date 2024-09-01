@@ -38,6 +38,24 @@ export const IF = expose(
   },
 )
 
+export const IF_ERROR = expose(
+  `
+    @description Returns one value if a condition is an error and another value if it is not.
+    @param value The value to test against an error.
+    @param fallback The value to return if the condition is an error.
+    @example IF_ERROR(123 / 1, 0)
+    @example IF_ERROR(123 / 0, 0)
+    IF_ERROR(value: T, fallback: T)
+  `,
+  (value: EvaluationResult, fallback: EvaluationResult) => {
+    if (value.kind === EvaluationResultKind.ERROR) {
+      return fallback
+    }
+
+    return value
+  },
+)
+
 export const AND = expose(
   `
     @description Returns true if all conditions are true.

@@ -146,6 +146,76 @@ describe('IF()', () => {
   })
 })
 
+describe('IF_ERROR()', () => {
+  it('should error when the value is not provided at all', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=IF_ERROR()')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: IF_ERROR(value: T, fallback: T) Argument \`value\` was not provided
+      "
+    `)
+  })
+
+  it('should error when the fallback is not provided', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=IF_ERROR(123)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: IF_ERROR(value: T, fallback: T) Argument \`fallback\` was not provided
+      "
+    `)
+  })
+
+  it('should result in the value itself if it is not an error', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=IF_ERROR("Not an error", "Fallback")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬──────────────┐
+      │   │ A            │
+      ├───┼──────────────┤
+      │ 1 │ Not an error │
+      └───┴──────────────┘
+      "
+    `)
+  })
+
+  it('should result in the fallback if the value is an error', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=IF_ERROR(123 / 0, "Fallback")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬──────────┐
+      │   │ A        │
+      ├───┼──────────┤
+      │ 1 │ Fallback │
+      └───┴──────────┘
+      "
+    `)
+  })
+})
+
 describe('AND()', () => {
   it('should result in TRUE when all arguments are truthy', () => {
     let spreadsheet = new Spreadsheet()
