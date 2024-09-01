@@ -123,6 +123,30 @@ export const FIND_FIRST = expose(
   },
 )
 
+export const FIND_FIRST_INDEX = expose(
+  `
+    @description Returns the position of the first needle found in the haystack.
+    @param haystack The string to search in.
+    @param needles The strings to search for.
+    @example FIND_FIRST_INDEX("The quick brown fox jumps over the lazy dog", "fox", "dog")
+    @example FIND_FIRST_INDEX("The quick brown fox jumps over the lazy dog", "dog", "fox")
+    FIND_FIRST_INDEX(haystack: STRING, ...needles: STRING)
+  `,
+  (haystack: EvaluationResultString, ...needles: EvaluationResultString[]) => {
+    let index = -1
+
+    for (let needle of needles) {
+      let idx = haystack.value.indexOf(needle.value)
+
+      if (idx !== -1 && (index === -1 || idx < index)) {
+        index = idx
+      }
+    }
+
+    return { kind: EvaluationResultKind.NUMBER, value: index }
+  },
+)
+
 export const FIND_LAST = expose(
   `
     @description Returns the last needle found in the haystack.
@@ -146,6 +170,30 @@ export const FIND_LAST = expose(
     }
 
     return { kind: EvaluationResultKind.STRING, value: value }
+  },
+)
+
+export const FIND_LAST_INDEX = expose(
+  `
+    @description Returns the position of the last needle found in the haystack.
+    @param haystack The string to search in.
+    @param needles The strings to search for.
+    @example FIND_LAST_INDEX("The quick brown fox jumps over the lazy dog", "fox", "dog")
+    @example FIND_LAST_INDEX("The quick brown fox jumps over the lazy dog", "dog", "fox")
+    FIND_LAST_INDEX(haystack: STRING, ...needles: STRING)
+  `,
+  (haystack: EvaluationResultString, ...needles: EvaluationResultString[]) => {
+    let index = -1
+
+    for (let needle of needles) {
+      let idx = haystack.value.lastIndexOf(needle.value)
+
+      if (idx !== -1 && (index === -1 || idx > index)) {
+        index = idx
+      }
+    }
+
+    return { kind: EvaluationResultKind.NUMBER, value: index }
   },
 )
 

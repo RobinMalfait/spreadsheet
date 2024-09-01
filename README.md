@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **83** built-in functions available.
+There are **85** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -118,7 +118,9 @@ There are **83** built-in functions available.
 - [Text functions](#text-functions)
    - [CONCAT(...values: T)](#concat)
    - [FIND_FIRST(haystack: STRING, ...needles: STRING)](#find_first)
+   - [FIND_FIRST_INDEX(haystack: STRING, ...needles: STRING)](#find_first_index)
    - [FIND_LAST(haystack: STRING, ...needles: STRING)](#find_last)
+   - [FIND_LAST_INDEX(haystack: STRING, ...needles: STRING)](#find_last_index)
    - [JOIN(delimiter: STRING, ...values: T)](#join)
    - [LEN(value: STRING)](#len)
    - [LOWER(value: T)](#lower)
@@ -1433,6 +1435,30 @@ Returns the first needle found in the haystack.
 
 ---
 
+<a name="find_first_index"></a>
+#### FIND_FIRST_INDEX(haystack: STRING, ...needles: STRING)
+
+[Back to top](#functions)
+
+Returns the position of the first needle found in the haystack.
+
+- `haystack`: The string to search in.
+- `needles`: The strings to search for.
+
+#### Examples:
+
+```ts
+=FIND_FIRST_INDEX("The quick brown fox jumps over the lazy dog", "fox", "dog")
+// 16
+```
+
+```ts
+=FIND_FIRST_INDEX("The quick brown fox jumps over the lazy dog", "dog", "fox")
+// 16
+```
+
+---
+
 <a name="find_last"></a>
 #### FIND_LAST(haystack: STRING, ...needles: STRING)
 
@@ -1453,6 +1479,30 @@ Returns the last needle found in the haystack.
 ```ts
 =FIND_LAST("The quick brown fox jumps over the lazy dog", "dog", "fox")
 // "dog"
+```
+
+---
+
+<a name="find_last_index"></a>
+#### FIND_LAST_INDEX(haystack: STRING, ...needles: STRING)
+
+[Back to top](#functions)
+
+Returns the position of the last needle found in the haystack.
+
+- `haystack`: The string to search in.
+- `needles`: The strings to search for.
+
+#### Examples:
+
+```ts
+=FIND_LAST_INDEX("The quick brown fox jumps over the lazy dog", "fox", "dog")
+// 40
+```
+
+```ts
+=FIND_LAST_INDEX("The quick brown fox jumps over the lazy dog", "dog", "fox")
+// 40
 ```
 
 ---

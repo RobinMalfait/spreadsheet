@@ -444,6 +444,97 @@ describe('FIND_FIRST()', () => {
   })
 })
 
+describe('FIND_FIRST_INDEX()', () => {
+  it('should error when required argument is not passed', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=FIND_FIRST_INDEX()')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: FIND_FIRST_INDEX(haystack: STRING, ...needles: STRING) Argument \`haystack\` was not provided
+      "
+    `)
+  })
+
+  it('should error when required second argument is not passed', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=FIND_FIRST_INDEX("needle")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: FIND_FIRST_INDEX(haystack: STRING, ...needles: STRING) Argument \`needles\` was not provided
+      "
+    `)
+  })
+
+  it('should error when the argument is of the wrong type', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=FIND_FIRST_INDEX(123, 1)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: FIND_FIRST_INDEX(haystack: STRING, ...needles: STRING) Argument \`haystack\` received a \`NUMBER\`
+      "
+    `)
+  })
+
+  it('should find the position of the first occurrence of any of the needles', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
+    spreadsheet.set('B1', '=FIND_FIRST_INDEX(A1, "fox", "dog", "brown")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────────────────────────────────────────┬────┐
+      │   │ A                                           │ B  │
+      ├───┼─────────────────────────────────────────────┼────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ 10 │
+      └───┴─────────────────────────────────────────────┴────┘
+      "
+    `)
+  })
+
+  it('should result in -1 when none of the needles are found', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
+    spreadsheet.set('B1', '=FIND_FIRST_INDEX(A1, "banana", "apple", "cherry")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────────────────────────────────────────┬────┐
+      │   │ A                                           │ B  │
+      ├───┼─────────────────────────────────────────────┼────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ -1 │
+      └───┴─────────────────────────────────────────────┴────┘
+      "
+    `)
+  })
+})
+
 describe('FIND_LAST()', () => {
   it('should error when required argument is not passed', () => {
     let spreadsheet = new Spreadsheet()
@@ -502,7 +593,7 @@ describe('FIND_LAST()', () => {
     `)
   })
 
-  it('should find the first occurrence of any of the needles', () => {
+  it('should find the last occurrence of any of the needles', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
     spreadsheet.set('B1', '=FIND_LAST(A1, "fox", "dog", "brown")')
@@ -530,6 +621,97 @@ describe('FIND_LAST()', () => {
       ├───┼─────────────────────────────────────────────┼───┤
       │ 1 │ The quick brown fox jumps over the lazy dog │   │
       └───┴─────────────────────────────────────────────┴───┘
+      "
+    `)
+  })
+})
+
+describe('FIND_LAST_INDEX()', () => {
+  it('should error when required argument is not passed', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=FIND_LAST_INDEX()')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: FIND_LAST_INDEX(haystack: STRING, ...needles: STRING) Argument \`haystack\` was not provided
+      "
+    `)
+  })
+
+  it('should error when required second argument is not passed', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=FIND_LAST_INDEX("needle")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: FIND_LAST_INDEX(haystack: STRING, ...needles: STRING) Argument \`needles\` was not provided
+      "
+    `)
+  })
+
+  it('should error when the argument is of the wrong type', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=FIND_LAST_INDEX(123, 1)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: FIND_LAST_INDEX(haystack: STRING, ...needles: STRING) Argument \`haystack\` received a \`NUMBER\`
+      "
+    `)
+  })
+
+  it('should find the position of the last occurrence of any of the needles', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
+    spreadsheet.set('B1', '=FIND_LAST_INDEX(A1, "fox", "dog", "brown")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────────────────────────────────────────┬────┐
+      │   │ A                                           │ B  │
+      ├───┼─────────────────────────────────────────────┼────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ 40 │
+      └───┴─────────────────────────────────────────────┴────┘
+      "
+    `)
+  })
+
+  it('should result in -1 when none of the needles are found', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
+    spreadsheet.set('B1', '=FIND_LAST_INDEX(A1, "banana", "apple", "cherry")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────────────────────────────────────────┬────┐
+      │   │ A                                           │ B  │
+      ├───┼─────────────────────────────────────────────┼────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ -1 │
+      └───┴─────────────────────────────────────────────┴────┘
       "
     `)
   })
