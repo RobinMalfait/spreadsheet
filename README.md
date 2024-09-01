@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **79** built-in functions available.
+There are **81** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -133,7 +133,9 @@ There are **79** built-in functions available.
    - [AS_STRINGS(...values: T)](#as_strings)
    - [TYPE(value: T)](#type)
 - [Privileged functions](#privileged-functions)
+   - [COL(cell?: CELL)](#col)
    - [INHERIT_FORMULA(cell: CELL)](#inherit_formula)
+   - [ROW(cell?: CELL)](#row)
 
 ### Date functions
 
@@ -1824,12 +1826,54 @@ Returns the type of a value.
 
 ### Privileged functions
 
+<a name="col"></a>
+#### COL(cell?: CELL)
+
+[Back to top](#functions)
+
+Get the col number of a cell. If no cell is provided, the current cell will be used.
+
+#### Examples:
+
+```ts
+=COL()
+// 1
+```
+
+```ts
+=COL(B3)
+// 2
+```
+
+---
+
 <a name="inherit_formula"></a>
 #### INHERIT_FORMULA(cell: CELL)
 
 [Back to top](#functions)
 
 Inherit a formula from another cell. References to other cells in the formula will be updated to be relative to the current cell.
+
+---
+
+<a name="row"></a>
+#### ROW(cell?: CELL)
+
+[Back to top](#functions)
+
+Get the row number of a cell. If no cell is provided, the current cell will be used.
+
+#### Examples:
+
+```ts
+=ROW()
+// 1
+```
+
+```ts
+=ROW(B3)
+// 3
+```
 
 <!-- end:functions -->
 

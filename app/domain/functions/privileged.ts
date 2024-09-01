@@ -53,3 +53,43 @@ export const INHERIT_FORMULA = withSignature(
     return evaluateExpression(referenceCellAST, ctx.spreadsheet, ctx.cell)
   },
 )
+
+export const ROW = withSignature(
+  `
+    @description Get the row number of a cell. If no cell is provided, the current cell will be used.
+    @example ROW()
+    @example ROW(B3)
+    ROW(cell?: CELL)
+  `,
+  (ctx) => {
+    let location =
+      ctx.ast.args[0]?.kind === AstKind.CELL
+        ? ctx.ast.args[0].loc
+        : parseLocation(ctx.cell)
+
+    return {
+      kind: EvaluationResultKind.NUMBER,
+      value: location.row,
+    }
+  },
+)
+
+export const COL = withSignature(
+  `
+    @description Get the col number of a cell. If no cell is provided, the current cell will be used.
+    @example COL()
+    @example COL(B3)
+    COL(cell?: CELL)
+  `,
+  (ctx) => {
+    let location =
+      ctx.ast.args[0]?.kind === AstKind.CELL
+        ? ctx.ast.args[0].loc
+        : parseLocation(ctx.cell)
+
+    return {
+      kind: EvaluationResultKind.NUMBER,
+      value: location.col,
+    }
+  },
+)
