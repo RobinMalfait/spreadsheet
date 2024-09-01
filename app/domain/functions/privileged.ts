@@ -1,9 +1,9 @@
+import { type AST, AstKind } from '~/domain/ast'
+import { evaluateExpression } from '~/domain/evaluation'
 import { EvaluationResultKind } from '~/domain/evaluation-result'
+import { applyLocationDelta, locationDelta, parseLocation } from '~/domain/expression'
 import { withSignature } from '~/domain/function-utils'
-import { AstKind } from '../ast'
-import { applyLocationDelta, locationDelta, parseLocation } from '../expression'
-import { evaluateExpression } from '../evaluation'
-import { walk, WalkAction } from '../walk-ast'
+import { WalkAction, walk } from '~/domain/walk-ast'
 
 export const INHERIT_FORMULA = withSignature(
   `

@@ -1,8 +1,8 @@
+import type { Context } from '~/domain/evaluation'
 import type { EvaluationResult } from '~/domain/evaluation-result'
 import { parse } from '~/domain/signature/parser'
 import { tokenize } from '~/domain/signature/tokenizer'
 import { validate } from '~/domain/signature/validate'
-import type { Context } from '~/domain/evaluation'
 
 export function expose<
   T extends EvaluationResult[],
