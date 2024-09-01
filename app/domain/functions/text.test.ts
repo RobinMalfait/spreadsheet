@@ -83,6 +83,99 @@ describe('JOIN()', () => {
   })
 })
 
+describe('SPLIT()', () => {
+  it('should error when required argument is not passed', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=SPLIT()')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: SPLIT(value: STRING, delimiter: STRING) Argument \`value\` was not provided
+      "
+    `)
+  })
+
+  it('should error when required argument is of the wrong type', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=SPLIT(1, 2)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: SPLIT(value: STRING, delimiter: STRING) Argument \`value\` received a \`NUMBER\`
+      "
+    `)
+  })
+
+  it('should error when second required argument is not passed', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=SPLIT("hello world")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: SPLIT(value: STRING, delimiter: STRING) Argument \`delimiter\` was not provided
+      "
+    `)
+  })
+
+  it('should error when second required argument is of the wrong type', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=SPLIT("hello world", 123)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: SPLIT(value: STRING, delimiter: STRING) Argument \`delimiter\` received a \`NUMBER\`
+      "
+    `)
+  })
+
+  it('should split a string by a delimiter (and spill into other cells)', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=SPLIT("hello world", " ")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┬───────┐
+      │   │ A     │ B     │
+      ├───┼───────┼───────┤
+      │ 1 │ hello │ world │
+      └───┴───────┴───────┘
+      "
+    `)
+  })
+})
+
 describe('LOWER()', () => {
   it('should error when required argument is not passed', () => {
     let spreadsheet = new Spreadsheet()

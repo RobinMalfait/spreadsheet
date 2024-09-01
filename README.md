@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **85** built-in functions available.
+There are **86** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -125,6 +125,7 @@ There are **85** built-in functions available.
    - [LEN(value: STRING)](#len)
    - [LOWER(value: T)](#lower)
    - [REPLACE_ALL(haystack: STRING, ...zip?: STRING | NUMBER)](#replace_all)
+   - [SPLIT(value: STRING, delimiter: STRING)](#split)
    - [TEXT_SLICE(value: STRING, start: NUMBER, end?: NUMBER)](#text_slice)
    - [TRIM(value: STRING)](#trim)
    - [UPPER(value: T)](#upper)
@@ -1580,6 +1581,25 @@ Replaces all occurrences of the needles with their replacements.
 ```ts
 =REPLACE_ALL("The quick brown fox jumps over the lazy dog", "fox", "cat", "dog", "wolf")
 // "The quick brown cat jumps over the lazy wolf"
+```
+
+---
+
+<a name="split"></a>
+#### SPLIT(value: STRING, delimiter: STRING)
+
+[Back to top](#functions)
+
+Splits a string into an array of substrings separated by a delimiter.
+
+- `value`: The string to split.
+- `delimiter`: The string to split by.
+
+#### Examples:
+
+```ts
+=SPLIT("Hello World", " ")
+// "Hello"
 ```
 
 ---

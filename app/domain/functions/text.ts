@@ -43,6 +43,24 @@ export const JOIN = expose(
   },
 )
 
+export const SPLIT = expose(
+  `
+    @description Splits a string into an array of substrings separated by a delimiter.
+    @param value The string to split.
+    @param delimiter The string to split by.
+    @example SPLIT("Hello World", " ")
+    SPLIT(value: STRING, delimiter: STRING)
+  `,
+  (value: EvaluationResultString, delimiter: EvaluationResultString) => {
+    return value.value.split(delimiter.value).map((value) => {
+      return {
+        kind: EvaluationResultKind.STRING,
+        value,
+      }
+    })
+  },
+)
+
 export const LOWER = expose(
   `
     @description Converts a string to lowercase.
