@@ -33,7 +33,7 @@ export const INHERIT_FORMULA = withSignature(
     }
 
     // Clone the reference cell AST so we don't modify the original
-    referenceCellAST = structuredClone(referenceCellAST)
+    referenceCellAST = JSON.parse(JSON.stringify(referenceCellAST)) as AST
 
     // Update all cell references in the cloned AST to make them relative to the
     // current cell.
