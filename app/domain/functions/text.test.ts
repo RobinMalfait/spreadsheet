@@ -411,7 +411,7 @@ describe('FIND_FIRST()', () => {
     `)
   })
 
-  it('should result in an empty string when none of the needles are found', () => {
+  it('should error when none of the needles are found', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
     spreadsheet.set('B1', '=FIND_FIRST(A1, "banana", "apple", "cherry")')
@@ -502,7 +502,7 @@ describe('FIND_FIRST_INDEX()', () => {
     `)
   })
 
-  it('should result in -1 when none of the needles are found', () => {
+  it('should error when none of the needles are found', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
     spreadsheet.set('B1', '=FIND_FIRST_INDEX(A1, "banana", "apple", "cherry")')
@@ -593,7 +593,7 @@ describe('FIND_LAST()', () => {
     `)
   })
 
-  it('should result in an empty string when none of the needles are found', () => {
+  it('should error when none of the needles are found', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
     spreadsheet.set('B1', '=FIND_LAST(A1, "banana", "apple", "cherry")')
@@ -684,7 +684,7 @@ describe('FIND_LAST_INDEX()', () => {
     `)
   })
 
-  it('should result in -1 when none of the needles are found', () => {
+  it('should error when none of the needles are found', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
     spreadsheet.set('B1', '=FIND_LAST_INDEX(A1, "banana", "apple", "cherry")')
