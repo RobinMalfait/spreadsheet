@@ -411,22 +411,6 @@ describe('FIND_FIRST()', () => {
     `)
   })
 
-  it('should find the first occurrence of any of the needles', () => {
-    let spreadsheet = new Spreadsheet()
-    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
-    spreadsheet.set('B1', '=FIND_FIRST(A1, "fox", "dog", "brown")')
-
-    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
-      "
-      ┌───┬─────────────────────────────────────────────┬───────┐
-      │   │ A                                           │ B     │
-      ├───┼─────────────────────────────────────────────┼───────┤
-      │ 1 │ The quick brown fox jumps over the lazy dog │ brown │
-      └───┴─────────────────────────────────────────────┴───────┘
-      "
-    `)
-  })
-
   it('should result in an empty string when none of the needles are found', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
@@ -439,6 +423,22 @@ describe('FIND_FIRST()', () => {
       ├───┼─────────────────────────────────────────────┼───┤
       │ 1 │ The quick brown fox jumps over the lazy dog │   │
       └───┴─────────────────────────────────────────────┴───┘
+      "
+    `)
+  })
+
+  it('should find the first occurrence of any of the needles', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
+    spreadsheet.set('B1', '=FIND_FIRST(A1, "fox", "dog", "brown")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────────────────────────────────────────┬───────┐
+      │   │ A                                           │ B     │
+      ├───┼─────────────────────────────────────────────┼───────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ brown │
+      └───┴─────────────────────────────────────────────┴───────┘
       "
     `)
   })
@@ -502,22 +502,6 @@ describe('FIND_FIRST_INDEX()', () => {
     `)
   })
 
-  it('should find the position of the first occurrence of any of the needles', () => {
-    let spreadsheet = new Spreadsheet()
-    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
-    spreadsheet.set('B1', '=FIND_FIRST_INDEX(A1, "fox", "dog", "brown")')
-
-    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
-      "
-      ┌───┬─────────────────────────────────────────────┬────┐
-      │   │ A                                           │ B  │
-      ├───┼─────────────────────────────────────────────┼────┤
-      │ 1 │ The quick brown fox jumps over the lazy dog │ 10 │
-      └───┴─────────────────────────────────────────────┴────┘
-      "
-    `)
-  })
-
   it('should result in -1 when none of the needles are found', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
@@ -529,6 +513,22 @@ describe('FIND_FIRST_INDEX()', () => {
       │   │ A                                           │ B  │
       ├───┼─────────────────────────────────────────────┼────┤
       │ 1 │ The quick brown fox jumps over the lazy dog │ -1 │
+      └───┴─────────────────────────────────────────────┴────┘
+      "
+    `)
+  })
+
+  it('should find the position of the first occurrence of any of the needles', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
+    spreadsheet.set('B1', '=FIND_FIRST_INDEX(A1, "fox", "dog", "brown")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────────────────────────────────────────┬────┐
+      │   │ A                                           │ B  │
+      ├───┼─────────────────────────────────────────────┼────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ 10 │
       └───┴─────────────────────────────────────────────┴────┘
       "
     `)
@@ -593,22 +593,6 @@ describe('FIND_LAST()', () => {
     `)
   })
 
-  it('should find the last occurrence of any of the needles', () => {
-    let spreadsheet = new Spreadsheet()
-    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
-    spreadsheet.set('B1', '=FIND_LAST(A1, "fox", "dog", "brown")')
-
-    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
-      "
-      ┌───┬─────────────────────────────────────────────┬─────┐
-      │   │ A                                           │ B   │
-      ├───┼─────────────────────────────────────────────┼─────┤
-      │ 1 │ The quick brown fox jumps over the lazy dog │ dog │
-      └───┴─────────────────────────────────────────────┴─────┘
-      "
-    `)
-  })
-
   it('should result in an empty string when none of the needles are found', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
@@ -621,6 +605,22 @@ describe('FIND_LAST()', () => {
       ├───┼─────────────────────────────────────────────┼───┤
       │ 1 │ The quick brown fox jumps over the lazy dog │   │
       └───┴─────────────────────────────────────────────┴───┘
+      "
+    `)
+  })
+
+  it('should find the last occurrence of any of the needles', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
+    spreadsheet.set('B1', '=FIND_LAST(A1, "fox", "dog", "brown")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────────────────────────────────────────┬─────┐
+      │   │ A                                           │ B   │
+      ├───┼─────────────────────────────────────────────┼─────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ dog │
+      └───┴─────────────────────────────────────────────┴─────┘
       "
     `)
   })
@@ -684,22 +684,6 @@ describe('FIND_LAST_INDEX()', () => {
     `)
   })
 
-  it('should find the position of the last occurrence of any of the needles', () => {
-    let spreadsheet = new Spreadsheet()
-    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
-    spreadsheet.set('B1', '=FIND_LAST_INDEX(A1, "fox", "dog", "brown")')
-
-    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
-      "
-      ┌───┬─────────────────────────────────────────────┬────┐
-      │   │ A                                           │ B  │
-      ├───┼─────────────────────────────────────────────┼────┤
-      │ 1 │ The quick brown fox jumps over the lazy dog │ 40 │
-      └───┴─────────────────────────────────────────────┴────┘
-      "
-    `)
-  })
-
   it('should result in -1 when none of the needles are found', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
@@ -711,6 +695,22 @@ describe('FIND_LAST_INDEX()', () => {
       │   │ A                                           │ B  │
       ├───┼─────────────────────────────────────────────┼────┤
       │ 1 │ The quick brown fox jumps over the lazy dog │ -1 │
+      └───┴─────────────────────────────────────────────┴────┘
+      "
+    `)
+  })
+
+  it('should find the position of the last occurrence of any of the needles', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', 'The quick brown fox jumps over the lazy dog')
+    spreadsheet.set('B1', '=FIND_LAST_INDEX(A1, "fox", "dog", "brown")')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬─────────────────────────────────────────────┬────┐
+      │   │ A                                           │ B  │
+      ├───┼─────────────────────────────────────────────┼────┤
+      │ 1 │ The quick brown fox jumps over the lazy dog │ 40 │
       └───┴─────────────────────────────────────────────┴────┘
       "
     `)
