@@ -12,6 +12,7 @@ import * as functions from '~/domain/functions'
 import { tokenize } from '~/domain/tokenizer'
 import { WalkAction, walk } from '~/domain/walk-ast'
 import { DefaultMap } from '~/utils/default-map'
+import { ensureMatrix } from '~/utils/matrix'
 
 export class Spreadsheet {
   // Track the raw contents of each cell. This is the original input.
@@ -250,6 +251,9 @@ export class Spreadsheet {
 
     let out = evaluateExpression(result, this, cell)
     if (Array.isArray(out)) {
+      // Ensure it's a 2D array
+      let matrix = ensureMatrix(out)
+
       // Let's try to spill the result
       let start = parseLocation(cell)
 
@@ -261,25 +265,25 @@ export class Spreadsheet {
       // Cleanup my own spills
       this.#spilledInto.get(cell).clear()
 
-      let spilled: [cell: string, value: EvaluationResult | undefined][] = [
-        [cell, out[0]],
-      ]
+      let spilled: [cell: string, value: EvaluationResult | undefined][] = []
 
-      for (let idx = 1; idx < out.length; idx++) {
-        let other = printLocation({ ...start, col: start.col + idx })
-        let value = out[idx]
-        if (!value) {
-          return { kind: EvaluationResultKind.ERROR, value: 'Expected a single result' }
-        }
+      for (let [dRow, row] of matrix.entries()) {
+        for (let [dCol, value] of row.entries()) {
+          let other = printLocation({
+            ...start,
+            col: start.col + dCol,
+            row: start.row + dRow,
+          })
 
-        if (this.#cells.has(other)) {
-          return {
-            kind: EvaluationResultKind.ERROR,
-            value: 'Cannot spill into an existing cell',
+          if (other !== cell && this.#cells.has(other)) {
+            return {
+              kind: EvaluationResultKind.ERROR,
+              value: 'Cannot spill into an existing cell',
+            }
           }
-        }
 
-        spilled.push([other, value])
+          spilled.push([other, value])
+        }
       }
 
       for (let [otherCell, value] of spilled) {

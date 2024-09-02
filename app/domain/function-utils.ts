@@ -6,7 +6,7 @@ import { validate } from '~/domain/signature/validate'
 
 export function expose<
   T extends EvaluationResult[],
-  R extends EvaluationResult | EvaluationResult[],
+  R extends EvaluationResult | EvaluationResult[] | EvaluationResult[][],
 >(signature: string, handle: (...args: T) => R) {
   let sig = parse(tokenize(signature))
 

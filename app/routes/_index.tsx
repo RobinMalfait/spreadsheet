@@ -173,6 +173,12 @@ export default function Index() {
       vcs.commit('A2', 'Double:')
       vcs.commit('B2', '=B1 * 2')
       vcs.commit('C2:K2', '=INHERIT_FORMULA(B2)')
+
+      vcs.commit('A5', 'Vertical spills:')
+      vcs.commit('B5', '=TRANSPOSE(DIGITS())')
+      vcs.commit('C4', 'Double:')
+      vcs.commit('C5', '=B5 * 2')
+      vcs.commit('C6:C14', '=INHERIT_FORMULA(C5)')
     } else if (window.location.search === '?demo-aoc-2023-01') {
       vcs.commit('A1', 'Advent of Code')
       vcs.commit('B1', '2023 - Day 01')
