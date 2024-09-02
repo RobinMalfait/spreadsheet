@@ -5,7 +5,7 @@ import { ensureMatrix } from '~/utils/matrix'
 export const DIGITS = expose(
   `
     @description A sequence of the digits from 0 through 9.
-    @example JOIN(", ", DIGITS())
+    @example DIGITS()
     DIGITS()
   `,
   () => {
