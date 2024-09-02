@@ -254,7 +254,7 @@ export class Spreadsheet {
       // Ensure it's a 2D array
       let matrix = ensureMatrix(out)
 
-      // Let's try to spill the result
+      // Let's try to spill the result, starting from the current cell
       let start = parseLocation(cell)
 
       // Cleanup existing spills
@@ -275,6 +275,7 @@ export class Spreadsheet {
             row: start.row + dRow,
           })
 
+          // If the cell already exists, we cannot spill into it
           if (other !== cell && this.#cells.has(other)) {
             return {
               kind: EvaluationResultKind.ERROR,
@@ -286,6 +287,7 @@ export class Spreadsheet {
         }
       }
 
+      // Spill the results into the neighboring cells
       for (let [otherCell, value] of spilled) {
         if (!value) continue
         this.#spilled.set(otherCell, cell)
@@ -295,6 +297,8 @@ export class Spreadsheet {
 
       let mainCellValue = out[0]
       if (mainCellValue) return mainCellValue
+
+      // This should never happen
       return { kind: EvaluationResultKind.ERROR, value: 'Expected a single result' }
     }
 
