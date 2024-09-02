@@ -15,6 +15,7 @@ import { type Signature, TagKind, printSignature } from '~/domain/signature/pars
 import { Spreadsheet } from '~/domain/spreadsheet'
 import { tokenize } from '~/domain/tokenizer'
 import { WalkAction, walk } from '~/domain/walk-ast'
+import { visualizeSpreadsheet } from '~/test/utils'
 
 const collator = new Intl.Collator('en', { sensitivity: 'base' })
 
@@ -31,8 +32,6 @@ const categories = [
   ['Type functions', typeFunctions],
   ['Privileged functions', privilegedFunctions],
 ] as const
-
-const spreadsheet = new Spreadsheet()
 
 const README = Bun.file('README.md')
 const contents = await README.text()
@@ -116,26 +115,44 @@ function generateDocs() {
           if (dependencies.size > 0) {
             out += '// Dependencies:\n'
             for (let dep of dependencies) {
+              let spreadsheet = new Spreadsheet()
               spreadsheet.set('A1', `=${dep}`)
               let result = spreadsheet.evaluate('A1')
-              out += `=${dep} // ${
-                result?.kind === EvaluationResultKind.STRING
-                  ? `"${printEvaluationResult(result)}"`
-                  : printEvaluationResult(result)
-              }\n`
+              if (spreadsheet.spillDependencies('A1').size > 0) {
+                out += visualizeSpreadsheet(spreadsheet)
+                  .trim()
+                  .split('\n')
+                  .map((line) => `// ${line}`)
+                  .join('\n')
+              } else {
+                out += `=${dep} // ${
+                  result?.kind === EvaluationResultKind.STRING
+                    ? `"${printEvaluationResult(result)}"`
+                    : printEvaluationResult(result)
+                }\n`
+              }
             }
             out += '\n'
           }
 
           // Prepare the spreadsheet
+          let spreadsheet = new Spreadsheet()
           spreadsheet.set('A1', `=${tag.value}`)
 
           out += `=${tag.value}\n`
           let result = spreadsheet.evaluate('A1')
-          if (result?.kind === EvaluationResultKind.STRING) {
-            out += `// "${printEvaluationResult(result)}"`
+          if (spreadsheet.spillDependencies('A1').size > 0) {
+            out += visualizeSpreadsheet(spreadsheet)
+              .trim()
+              .split('\n')
+              .map((line) => `// ${line}`)
+              .join('\n')
           } else {
-            out += `// ${printEvaluationResult(result)}`
+            if (result?.kind === EvaluationResultKind.STRING) {
+              out += `// "${printEvaluationResult(result)}"`
+            } else {
+              out += `// ${printEvaluationResult(result)}`
+            }
           }
 
           // End of the example block
