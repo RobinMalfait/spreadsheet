@@ -120,11 +120,11 @@ function generateDocs() {
               let result = spreadsheet.evaluate('A1')
               if (spreadsheet.spillDependencies('A1').size > 0) {
                 out += `=${dep}\n`
-                out += visualizeSpreadsheet(spreadsheet)
+                out += `${visualizeSpreadsheet(spreadsheet)
                   .trim()
                   .split('\n')
                   .map((line) => `// ${line}`)
-                  .join('\n')
+                  .join('\n')}\n`
               } else {
                 out += `=${dep} // ${
                   result?.kind === EvaluationResultKind.STRING
