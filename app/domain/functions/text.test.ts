@@ -166,11 +166,11 @@ describe('SPLIT()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────────┬───────┐
-      │   │ A       │ B     │
-      ├───┼─────────┼───────┤
-      │ 1 │ "hello" │ world │
-      └───┴─────────┴───────┘
+      ┌───┬─────────┬─────────┐
+      │   │ A       │ B       │
+      ├───┼─────────┼─────────┤
+      │ 1 │ "hello" │ "world" │
+      └───┴─────────┴─────────┘
       "
     `)
   })

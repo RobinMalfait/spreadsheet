@@ -74,9 +74,12 @@ export function visualizeSpreadsheet(spreadsheet: Spreadsheet) {
         errors.push(`\u00B7 ${cell}: ${result.value}`)
       } else {
         output.push(
-          // Wrap strings in quotes if they are formulas. If it's a string
-          // literal, we don't need to wrap it in quotes.
-          result?.kind === EvaluationResultKind.STRING && spreadsheet.get(cell)[0] === '='
+          // Wrap strings in quotes if they are formulas. Or, if they originate
+          // from a spilled cell. If it's a string literal, we don't need to
+          // wrap it in quotes.
+          result?.kind === EvaluationResultKind.STRING &&
+            (spreadsheet.get(cell)[0] === '=' || // Formula
+              spreadsheet.spillDependencies(cell).size > 0) // Spilled
             ? `"${printEvaluationResult(result)}"`
             : printEvaluationResult(result),
         )
