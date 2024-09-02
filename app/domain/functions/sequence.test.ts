@@ -60,7 +60,7 @@ describe('DIGITS()', () => {
 describe('TRANSPOSE()', () => {
   it('should transpose a matrix', () => {
     let spreadsheet = new Spreadsheet()
-    spreadsheet.set('A1', '="↘"')
+    spreadsheet.set('A1', '↘')
     spreadsheet.set('B1', '=DIGITS()')
     spreadsheet.set('A2', '=TRANSPOSE(DIGITS())')
 

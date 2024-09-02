@@ -120,11 +120,11 @@ describe('IF()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┬───────┐
-      │   │ A │ B     │
-      ├───┼───┼───────┤
-      │ 1 │ 5 │ Five! │
-      └───┴───┴───────┘
+      ┌───┬───┬─────────┐
+      │   │ A │ B       │
+      ├───┼───┼─────────┤
+      │ 1 │ 5 │ "Five!" │
+      └───┴───┴─────────┘
       "
     `)
   })
@@ -136,11 +136,11 @@ describe('IF()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───┬───────────┐
-      │   │ A │ B         │
-      ├───┼───┼───────────┤
-      │ 1 │ 2 │ Not five! │
-      └───┴───┴───────────┘
+      ┌───┬───┬─────────────┐
+      │   │ A │ B           │
+      ├───┼───┼─────────────┤
+      │ 1 │ 2 │ "Not five!" │
+      └───┴───┴─────────────┘
       "
     `)
   })
@@ -210,11 +210,11 @@ describe('IF()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬─────┐
-      │   │ A   │
-      ├───┼─────┤
-      │ 1 │ Two │
-      └───┴─────┘
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ "Two" │
+      └───┴───────┘
       "
     `)
   })
@@ -225,11 +225,11 @@ describe('IF()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬───────┐
-      │   │ A     │
-      ├───┼───────┤
-      │ 1 │ Other │
-      └───┴───────┘
+      ┌───┬─────────┐
+      │   │ A       │
+      ├───┼─────────┤
+      │ 1 │ "Other" │
+      └───┴─────────┘
       "
     `)
   })
@@ -280,11 +280,11 @@ describe('IF_ERROR()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬──────────────┐
-      │   │ A            │
-      ├───┼──────────────┤
-      │ 1 │ Not an error │
-      └───┴──────────────┘
+      ┌───┬────────────────┐
+      │   │ A              │
+      ├───┼────────────────┤
+      │ 1 │ "Not an error" │
+      └───┴────────────────┘
       "
     `)
   })
@@ -295,11 +295,11 @@ describe('IF_ERROR()', () => {
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "
-      ┌───┬──────────┐
-      │   │ A        │
-      ├───┼──────────┤
-      │ 1 │ Fallback │
-      └───┴──────────┘
+      ┌───┬────────────┐
+      │   │ A          │
+      ├───┼────────────┤
+      │ 1 │ "Fallback" │
+      └───┴────────────┘
       "
     `)
   })

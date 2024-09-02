@@ -73,7 +73,13 @@ export function visualizeSpreadsheet(spreadsheet: Spreadsheet) {
         output.push('Error')
         errors.push(`\u00B7 ${cell}: ${result.value}`)
       } else {
-        output.push(printEvaluationResult(result))
+        output.push(
+          // Wrap strings in quotes if they are formulas. If it's a string
+          // literal, we don't need to wrap it in quotes.
+          result?.kind === EvaluationResultKind.STRING && spreadsheet.get(cell)[0] === '='
+            ? `"${printEvaluationResult(result)}"`
+            : printEvaluationResult(result),
+        )
       }
     }
     table.push(output)

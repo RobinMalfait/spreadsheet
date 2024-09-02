@@ -53,11 +53,11 @@ it('should evaluate a string literal as expression', () => {
 
   expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
     "
-    ┌───┬─────────────┐
-    │   │ A           │
-    ├───┼─────────────┤
-    │ 1 │ Hello World │
-    └───┴─────────────┘
+    ┌───┬───────────────┐
+    │   │ A             │
+    ├───┼───────────────┤
+    │ 1 │ "Hello World" │
+    └───┴───────────────┘
     "
   `)
 })
