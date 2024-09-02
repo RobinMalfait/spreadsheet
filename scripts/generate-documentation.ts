@@ -90,13 +90,12 @@ function generateDocs() {
 
       // Evaluate examples
       {
-        if (signature.tags.some((tag) => tag.kind === TagKind.EXAMPLE)) {
-          out += '\n#### Examples:\n\n'
+        let examples = signature.tags.filter((tag) => tag.kind === TagKind.EXAMPLE)
+        if (examples.length > 0) {
+          out += `\n#### ${examples.length === 1 ? 'Example' : 'Examples'}:\n\n`
         }
 
-        for (let tag of signature.tags) {
-          if (tag.kind !== TagKind.EXAMPLE) continue
-
+        for (let tag of examples) {
           // Start of the example block
           out += '\n```ts\n'
 

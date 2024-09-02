@@ -155,7 +155,7 @@ Add a certain amount of days to a date.
 - `date`: The date to add the days to.
 - `days`: The number of days to add.
 
-#### Examples:
+#### Example:
 
 ```ts
 // Dependencies:
@@ -177,7 +177,7 @@ Add a certain amount of hours to a date.
 - `date`: The date to add the hours to.
 - `days`: The number of hours to add.
 
-#### Examples:
+#### Example:
 
 ```ts
 // Dependencies:
@@ -198,7 +198,7 @@ The current day of the given date.
 
 - `date`: The date to extract the current day from.
 
-#### Examples:
+#### Example:
 
 ```ts
 // Dependencies:
@@ -219,7 +219,7 @@ The current hour of the given date.
 
 - `date`: The date to extract the current hour from.
 
-#### Examples:
+#### Example:
 
 ```ts
 // Dependencies:
@@ -240,7 +240,7 @@ The current minute of the given date.
 
 - `date`: The date to extract the current minute from.
 
-#### Examples:
+#### Example:
 
 ```ts
 // Dependencies:
@@ -261,7 +261,7 @@ The current month of the given date. The month is 1-indexed.
 
 - `date`: The date to extract the current month from.
 
-#### Examples:
+#### Example:
 
 ```ts
 // Dependencies:
@@ -280,7 +280,7 @@ The current month of the given date. The month is 1-indexed.
 
 The current date and time represented as a datetime.
 
-#### Examples:
+#### Example:
 
 ```ts
 =NOW()
@@ -298,7 +298,7 @@ The current second of the given date.
 
 - `date`: The date to extract the current seconds from.
 
-#### Examples:
+#### Example:
 
 ```ts
 // Dependencies:
@@ -320,7 +320,7 @@ Subtract a certain amount of days from a date.
 - `date`: The date to subtract the days from.
 - `days`: The number of days to subtract.
 
-#### Examples:
+#### Example:
 
 ```ts
 // Dependencies:
@@ -342,7 +342,7 @@ Subtract a certain amount of hours from a date.
 - `date`: The date to subtract the hours from.
 - `days`: The number of hours to subtract.
 
-#### Examples:
+#### Example:
 
 ```ts
 // Dependencies:
@@ -361,7 +361,7 @@ Subtract a certain amount of hours from a date.
 
 The current time represented as a datetime.
 
-#### Examples:
+#### Example:
 
 ```ts
 =TIME()
@@ -377,7 +377,7 @@ The current time represented as a datetime.
 
 The current date represented as a datetime.
 
-#### Examples:
+#### Example:
 
 ```ts
 =TODAY()
@@ -395,7 +395,7 @@ The current year of the given date.
 
 - `date`: The date to extract the current year from.
 
-#### Examples:
+#### Example:
 
 ```ts
 // Dependencies:
@@ -444,7 +444,7 @@ Returns true if all conditions are true.
 
 The boolean value false.
 
-#### Examples:
+#### Example:
 
 ```ts
 =FALSE()
@@ -613,7 +613,7 @@ Returns the matching value for the first condition that is true.
 
 The boolean value true.
 
-#### Examples:
+#### Example:
 
 ```ts
 =TRUE()
@@ -631,7 +631,7 @@ The ABS function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =ABS(1)
@@ -649,7 +649,7 @@ The ACOS function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =ACOS(1)
@@ -667,7 +667,7 @@ The ACOSH function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =ACOSH(1)
@@ -686,7 +686,7 @@ Add two numbers.
 - `x`: The first number.
 - `y`: The second number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =ADD(1, 2)
@@ -704,7 +704,7 @@ The ASIN function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =ASIN(1)
@@ -722,7 +722,7 @@ The ASINH function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =ASINH(1)
@@ -740,7 +740,7 @@ The ATAN function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =ATAN(1)
@@ -759,7 +759,7 @@ The angle (in radians) from the X axis to a point.
 - `y`: A numeric expression representing the cartesian y-coordinate.
 - `x`: A numeric expression representing the cartesian x-coordinate.
 
-#### Examples:
+#### Example:
 
 ```ts
 =ATAN2(1, 1)
@@ -777,7 +777,7 @@ The ATANH function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =ATANH(1)
@@ -795,7 +795,7 @@ The CBRT function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =CBRT(1)
@@ -813,7 +813,7 @@ Returns the smallest integer greater than or equal to its numeric argument.
 
 - `x`: A numeric expression.
 
-#### Examples:
+#### Example:
 
 ```ts
 =CEIL(1.5)
@@ -831,7 +831,7 @@ The CLZ32 function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =CLZ32(1)
@@ -849,7 +849,7 @@ The COS function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =COS(1)
@@ -867,7 +867,7 @@ The COSH function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =COSH(1)
@@ -886,7 +886,7 @@ Returns the result of dividing two numbers.
 - `x`: The dividend.
 - `y`: The divisor.
 
-#### Examples:
+#### Example:
 
 ```ts
 =DIVIDE(6, 3)
@@ -904,7 +904,7 @@ The EXP function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =EXP(1)
@@ -922,7 +922,7 @@ Returns the greatest integer less than or equal to its numeric argument.
 
 - `x`: A numeric expression.
 
-#### Examples:
+#### Example:
 
 ```ts
 =FLOOR(1.5)
@@ -941,7 +941,7 @@ The result of 32-bit multiplication of two numbers.
 - `x`: First number
 - `y`: Second number
 
-#### Examples:
+#### Example:
 
 ```ts
 =IMUL(1, 2)
@@ -959,7 +959,7 @@ The LOG function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =LOG(1)
@@ -977,7 +977,7 @@ The LOG10 function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =LOG10(1)
@@ -996,7 +996,7 @@ Returns the remainder of the division of two numbers.
 - `x`: The dividend.
 - `y`: The divisor.
 
-#### Examples:
+#### Example:
 
 ```ts
 =MOD(5, 2)
@@ -1015,7 +1015,7 @@ Multiply two numbers.
 - `x`: The first number.
 - `y`: The second number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =MULTIPLY(2, 3)
@@ -1031,7 +1031,7 @@ Multiply two numbers.
 
 The number π.
 
-#### Examples:
+#### Example:
 
 ```ts
 =PI()
@@ -1050,7 +1050,7 @@ Returns the value of a base expression taken to a specified power.
 - `x`: The base value of the expression.
 - `y`: The exponent value of the expression.
 
-#### Examples:
+#### Example:
 
 ```ts
 =POWER(2, 3)
@@ -1068,7 +1068,7 @@ Returns the product of all arguments.
 
 - `values`: The numbers to multiply.
 
-#### Examples:
+#### Example:
 
 ```ts
 =PRODUCT(2, 3, 4)
@@ -1113,7 +1113,7 @@ The SIN function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =SIN(1)
@@ -1131,7 +1131,7 @@ The SINH function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =SINH(1)
@@ -1149,7 +1149,7 @@ The SQRT function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =SQRT(1)
@@ -1168,7 +1168,7 @@ Subtract two numbers.
 - `x`: The first number.
 - `y`: The second number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =SUBTRACT(2, 1)
@@ -1186,7 +1186,7 @@ Returns the sum of all arguments.
 
 - `values`: The numbers to sum.
 
-#### Examples:
+#### Example:
 
 ```ts
 =SUM(1, 2, 3)
@@ -1204,7 +1204,7 @@ The TAN function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =TAN(1)
@@ -1222,7 +1222,7 @@ The TANH function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =TANH(1)
@@ -1238,7 +1238,7 @@ The TANH function.
 
 The number τ.
 
-#### Examples:
+#### Example:
 
 ```ts
 =TAU()
@@ -1256,7 +1256,7 @@ The TRUNC function.
 
 - `x`: A number.
 
-#### Examples:
+#### Example:
 
 ```ts
 =TRUNC(1)
@@ -1272,7 +1272,7 @@ The TRUNC function.
 
 A sequence of the digits from 0 through 9.
 
-#### Examples:
+#### Example:
 
 ```ts
 =DIGITS()
@@ -1294,7 +1294,7 @@ Transpose an array.
 
 - `value`: The array to transpose.
 
-#### Examples:
+#### Example:
 
 ```ts
 // Dependencies:
@@ -1342,7 +1342,7 @@ Returns the average of NUMBER arguments.
 
 - `values`: The values to compare.
 
-#### Examples:
+#### Example:
 
 ```ts
 =AVERAGE(1, 3, 2, 5, 4)
@@ -1360,7 +1360,7 @@ Count the number of NUMBER arguments.
 
 - `values`: The values to count.
 
-#### Examples:
+#### Example:
 
 ```ts
 // Dependencies:
@@ -1381,7 +1381,7 @@ Returns the largest NUMBER argument.
 
 - `values`: The values to compare.
 
-#### Examples:
+#### Example:
 
 ```ts
 =MAX(1, 3, 2, 5, 4)
@@ -1399,7 +1399,7 @@ Returns the median of NUMBER arguments.
 
 - `values`: The values to compare.
 
-#### Examples:
+#### Example:
 
 ```ts
 =MEDIAN(1, 3, 2, 5, 4)
@@ -1417,7 +1417,7 @@ Returns the smallest NUMBER argument.
 
 - `values`: The values to compare.
 
-#### Examples:
+#### Example:
 
 ```ts
 =MIN(5, 4, 1, 2, 3)
@@ -1435,7 +1435,7 @@ Returns the mode of NUMBER arguments.
 
 - `values`: The values to compare.
 
-#### Examples:
+#### Example:
 
 ```ts
 =MODE(3, 2, 1, 3, 3, 4, 5, 8, 9, 1)
@@ -1453,7 +1453,7 @@ Concatenates multiple strings together.
 
 - `values`: The strings to concatenate.
 
-#### Examples:
+#### Example:
 
 ```ts
 =CONCAT("hello", " ", "world")
@@ -1568,7 +1568,7 @@ Joins multiple strings together with a delimiter.
 - `delimiter`: The string to insert between each value.
 - `values`: The values to join.
 
-#### Examples:
+#### Example:
 
 ```ts
 // Dependencies:
@@ -1589,7 +1589,7 @@ Returns the length of a string.
 
 - `value`: The string to measure.
 
-#### Examples:
+#### Example:
 
 ```ts
 =LEN("Hello, World!")
@@ -1607,7 +1607,7 @@ Converts a string to lowercase.
 
 - `value`: The string to convert.
 
-#### Examples:
+#### Example:
 
 ```ts
 =LOWER("Hello, World!")
@@ -1626,7 +1626,7 @@ Replaces all occurrences of the needles with their replacements.
 - `haystack`: The string to search in.
 - `zip`: The strings to search for and their replacements.
 
-#### Examples:
+#### Example:
 
 ```ts
 =REPLACE_ALL("The quick brown fox jumps over the lazy dog", "fox", "cat", "dog", "wolf")
@@ -1645,7 +1645,7 @@ Splits a string into an array of substrings separated by a delimiter.
 - `value`: The string to split.
 - `delimiter`: The string to split by.
 
-#### Examples:
+#### Example:
 
 ```ts
 =SPLIT("Hello World", " ")
@@ -1702,7 +1702,7 @@ Removes leading and trailing whitespace from a string.
 
 - `value`: The string to trim.
 
-#### Examples:
+#### Example:
 
 ```ts
 =TRIM("  Hello, World!  ")
@@ -1720,7 +1720,7 @@ Converts a string to uppercase.
 
 - `value`: The string to convert.
 
-#### Examples:
+#### Example:
 
 ```ts
 =UPPER("Hello, World!")
@@ -1795,7 +1795,7 @@ Tries to convert a list of values to booleans.
 
 - `values`: The values to convert.
 
-#### Examples:
+#### Example:
 
 ```ts
 // Dependencies:
@@ -1874,7 +1874,7 @@ Tries to convert a list of values to numbers.
 
 - `values`: The values to convert.
 
-#### Examples:
+#### Example:
 
 ```ts
 // Dependencies:
@@ -1960,7 +1960,7 @@ Tries to convert a list of values to strings.
 
 - `values`: The values to convert.
 
-#### Examples:
+#### Example:
 
 ```ts
 // Dependencies:
