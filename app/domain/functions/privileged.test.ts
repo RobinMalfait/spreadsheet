@@ -132,6 +132,29 @@ describe('INHERIT_FORMULA()', () => {
       "
     `)
   })
+
+  it('should detect circular references', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=INHERIT_FORMULA(A1)')
+    spreadsheet.set('A2', '=INHERIT_FORMULA(A1)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      ├───┼───────┤
+      │ 2 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: Circular reference detected in cell A1
+      · A2: Circular reference detected in cell A2
+      "
+    `)
+  })
 })
 
 describe('COL()', () => {

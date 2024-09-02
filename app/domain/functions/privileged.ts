@@ -21,36 +21,43 @@ export const INHERIT_FORMULA = withSignature(
 
     let referenceCellAST = ctx.spreadsheet.getAST(referenceCell.name)
     if (!referenceCellAST) return { kind: EvaluationResultKind.EMPTY, value: '' }
+    try {
+      // Inheriting a formula from a cell that itself has the `INHERIT_FORMULA`
+      // function should proxy through to the cell that the reference cell is
+      // inheriting from.
+      if (
+        referenceCellAST.kind === AstKind.FUNCTION &&
+        referenceCellAST.name === 'INHERIT_FORMULA'
+      ) {
+        return evaluateExpression(referenceCellAST, ctx.spreadsheet, ctx.cell)
+      }
 
-    // Inheriting a formula from a cell that itself has the `INHERIT_FORMULA`
-    // function should proxy through to the cell that the reference cell is
-    // inheriting from.
-    if (
-      referenceCellAST.kind === AstKind.FUNCTION &&
-      referenceCellAST.name === 'INHERIT_FORMULA'
-    ) {
+      // Clone the reference cell AST so we don't modify the original
+      referenceCellAST = JSON.parse(JSON.stringify(referenceCellAST)) as AST
+
+      // Update all cell references in the cloned AST to make them relative to the
+      // current cell.
+      walk([referenceCellAST], (node) => {
+        if (node.kind === AstKind.CELL) {
+          applyLocationDelta(node, delta)
+        }
+
+        if (node.kind === AstKind.RANGE) {
+          applyLocationDelta(node.start, delta)
+          applyLocationDelta(node.end, delta)
+        }
+
+        return WalkAction.Continue
+      })
+
       return evaluateExpression(referenceCellAST, ctx.spreadsheet, ctx.cell)
+    } catch (e) {
+      // TODO: Properly detect circular references here…
+      return {
+        kind: EvaluationResultKind.ERROR,
+        value: `Circular reference detected in cell ${ctx.cell}`,
+      }
     }
-
-    // Clone the reference cell AST so we don't modify the original
-    referenceCellAST = JSON.parse(JSON.stringify(referenceCellAST)) as AST
-
-    // Update all cell references in the cloned AST to make them relative to the
-    // current cell.
-    walk([referenceCellAST], (node) => {
-      if (node.kind === AstKind.CELL) {
-        applyLocationDelta(node, delta)
-      }
-
-      if (node.kind === AstKind.RANGE) {
-        applyLocationDelta(node.start, delta)
-        applyLocationDelta(node.end, delta)
-      }
-
-      return WalkAction.Continue
-    })
-
-    return evaluateExpression(referenceCellAST, ctx.spreadsheet, ctx.cell)
   },
 )
 
