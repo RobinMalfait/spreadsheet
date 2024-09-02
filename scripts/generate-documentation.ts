@@ -119,6 +119,7 @@ function generateDocs() {
               spreadsheet.set('A1', `=${dep}`)
               let result = spreadsheet.evaluate('A1')
               if (spreadsheet.spillDependencies('A1').size > 0) {
+                out += `=${dep}\n`
                 out += visualizeSpreadsheet(spreadsheet)
                   .trim()
                   .split('\n')
