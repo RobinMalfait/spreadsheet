@@ -1,5 +1,6 @@
-import { EvaluationResultKind } from '~/domain/evaluation-result'
+import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
 import { expose } from '~/domain/function-utils'
+import { ensureMatrix } from '~/utils/matrix'
 
 export const DIGITS = expose(
   `
@@ -20,5 +21,19 @@ export const DIGITS = expose(
       { kind: EvaluationResultKind.NUMBER, value: 8 },
       { kind: EvaluationResultKind.NUMBER, value: 9 },
     ]
+  },
+)
+
+export const TRANSPOSE = expose(
+  `
+    @description Transpose an array.
+    @param value The array to transpose.
+    @example TRANSPOSE(DIGITS())
+    TRANSPOSE(...value: T)
+  `,
+  // @ts-expect-error we are not really setup to use matrices yet
+  (...value: EvaluationResult | EvaluationResult[] | EvaluationResult[][]) => {
+    let matrix = ensureMatrix<EvaluationResult>(value)
+    return matrix?.[0]?.map((_, i) => matrix.map((row) => row[i])) ?? []
   },
 )

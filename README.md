@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **86** built-in functions available.
+There are **87** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -108,6 +108,7 @@ There are **86** built-in functions available.
    - [TRUNC(x: NUMBER)](#trunc)
 - [Sequence functions](#sequence-functions)
    - [DIGITS()](#digits)
+   - [TRANSPOSE(...value: T)](#transpose)
 - [Statistical functions](#statistical-functions)
    - [AVERAGE(...values: T)](#average)
    - [COUNT(...values: T)](#count)
@@ -1279,6 +1280,27 @@ A sequence of the digits from 0 through 9.
 
 =JOIN(", ", DIGITS())
 // "0, 1, 2, 3, 4, 5, 6, 7, 8, 9"
+```
+
+---
+
+<a name="transpose"></a>
+#### TRANSPOSE(...value: T)
+
+[Back to top](#functions)
+
+Transpose an array.
+
+- `value`: The array to transpose.
+
+#### Examples:
+
+```ts
+// Dependencies:
+=DIGITS() // 0
+
+=TRANSPOSE(DIGITS())
+// 
 ```
 
 ### Statistical functions
