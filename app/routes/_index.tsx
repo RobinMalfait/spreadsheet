@@ -375,26 +375,26 @@ export default function Index() {
   }, [vcs, spreadsheet])
 
   let move = useCallback((mutate: (location: Location) => void) => {
-    return (cell: string) => {
-      // Parse the current cell
-      let parsed = parseLocation(cell)
+    return () => {
+      setActiveCell((previous) => {
+        // Parse the current cell
+        let parsed = parseLocation(previous)
 
-      // Mutate the location to the next cell
-      mutate(parsed)
+        // Mutate the location to the next cell
+        mutate(parsed)
 
-      // Print the new location
-      let nextCell = printLocation(parsed)
+        // Print the new location
+        let nextCell = printLocation(parsed)
 
-      // Update the active cell
-      flushSync(() => {
-        setActiveCell(nextCell)
+        // Move focus to the corresponding button in the grid
+        let btn = document.querySelector(`button[data-cell-button=${nextCell}]`)
+        if (btn && btn.tagName === 'BUTTON') {
+          ;(btn as HTMLButtonElement).focus()
+        }
+
+        // Update the active cell
+        return nextCell
       })
-
-      // Move focus to the corresponding button in the grid
-      let btn = document.querySelector(`button[data-cell-button=${nextCell}]`)
-      if (btn && btn.tagName === 'BUTTON') {
-        ;(btn as HTMLButtonElement).focus()
-      }
     }
   }, [])
 
@@ -776,6 +776,33 @@ export default function Index() {
             'grid-rows-[var(--col-header-height)_repeat(var(--rows),minmax(var(--col-header-height),1fr))]',
             'w-full overflow-auto text-sm',
           )}
+          onKeyDown={(e) => {
+            if (e.key === 'ArrowRight') {
+              e.preventDefault()
+              moveRight()
+            } else if (e.key === 'ArrowLeft') {
+              e.preventDefault()
+              moveLeft()
+            } else if (e.key === 'ArrowUp') {
+              e.preventDefault()
+              moveUp()
+            } else if (e.key === 'ArrowDown') {
+              e.preventDefault()
+              moveDown()
+            } else if (e.key === 'PageUp') {
+              e.preventDefault()
+              moveUpFirst()
+            } else if (e.key === 'PageDown') {
+              e.preventDefault()
+              moveDownLast()
+            } else if (e.key === 'Home') {
+              e.preventDefault()
+              moveLeftFirst()
+            } else if (e.key === 'End') {
+              e.preventDefault()
+              moveRightLast()
+            }
+          }}
         >
           {cells.map((_, idx) => {
             let row = Math.floor(idx / (WIDTH + 1))
@@ -933,44 +960,45 @@ export default function Index() {
                 }}
               >
                 <div className="absolute top-0 bottom-0 left-0 z-10 flex group-not-hover/cell:hidden">
-                  <button
-                    type="button"
-                    hidden={row === 0 || col === 0 || !editingExpression || cell === id}
-                    onMouseDown={(e) => {
-                      // Inject current cell into the input at the cursor
-                      // position or instead of the selection.
-                      e.preventDefault()
-                      e.stopPropagation()
+                  {row !== 0 && col !== 0 && cell !== id && editingExpression && (
+                    <button
+                      type="button"
+                      onMouseDown={(e) => {
+                        // Inject current cell into the input at the cursor
+                        // position or instead of the selection.
+                        e.preventDefault()
+                        e.stopPropagation()
 
-                      let start = inputRef.current?.selectionStart
-                      if (start == null) return
+                        let start = inputRef.current?.selectionStart
+                        if (start == null) return
 
-                      let end = inputRef.current?.selectionEnd
-                      if (end == null) return
+                        let end = inputRef.current?.selectionEnd
+                        if (end == null) return
 
-                      // Set input value to the new value
-                      flushSync(() => {
-                        setValue((value) => {
-                          let before = value.slice(0, start)
-                          let after = value.slice(end)
-                          let next = `${before}${id}${after}`
-                          return next
+                        // Set input value to the new value
+                        flushSync(() => {
+                          setValue((value) => {
+                            let before = value.slice(0, start)
+                            let after = value.slice(end)
+                            let next = `${before}${id}${after}`
+                            return next
+                          })
                         })
-                      })
 
-                      // Restore focus to the input
-                      inputRef.current?.focus()
+                        // Restore focus to the input
+                        inputRef.current?.focus()
 
-                      // Restore cursor position
-                      inputRef.current?.setSelectionRange(
-                        start + id.length,
-                        start + id.length,
-                      )
-                    }}
-                    className="inset-ring inset-ring-gray-500/20 m-1 rounded-md rounded-md bg-white p-1"
-                  >
-                    <PlusIcon className="size-4 shrink-0 text-gray-400" />
-                  </button>
+                        // Restore cursor position
+                        inputRef.current?.setSelectionRange(
+                          start + id.length,
+                          start + id.length,
+                        )
+                      }}
+                      className="inset-ring inset-ring-gray-500/20 m-1 rounded-md rounded-md bg-white p-1"
+                    >
+                      <PlusIcon className="size-4 shrink-0 text-gray-400" />
+                    </button>
+                  )}
                 </div>
                 <button
                   disabled={row === 0 || col === 0}
@@ -997,30 +1025,6 @@ export default function Index() {
                   onKeyDown={(e) => {
                     if (e.key === 'Tab' || e.key === 'Shift') {
                       // Default browser behavior
-                    } else if (e.key === 'ArrowRight') {
-                      e.preventDefault()
-                      moveRight(cell)
-                    } else if (e.key === 'ArrowLeft') {
-                      e.preventDefault()
-                      moveLeft(cell)
-                    } else if (e.key === 'ArrowUp') {
-                      e.preventDefault()
-                      moveUp(cell)
-                    } else if (e.key === 'ArrowDown') {
-                      e.preventDefault()
-                      moveDown(cell)
-                    } else if (e.key === 'PageUp') {
-                      e.preventDefault()
-                      moveUpFirst(cell)
-                    } else if (e.key === 'PageDown') {
-                      e.preventDefault()
-                      moveDownLast(cell)
-                    } else if (e.key === 'Home') {
-                      e.preventDefault()
-                      moveLeftFirst(cell)
-                    } else if (e.key === 'End') {
-                      e.preventDefault()
-                      moveRightLast(cell)
                     } else if (e.key === 'Enter' && spreadsheet.has(cell)) {
                       e.preventDefault()
                       // Move focus to the input, and start editing
@@ -1028,6 +1032,17 @@ export default function Index() {
                       inputRef.current?.select()
                     } else if (e.key === 'Enter' || e.key === 'Escape') {
                       e.preventDefault()
+                    } else if (
+                      e.key === 'ArrowUp' ||
+                      e.key === 'ArrowDown' ||
+                      e.key === 'ArrowLeft' ||
+                      e.key === 'ArrowRight' ||
+                      e.key === 'PageUp' ||
+                      e.key === 'PageDown' ||
+                      e.key === 'Home' ||
+                      e.key === 'End'
+                    ) {
+                      // Already handled
                     } else {
                       // Move focus to the input, and start editing
                       inputRef.current?.focus()
