@@ -201,13 +201,6 @@ export class Spreadsheet {
     let result = this.#cells.get(cell)
     if (!result) return { kind: EvaluationResultKind.EMPTY, value: '<empty>' }
 
-    if (result.kind === AstKind.RANGE) {
-      return {
-        kind: EvaluationResultKind.ERROR,
-        value: 'Cannot reference a range to a cell',
-      }
-    }
-
     // Verify references
     let dependencies = this.#dependencies.get(cell)
     if (dependencies && dependencies.size > 0) {

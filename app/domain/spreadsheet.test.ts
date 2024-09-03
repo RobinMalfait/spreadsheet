@@ -581,13 +581,21 @@ describe('errors', () => {
 
   it('should not be possible to reference a range directly', () => {
     let spreadsheet = new Spreadsheet()
-    spreadsheet.set('A1', '=B1:C3')
+    spreadsheet.set('A1', '=A2:C2')
+    spreadsheet.set('A2', 'Hello')
+    spreadsheet.set('B2', 'world')
+    spreadsheet.set('C2', '!')
 
-    expect(spreadsheet.evaluate('A1')).toMatchInlineSnapshot(json`
-      {
-        "kind": "ERROR",
-        "value": "Cannot reference a range to a cell",
-      }
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(json`
+      "
+      ┌───┬─────────┬─────────┬─────┐
+      │   │ A       │ B       │ C   │
+      ├───┼─────────┼─────────┼─────┤
+      │ 1 │ "Hello" │ "world" │ "!" │
+      ├───┼─────────┼─────────┼─────┤
+      │ 2 │ Hello   │ world   │ !   │
+      └───┴─────────┴─────────┴─────┘
+      "
     `)
   })
 
