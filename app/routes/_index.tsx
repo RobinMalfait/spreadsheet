@@ -448,7 +448,7 @@ export default function Index() {
   }, [value])
 
   // Cursor position
-  let cursor = useCursorPosition(inputRef)
+  let [cursor, setCursor] = useCursorPosition(inputRef)
   if (value[0] === '=') {
     cursor -= 1
   }
@@ -975,12 +975,44 @@ export default function Index() {
                         let end = inputRef.current?.selectionEnd
                         if (end == null) return
 
+                        // New contents to inject at the current cursor
+                        // position.
+                        let inject = id
+
+                        // Ensure that we are working with valid expressions
+                        // at all time.
+                        // SUM(A1|)
+                        //       ^ Cursor position
+                        if (tokens[tokenIdxAtPosition]?.kind === TokenKind.IDENTIFIER) {
+                          // SUM(A1:B1|)
+                          //          ^ Cursor position
+                          if (tokens[tokenIdxAtPosition - 1]?.kind === TokenKind.COLON) {
+                            // Before: SUM(A1:B1|)
+                            //                  ^ Cursor position
+                            //
+                            // After:  SUM(A1:B1, C1|)
+                            //                      ^ Cursor position
+                            //                  ^^ Injected `, `, to start a new argument
+                            inject = `, ${id}`
+                          }
+
+                          // Before: SUM(A1|)
+                          //               ^ Cursor position
+                          //
+                          // After:  SUM(A1:B1|)
+                          //                  ^ Cursor position
+                          //               ^ Injected `:`, to create a range
+                          else {
+                            inject = `:${id}`
+                          }
+                        }
+
                         // Set input value to the new value
                         flushSync(() => {
                           setValue((value) => {
                             let before = value.slice(0, start)
                             let after = value.slice(end)
-                            let next = `${before}${id}${after}`
+                            let next = `${before}${inject}${after}`
                             return next
                           })
                         })
@@ -990,9 +1022,10 @@ export default function Index() {
 
                         // Restore cursor position
                         inputRef.current?.setSelectionRange(
-                          start + id.length,
-                          start + id.length,
+                          start + inject.length,
+                          start + inject.length,
                         )
+                        setCursor(start + inject.length)
                       }}
                       className="inset-ring inset-ring-gray-500/20 m-1 rounded-md rounded-md bg-white p-1"
                     >
@@ -1204,7 +1237,7 @@ function useCursorPosition(input: MutableRefObject<HTMLInputElement | null>) {
     return () => ac.abort()
   }, [input])
 
-  return cursor
+  return [cursor, setCursor] as const
 }
 
 function TokensOverlay({
