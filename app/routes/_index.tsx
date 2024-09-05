@@ -533,6 +533,8 @@ export default function Index() {
   let inheritedDependencies = spreadsheet.inheritedDependencies(cell)
   let spillDependencies = spreadsheet.spillDependencies(cell)
 
+  let rangeStartCellRef = useRef<string | null>(null)
+
   return (
     <div className="isolate flex h-screen w-screen flex-col overflow-hidden font-sans">
       <div className="flex items-center border-gray-300 border-b">
@@ -963,48 +965,31 @@ export default function Index() {
                   {row !== 0 && col !== 0 && cell !== id && editingExpression && (
                     <button
                       type="button"
-                      onMouseDown={(e) => {
-                        // Inject current cell into the input at the cursor
-                        // position or instead of the selection.
-                        e.preventDefault()
-                        e.stopPropagation()
-
+                      onMouseUp={(e) => {
                         let start = inputRef.current?.selectionStart
                         if (start == null) return
 
                         let end = inputRef.current?.selectionEnd
                         if (end == null) return
 
+                        let rangeStart = rangeStartCellRef.current
+                        let rangeEnd = id
+
                         // New contents to inject at the current cursor
                         // position.
-                        let inject = id
+                        let inject =
+                          rangeStart === rangeEnd ? id : `${rangeStart}:${rangeEnd}`
 
-                        // Ensure that we are working with valid expressions
-                        // at all time.
                         // SUM(A1|)
                         //       ^ Cursor position
                         if (tokens[tokenIdxAtPosition]?.kind === TokenKind.IDENTIFIER) {
-                          // SUM(A1:B1|)
-                          //          ^ Cursor position
-                          if (tokens[tokenIdxAtPosition - 1]?.kind === TokenKind.COLON) {
-                            // Before: SUM(A1:B1|)
-                            //                  ^ Cursor position
-                            //
-                            // After:  SUM(A1:B1, C1|)
-                            //                      ^ Cursor position
-                            //                  ^^ Injected `, `, to start a new argument
-                            inject = `, ${id}`
-                          }
-
-                          // Before: SUM(A1|)
+                          // Before: SUM(B1|)
                           //               ^ Cursor position
                           //
-                          // After:  SUM(A1:B1|)
-                          //                  ^ Cursor position
-                          //               ^ Injected `:`, to create a range
-                          else {
-                            inject = `:${id}`
-                          }
+                          // After:  SUM(B1, C1|)
+                          //                   ^ Cursor position
+                          //               ^^ Injected `, `, to start a new argument
+                          inject = `, ${inject}`
                         }
 
                         // Set input value to the new value
@@ -1026,6 +1011,15 @@ export default function Index() {
                           start + inject.length,
                         )
                         setCursor(start + inject.length)
+                      }}
+                      onMouseDown={(e) => {
+                        // Prevent triggering the `onClick` and moving focus. We
+                        // want to keep the focus in the input.
+                        e.preventDefault()
+                        e.stopPropagation()
+
+                        // Remember the cell we started the drag from
+                        rangeStartCellRef.current = id
                       }}
                       className="inset-ring inset-ring-gray-500/20 m-1 rounded-md rounded-md bg-white p-1"
                     >
