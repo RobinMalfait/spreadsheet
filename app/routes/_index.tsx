@@ -533,7 +533,30 @@ export default function Index() {
   let inheritedDependencies = spreadsheet.inheritedDependencies(cell)
   let spillDependencies = spreadsheet.spillDependencies(cell)
 
-  let rangeStartCellRef = useRef<string | null>(null)
+  // Drag and drop range selection
+  let [rangeStartCell, setRangeStartCell] = useState<string | null>(null)
+  let [rangeEndCell, setRangeEndCell] = useState<string | null>(null)
+  let selectionRange = useMemo(() => {
+    if (rangeStartCell === null || rangeEndCell === null) return new Set<string>()
+
+    let start = parseLocation(rangeStartCell)
+    let end = parseLocation(rangeEndCell)
+
+    let cells = new Set<string>()
+
+    let colStart = Math.min(start.col, end.col)
+    let colEnd = Math.max(start.col, end.col)
+    let rowStart = Math.min(start.row, end.row)
+    let rowEnd = Math.max(start.row, end.row)
+
+    for (let col = colStart; col <= colEnd; col++) {
+      for (let row = rowStart; row <= rowEnd; row++) {
+        cells.add(printLocation({ col, row, lock: 0 }))
+      }
+    }
+
+    return cells
+  }, [rangeStartCell, rangeEndCell])
 
   return (
     <div className="isolate flex h-screen w-screen flex-col overflow-hidden font-sans">
@@ -875,6 +898,10 @@ export default function Index() {
               ] as const
             })()
 
+            // Whether we are editing the current cell and can inject the
+            // current cel as a reference or range or not.
+            let isInjectable = row !== 0 && col !== 0 && cell !== id && editingExpression
+
             return (
               <div
                 key={id}
@@ -940,6 +967,17 @@ export default function Index() {
                       !spillDependencies.has(topCell(id)) && 'before:border-t-2',
                       !spillDependencies.has(bottomCell(id)) && 'before:border-b-2',
                     ),
+
+                  // Range selection
+                  cell !== id &&
+                    selectionRange.has(id) &&
+                    clsx(
+                      'before:pointer-events-none before:absolute before:inset-0 before:border-rose-500 before:border-dashed before:bg-rose-200/20',
+                      !selectionRange.has(leftCell(id)) && 'before:border-l-2',
+                      !selectionRange.has(rightCell(id)) && 'before:border-r-2',
+                      !selectionRange.has(topCell(id)) && 'before:border-t-2',
+                      !selectionRange.has(bottomCell(id)) && 'before:border-b-2',
+                    ),
                 )}
                 ref={(e) => {
                   if (e && cell === id) {
@@ -960,25 +998,45 @@ export default function Index() {
                     })
                   }
                 }}
-              >
-                <div className="absolute top-0 bottom-0 left-0 z-10 flex group-not-hover/cell:hidden">
-                  {row !== 0 && col !== 0 && cell !== id && editingExpression && (
-                    <button
-                      type="button"
-                      onMouseUp={(e) => {
+                onMouseEnter={isInjectable ? () => setRangeEndCell(id) : undefined}
+                onMouseUp={
+                  isInjectable
+                    ? () => {
                         let start = inputRef.current?.selectionStart
                         if (start == null) return
 
                         let end = inputRef.current?.selectionEnd
                         if (end == null) return
 
-                        let rangeStart = rangeStartCellRef.current
+                        // We do require a range
+                        if (rangeStartCell === null) return
+
+                        let rangeStart = rangeStartCell
                         let rangeEnd = id
 
                         // New contents to inject at the current cursor
                         // position.
                         let inject =
-                          rangeStart === rangeEnd ? id : `${rangeStart}:${rangeEnd}`
+                          rangeStart === rangeEnd
+                            ? id
+                            : (() => {
+                                let a = parseLocation(rangeStart)
+                                let b = parseLocation(rangeEnd)
+
+                                let min = {
+                                  col: Math.min(a.col, b.col),
+                                  row: Math.min(a.row, b.row),
+                                  lock: 0,
+                                }
+
+                                let max = {
+                                  col: Math.max(a.col, b.col),
+                                  row: Math.max(a.row, b.row),
+                                  lock: 0,
+                                }
+
+                                return `${printLocation(min)}:${printLocation(max)}`
+                              })()
 
                         // SUM(A1|)
                         //       ^ Cursor position
@@ -994,10 +1052,15 @@ export default function Index() {
 
                         // Set input value to the new value
                         flushSync(() => {
+                          // Set new value
                           setValue((value) => {
                             let before = value.slice(0, start)
                             let after = value.slice(end)
                             let next = `${before}${inject}${after}`
+
+                            // Ensure to evaluate the new value immediately
+                            vcs.commit(cell, next)
+
                             return next
                           })
                         })
@@ -1010,8 +1073,18 @@ export default function Index() {
                           start + inject.length,
                           start + inject.length,
                         )
+
                         setCursor(start + inject.length)
-                      }}
+                        setRangeStartCell(null)
+                        setRangeEndCell(null)
+                      }
+                    : undefined
+                }
+              >
+                <div className="absolute top-0 bottom-0 left-0 z-10 flex group-not-hover/cell:hidden">
+                  {isInjectable && (
+                    <button
+                      type="button"
                       onMouseDown={(e) => {
                         // Prevent triggering the `onClick` and moving focus. We
                         // want to keep the focus in the input.
@@ -1019,7 +1092,7 @@ export default function Index() {
                         e.stopPropagation()
 
                         // Remember the cell we started the drag from
-                        rangeStartCellRef.current = id
+                        setRangeStartCell(id)
                       }}
                       className="inset-ring inset-ring-gray-500/20 m-1 rounded-md rounded-md bg-white p-1"
                     >
