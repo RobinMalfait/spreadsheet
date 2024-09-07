@@ -167,7 +167,29 @@ export default function Index() {
     window.spreadsheet = spreadsheet
 
     // Demo modes
-    if (window.location.search === '?demo-spills') {
+    if (window.location.search === '?demo-luhn-algorithm') {
+      // See: https://x.com/cneuralnetwork/status/1831989042826629546
+      vcs.commit('A1', "Luhn's Algorithm")
+      vcs.commit('A2', 'Card number:')
+      vcs.commit('B2', '4137 8947 1175 5904')
+      vcs.commit('C2', 'Valid:')
+      vcs.commit('D2', '=B9')
+      vcs.commit('A4', 'Cleaning:')
+      vcs.commit('B4', '=REPLACE_ALL(AS_STRING(B2), " ", "")')
+      vcs.commit('A5', 'Split:')
+      vcs.commit('B5', '=AS_NUMBERS(SPLIT(B4, ""))')
+      vcs.commit('A6', 'Double odds:')
+      vcs.commit('B6', '=IF(MOD(COL(), 2) == 1, B5, B5 * 2)')
+      vcs.commit('C6:Q6', '=INHERIT_FORMULA(B6)')
+      vcs.commit('A7', 'Single digits:')
+      // vcs.commit('B7', '=SUM(AS_NUMBERS(SPLIT(AS_STRINGS(B6), "")))')
+      vcs.commit('B7', '=IF(B6 > 9, MOD(B6, 9), B6)')
+      vcs.commit('C7:Q7', '=INHERIT_FORMULA(B7)')
+      vcs.commit('A8', 'Total:')
+      vcs.commit('B8', '=SUM(B7:Q7)')
+      vcs.commit('A9', 'Valid:')
+      vcs.commit('B9', '=MOD(B8, 10) == 0')
+    } else if (window.location.search === '?demo-spills') {
       vcs.commit('A1', 'Spills:')
       vcs.commit('B1', '=DIGITS()')
       vcs.commit('A2', 'Double:')
