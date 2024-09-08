@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **91** built-in functions available.
+There are **92** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -108,6 +108,7 @@ There are **91** built-in functions available.
    - [TRUNC(x: NUMBER)](#trunc)
 - [Sequence functions](#sequence-functions)
    - [DIGITS()](#digits)
+   - [MATRIX(rows: NUMBER, cols: NUMBER, fill: T)](#matrix)
    - [TRANSPOSE(...value: T)](#transpose)
 - [Statistical functions](#statistical-functions)
    - [AVERAGE(...values: T)](#average)
@@ -1285,6 +1286,36 @@ A sequence of the digits from 0 through 9.
 // ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤
 // │ 1 │ 0 │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │
 // └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘
+```
+
+---
+
+<a name="matrix"></a>
+#### MATRIX(rows: NUMBER, cols: NUMBER, fill: T)
+
+[Back to top](#functions)
+
+Create a matrix of size rows x cols. With an optional default value.
+
+- `rows`: The number of rows in the matrix.
+- `cols`: The number of columns in the matrix.
+- `fill`: The default value for each cell in the matrix.
+
+#### Example:
+
+```ts
+=MATRIX(4, 5, 3)
+// ┌───┬───┬───┬───┬───┬───┐
+// │   │ A │ B │ C │ D │ E │
+// ├───┼───┼───┼───┼───┼───┤
+// │ 1 │ 3 │ 3 │ 3 │ 3 │ 3 │
+// ├───┼───┼───┼───┼───┼───┤
+// │ 2 │ 3 │ 3 │ 3 │ 3 │ 3 │
+// ├───┼───┼───┼───┼───┼───┤
+// │ 3 │ 3 │ 3 │ 3 │ 3 │ 3 │
+// ├───┼───┼───┼───┼───┼───┤
+// │ 4 │ 3 │ 3 │ 3 │ 3 │ 3 │
+// └───┴───┴───┴───┴───┴───┘
 ```
 
 ---

@@ -95,3 +95,26 @@ describe('TRANSPOSE()', () => {
     `)
   })
 })
+
+describe('MATRIX()', () => {
+  it('should create a MATRIX() with a given value', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=MATRIX(4, 5, 3)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───┬───┬───┬───┬───┐
+      │   │ A │ B │ C │ D │ E │
+      ├───┼───┼───┼───┼───┼───┤
+      │ 1 │ 3 │ 3 │ 3 │ 3 │ 3 │
+      ├───┼───┼───┼───┼───┼───┤
+      │ 2 │ 3 │ 3 │ 3 │ 3 │ 3 │
+      ├───┼───┼───┼───┼───┼───┤
+      │ 3 │ 3 │ 3 │ 3 │ 3 │ 3 │
+      ├───┼───┼───┼───┼───┼───┤
+      │ 4 │ 3 │ 3 │ 3 │ 3 │ 3 │
+      └───┴───┴───┴───┴───┴───┘
+      "
+    `)
+  })
+})

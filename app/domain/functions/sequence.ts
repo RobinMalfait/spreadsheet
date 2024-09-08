@@ -1,4 +1,8 @@
-import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
+import {
+  type EvaluationResult,
+  EvaluationResultKind,
+  type EvaluationResultNumber,
+} from '~/domain/evaluation-result'
 import { expose } from '~/domain/function-utils'
 import { ensureMatrix } from '~/utils/matrix'
 
@@ -35,5 +39,26 @@ export const TRANSPOSE = expose(
   (...value: EvaluationResult | EvaluationResult[] | EvaluationResult[][]) => {
     let matrix = ensureMatrix<EvaluationResult>(value)
     return matrix?.[0]?.map((_, i) => matrix.map((row) => row[i])) ?? []
+  },
+)
+
+export const MATRIX = expose(
+  `
+    @description Create a matrix of size rows x cols. With an optional default value.
+    @param rows The number of rows in the matrix.
+    @param cols The number of columns in the matrix.
+    @param fill The default value for each cell in the matrix.
+    @example MATRIX(4, 5, 3)
+    MATRIX(rows: NUMBER, cols: NUMBER, fill: T)
+  `,
+  // @ts-expect-error we are not really setup to use matrices yet
+  (
+    rows: EvaluationResultNumber,
+    cols: EvaluationResultNumber,
+    value: EvaluationResult,
+  ) => {
+    return Array.from({ length: rows.value }).map(() =>
+      Array.from({ length: cols.value }).fill(value),
+    )
   },
 )
