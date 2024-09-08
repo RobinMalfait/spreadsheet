@@ -1,4 +1,5 @@
 import type { Location } from '~/domain/expression'
+import type { EvaluationResult } from './evaluation-result'
 
 export enum AstKind {
   CELL = 'CELL',
@@ -7,6 +8,7 @@ export enum AstKind {
   NUMBER_LITERAL = 'NUMBER_LITERAL',
   STRING_LITERAL = 'STRING_LITERAL',
   BINARY_EXPRESSION = 'BINARY_EXPRESSION',
+  EVALUATION_RESULT = 'EVALUATION_RESULT',
 }
 
 interface Span {
@@ -53,6 +55,11 @@ interface AstBinaryExpression extends Span {
   rhs: AST
 }
 
+export interface AstEvaluationResult extends Span {
+  kind: AstKind.EVALUATION_RESULT
+  value: EvaluationResult | EvaluationResult[] | EvaluationResult[][]
+}
+
 export type AST =
   | AstCell
   | AstCellRange
@@ -60,6 +67,7 @@ export type AST =
   | AstNumberLiteral
   | AstStringLiteral
   | AstBinaryExpression
+  | AstEvaluationResult
 
 export enum BinaryExpressionOperator {
   // Math operators

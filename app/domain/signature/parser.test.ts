@@ -9,6 +9,7 @@ it('should parse a simple signature expression', () => {
     {
       "args": [],
       "description": [Function],
+      "internal": false,
       "name": "FOO",
       "tags": [],
     }
@@ -29,6 +30,7 @@ it('should parse a function with a required argument', () => {
         },
       ],
       "description": [Function],
+      "internal": false,
       "name": "ABS",
       "tags": [],
     }
@@ -49,6 +51,7 @@ it('should parse a function with an optional argument', () => {
         },
       ],
       "description": [Function],
+      "internal": false,
       "name": "ABS",
       "tags": [],
     }
@@ -69,6 +72,7 @@ it('should parse a function with a variadic argument', () => {
         },
       ],
       "description": [Function],
+      "internal": false,
       "name": "SUM",
       "tags": [],
     }
@@ -89,6 +93,7 @@ it('should parse a function with an optional variadic argument', () => {
         },
       ],
       "description": [Function],
+      "internal": false,
       "name": "SUM",
       "tags": [],
     }
@@ -110,6 +115,7 @@ it('should parse a function that accepts multiple types', () => {
         },
       ],
       "description": [Function],
+      "internal": false,
       "name": "FOO",
       "tags": [],
     }
@@ -132,6 +138,7 @@ it('should parse a function that accepts multiple types (3)', () => {
         },
       ],
       "description": [Function],
+      "internal": false,
       "name": "FOO",
       "tags": [],
     }
@@ -173,6 +180,7 @@ it('should parse a function that accepts multiple arguments, with multiple types
         },
       ],
       "description": [Function],
+      "internal": false,
       "name": "FOO",
       "tags": [],
     }
@@ -205,6 +213,7 @@ describe('at-tags', () => {
           },
         ],
         "description": [Function],
+        "internal": false,
         "name": "ABS",
         "tags": [
           {

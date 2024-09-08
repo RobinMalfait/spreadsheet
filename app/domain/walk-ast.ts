@@ -32,6 +32,7 @@ export function walk(
       case AstKind.CELL:
       case AstKind.NUMBER_LITERAL:
       case AstKind.STRING_LITERAL:
+      case AstKind.EVALUATION_RESULT:
         break
 
       case AstKind.RANGE:

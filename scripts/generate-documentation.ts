@@ -32,6 +32,7 @@ const categories = [
   ['Type functions', typeFunctions],
   ['Privileged functions', privilegedFunctions],
 ] as const
+const ALL_FUNCTION_NAMES = new Map(categories.flatMap(([_, fns]) => Object.entries(fns)))
 
 const README = Bun.file('README.md')
 const contents = await README.text()
@@ -106,6 +107,14 @@ function generateDocs() {
           walk([ast], (node) => {
             if (node.kind !== AstKind.FUNCTION) return WalkAction.Continue
             if (ast === node) return WalkAction.Continue
+
+            // Skip unknown functions
+            if (!ALL_FUNCTION_NAMES.has(node.name)) return WalkAction.Continue
+
+            let signature = ALL_FUNCTION_NAMES.get(node.name)?.signature as Signature
+
+            // Skip internal functions
+            if (signature.internal) return WalkAction.Skip
 
             dependencies.add(printExpression(node))
             return WalkAction.Continue

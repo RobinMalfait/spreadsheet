@@ -194,9 +194,12 @@ export class Spreadsheet {
     return dependencies
   }
 
-  evaluate(cell: string): EvaluationResult {
+  evaluate(
+    cell: string,
+    returnFullValue = false,
+  ): EvaluationResult | EvaluationResult[] | EvaluationResult[][] {
     let cached = this.#evaluationCache.get(cell)
-    if (cached) return cached
+    if (cached && !returnFullValue) return cached
 
     let result = this.#cells.get(cell)
     if (!result) return { kind: EvaluationResultKind.EMPTY, value: '<empty>' }
@@ -289,7 +292,10 @@ export class Spreadsheet {
       }
 
       let mainCellValue = out[0]
-      if (mainCellValue) return mainCellValue
+      if (mainCellValue) {
+        if (returnFullValue) return out
+        return mainCellValue
+      }
 
       // This should never happen
       return { kind: EvaluationResultKind.ERROR, value: 'Expected a single result' }

@@ -10,6 +10,7 @@ interface Argument {
 
 export interface Signature {
   name: string
+  internal: boolean
   args: Argument[]
 
   tags: Tag[]
@@ -20,6 +21,7 @@ export interface Signature {
 export enum TagKind {
   DESCRIPTION = 'description',
   EXAMPLE = 'example',
+  INTERNAL = 'internal',
   PARAM = 'param',
 }
 
@@ -47,6 +49,10 @@ export function parse(tokens: Token[]): Signature {
   //  ^ TAG NAME  ^ VALUE
   let tags: Tag[] = []
 
+  // Bad name, but these functions can only be used in other functions but not
+  // on their own. E.g.: `VALUE()` can only be used inside of a `MAP()`
+  // function.
+  let internal = false
   let next = tokens.shift()
 
   // At-tags:
@@ -83,6 +89,11 @@ export function parse(tokens: Token[]): Signature {
       })
 
       next = tokens.shift()
+      continue
+    }
+
+    if (tag === 'internal') {
+      internal = true
       continue
     }
 
@@ -218,6 +229,7 @@ export function parse(tokens: Token[]): Signature {
 
   return {
     name: name.value,
+    internal,
     args,
     tags,
     description() {

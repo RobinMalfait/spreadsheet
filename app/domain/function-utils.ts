@@ -26,7 +26,7 @@ export function expose<
 
 export function withSignature<
   T extends EvaluationResult[],
-  R extends EvaluationResult | EvaluationResult[],
+  R extends EvaluationResult | EvaluationResult[] | EvaluationResult[][],
 >(signature: string, handle: (ctx: Context, ...args: T) => R) {
   let sig = parse(tokenize(signature))
 

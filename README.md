@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **87** built-in functions available.
+There are **91** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -141,7 +141,11 @@ There are **87** built-in functions available.
 - [Privileged functions](#privileged-functions)
    - [COL(cell?: CELL)](#col)
    - [INHERIT_FORMULA(cell: CELL)](#inherit_formula)
+   - [MAP(list: T, lambda: Expression)](#map)
+   - [OFFSET_COL()](#offset_col)
+   - [OFFSET_ROW()](#offset_row)
    - [ROW(cell?: CELL)](#row)
+   - [VALUE()](#value)
 
 ### Date functions
 
@@ -2017,9 +2021,6 @@ Returns the type of a value.
 ```
 
 ```ts
-// Dependencies:
-=UNKNOWN_FUNCTION() // ERROR: Unknown function `UNKNOWN_FUNCTION`
-
 =TYPE(UNKNOWN_FUNCTION())
 // "error"
 ```
@@ -2061,6 +2062,52 @@ Inherit a formula from another cell. References to other cells in the formula wi
 
 ---
 
+<a name="map"></a>
+#### MAP(list: T, lambda: Expression)
+
+[Back to top](#functions)
+
+Map a list of values using a lambda function.
+
+#### Example:
+
+```ts
+// Dependencies:
+=DIGITS()
+// ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐
+// │   │ A │ B │ C │ D │ E │ F │ G │ H │ I │ J │
+// ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤
+// │ 1 │ 0 │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │
+// └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘
+
+=MAP(DIGITS(), VALUE() * 2)
+// ┌───┬───┬───┬───┬───┬───┬────┬────┬────┬────┬────┐
+// │   │ A │ B │ C │ D │ E │ F  │ G  │ H  │ I  │ J  │
+// ├───┼───┼───┼───┼───┼───┼────┼────┼────┼────┼────┤
+// │ 1 │ 0 │ 2 │ 4 │ 6 │ 8 │ 10 │ 12 │ 14 │ 16 │ 18 │
+// └───┴───┴───┴───┴───┴───┴────┴────┴────┴────┴────┘
+```
+
+---
+
+<a name="offset_col"></a>
+#### OFFSET_COL()
+
+[Back to top](#functions)
+
+Get the current col number of the value in the matrix. Only works inside of a `MAP()`.
+
+---
+
+<a name="offset_row"></a>
+#### OFFSET_ROW()
+
+[Back to top](#functions)
+
+Get the current row number of the value in the matrix. Only works inside of a `MAP()`.
+
+---
+
 <a name="row"></a>
 #### ROW(cell?: CELL)
 
@@ -2079,6 +2126,15 @@ Get the row number of a cell. If no cell is provided, the current cell will be u
 =ROW(B3)
 // 3
 ```
+
+---
+
+<a name="value"></a>
+#### VALUE()
+
+[Back to top](#functions)
+
+Get the value of the current position in a matrix. Only works inside of a `MAP()`.
 
 <!-- end:functions -->
 

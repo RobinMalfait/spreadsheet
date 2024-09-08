@@ -21,8 +21,12 @@ export function evaluateExpression(
   ast: AST,
   spreadsheet: Spreadsheet,
   cell: string,
-): EvaluationResult | EvaluationResult[] {
+  returnFullValue = false,
+): EvaluationResult | EvaluationResult[] | EvaluationResult[][] {
   switch (ast.kind) {
+    case AstKind.EVALUATION_RESULT:
+      return ast.value
+
     case AstKind.NUMBER_LITERAL:
       return { kind: EvaluationResultKind.NUMBER, value: ast.value }
 
@@ -42,12 +46,12 @@ export function evaluateExpression(
     }
 
     case AstKind.CELL:
-      return spreadsheet.evaluate(ast.name)
+      return spreadsheet.evaluate(ast.name, returnFullValue)
 
     case AstKind.RANGE: {
       let out = []
       for (let cell of expandRange(ast)) {
-        let value = spreadsheet.evaluate(cell)
+        let value = spreadsheet.evaluate(cell, returnFullValue)
         if (Array.isArray(value)) {
           for (let child of value) {
             out.push(child)
@@ -60,7 +64,7 @@ export function evaluateExpression(
     }
 
     case AstKind.BINARY_EXPRESSION: {
-      let lhs = evaluateExpression(ast.lhs, spreadsheet, cell)
+      let lhs = evaluateExpression(ast.lhs, spreadsheet, cell, returnFullValue)
       if (Array.isArray(lhs)) {
         return {
           kind: EvaluationResultKind.ERROR,
@@ -69,7 +73,7 @@ export function evaluateExpression(
       }
       if (lhs.kind === EvaluationResultKind.ERROR) return lhs
 
-      let rhs = evaluateExpression(ast.rhs, spreadsheet, cell)
+      let rhs = evaluateExpression(ast.rhs, spreadsheet, cell, returnFullValue)
       if (Array.isArray(rhs)) {
         return {
           kind: EvaluationResultKind.ERROR,
@@ -139,7 +143,13 @@ export function evaluateExpression(
       }
 
       let fn = functions[ast.name as keyof typeof functions]
-      let args = ast.args.flatMap((arg) => evaluateExpression(arg, spreadsheet, cell))
+      let args = ast.args.flatMap((arg) => {
+        if (arg?.kind === AstKind.EVALUATION_RESULT) {
+          return arg.value
+        }
+
+        return evaluateExpression(arg, spreadsheet, cell, returnFullValue)
+      })
 
       return fn(...args)
     }

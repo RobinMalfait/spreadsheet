@@ -110,6 +110,18 @@ export function tokenize(input: string): Token[] {
         idx = identifier.span.end
       }
 
+      // No parameters
+      if (identifier.value === 'internal') {
+        // Read until the end of the line
+        while (
+          input.charCodeAt(idx) !== NEWLINE && //
+          input.charCodeAt(idx) !== LINE_FEED
+        ) {
+          idx++
+        }
+        continue
+      }
+
       // Skip whitespace
       char = input.charCodeAt(idx)
       while (char === SPACE || char === TAB || char === NEWLINE || char === LINE_FEED) {
@@ -128,7 +140,6 @@ export function tokenize(input: string): Token[] {
         raw: input.slice(start, idx),
         span: { start, end: idx },
       })
-
       continue
     }
 
