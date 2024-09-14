@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **93** built-in functions available.
+There are **94** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -135,6 +135,7 @@ There are **93** built-in functions available.
 - [Type functions](#type-functions)
    - [AS_BOOLEAN(value: T)](#as_boolean)
    - [AS_BOOLEANS(...values: T)](#as_booleans)
+   - [AS_CHAR(value: T)](#as_char)
    - [AS_NUMBER(value: T)](#as_number)
    - [AS_NUMBERS(...values: T)](#as_numbers)
    - [AS_STRING(value: T)](#as_string)
@@ -1874,6 +1875,29 @@ Tries to convert a list of values to booleans.
 // ├───┼───────┼──────┼──────┼───────┼──────┼───────┼──────┤
 // │ 1 │ FALSE │ TRUE │ TRUE │ FALSE │ TRUE │ FALSE │ TRUE │
 // └───┴───────┴──────┴──────┴───────┴──────┴───────┴──────┘
+```
+
+---
+
+<a name="as_char"></a>
+#### AS_CHAR(value: T)
+
+[Back to top](#functions)
+
+Tries to convert a numeric value to a character.
+
+- `value`: The number to convert.
+
+#### Examples:
+
+```ts
+=AS_CHAR(65)
+// "A"
+```
+
+```ts
+=AS_CHAR(97)
+// "a"
 ```
 
 ---

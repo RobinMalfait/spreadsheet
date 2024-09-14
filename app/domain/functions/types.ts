@@ -179,3 +179,43 @@ export const AS_BOOLEANS = expose(
     return values.map((value) => AS_BOOLEAN(value))
   },
 )
+
+export const AS_CHAR = expose(
+  `
+    @description Tries to convert a numeric value to a character.
+    @param value The number to convert.
+    @example AS_CHAR(65)
+    @example AS_CHAR(97)
+    AS_CHAR(value: T)
+  `,
+  (value) => {
+    switch (value.kind) {
+      // No need to convert an error to a number
+      case EvaluationResultKind.ERROR:
+      // We can't convert an empty value to a number. We could return 0, which
+      // helps in places like `SUM(…)`. But if you use `PRODUCT(…)`, we want 1
+      // instead. Not enough context to make a decision here.
+      case EvaluationResultKind.EMPTY:
+        return value
+
+      case EvaluationResultKind.NUMBER:
+        return {
+          kind: EvaluationResultKind.STRING,
+          value: String.fromCharCode(value.value),
+        }
+
+      case EvaluationResultKind.BOOLEAN:
+      case EvaluationResultKind.DATETIME:
+      case EvaluationResultKind.STRING: {
+        return {
+          kind: EvaluationResultKind.ERROR,
+          value: `AS_CHAR() expects a number, got ${value.value}`,
+        }
+      }
+
+      default:
+        value satisfies never
+        return value
+    }
+  },
+)
