@@ -109,13 +109,16 @@ export const AS_STRING = expose(
     AS_STRING(value: T)
   `,
   (value) => {
-    if (value.kind === EvaluationResultKind.STRING) {
-      return value
-    }
-
-    return {
-      kind: EvaluationResultKind.STRING,
-      value: printEvaluationResult(value),
+    switch (value.kind) {
+      case EvaluationResultKind.STRING:
+      case EvaluationResultKind.ERROR:
+      case EvaluationResultKind.EMPTY:
+        return value
+      default:
+        return {
+          kind: EvaluationResultKind.STRING,
+          value: printEvaluationResult(value),
+        }
     }
   },
 )
