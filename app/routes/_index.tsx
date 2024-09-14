@@ -167,7 +167,10 @@ export default function Index() {
     window.spreadsheet = spreadsheet
 
     // Demo modes
-    if (window.location.search === '?demo-lambda') {
+    if (window.location.search === '?demo-python-ctf') {
+      // See: https://x.com/chordbug/status/1834642829919781369
+      vcs.commit('A1', '=AS_CHAR(SUM(RANGE(CHAR_CODE_AT(AS_STRING(TRUE()), 0))))')
+    } else if (window.location.search === '?demo-lambda') {
       vcs.commit('A1', 'Digits:')
       vcs.commit('B1', '=DIGITS()')
       vcs.commit('A2', 'Copy:')
