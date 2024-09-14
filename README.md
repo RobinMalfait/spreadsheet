@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **92** built-in functions available.
+There are **93** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -109,6 +109,7 @@ There are **92** built-in functions available.
 - [Sequence functions](#sequence-functions)
    - [DIGITS()](#digits)
    - [MATRIX(rows: NUMBER, cols: NUMBER, fill: T)](#matrix)
+   - [RANGE(min: NUMBER, max?: NUMBER)](#range)
    - [TRANSPOSE(...value: T)](#transpose)
 - [Statistical functions](#statistical-functions)
    - [AVERAGE(...values: T)](#average)
@@ -1316,6 +1317,35 @@ Create a matrix of size rows x cols. With an optional default value.
 // ├───┼───┼───┼───┼───┼───┤
 // │ 4 │ 3 │ 3 │ 3 │ 3 │ 3 │
 // └───┴───┴───┴───┴───┴───┘
+```
+
+---
+
+<a name="range"></a>
+#### RANGE(min: NUMBER, max?: NUMBER)
+
+[Back to top](#functions)
+
+Generate a sequence of numbers from start to end.
+
+#### Examples:
+
+```ts
+=RANGE(3, 7)
+// ┌───┬───┬───┬───┬───┐
+// │   │ A │ B │ C │ D │
+// ├───┼───┼───┼───┼───┤
+// │ 1 │ 3 │ 4 │ 5 │ 6 │
+// └───┴───┴───┴───┴───┘
+```
+
+```ts
+=RANGE(10)
+// ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐
+// │   │ A │ B │ C │ D │ E │ F │ G │ H │ I │ J │
+// ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤
+// │ 1 │ 0 │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │
+// └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘
 ```
 
 ---

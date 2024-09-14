@@ -28,6 +28,26 @@ export const DIGITS = expose(
   },
 )
 
+export const RANGE = expose(
+  `
+    @description Generate a sequence of numbers from start to end.
+    @example RANGE(3, 7)
+    @example RANGE(10)
+    RANGE(min: NUMBER, max?: NUMBER)
+  `,
+  (min: EvaluationResultNumber, max?: EvaluationResultNumber) => {
+    if (!max) {
+      max = min
+      min = { kind: EvaluationResultKind.NUMBER, value: 0 }
+    }
+    let out: EvaluationResultNumber[] = []
+    for (let i = min.value; i < max.value; i++) {
+      out.push({ kind: EvaluationResultKind.NUMBER, value: i })
+    }
+    return out
+  },
+)
+
 export const TRANSPOSE = expose(
   `
     @description Transpose an array.
