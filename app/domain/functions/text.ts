@@ -329,3 +329,21 @@ export const TEXT_SLICE = expose(
     }
   },
 )
+
+export const CHAR_CODE_AT = expose(
+  `
+    @description Get the character code at a specific index in a string.
+    @param value The string to get the character code from.
+    @param index The index of the character to get the character code from.
+    @example CHAR_CODE_AT("ABC", 0)
+    @example CHAR_CODE_AT("ABC", 1)
+    @example CHAR_CODE_AT("ABC", 2)
+    CHAR_CODE_AT(value: STRING, index: NUMBER)
+  `,
+  (value: EvaluationResultString, index: EvaluationResultNumber) => {
+    return {
+      kind: EvaluationResultKind.NUMBER,
+      value: value.value.charCodeAt(index.value),
+    }
+  },
+)

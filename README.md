@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **94** built-in functions available.
+There are **95** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -119,6 +119,7 @@ There are **94** built-in functions available.
    - [MIN(...values: T)](#min)
    - [MODE(...values: T)](#mode)
 - [Text functions](#text-functions)
+   - [CHAR_CODE_AT(value: STRING, index: NUMBER)](#char_code_at)
    - [CONCAT(...values: T)](#concat)
    - [FIND_FIRST(haystack: STRING, ...needles: STRING)](#find_first)
    - [FIND_FIRST_INDEX(haystack: STRING, ...needles: STRING)](#find_first_index)
@@ -1509,6 +1510,35 @@ Returns the mode of NUMBER arguments.
 ```
 
 ### Text functions
+
+<a name="char_code_at"></a>
+#### CHAR_CODE_AT(value: STRING, index: NUMBER)
+
+[Back to top](#functions)
+
+Get the character code at a specific index in a string.
+
+- `value`: The string to get the character code from.
+- `index`: The index of the character to get the character code from.
+
+#### Examples:
+
+```ts
+=CHAR_CODE_AT("ABC", 0)
+// 65
+```
+
+```ts
+=CHAR_CODE_AT("ABC", 1)
+// 66
+```
+
+```ts
+=CHAR_CODE_AT("ABC", 2)
+// 67
+```
+
+---
 
 <a name="concat"></a>
 #### CONCAT(...values: T)
