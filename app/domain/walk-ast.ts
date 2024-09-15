@@ -1,5 +1,5 @@
 import { type AST, type AstCell, type AstCellRange, AstKind } from '~/domain/ast'
-import { parseLocation } from '~/domain/expression'
+import { parseLocation, printLocation } from '~/domain/expression'
 
 export enum WalkAction {
   /** Continue walking, which is the default */
@@ -36,7 +36,10 @@ export function walk(
         break
 
       case AstKind.RANGE:
-        for (let cell of expandRange(node)) {
+        for (let { col, row } of expandRange(node)) {
+          let loc = { row, col, lock: 0 }
+          let cell = printLocation(loc)
+
           let cellNode: AstCell = {
             kind: AstKind.CELL,
             name: cell,
@@ -75,7 +78,7 @@ export function walk(
 export function* expandRange(range: AstCellRange) {
   for (let col = range.start.loc.col; col <= range.end.loc.col; col++) {
     for (let row = range.start.loc.row; row <= range.end.loc.row; row++) {
-      yield `${String.fromCharCode(col + 65 - 1)}${row}`
+      yield { row, col }
     }
   }
 }

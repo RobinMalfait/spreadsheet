@@ -2503,7 +2503,7 @@ describe('DIVIDE()', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', '=12')
     spreadsheet.set('B1', '=2')
-    spreadsheet.set('A2', '=DIVIDE(A1:B1)')
+    spreadsheet.set('A2', '=DIVIDE(A1, B1)')
 
     expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
       "

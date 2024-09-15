@@ -4,6 +4,7 @@ import {
   type EvaluationResultNumber,
 } from '~/domain/evaluation-result'
 import { expose } from '~/domain/function-utils'
+import { flatten } from '~/utils/flatten'
 
 export const PI = expose(
   `
@@ -102,7 +103,7 @@ export const SUM = expose(
   (...values: EvaluationResult[]) => {
     let out = 0
 
-    for (let arg of values) {
+    for (let arg of flatten(values)) {
       switch (arg.kind) {
         case EvaluationResultKind.ERROR:
           return arg
@@ -174,7 +175,7 @@ export const PRODUCT = expose(
     let hasArgument = false
     let out = 1
 
-    for (let arg of values) {
+    for (let arg of flatten(values)) {
       switch (arg.kind) {
         case EvaluationResultKind.ERROR:
           return arg

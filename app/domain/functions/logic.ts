@@ -1,5 +1,6 @@
 import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
 import { expose } from '~/domain/function-utils'
+import { flatten } from '~/utils/flatten'
 
 export const TRUE = expose(
   `
@@ -109,7 +110,12 @@ export const AND = expose(
     AND(...expressions: T)
   `,
   (...args) => {
-    return args.every((arg) => arg.value) ? TRUE() : FALSE()
+    for (let arg of flatten(args)) {
+      if (!arg.value) {
+        return FALSE()
+      }
+    }
+    return TRUE()
   },
 )
 
@@ -122,7 +128,12 @@ export const OR = expose(
     OR(...expressions: T)
   `,
   (...args) => {
-    return args.some((arg) => arg.value) ? TRUE() : FALSE()
+    for (let arg of flatten(args)) {
+      if (arg.value) {
+        return TRUE()
+      }
+    }
+    return FALSE()
   },
 )
 

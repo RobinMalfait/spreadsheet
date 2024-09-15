@@ -6,10 +6,10 @@ import {
   BinaryExpressionOperator,
 } from '~/domain/ast'
 import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
+import { printLocation } from '~/domain/expression'
 import * as functions from '~/domain/functions'
 import * as privilegedFunctions from '~/domain/functions/privileged'
 import type { Spreadsheet } from '~/domain/spreadsheet'
-import { expandRange } from '~/domain/walk-ast'
 
 export interface Context {
   ast: AstFunction
@@ -45,22 +45,37 @@ export function evaluateExpression(
       return { kind: EvaluationResultKind.STRING, value: ast.value }
     }
 
-    case AstKind.CELL:
-      return spreadsheet.evaluate(ast.name, returnFullValue)
+    case AstKind.CELL: {
+      let out = spreadsheet.evaluate(ast.name, returnFullValue)
+      return out
+    }
 
     case AstKind.RANGE: {
-      let out = []
-      for (let cell of expandRange(ast)) {
-        let value = spreadsheet.evaluate(cell, returnFullValue)
-        if (Array.isArray(value)) {
-          for (let child of value) {
-            out.push(child)
+      let matrix: EvaluationResult[][] = []
+
+      let offsetCol = ast.start.loc.col
+      let offsetRow = ast.start.loc.row
+
+      for (let col = ast.start.loc.col; col <= ast.end.loc.col; col++) {
+        for (let row = ast.start.loc.row; row <= ast.end.loc.row; row++) {
+          let cell = printLocation({ col, row, lock: 0 })
+
+          let result = spreadsheet.evaluate(cell, false)
+          if (Array.isArray(result)) {
+            return {
+              kind: EvaluationResultKind.ERROR,
+              value: 'Cannot evaluate a range with multiple results',
+            }
           }
-        } else {
-          out.push(value)
+
+          matrix[row - offsetRow] ??= []
+          // @ts-expect-error We just defaulted to an array above, so we know
+          // it's defined.
+          matrix[row - offsetRow][col - offsetCol] = result
         }
       }
-      return out
+
+      return matrix
     }
 
     case AstKind.BINARY_EXPRESSION: {
@@ -143,7 +158,7 @@ export function evaluateExpression(
       }
 
       let fn = functions[ast.name as keyof typeof functions]
-      let args = ast.args.flatMap((arg) => {
+      let args = ast.args.map((arg) => {
         if (arg?.kind === AstKind.EVALUATION_RESULT) {
           return arg.value
         }
@@ -151,6 +166,8 @@ export function evaluateExpression(
         return evaluateExpression(arg, spreadsheet, cell, returnFullValue)
       })
 
+      // @ts-expect-error Each function has a different number of arguments, but
+      // everything is typed and will be checked at runtime.
       return fn(...args)
     }
   }

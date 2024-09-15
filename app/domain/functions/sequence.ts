@@ -35,7 +35,7 @@ export const RANGE = expose(
     @example RANGE(10)
     RANGE(min: NUMBER, max?: NUMBER)
   `,
-  (min: EvaluationResultNumber, max?: EvaluationResultNumber) => {
+  (min: EvaluationResultNumber, max: EvaluationResultNumber) => {
     if (!max) {
       max = min
       min = { kind: EvaluationResultKind.NUMBER, value: 0 }
@@ -56,7 +56,7 @@ export const TRANSPOSE = expose(
     TRANSPOSE(...value: T)
   `,
   // @ts-expect-error we are not really setup to use matrices yet
-  (...value: EvaluationResult | EvaluationResult[] | EvaluationResult[][]) => {
+  (value: EvaluationResult | EvaluationResult[] | EvaluationResult[][]) => {
     let matrix = ensureMatrix<EvaluationResult>(value)
     return matrix?.[0]?.map((_, i) => matrix.map((row) => row[i])) ?? []
   },

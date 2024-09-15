@@ -5,6 +5,7 @@ import {
   type EvaluationResultString,
 } from '~/domain/evaluation-result'
 import { expose } from '~/domain/function-utils'
+import { flatten } from '~/utils/flatten'
 
 export const CONCAT = expose(
   `
@@ -16,7 +17,7 @@ export const CONCAT = expose(
   (...values) => {
     let out = ''
 
-    for (let value of values) {
+    for (let value of flatten(values)) {
       out += printEvaluationResult(value)
     }
 
@@ -35,7 +36,7 @@ export const JOIN = expose(
   (delimiter: EvaluationResultString, ...values) => {
     let out: string[] = []
 
-    for (let value of values) {
+    for (let value of flatten(values)) {
       out.push(printEvaluationResult(value))
     }
 
@@ -128,7 +129,7 @@ export const FIND_FIRST = expose(
     let index = -1
     let value = ''
 
-    for (let needle of needles) {
+    for (let needle of flatten(needles)) {
       let idx = haystack.value.indexOf(needle.value)
 
       if (idx !== -1 && (index === -1 || idx < index)) {
@@ -160,7 +161,7 @@ export const FIND_FIRST_INDEX = expose(
   (haystack: EvaluationResultString, ...needles: EvaluationResultString[]) => {
     let index = -1
 
-    for (let needle of needles) {
+    for (let needle of flatten(needles)) {
       let idx = haystack.value.indexOf(needle.value)
 
       if (idx !== -1 && (index === -1 || idx < index)) {
@@ -192,7 +193,7 @@ export const FIND_LAST = expose(
     let index = -1
     let value = ''
 
-    for (let needle of needles) {
+    for (let needle of flatten(needles)) {
       let idx = haystack.value.lastIndexOf(needle.value)
 
       if (idx !== -1 && (index === -1 || idx > index)) {
@@ -224,7 +225,7 @@ export const FIND_LAST_INDEX = expose(
   (haystack: EvaluationResultString, ...needles: EvaluationResultString[]) => {
     let index = -1
 
-    for (let needle of needles) {
+    for (let needle of flatten(needles)) {
       let idx = haystack.value.lastIndexOf(needle.value)
 
       if (idx !== -1 && (index === -1 || idx > index)) {

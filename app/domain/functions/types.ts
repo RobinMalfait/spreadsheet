@@ -92,7 +92,12 @@ export const AS_NUMBERS = expose(
     AS_NUMBERS(...values: T)
   `,
   (...values) => {
-    return values.map((value) => AS_NUMBER(value))
+    return values.map((value) => {
+      if (Array.isArray(value)) {
+        return AS_NUMBERS(...value)
+      }
+      return AS_NUMBER(value)
+    })
   },
 )
 
@@ -131,7 +136,12 @@ export const AS_STRINGS = expose(
     AS_STRINGS(...values: T)
   `,
   (...values) => {
-    return values.map((value) => AS_STRING(value))
+    return values.map((value) => {
+      if (Array.isArray(value)) {
+        return AS_STRINGS(...value)
+      }
+      return AS_STRING(value)
+    })
   },
 )
 
@@ -179,7 +189,12 @@ export const AS_BOOLEANS = expose(
     AS_BOOLEANS(...values: T)
   `,
   (...values) => {
-    return values.map((value) => AS_BOOLEAN(value))
+    return values.map((value) => {
+      if (Array.isArray(value)) {
+        return AS_BOOLEANS(...value)
+      }
+      return AS_BOOLEAN(value)
+    })
   },
 )
 

@@ -94,6 +94,32 @@ describe('TRANSPOSE()', () => {
       "
     `)
   })
+
+  it('should transpose values from a range', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '1')
+    spreadsheet.set('B1', '2')
+    spreadsheet.set('A2', '3')
+    spreadsheet.set('B2', '4')
+
+    spreadsheet.set('C3', '=TRANSPOSE(A1:B2)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───┬───┬───┬───┐
+      │   │ A │ B │ C │ D │
+      ├───┼───┼───┼───┼───┤
+      │ 1 │ 1 │ 2 │   │   │
+      ├───┼───┼───┼───┼───┤
+      │ 2 │ 3 │ 4 │   │   │
+      ├───┼───┼───┼───┼───┤
+      │ 3 │   │   │ 1 │ 3 │
+      ├───┼───┼───┼───┼───┤
+      │ 4 │   │   │ 2 │ 4 │
+      └───┴───┴───┴───┴───┘
+      "
+    `)
+  })
 })
 
 describe('MATRIX()', () => {

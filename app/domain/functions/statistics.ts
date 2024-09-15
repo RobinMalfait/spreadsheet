@@ -1,5 +1,6 @@
 import { EvaluationResultKind } from '~/domain/evaluation-result'
 import { expose } from '~/domain/function-utils'
+import { flatten } from '~/utils/flatten'
 
 export const COUNT = expose(
   `
@@ -11,7 +12,7 @@ export const COUNT = expose(
   (...args) => {
     let count = 0
 
-    for (let arg of args) {
+    for (let arg of flatten(args)) {
       switch (arg.kind) {
         case EvaluationResultKind.NUMBER:
           count += 1
@@ -42,7 +43,7 @@ export const MIN = expose(
   (...args) => {
     let min = Number.POSITIVE_INFINITY
 
-    for (let arg of args) {
+    for (let arg of flatten(args)) {
       switch (arg.kind) {
         case EvaluationResultKind.ERROR:
           return arg
@@ -74,7 +75,7 @@ export const MAX = expose(
   (...args) => {
     let max = Number.NEGATIVE_INFINITY
 
-    for (let arg of args) {
+    for (let arg of flatten(args)) {
       switch (arg.kind) {
         case EvaluationResultKind.ERROR:
           return arg
@@ -107,7 +108,7 @@ export const AVERAGE = expose(
     let sum = 0
     let count = 0
 
-    for (let arg of args) {
+    for (let arg of flatten(args)) {
       switch (arg.kind) {
         case EvaluationResultKind.ERROR:
           return arg
@@ -140,7 +141,7 @@ export const MEDIAN = expose(
     MEDIAN(...values: T)
   `,
   (...args) => {
-    let values = args
+    let values = Array.from(flatten(args))
       .filter((arg) => arg.kind === EvaluationResultKind.NUMBER)
       .map((arg) => arg.value)
       .sort((a, z) => a - z)
@@ -171,7 +172,7 @@ export const MODE = expose(
     let mode = Number.NaN
     let counts = new Map<number, number>()
 
-    for (let arg of args) {
+    for (let arg of flatten(args)) {
       if (arg.kind === EvaluationResultKind.ERROR) {
         return arg
       }

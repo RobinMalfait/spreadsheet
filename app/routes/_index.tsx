@@ -18,6 +18,7 @@ import { format } from 'date-fns'
 import {
   type CSSProperties,
   type MutableRefObject,
+  startTransition,
   useCallback,
   useEffect,
   useMemo,
@@ -253,23 +254,13 @@ export default function Index() {
         'D9',
         '=REPLACE_ALL(C9, "one", 1, "two", 2, "three", 3, "four", 4, "five", 5, "six", 6, "seven", 7, "eight", 8, "nine", 9)',
       )
-      vcs.commit('D10', '=INHERIT_FORMULA(D9)')
-      vcs.commit('D11', '=INHERIT_FORMULA(D9)')
-      vcs.commit('D12', '=INHERIT_FORMULA(D9)')
-      vcs.commit('D13', '=INHERIT_FORMULA(D9)')
-      vcs.commit('D14', '=INHERIT_FORMULA(D9)')
-      vcs.commit('D15', '=INHERIT_FORMULA(D9)')
+      vcs.commit('D10:D15', '=INHERIT_FORMULA(D9)')
 
       vcs.commit(
         'E9',
         '=AS_NUMBER(FIND_FIRST(D9, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(D9, AS_STRINGS(DIGITS())))',
       )
-      vcs.commit('E10', '=INHERIT_FORMULA(E9)')
-      vcs.commit('E11', '=INHERIT_FORMULA(E9)')
-      vcs.commit('E12', '=INHERIT_FORMULA(E9)')
-      vcs.commit('E13', '=INHERIT_FORMULA(E9)')
-      vcs.commit('E14', '=INHERIT_FORMULA(E9)')
-      vcs.commit('E15', '=INHERIT_FORMULA(E9)')
+      vcs.commit('E10:E15', '=INHERIT_FORMULA(E9)')
 
       vcs.commit('B5', '=SUM(E9:E15)')
     } else if (window.location.search === '?demo-payroll') {
@@ -469,7 +460,13 @@ export default function Index() {
   let location = useMemo(() => parseLocation(cell), [cell])
 
   // Evaluation of the current cell
-  let out = error.get(cell) ?? spreadsheet.evaluate(cell)
+  let out = error.get(cell) ?? spreadsheet.evaluate(cell, false)
+  if (Array.isArray(out)) {
+    out = {
+      kind: EvaluationResultKind.ERROR,
+      value: 'Current value did not result in a value',
+    }
+  }
   let tokens: Token[] = useMemo(() => {
     return value.length > 0
       ? tokenize(value[0] === '=' ? value.slice(1) : `"${value}"`)
@@ -876,6 +873,12 @@ export default function Index() {
 
               // Cell
               let out = error.get(id) ?? spreadsheet.evaluate(id)
+              if (Array.isArray(out)) {
+                out = {
+                  kind: EvaluationResultKind.ERROR,
+                  value: 'Current value did not result in a value',
+                }
+              }
 
               if (out.kind === EvaluationResultKind.ERROR) {
                 return [
@@ -1237,6 +1240,12 @@ export default function Index() {
               let stringifiedAST = `=${printExpression(ast)}`
               let evaluation = spreadsheet.evaluate(cell)
               let result = error.get(cell) ?? evaluation
+              if (Array.isArray(result)) {
+                result = {
+                  kind: EvaluationResultKind.ERROR,
+                  value: 'Current value did not result in a value',
+                }
+              }
 
               return (
                 <>
@@ -1321,7 +1330,9 @@ function useCursorPosition(input: MutableRefObject<HTMLInputElement | null>) {
 
     function handle() {
       if (!el) return
-      setCursor(el.selectionStart ?? 0)
+      startTransition(() => {
+        setCursor(el.selectionStart ?? 0)
+      })
     }
 
     el.addEventListener('keydown', handle, { signal: ac.signal, passive: true })

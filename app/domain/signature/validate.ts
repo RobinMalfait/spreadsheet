@@ -1,5 +1,6 @@
 import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
 import { type Signature, printSignature } from '~/domain/signature/parser'
+import { flatten } from '~/utils/flatten'
 
 export function validate(
   signature: Signature,
@@ -41,8 +42,23 @@ export function validate(
         }
       }
 
+      // Validate items in the array
+      if (Array.isArray(incomingArg)) {
+        for (let _incomingArg of flatten(incomingArg)) {
+          // Validate the type of the argument
+          if (!arg.types.includes(_incomingArg.kind) && !arg.types.includes('T')) {
+            return {
+              kind: EvaluationResultKind.ERROR,
+              value: arg.variadic
+                ? `${printSignature(signature)} Argument \`${arg.name}[]\` received a \`${_incomingArg.kind}\` as the ${formatOrdinals(offset + 1)} argument`
+                : `${printSignature(signature)} Argument \`${arg.name}[]\` received a \`${_incomingArg.kind}\``,
+            }
+          }
+        }
+      }
+
       // Validate the type of the argument
-      if (!arg.types.includes(incomingArg.kind) && !arg.types.includes('T')) {
+      else if (!arg.types.includes(incomingArg.kind) && !arg.types.includes('T')) {
         return {
           kind: EvaluationResultKind.ERROR,
           value: arg.variadic
