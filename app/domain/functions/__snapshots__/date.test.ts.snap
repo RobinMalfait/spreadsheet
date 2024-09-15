@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Example tests > ADD_DAYS(TODAY(), 7) 1`] = `
+exports[`\`@example\` tests > ADD_DAYS(TODAY(), 7) 1`] = `
 "
 ┌───┬────────────┐
 │   │ A          │
@@ -10,7 +10,7 @@ exports[`Example tests > ADD_DAYS(TODAY(), 7) 1`] = `
 "
 `;
 
-exports[`Example tests > ADD_HOURS(NOW(), 8) 1`] = `
+exports[`\`@example\` tests > ADD_HOURS(NOW(), 8) 1`] = `
 "
 ┌───┬─────────────────────┐
 │   │ A                   │
@@ -20,7 +20,7 @@ exports[`Example tests > ADD_HOURS(NOW(), 8) 1`] = `
 "
 `;
 
-exports[`Example tests > DAY(TODAY()) 1`] = `
+exports[`\`@example\` tests > DAY(TODAY()) 1`] = `
 "
 ┌───┬────┐
 │   │ A  │
@@ -30,7 +30,7 @@ exports[`Example tests > DAY(TODAY()) 1`] = `
 "
 `;
 
-exports[`Example tests > HOUR(NOW()) 1`] = `
+exports[`\`@example\` tests > HOUR(NOW()) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -40,7 +40,7 @@ exports[`Example tests > HOUR(NOW()) 1`] = `
 "
 `;
 
-exports[`Example tests > MINUTE(NOW()) 1`] = `
+exports[`\`@example\` tests > MINUTE(NOW()) 1`] = `
 "
 ┌───┬────┐
 │   │ A  │
@@ -50,7 +50,7 @@ exports[`Example tests > MINUTE(NOW()) 1`] = `
 "
 `;
 
-exports[`Example tests > MONTH(TODAY()) 1`] = `
+exports[`\`@example\` tests > MONTH(TODAY()) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -60,7 +60,7 @@ exports[`Example tests > MONTH(TODAY()) 1`] = `
 "
 `;
 
-exports[`Example tests > NOW() 1`] = `
+exports[`\`@example\` tests > NOW() 1`] = `
 "
 ┌───┬─────────────────────┐
 │   │ A                   │
@@ -70,7 +70,7 @@ exports[`Example tests > NOW() 1`] = `
 "
 `;
 
-exports[`Example tests > SECOND(NOW()) 1`] = `
+exports[`\`@example\` tests > SECOND(NOW()) 1`] = `
 "
 ┌───┬────┐
 │   │ A  │
@@ -80,7 +80,7 @@ exports[`Example tests > SECOND(NOW()) 1`] = `
 "
 `;
 
-exports[`Example tests > SUB_DAYS(TODAY(), 7) 1`] = `
+exports[`\`@example\` tests > SUB_DAYS(TODAY(), 7) 1`] = `
 "
 ┌───┬────────────┐
 │   │ A          │
@@ -90,7 +90,7 @@ exports[`Example tests > SUB_DAYS(TODAY(), 7) 1`] = `
 "
 `;
 
-exports[`Example tests > SUB_HOURS(NOW(), 8) 1`] = `
+exports[`\`@example\` tests > SUB_HOURS(NOW(), 8) 1`] = `
 "
 ┌───┬─────────────────────┐
 │   │ A                   │
@@ -100,7 +100,7 @@ exports[`Example tests > SUB_HOURS(NOW(), 8) 1`] = `
 "
 `;
 
-exports[`Example tests > TIME() 1`] = `
+exports[`\`@example\` tests > TIME() 1`] = `
 "
 ┌───┬──────────┐
 │   │ A        │
@@ -110,7 +110,7 @@ exports[`Example tests > TIME() 1`] = `
 "
 `;
 
-exports[`Example tests > TODAY() 1`] = `
+exports[`\`@example\` tests > TODAY() 1`] = `
 "
 ┌───┬────────────┐
 │   │ A          │
@@ -120,7 +120,7 @@ exports[`Example tests > TODAY() 1`] = `
 "
 `;
 
-exports[`Example tests > YEAR(TODAY()) 1`] = `
+exports[`\`@example\` tests > YEAR(TODAY()) 1`] = `
 "
 ┌───┬──────┐
 │   │ A    │

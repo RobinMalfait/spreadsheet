@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Example tests > DIGITS() 1`] = `
+exports[`\`@example\` tests > DIGITS() 1`] = `
 "
 ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐
 │   │ A │ B │ C │ D │ E │ F │ G │ H │ I │ J │
@@ -10,7 +10,7 @@ exports[`Example tests > DIGITS() 1`] = `
 "
 `;
 
-exports[`Example tests > MATRIX(4, 5, 3) 1`] = `
+exports[`\`@example\` tests > MATRIX(4, 5, 3) 1`] = `
 "
 ┌───┬───┬───┬───┬───┬───┐
 │   │ A │ B │ C │ D │ E │
@@ -26,7 +26,7 @@ exports[`Example tests > MATRIX(4, 5, 3) 1`] = `
 "
 `;
 
-exports[`Example tests > RANGE(3, 7) 1`] = `
+exports[`\`@example\` tests > RANGE > RANGE(3, 7) 1`] = `
 "
 ┌───┬───┬───┬───┬───┐
 │   │ A │ B │ C │ D │
@@ -36,7 +36,7 @@ exports[`Example tests > RANGE(3, 7) 1`] = `
 "
 `;
 
-exports[`Example tests > RANGE(10) 1`] = `
+exports[`\`@example\` tests > RANGE > RANGE(10) 1`] = `
 "
 ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐
 │   │ A │ B │ C │ D │ E │ F │ G │ H │ I │ J │
@@ -46,7 +46,7 @@ exports[`Example tests > RANGE(10) 1`] = `
 "
 `;
 
-exports[`Example tests > TRANSPOSE(DIGITS()) 1`] = `
+exports[`\`@example\` tests > TRANSPOSE(DIGITS()) 1`] = `
 "
 ┌────┬───┐
 │    │ A │

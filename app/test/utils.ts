@@ -9,16 +9,28 @@ import { Spreadsheet } from '~/domain/spreadsheet'
 export async function exampleTests(functions: Record<string, { signature: Signature }>) {
   let { describe, expect, it } = await import('vitest')
 
-  describe.each(Object.entries(functions))('Example tests', (_, fn) => {
-    let examples = fn.signature.tags
-      .filter((x) => x.kind === 'example')
-      .map((x) => x.value)
+  describe('`@example` tests', () => {
+    for (let [name, { signature }] of Object.entries(functions)) {
+      let examples = signature.tags
+        .filter((x) => x.kind === 'example')
+        .map((x) => x.value)
 
-    it.each(examples)('%s', (example) => {
-      let spreadsheet = new Spreadsheet()
-      spreadsheet.set('A1', `=${example}`)
-      expect(visualizeSpreadsheet(spreadsheet)).toMatchSnapshot()
-    })
+      if (examples.length > 1) {
+        describe(name, () => {
+          it.each(examples)('%s', (example) => {
+            let spreadsheet = new Spreadsheet()
+            spreadsheet.set('A1', `=${example}`)
+            expect(visualizeSpreadsheet(spreadsheet)).toMatchSnapshot()
+          })
+        })
+      } else {
+        it.each(examples)('%s', (example) => {
+          let spreadsheet = new Spreadsheet()
+          spreadsheet.set('A1', `=${example}`)
+          expect(visualizeSpreadsheet(spreadsheet)).toMatchSnapshot()
+        })
+      }
+    }
   })
 }
 
