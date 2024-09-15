@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { Spreadsheet } from '~/domain/spreadsheet'
 import { visualizeSpreadsheet } from '~/test/utils'
+import { exampleTests } from '~/test/utils'
+import * as functions from './logic'
+await exampleTests(functions)
 
 describe('TRUE()', () => {
   it('should error when providing an argument', () => {

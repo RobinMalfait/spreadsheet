@@ -3,7 +3,24 @@ import Table from 'cli-table'
 import { printEvaluationResult } from '~/domain/evaluation'
 import { EvaluationResultKind } from '~/domain/evaluation-result'
 import { type Location, parseLocation, printLocation } from '~/domain/expression'
-import type { Spreadsheet } from '~/domain/spreadsheet'
+import type { Signature } from '~/domain/signature/parser'
+import { Spreadsheet } from '~/domain/spreadsheet'
+
+export async function exampleTests(functions: Record<string, { signature: Signature }>) {
+  let { describe, expect, it } = await import('vitest')
+
+  describe.each(Object.entries(functions))('Example tests', (_, fn) => {
+    let examples = fn.signature.tags
+      .filter((x) => x.kind === 'example')
+      .map((x) => x.value)
+
+    it.each(examples)('%s', (example) => {
+      let spreadsheet = new Spreadsheet()
+      spreadsheet.set('A1', `=${example}`)
+      expect(visualizeSpreadsheet(spreadsheet)).toMatchSnapshot()
+    })
+  })
+}
 
 export function visualizeSpreadsheet(spreadsheet: Spreadsheet) {
   // Evaluate known cells (not spilled). This will ensure that not-yet evaluated

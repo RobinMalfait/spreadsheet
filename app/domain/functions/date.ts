@@ -16,7 +16,7 @@ import {
   EvaluationResultKind,
   type EvaluationResultNumber,
 } from '~/domain/evaluation-result'
-import { expose } from '../function-utils'
+import { expose } from '~/domain/function-utils'
 
 export const NOW = expose(
   `

@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { Spreadsheet } from '~/domain/spreadsheet'
-import { visualizeSpreadsheet } from '~/test/utils'
+import { exampleTests, visualizeSpreadsheet } from '~/test/utils'
+import * as functions from './sequence'
+await exampleTests(functions)
 
 // Sequences produce a list of values, which means that we can't use them in a
 // cell directly. Instead, we need to use them in a function that can handle a

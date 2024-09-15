@@ -1,0 +1,231 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Example tests > CHAR_CODE_AT("ABC", 0) 1`] = `
+"
+┌───┬────┐
+│   │ A  │
+├───┼────┤
+│ 1 │ 65 │
+└───┴────┘
+"
+`;
+
+exports[`Example tests > CHAR_CODE_AT("ABC", 1) 1`] = `
+"
+┌───┬────┐
+│   │ A  │
+├───┼────┤
+│ 1 │ 66 │
+└───┴────┘
+"
+`;
+
+exports[`Example tests > CHAR_CODE_AT("ABC", 2) 1`] = `
+"
+┌───┬────┐
+│   │ A  │
+├───┼────┤
+│ 1 │ 67 │
+└───┴────┘
+"
+`;
+
+exports[`Example tests > CONCAT("hello", " ", "world") 1`] = `
+"
+┌───┬───────────────┐
+│   │ A             │
+├───┼───────────────┤
+│ 1 │ "hello world" │
+└───┴───────────────┘
+"
+`;
+
+exports[`Example tests > FIND_FIRST("The quick brown fox jumps over the lazy dog", "dog", "fox") 1`] = `
+"
+┌───┬───────┐
+│   │ A     │
+├───┼───────┤
+│ 1 │ "fox" │
+└───┴───────┘
+"
+`;
+
+exports[`Example tests > FIND_FIRST("The quick brown fox jumps over the lazy dog", "fox", "dog") 1`] = `
+"
+┌───┬───────┐
+│   │ A     │
+├───┼───────┤
+│ 1 │ "fox" │
+└───┴───────┘
+"
+`;
+
+exports[`Example tests > FIND_FIRST_INDEX("The quick brown fox jumps over the lazy dog", "dog", "fox") 1`] = `
+"
+┌───┬────┐
+│   │ A  │
+├───┼────┤
+│ 1 │ 16 │
+└───┴────┘
+"
+`;
+
+exports[`Example tests > FIND_FIRST_INDEX("The quick brown fox jumps over the lazy dog", "fox", "dog") 1`] = `
+"
+┌───┬────┐
+│   │ A  │
+├───┼────┤
+│ 1 │ 16 │
+└───┴────┘
+"
+`;
+
+exports[`Example tests > FIND_LAST("The quick brown fox jumps over the lazy dog", "dog", "fox") 1`] = `
+"
+┌───┬───────┐
+│   │ A     │
+├───┼───────┤
+│ 1 │ "dog" │
+└───┴───────┘
+"
+`;
+
+exports[`Example tests > FIND_LAST("The quick brown fox jumps over the lazy dog", "fox", "dog") 1`] = `
+"
+┌───┬───────┐
+│   │ A     │
+├───┼───────┤
+│ 1 │ "dog" │
+└───┴───────┘
+"
+`;
+
+exports[`Example tests > FIND_LAST_INDEX("The quick brown fox jumps over the lazy dog", "dog", "fox") 1`] = `
+"
+┌───┬────┐
+│   │ A  │
+├───┼────┤
+│ 1 │ 40 │
+└───┴────┘
+"
+`;
+
+exports[`Example tests > FIND_LAST_INDEX("The quick brown fox jumps over the lazy dog", "fox", "dog") 1`] = `
+"
+┌───┬────┐
+│   │ A  │
+├───┼────┤
+│ 1 │ 40 │
+└───┴────┘
+"
+`;
+
+exports[`Example tests > JOIN("-", 1, 2, "hello", "world", TRUE()) 1`] = `
+"
+┌───┬────────────────────────┐
+│   │ A                      │
+├───┼────────────────────────┤
+│ 1 │ "1-2-hello-world-TRUE" │
+└───┴────────────────────────┘
+"
+`;
+
+exports[`Example tests > LEN("Hello, World!") 1`] = `
+"
+┌───┬────┐
+│   │ A  │
+├───┼────┤
+│ 1 │ 13 │
+└───┴────┘
+"
+`;
+
+exports[`Example tests > LOWER("Hello, World!") 1`] = `
+"
+┌───┬─────────────────┐
+│   │ A               │
+├───┼─────────────────┤
+│ 1 │ "hello, world!" │
+└───┴─────────────────┘
+"
+`;
+
+exports[`Example tests > REPLACE_ALL("The quick brown fox jumps over the lazy dog", "fox", "cat", "dog", "wolf") 1`] = `
+"
+┌───┬────────────────────────────────────────────────┐
+│   │ A                                              │
+├───┼────────────────────────────────────────────────┤
+│ 1 │ "The quick brown cat jumps over the lazy wolf" │
+└───┴────────────────────────────────────────────────┘
+"
+`;
+
+exports[`Example tests > SPLIT("Hello World", " ") 1`] = `
+"
+┌───┬─────────┬─────────┐
+│   │ A       │ B       │
+├───┼─────────┼─────────┤
+│ 1 │ "Hello" │ "World" │
+└───┴─────────┴─────────┘
+"
+`;
+
+exports[`Example tests > TEXT_SLICE("The quick brown fox jumps over the lazy dog", -3) 1`] = `
+"
+┌───┬───────┐
+│   │ A     │
+├───┼───────┤
+│ 1 │ "dog" │
+└───┴───────┘
+"
+`;
+
+exports[`Example tests > TEXT_SLICE("The quick brown fox jumps over the lazy dog", 0, 19) 1`] = `
+"
+┌───┬───────────────────────┐
+│   │ A                     │
+├───┼───────────────────────┤
+│ 1 │ "The quick brown fox" │
+└───┴───────────────────────┘
+"
+`;
+
+exports[`Example tests > TEXT_SLICE("The quick brown fox jumps over the lazy dog", 10, 19) 1`] = `
+"
+┌───┬─────────────┐
+│   │ A           │
+├───┼─────────────┤
+│ 1 │ "brown fox" │
+└───┴─────────────┘
+"
+`;
+
+exports[`Example tests > TEXT_SLICE("The quick brown fox jumps over the lazy dog", 40) 1`] = `
+"
+┌───┬───────┐
+│   │ A     │
+├───┼───────┤
+│ 1 │ "dog" │
+└───┴───────┘
+"
+`;
+
+exports[`Example tests > TRIM("  Hello, World!  ") 1`] = `
+"
+┌───┬─────────────────┐
+│   │ A               │
+├───┼─────────────────┤
+│ 1 │ "Hello, World!" │
+└───┴─────────────────┘
+"
+`;
+
+exports[`Example tests > UPPER("Hello, World!") 1`] = `
+"
+┌───┬─────────────────┐
+│   │ A               │
+├───┼─────────────────┤
+│ 1 │ "HELLO, WORLD!" │
+└───┴─────────────────┘
+"
+`;

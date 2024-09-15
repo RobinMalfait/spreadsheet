@@ -1,0 +1,171 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Example tests > AND(TRUE(), TRUE(), FALSE()) 1`] = `
+"
+┌───┬───────┐
+│   │ A     │
+├───┼───────┤
+│ 1 │ FALSE │
+└───┴───────┘
+"
+`;
+
+exports[`Example tests > AND(TRUE(), TRUE(), TRUE()) 1`] = `
+"
+┌───┬──────┐
+│   │ A    │
+├───┼──────┤
+│ 1 │ TRUE │
+└───┴──────┘
+"
+`;
+
+exports[`Example tests > FALSE() 1`] = `
+"
+┌───┬───────┐
+│   │ A     │
+├───┼───────┤
+│ 1 │ FALSE │
+└───┴───────┘
+"
+`;
+
+exports[`Example tests > IF(FALSE(), "huge if true", "huge if false") 1`] = `
+"
+┌───┬─────────────────┐
+│   │ A               │
+├───┼─────────────────┤
+│ 1 │ "huge if false" │
+└───┴─────────────────┘
+"
+`;
+
+exports[`Example tests > IF(TRUE(), "huge if true", "huge if false") 1`] = `
+"
+┌───┬────────────────┐
+│   │ A              │
+├───┼────────────────┤
+│ 1 │ "huge if true" │
+└───┴────────────────┘
+"
+`;
+
+exports[`Example tests > IF_ERROR(123 / 0, 0) 1`] = `
+"
+┌───┬───┐
+│   │ A │
+├───┼───┤
+│ 1 │ 0 │
+└───┴───┘
+"
+`;
+
+exports[`Example tests > IF_ERROR(123 / 1, 0) 1`] = `
+"
+┌───┬─────┐
+│   │ A   │
+├───┼─────┤
+│ 1 │ 123 │
+└───┴─────┘
+"
+`;
+
+exports[`Example tests > NOT(FALSE()) 1`] = `
+"
+┌───┬──────┐
+│   │ A    │
+├───┼──────┤
+│ 1 │ TRUE │
+└───┴──────┘
+"
+`;
+
+exports[`Example tests > NOT(TRUE()) 1`] = `
+"
+┌───┬───────┐
+│   │ A     │
+├───┼───────┤
+│ 1 │ FALSE │
+└───┴───────┘
+"
+`;
+
+exports[`Example tests > OR(TRUE(), TRUE(), FALSE()) 1`] = `
+"
+┌───┬──────┐
+│   │ A    │
+├───┼──────┤
+│ 1 │ TRUE │
+└───┴──────┘
+"
+`;
+
+exports[`Example tests > OR(TRUE(), TRUE(), TRUE()) 1`] = `
+"
+┌───┬──────┐
+│   │ A    │
+├───┼──────┤
+│ 1 │ TRUE │
+└───┴──────┘
+"
+`;
+
+exports[`Example tests > SWITCH(1, 1, "st", 2, "nd", 3, "rd", "th") 1`] = `
+"
+┌───┬──────┐
+│   │ A    │
+├───┼──────┤
+│ 1 │ "st" │
+└───┴──────┘
+"
+`;
+
+exports[`Example tests > SWITCH(2, 1, "st", 2, "nd", 3, "rd", "th") 1`] = `
+"
+┌───┬──────┐
+│   │ A    │
+├───┼──────┤
+│ 1 │ "nd" │
+└───┴──────┘
+"
+`;
+
+exports[`Example tests > SWITCH(3, 1, "st", 2, "nd", 3, "rd", "th") 1`] = `
+"
+┌───┬──────┐
+│   │ A    │
+├───┼──────┤
+│ 1 │ "rd" │
+└───┴──────┘
+"
+`;
+
+exports[`Example tests > SWITCH(4, 1, "st", 2, "nd", 3, "rd", "th") 1`] = `
+"
+┌───┬──────┐
+│   │ A    │
+├───┼──────┤
+│ 1 │ "th" │
+└───┴──────┘
+"
+`;
+
+exports[`Example tests > SWITCH(5, 1, "st", 2, "nd", 3, "rd", "th") 1`] = `
+"
+┌───┬──────┐
+│   │ A    │
+├───┼──────┤
+│ 1 │ "th" │
+└───┴──────┘
+"
+`;
+
+exports[`Example tests > TRUE() 1`] = `
+"
+┌───┬──────┐
+│   │ A    │
+├───┼──────┤
+│ 1 │ TRUE │
+└───┴──────┘
+"
+`;
