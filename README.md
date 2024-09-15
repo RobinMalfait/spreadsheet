@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **95** built-in functions available.
+There are **96** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -70,6 +70,8 @@ There are **95** built-in functions available.
    - [OR(...expressions: T)](#or)
    - [SWITCH(value: T, ...cases: T, default?: T)](#switch)
    - [TRUE()](#true)
+- [Lookup functions](#lookup-functions)
+   - [LOOKUP(value: T, lhs: T, rhs: T, fallback?: T)](#lookup)
 - [Math functions](#math-functions)
    - [ABS(x: NUMBER)](#abs)
    - [ACOS(x: NUMBER)](#acos)
@@ -626,6 +628,36 @@ The boolean value true.
 ```ts
 =TRUE()
 // TRUE
+```
+
+### Lookup functions
+
+<a name="lookup"></a>
+#### LOOKUP(value: T, lhs: T, rhs: T, fallback?: T)
+
+[Back to top](#functions)
+
+Lookup a value in a range, and return the value in the same position from another range.
+
+#### Example:
+
+```ts
+// Dependencies:
+=RANGE(1, 3)
+// ┌───┬───┬───┐
+// │   │ A │ B │
+// ├───┼───┼───┤
+// │ 1 │ 1 │ 2 │
+// └───┴───┴───┘
+=RANGE(4, 6)
+// ┌───┬───┬───┐
+// │   │ A │ B │
+// ├───┼───┼───┤
+// │ 1 │ 4 │ 5 │
+// └───┴───┴───┘
+
+=LOOKUP(2, RANGE(1, 3), RANGE(4, 6))
+// 5
 ```
 
 ### Math functions

@@ -168,7 +168,19 @@ export default function Index() {
     window.spreadsheet = spreadsheet
 
     // Demo modes
-    if (window.location.search === '?demo-python-ctf') {
+    if (window.location.search === '?demo-lookups') {
+      vcs.commit('A1', 'Name:')
+      vcs.commit('B1', 'Age:')
+      vcs.commit('A2', 'Alice')
+      vcs.commit('B2', '25')
+      vcs.commit('A3', 'Bob')
+      vcs.commit('B3', '30')
+      vcs.commit('A4', 'Charlie')
+      vcs.commit('B4', '35')
+
+      vcs.commit('D2', '=A2')
+      vcs.commit('E2', '=LOOKUP(D2, A2:A4, B2:B4)')
+    } else if (window.location.search === '?demo-python-ctf') {
       // See: https://x.com/chordbug/status/1834642829919781369
       vcs.commit('A1', '=AS_CHAR(SUM(RANGE(CHAR_CODE_AT(AS_STRING(TRUE()), 0))))')
     } else if (window.location.search === '?demo-lambda') {

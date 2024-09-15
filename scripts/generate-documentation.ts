@@ -5,6 +5,7 @@ import { EvaluationResultKind } from '~/domain/evaluation-result'
 import { parse, printExpression } from '~/domain/expression'
 import * as dateFunctions from '~/domain/functions/date'
 import * as logicFunctions from '~/domain/functions/logic'
+import * as lookupFunctions from '~/domain/functions/lookup'
 import * as mathFunctions from '~/domain/functions/math'
 import * as privilegedFunctions from '~/domain/functions/privileged'
 import * as sequenceFunctions from '~/domain/functions/sequence'
@@ -25,6 +26,7 @@ setSystemTime(new Date(2013, 0, 21, 8, 15, 20))
 const categories = [
   ['Date functions', dateFunctions],
   ['Logic functions', logicFunctions],
+  ['Lookup functions', lookupFunctions],
   ['Math functions', mathFunctions],
   ['Sequence functions', sequenceFunctions],
   ['Statistical functions', statisticsFunctions],

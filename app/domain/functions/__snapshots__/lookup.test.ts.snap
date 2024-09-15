@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`\`@example\` tests > LOOKUP(2, RANGE(1, 3), RANGE(4, 6)) 1`] = `
+"
+┌───┬───┐
+│   │ A │
+├───┼───┤
+│ 1 │ 5 │
+└───┴───┘
+"
+`;
