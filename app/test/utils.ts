@@ -98,6 +98,12 @@ export function visualizeSpreadsheet(spreadsheet: Spreadsheet) {
         lock: 0,
       })
       let result = spreadsheet.evaluate(cell)
+      if (Array.isArray(result)) {
+        result = {
+          kind: EvaluationResultKind.ERROR,
+          value: 'Cannot evaluate a range with multiple results',
+        }
+      }
       if (result.kind === EvaluationResultKind.ERROR) {
         output.push('Error')
         errors.push(`\u00B7 ${cell}: ${result.value}`)

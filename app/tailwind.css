@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @font-face {
   font-family: berkeley-mono;
@@ -41,13 +41,11 @@
 }
 
 @utility scrollbar-none {
-
   &::-webkit-scrollbar {
     display: none;
   }
 
   scrollbar-width: none;
-
 }
 
 @variant hocus (&:hover, &:focus);

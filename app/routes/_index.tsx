@@ -1239,7 +1239,7 @@ export default function Index() {
               if (!spreadsheet.has(cell)) {
                 return (
                   <div className="flex items-center gap-2 p-2">
-                    <label>Cell:</label>
+                    <span>Cell:</span>
                     <small>{cell}</small>
                   </div>
                 )
@@ -1263,40 +1263,40 @@ export default function Index() {
                 <>
                   <div className="sticky top-0 flex h-[var(--col-header-height)] justify-between border-gray-200 border-b bg-white">
                     <div className="flex items-center gap-2 px-2">
-                      <label>Cell:</label>
+                      <span>Cell:</span>
                       <small>{cell}</small>
                     </div>
                     <div className="flex items-center gap-2 px-2">
-                      <label>Result:</label>
+                      <span>Result:</span>
                       <small className="whitespace-pre">
                         {printEvaluationResult(result)}
                       </small>
                     </div>
                   </div>
                   <div className="flex flex-col gap-2 p-2">
-                    <label>Expression:</label>
+                    <span>Expression:</span>
                     <small className="whitespace-pre">{value}</small>
                   </div>
                   {value !== stringifiedAST && (
                     <div className="flex flex-col gap-2 p-2">
-                      <label>Interpreted expression:</label>
+                      <span>Interpreted expression:</span>
                       <small className="whitespace-pre">{stringifiedAST}</small>
                     </div>
                   )}
                   <div className="flex flex-col gap-2 p-2">
-                    <label>Tokenization:</label>
+                    <span>Tokenization:</span>
                     <pre className="font-mono text-xs">
                       {JSON.stringify(tokens, null, 2)}
                     </pre>
                   </div>
                   <div className="flex flex-col gap-2 p-2">
-                    <label>AST:</label>
+                    <span>AST:</span>
                     <pre className="font-mono text-xs">
                       {JSON.stringify(ast, null, 2)}
                     </pre>
                   </div>
                   <div className="flex flex-col gap-2 p-2">
-                    <label>Result:</label>
+                    <span>Result:</span>
                     <pre className="font-mono text-xs">
                       {JSON.stringify(evaluation, null, 2)}
                     </pre>

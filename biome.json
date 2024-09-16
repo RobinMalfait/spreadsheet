@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "ignore": ["**/__snapshots__/**"]
+    "ignore": ["__snapshots__/**/*.snap"]
   },
   "formatter": {
     "enabled": true,
