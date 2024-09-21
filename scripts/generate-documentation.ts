@@ -3,6 +3,7 @@ import { AstKind } from '~/domain/ast'
 import { printEvaluationResult } from '~/domain/evaluation'
 import { EvaluationResultKind } from '~/domain/evaluation-result'
 import { parse, printExpression } from '~/domain/expression'
+import * as binaryFunctions from '~/domain/functions/binary'
 import * as dateFunctions from '~/domain/functions/date'
 import * as logicFunctions from '~/domain/functions/logic'
 import * as lookupFunctions from '~/domain/functions/lookup'
@@ -28,6 +29,7 @@ const categories = [
   ['Logic functions', logicFunctions],
   ['Lookup functions', lookupFunctions],
   ['Math functions', mathFunctions],
+  ['Binary functions', binaryFunctions],
   ['Sequence functions', sequenceFunctions],
   ['Statistical functions', statisticsFunctions],
   ['Text functions', textFunctions],

@@ -1,3 +1,4 @@
+export * from './binary'
 export * from './date'
 export * from './logic'
 export * from './lookup'
