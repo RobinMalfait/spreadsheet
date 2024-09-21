@@ -13,18 +13,80 @@ export const DIGITS = expose(
     DIGITS()
   `,
   () => {
-    return [
-      { kind: EvaluationResultKind.NUMBER, value: 0 },
-      { kind: EvaluationResultKind.NUMBER, value: 1 },
-      { kind: EvaluationResultKind.NUMBER, value: 2 },
-      { kind: EvaluationResultKind.NUMBER, value: 3 },
-      { kind: EvaluationResultKind.NUMBER, value: 4 },
-      { kind: EvaluationResultKind.NUMBER, value: 5 },
-      { kind: EvaluationResultKind.NUMBER, value: 6 },
-      { kind: EvaluationResultKind.NUMBER, value: 7 },
-      { kind: EvaluationResultKind.NUMBER, value: 8 },
-      { kind: EvaluationResultKind.NUMBER, value: 9 },
-    ]
+    return '0123456789'.split('').map((c) => ({
+      kind: EvaluationResultKind.NUMBER,
+      value: Number(c),
+    }))
+  },
+)
+
+export const HEX_DIGITS = expose(
+  `
+    @description A sequence of the digits from 0 through 9 and A through F.
+    @example HEX_DIGITS()
+    HEX_DIGITS()
+  `,
+  () => {
+    return '0123456789abcdefABCDEF'.split('').map((c) => ({
+      kind: EvaluationResultKind.STRING,
+      value: c,
+    }))
+  },
+)
+
+export const OCT_DIGITS = expose(
+  `
+    @description A sequence of the digits from 0 through 7
+    @example OCT_DIGITS()
+    OCT_DIGITS()
+  `,
+  () => {
+    return '01234567'.split('').map((c) => ({
+      kind: EvaluationResultKind.NUMBER,
+      value: Number(c),
+    }))
+  },
+)
+
+export const ASCII_LETTERS = expose(
+  `
+    @description A sequence of ascii letters from a through z and A through Z.
+    @example ASCII_LETTERS()
+    ASCII_LETTERS()
+  `,
+  () => {
+    return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((c) => ({
+      kind: EvaluationResultKind.STRING,
+      value: c,
+    }))
+  },
+)
+
+export const ASCII_LETTERS_LOWERCASE = expose(
+  `
+    @description A sequence of ascii letters from a through z
+    @example ASCII_LETTERS_LOWERCASE()
+    ASCII_LETTERS_LOWERCASE()
+  `,
+  () => {
+    return 'abcdefghijklmnopqrstuvwxyz'.split('').map((c) => ({
+      kind: EvaluationResultKind.STRING,
+      value: c,
+    }))
+  },
+)
+
+export const ASCII_LETTERS_UPPERCASE = expose(
+  `
+    @description A sequence of ascii letters from A through Z
+    @example ASCII_LETTERS_UPPERCASE()
+    ASCII_LETTERS_UPPERCASE()
+  `,
+  () => {
+    return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((c) => ({
+      kind: EvaluationResultKind.STRING,
+      value: c,
+    }))
   },
 )
 
