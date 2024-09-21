@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **113** built-in functions available.
+There are **118** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -76,6 +76,11 @@ There are **113** built-in functions available.
    - [OCT2HEX(value: STRING | NUMBER)](#oct2hex)
 - [Logic functions](#logic-functions)
    - [AND(...expressions: T)](#and)
+   - [BIT_AND(lhs: NUMBER, rhs: NUMBER)](#bit_and)
+   - [BIT_LSHIFT(value: NUMBER, amount: NUMBER)](#bit_lshift)
+   - [BIT_OR(lhs: NUMBER, rhs: NUMBER)](#bit_or)
+   - [BIT_RSHIFT(value: NUMBER, amount: NUMBER)](#bit_rshift)
+   - [BIT_XOR(lhs: NUMBER, rhs: NUMBER)](#bit_xor)
    - [FALSE()](#false)
    - [IF(test: BOOLEAN, consequent: T, alternate: T)](#if)
    - [IF_ERROR(value: T, fallback: T)](#if_error)
@@ -668,6 +673,101 @@ Returns true if all conditions are true.
 
 =AND(TRUE(), TRUE(), FALSE())
 // FALSE
+```
+
+---
+
+<a name="bit_and"></a>
+#### BIT_AND(lhs: NUMBER, rhs: NUMBER)
+
+[Back to top](#functions)
+
+Returns the bitwise AND of two numbers.
+
+- `lhs`: The left hand side of the operation.
+- `rhs`: The right hand side of the operation.
+
+#### Example:
+
+```ts
+=BIT_AND(5, 3)
+// 1
+```
+
+---
+
+<a name="bit_lshift"></a>
+#### BIT_LSHIFT(value: NUMBER, amount: NUMBER)
+
+[Back to top](#functions)
+
+Returns the bitwise left shift of a number.
+
+- `value`: The number to shift.
+- `amount`: The number of bits to shift.
+
+#### Example:
+
+```ts
+=BIT_LSHIFT(5, 3)
+// 40
+```
+
+---
+
+<a name="bit_or"></a>
+#### BIT_OR(lhs: NUMBER, rhs: NUMBER)
+
+[Back to top](#functions)
+
+Returns the bitwise OR of two numbers.
+
+- `lhs`: The left hand side of the operation.
+- `rhs`: The right hand side of the operation.
+
+#### Example:
+
+```ts
+=BIT_OR(5, 3)
+// 7
+```
+
+---
+
+<a name="bit_rshift"></a>
+#### BIT_RSHIFT(value: NUMBER, amount: NUMBER)
+
+[Back to top](#functions)
+
+Returns the bitwise left shift of a number.
+
+- `value`: The number to shift.
+- `amount`: The number of bits to shift.
+
+#### Example:
+
+```ts
+=BIT_RSHIFT(5, 3)
+// 0
+```
+
+---
+
+<a name="bit_xor"></a>
+#### BIT_XOR(lhs: NUMBER, rhs: NUMBER)
+
+[Back to top](#functions)
+
+Returns the bitwise XOR of two numbers.
+
+- `lhs`: The left hand side of the operation.
+- `rhs`: The right hand side of the operation.
+
+#### Example:
+
+```ts
+=BIT_XOR(5, 3)
+// 6
 ```
 
 ---

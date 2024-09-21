@@ -20,6 +20,56 @@ exports[`@example tests > AND > AND(TRUE(), TRUE(), TRUE()) 1`] = `
 "
 `;
 
+exports[`@example tests > BIT_AND(5, 3) 1`] = `
+"
+┌───┬───┐
+│   │ A │
+├───┼───┤
+│ 1 │ 1 │
+└───┴───┘
+"
+`;
+
+exports[`@example tests > BIT_LSHIFT(5, 3) 1`] = `
+"
+┌───┬────┐
+│   │ A  │
+├───┼────┤
+│ 1 │ 40 │
+└───┴────┘
+"
+`;
+
+exports[`@example tests > BIT_OR(5, 3) 1`] = `
+"
+┌───┬───┐
+│   │ A │
+├───┼───┤
+│ 1 │ 7 │
+└───┴───┘
+"
+`;
+
+exports[`@example tests > BIT_RSHIFT(5, 3) 1`] = `
+"
+┌───┬───┐
+│   │ A │
+├───┼───┤
+│ 1 │ 0 │
+└───┴───┘
+"
+`;
+
+exports[`@example tests > BIT_XOR(5, 3) 1`] = `
+"
+┌───┬───┐
+│   │ A │
+├───┼───┤
+│ 1 │ 6 │
+└───┴───┘
+"
+`;
+
 exports[`@example tests > FALSE() 1`] = `
 "
 ┌───┬───────┐

@@ -1,4 +1,8 @@
-import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
+import {
+  type EvaluationResult,
+  EvaluationResultKind,
+  type EvaluationResultNumber,
+} from '~/domain/evaluation-result'
 import { expose } from '~/domain/function-utils'
 import { flatten } from '~/utils/flatten'
 
@@ -147,5 +151,85 @@ export const NOT = expose(
   `,
   (lhs: EvaluationResult) => {
     return lhs.value ? FALSE() : TRUE()
+  },
+)
+
+export const BIT_AND = expose(
+  `
+    @description Returns the bitwise AND of two numbers.
+    @param lhs The left hand side of the operation.
+    @param rhs The right hand side of the operation.
+    @example BIT_AND(5, 3)
+    BIT_AND(lhs: NUMBER, rhs: NUMBER)
+  `,
+  (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
+    return {
+      kind: EvaluationResultKind.NUMBER,
+      value: lhs.value & rhs.value,
+    }
+  },
+)
+
+export const BIT_OR = expose(
+  `
+    @description Returns the bitwise OR of two numbers.
+    @param lhs The left hand side of the operation.
+    @param rhs The right hand side of the operation.
+    @example BIT_OR(5, 3)
+    BIT_OR(lhs: NUMBER, rhs: NUMBER)
+  `,
+  (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
+    return {
+      kind: EvaluationResultKind.NUMBER,
+      value: lhs.value | rhs.value,
+    }
+  },
+)
+
+export const BIT_XOR = expose(
+  `
+    @description Returns the bitwise XOR of two numbers.
+    @param lhs The left hand side of the operation.
+    @param rhs The right hand side of the operation.
+    @example BIT_XOR(5, 3)
+    BIT_XOR(lhs: NUMBER, rhs: NUMBER)
+  `,
+  (lhs: EvaluationResultNumber, rhs: EvaluationResultNumber) => {
+    return {
+      kind: EvaluationResultKind.NUMBER,
+      value: lhs.value ^ rhs.value,
+    }
+  },
+)
+
+export const BIT_LSHIFT = expose(
+  `
+    @description Returns the bitwise left shift of a number.
+    @param value The number to shift.
+    @param amount The number of bits to shift.
+    @example BIT_LSHIFT(5, 3)
+    BIT_LSHIFT(value: NUMBER, amount: NUMBER)
+  `,
+  (value: EvaluationResultNumber, amount: EvaluationResultNumber) => {
+    return {
+      kind: EvaluationResultKind.NUMBER,
+      value: value.value << amount.value,
+    }
+  },
+)
+
+export const BIT_RSHIFT = expose(
+  `
+    @description Returns the bitwise left shift of a number.
+    @param value The number to shift.
+    @param amount The number of bits to shift.
+    @example BIT_RSHIFT(5, 3)
+    BIT_RSHIFT(value: NUMBER, amount: NUMBER)
+  `,
+  (value: EvaluationResultNumber, amount: EvaluationResultNumber) => {
+    return {
+      kind: EvaluationResultKind.NUMBER,
+      value: value.value >> amount.value,
+    }
   },
 )
