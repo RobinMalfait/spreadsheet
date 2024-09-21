@@ -3,8 +3,8 @@ import { AstKind } from '~/domain/ast'
 import { printEvaluationResult } from '~/domain/evaluation'
 import { EvaluationResultKind } from '~/domain/evaluation-result'
 import { parse, printExpression } from '~/domain/expression'
-import * as binaryFunctions from '~/domain/functions/binary'
 import * as dateFunctions from '~/domain/functions/date'
+import * as engineeringFunctions from '~/domain/functions/engineering'
 import * as logicFunctions from '~/domain/functions/logic'
 import * as lookupFunctions from '~/domain/functions/lookup'
 import * as mathFunctions from '~/domain/functions/math'
@@ -26,10 +26,10 @@ setSystemTime(new Date(2013, 0, 21, 8, 15, 20))
 
 const categories = [
   ['Date functions', dateFunctions],
+  ['Engineering functions', engineeringFunctions],
   ['Logic functions', logicFunctions],
   ['Lookup functions', lookupFunctions],
   ['Math functions', mathFunctions],
-  ['Binary functions', binaryFunctions],
   ['Sequence functions', sequenceFunctions],
   ['Statistical functions', statisticsFunctions],
   ['Text functions', textFunctions],

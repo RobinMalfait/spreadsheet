@@ -61,6 +61,13 @@ There are **107** built-in functions available.
    - [TIME()](#time)
    - [TODAY()](#today)
    - [YEAR(date: DATETIME)](#year)
+- [Engineering functions](#engineering-functions)
+   - [BIN2DEC(value: NUMBER)](#bin2dec)
+   - [BIN2HEX(value: NUMBER)](#bin2hex)
+   - [BIN2OCT(value: NUMBER)](#bin2oct)
+   - [DEC2BIN(value: STRING | NUMBER)](#dec2bin)
+   - [HEX2BIN(value: STRING | NUMBER)](#hex2bin)
+   - [OCT2BIN(value: STRING | NUMBER)](#oct2bin)
 - [Logic functions](#logic-functions)
    - [AND(...expressions: T)](#and)
    - [FALSE()](#false)
@@ -108,13 +115,6 @@ There are **107** built-in functions available.
    - [TANH(x: NUMBER)](#tanh)
    - [TAU()](#tau)
    - [TRUNC(x: NUMBER)](#trunc)
-- [Binary functions](#binary-functions)
-   - [BIN2DEC(value: NUMBER)](#bin2dec)
-   - [BIN2HEX(value: NUMBER)](#bin2hex)
-   - [BIN2OCT(value: NUMBER)](#bin2oct)
-   - [DEC2BIN(value: STRING | NUMBER)](#dec2bin)
-   - [HEX2BIN(value: STRING | NUMBER)](#hex2bin)
-   - [OCT2BIN(value: STRING | NUMBER)](#oct2bin)
 - [Sequence functions](#sequence-functions)
    - [ASCII_LETTERS()](#ascii_letters)
    - [ASCII_LETTERS_LOWERCASE()](#ascii_letters_lowercase)
@@ -425,6 +425,107 @@ The current year of the given date.
 
 =YEAR(TODAY())
 // 2013
+```
+
+### Engineering functions
+
+<a name="bin2dec"></a>
+#### BIN2DEC(value: NUMBER)
+
+[Back to top](#functions)
+
+Convert a binary number to decimal
+
+#### Example:
+
+```ts
+=BIN2DEC(1101)
+// 13
+```
+
+---
+
+<a name="bin2hex"></a>
+#### BIN2HEX(value: NUMBER)
+
+[Back to top](#functions)
+
+Convert a binary number to hexadecimal
+
+#### Example:
+
+```ts
+=BIN2HEX(1101)
+// "d"
+```
+
+---
+
+<a name="bin2oct"></a>
+#### BIN2OCT(value: NUMBER)
+
+[Back to top](#functions)
+
+Convert a binary number to octal
+
+#### Example:
+
+```ts
+=BIN2OCT(111111111)
+// "777"
+```
+
+---
+
+<a name="dec2bin"></a>
+#### DEC2BIN(value: STRING | NUMBER)
+
+[Back to top](#functions)
+
+Convert a decimal number to binary
+
+#### Example:
+
+```ts
+=DEC2BIN(13)
+// 1101
+```
+
+---
+
+<a name="hex2bin"></a>
+#### HEX2BIN(value: STRING | NUMBER)
+
+[Back to top](#functions)
+
+Convert a decimal number to binary
+
+#### Examples:
+
+```ts
+=HEX2BIN("FF")
+// "11111111"
+```
+
+```ts
+=HEX2BIN("1234")
+// "1001000110100"
+```
+
+---
+
+<a name="oct2bin"></a>
+#### OCT2BIN(value: STRING | NUMBER)
+
+[Back to top](#functions)
+
+Convert a decimal number to binary
+
+#### Example:
+
+```ts
+=OCT2BIN(777)
+// "111111111"
 ```
 
 ### Logic functions
@@ -1313,112 +1414,6 @@ The TRUNC function.
 ```ts
 =TRUNC(1)
 // 1
-```
-
-### Binary functions
-
-<a name="bin2dec"></a>
-#### BIN2DEC(value: NUMBER)
-
-[Back to top](#functions)
-
-Convert a binary number to decimal
-
-#### Example:
-
-```ts
-=BIN2DEC(1101)
-// 13
-```
-
----
-
-<a name="bin2hex"></a>
-#### BIN2HEX(value: NUMBER)
-
-[Back to top](#functions)
-
-Convert a binary number to hexadecimal
-
-#### Example:
-
-```ts
-=BIN2HEX(1101)
-// "d"
-```
-
----
-
-<a name="bin2oct"></a>
-#### BIN2OCT(value: NUMBER)
-
-[Back to top](#functions)
-
-Convert a binary number to octal
-
-#### Example:
-
-```ts
-=BIN2OCT(111111111)
-// "777"
-```
-
----
-
-<a name="dec2bin"></a>
-#### DEC2BIN(value: STRING | NUMBER)
-
-[Back to top](#functions)
-
-Convert a decimal number to binary
-
-#### Example:
-
-```ts
-=DEC2BIN(13)
-// 1101
-```
-
----
-
-<a name="hex2bin"></a>
-#### HEX2BIN(value: STRING | NUMBER)
-
-[Back to top](#functions)
-
-Convert a decimal number to binary
-
-#### Examples:
-
-```ts
-=HEX2BIN("FF")
-// "11111111"
-```
-
-```ts
-=HEX2BIN("1234")
-// "1001000110100"
-```
-
-```ts
-=HEX2BIN("QWERTY")
-// ERROR: HEX2BIN() Invalid hexadecimal number
-```
-
----
-
-<a name="oct2bin"></a>
-#### OCT2BIN(value: STRING | NUMBER)
-
-[Back to top](#functions)
-
-Convert a decimal number to binary
-
-#### Example:
-
-```ts
-=OCT2BIN(777)
-// "111111111"
 ```
 
 ### Sequence functions

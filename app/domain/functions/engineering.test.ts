@@ -1,3 +1,3 @@
 import { exampleTests } from '~/test/utils'
-import * as functions from './binary'
+import * as functions from './engineering'
 await exampleTests(functions)
