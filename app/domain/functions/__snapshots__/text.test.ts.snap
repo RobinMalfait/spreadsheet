@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`\`@example\` tests > CHAR_CODE_AT > CHAR_CODE_AT("ABC", 0) 1`] = `
+exports[`@example tests > CHAR_CODE_AT > CHAR_CODE_AT("ABC", 0) 1`] = `
 "
 ┌───┬────┐
 │   │ A  │
@@ -10,7 +10,7 @@ exports[`\`@example\` tests > CHAR_CODE_AT > CHAR_CODE_AT("ABC", 0) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > CHAR_CODE_AT > CHAR_CODE_AT("ABC", 1) 1`] = `
+exports[`@example tests > CHAR_CODE_AT > CHAR_CODE_AT("ABC", 1) 1`] = `
 "
 ┌───┬────┐
 │   │ A  │
@@ -20,7 +20,7 @@ exports[`\`@example\` tests > CHAR_CODE_AT > CHAR_CODE_AT("ABC", 1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > CHAR_CODE_AT > CHAR_CODE_AT("ABC", 2) 1`] = `
+exports[`@example tests > CHAR_CODE_AT > CHAR_CODE_AT("ABC", 2) 1`] = `
 "
 ┌───┬────┐
 │   │ A  │
@@ -30,7 +30,7 @@ exports[`\`@example\` tests > CHAR_CODE_AT > CHAR_CODE_AT("ABC", 2) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > CONCAT("hello", " ", "world") 1`] = `
+exports[`@example tests > CONCAT("hello", " ", "world") 1`] = `
 "
 ┌───┬───────────────┐
 │   │ A             │
@@ -40,7 +40,7 @@ exports[`\`@example\` tests > CONCAT("hello", " ", "world") 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > FIND_FIRST > FIND_FIRST("The quick brown fox jumps over the lazy dog", "dog", "fox") 1`] = `
+exports[`@example tests > FIND_FIRST > FIND_FIRST("The quick brown fox jumps over the lazy dog", "dog", "fox") 1`] = `
 "
 ┌───┬───────┐
 │   │ A     │
@@ -50,7 +50,7 @@ exports[`\`@example\` tests > FIND_FIRST > FIND_FIRST("The quick brown fox jumps
 "
 `;
 
-exports[`\`@example\` tests > FIND_FIRST > FIND_FIRST("The quick brown fox jumps over the lazy dog", "fox", "dog") 1`] = `
+exports[`@example tests > FIND_FIRST > FIND_FIRST("The quick brown fox jumps over the lazy dog", "fox", "dog") 1`] = `
 "
 ┌───┬───────┐
 │   │ A     │
@@ -60,7 +60,7 @@ exports[`\`@example\` tests > FIND_FIRST > FIND_FIRST("The quick brown fox jumps
 "
 `;
 
-exports[`\`@example\` tests > FIND_FIRST_INDEX > FIND_FIRST_INDEX("The quick brown fox jumps over the lazy dog", "dog", "fox") 1`] = `
+exports[`@example tests > FIND_FIRST_INDEX > FIND_FIRST_INDEX("The quick brown fox jumps over the lazy dog", "dog", "fox") 1`] = `
 "
 ┌───┬────┐
 │   │ A  │
@@ -70,7 +70,7 @@ exports[`\`@example\` tests > FIND_FIRST_INDEX > FIND_FIRST_INDEX("The quick bro
 "
 `;
 
-exports[`\`@example\` tests > FIND_FIRST_INDEX > FIND_FIRST_INDEX("The quick brown fox jumps over the lazy dog", "fox", "dog") 1`] = `
+exports[`@example tests > FIND_FIRST_INDEX > FIND_FIRST_INDEX("The quick brown fox jumps over the lazy dog", "fox", "dog") 1`] = `
 "
 ┌───┬────┐
 │   │ A  │
@@ -80,7 +80,7 @@ exports[`\`@example\` tests > FIND_FIRST_INDEX > FIND_FIRST_INDEX("The quick bro
 "
 `;
 
-exports[`\`@example\` tests > FIND_LAST > FIND_LAST("The quick brown fox jumps over the lazy dog", "dog", "fox") 1`] = `
+exports[`@example tests > FIND_LAST > FIND_LAST("The quick brown fox jumps over the lazy dog", "dog", "fox") 1`] = `
 "
 ┌───┬───────┐
 │   │ A     │
@@ -90,7 +90,7 @@ exports[`\`@example\` tests > FIND_LAST > FIND_LAST("The quick brown fox jumps o
 "
 `;
 
-exports[`\`@example\` tests > FIND_LAST > FIND_LAST("The quick brown fox jumps over the lazy dog", "fox", "dog") 1`] = `
+exports[`@example tests > FIND_LAST > FIND_LAST("The quick brown fox jumps over the lazy dog", "fox", "dog") 1`] = `
 "
 ┌───┬───────┐
 │   │ A     │
@@ -100,7 +100,7 @@ exports[`\`@example\` tests > FIND_LAST > FIND_LAST("The quick brown fox jumps o
 "
 `;
 
-exports[`\`@example\` tests > FIND_LAST_INDEX > FIND_LAST_INDEX("The quick brown fox jumps over the lazy dog", "dog", "fox") 1`] = `
+exports[`@example tests > FIND_LAST_INDEX > FIND_LAST_INDEX("The quick brown fox jumps over the lazy dog", "dog", "fox") 1`] = `
 "
 ┌───┬────┐
 │   │ A  │
@@ -110,7 +110,7 @@ exports[`\`@example\` tests > FIND_LAST_INDEX > FIND_LAST_INDEX("The quick brown
 "
 `;
 
-exports[`\`@example\` tests > FIND_LAST_INDEX > FIND_LAST_INDEX("The quick brown fox jumps over the lazy dog", "fox", "dog") 1`] = `
+exports[`@example tests > FIND_LAST_INDEX > FIND_LAST_INDEX("The quick brown fox jumps over the lazy dog", "fox", "dog") 1`] = `
 "
 ┌───┬────┐
 │   │ A  │
@@ -120,7 +120,7 @@ exports[`\`@example\` tests > FIND_LAST_INDEX > FIND_LAST_INDEX("The quick brown
 "
 `;
 
-exports[`\`@example\` tests > JOIN("-", 1, 2, "hello", "world", TRUE()) 1`] = `
+exports[`@example tests > JOIN("-", 1, 2, "hello", "world", TRUE()) 1`] = `
 "
 ┌───┬────────────────────────┐
 │   │ A                      │
@@ -130,7 +130,7 @@ exports[`\`@example\` tests > JOIN("-", 1, 2, "hello", "world", TRUE()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > LEN("Hello, World!") 1`] = `
+exports[`@example tests > LEN("Hello, World!") 1`] = `
 "
 ┌───┬────┐
 │   │ A  │
@@ -140,7 +140,7 @@ exports[`\`@example\` tests > LEN("Hello, World!") 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > LOWER("Hello, World!") 1`] = `
+exports[`@example tests > LOWER("Hello, World!") 1`] = `
 "
 ┌───┬─────────────────┐
 │   │ A               │
@@ -150,7 +150,7 @@ exports[`\`@example\` tests > LOWER("Hello, World!") 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > REPLACE_ALL("The quick brown fox jumps over the lazy dog", "fox", "cat", "dog", "wolf") 1`] = `
+exports[`@example tests > REPLACE_ALL("The quick brown fox jumps over the lazy dog", "fox", "cat", "dog", "wolf") 1`] = `
 "
 ┌───┬────────────────────────────────────────────────┐
 │   │ A                                              │
@@ -160,7 +160,7 @@ exports[`\`@example\` tests > REPLACE_ALL("The quick brown fox jumps over the la
 "
 `;
 
-exports[`\`@example\` tests > SPLIT("Hello World", " ") 1`] = `
+exports[`@example tests > SPLIT("Hello World", " ") 1`] = `
 "
 ┌───┬─────────┬─────────┐
 │   │ A       │ B       │
@@ -170,7 +170,7 @@ exports[`\`@example\` tests > SPLIT("Hello World", " ") 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > TEXT_SLICE > TEXT_SLICE("The quick brown fox jumps over the lazy dog", -3) 1`] = `
+exports[`@example tests > TEXT_SLICE > TEXT_SLICE("The quick brown fox jumps over the lazy dog", -3) 1`] = `
 "
 ┌───┬───────┐
 │   │ A     │
@@ -180,7 +180,7 @@ exports[`\`@example\` tests > TEXT_SLICE > TEXT_SLICE("The quick brown fox jumps
 "
 `;
 
-exports[`\`@example\` tests > TEXT_SLICE > TEXT_SLICE("The quick brown fox jumps over the lazy dog", 0, 19) 1`] = `
+exports[`@example tests > TEXT_SLICE > TEXT_SLICE("The quick brown fox jumps over the lazy dog", 0, 19) 1`] = `
 "
 ┌───┬───────────────────────┐
 │   │ A                     │
@@ -190,7 +190,7 @@ exports[`\`@example\` tests > TEXT_SLICE > TEXT_SLICE("The quick brown fox jumps
 "
 `;
 
-exports[`\`@example\` tests > TEXT_SLICE > TEXT_SLICE("The quick brown fox jumps over the lazy dog", 10, 19) 1`] = `
+exports[`@example tests > TEXT_SLICE > TEXT_SLICE("The quick brown fox jumps over the lazy dog", 10, 19) 1`] = `
 "
 ┌───┬─────────────┐
 │   │ A           │
@@ -200,7 +200,7 @@ exports[`\`@example\` tests > TEXT_SLICE > TEXT_SLICE("The quick brown fox jumps
 "
 `;
 
-exports[`\`@example\` tests > TEXT_SLICE > TEXT_SLICE("The quick brown fox jumps over the lazy dog", 40) 1`] = `
+exports[`@example tests > TEXT_SLICE > TEXT_SLICE("The quick brown fox jumps over the lazy dog", 40) 1`] = `
 "
 ┌───┬───────┐
 │   │ A     │
@@ -210,7 +210,7 @@ exports[`\`@example\` tests > TEXT_SLICE > TEXT_SLICE("The quick brown fox jumps
 "
 `;
 
-exports[`\`@example\` tests > TRIM("  Hello, World!  ") 1`] = `
+exports[`@example tests > TRIM("  Hello, World!  ") 1`] = `
 "
 ┌───┬─────────────────┐
 │   │ A               │
@@ -220,7 +220,7 @@ exports[`\`@example\` tests > TRIM("  Hello, World!  ") 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > UPPER("Hello, World!") 1`] = `
+exports[`@example tests > UPPER("Hello, World!") 1`] = `
 "
 ┌───┬─────────────────┐
 │   │ A               │

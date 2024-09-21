@@ -9,7 +9,7 @@ import { Spreadsheet } from '~/domain/spreadsheet'
 export async function exampleTests(functions: Record<string, { signature: Signature }>) {
   let { describe, expect, it } = await import('vitest')
 
-  describe('`@example` tests', () => {
+  describe('@example tests', () => {
     for (let [name, { signature }] of Object.entries(functions)) {
       let examples = signature.tags
         .filter((x) => x.kind === 'example')

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`\`@example\` tests > AND > AND(TRUE(), TRUE(), FALSE()) 1`] = `
+exports[`@example tests > AND > AND(TRUE(), TRUE(), FALSE()) 1`] = `
 "
 ┌───┬───────┐
 │   │ A     │
@@ -10,7 +10,7 @@ exports[`\`@example\` tests > AND > AND(TRUE(), TRUE(), FALSE()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AND > AND(TRUE(), TRUE(), TRUE()) 1`] = `
+exports[`@example tests > AND > AND(TRUE(), TRUE(), TRUE()) 1`] = `
 "
 ┌───┬──────┐
 │   │ A    │
@@ -20,7 +20,7 @@ exports[`\`@example\` tests > AND > AND(TRUE(), TRUE(), TRUE()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > FALSE() 1`] = `
+exports[`@example tests > FALSE() 1`] = `
 "
 ┌───┬───────┐
 │   │ A     │
@@ -30,7 +30,7 @@ exports[`\`@example\` tests > FALSE() 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > IF > IF(FALSE(), "huge if true", "huge if false") 1`] = `
+exports[`@example tests > IF > IF(FALSE(), "huge if true", "huge if false") 1`] = `
 "
 ┌───┬─────────────────┐
 │   │ A               │
@@ -40,7 +40,7 @@ exports[`\`@example\` tests > IF > IF(FALSE(), "huge if true", "huge if false") 
 "
 `;
 
-exports[`\`@example\` tests > IF > IF(TRUE(), "huge if true", "huge if false") 1`] = `
+exports[`@example tests > IF > IF(TRUE(), "huge if true", "huge if false") 1`] = `
 "
 ┌───┬────────────────┐
 │   │ A              │
@@ -50,7 +50,7 @@ exports[`\`@example\` tests > IF > IF(TRUE(), "huge if true", "huge if false") 1
 "
 `;
 
-exports[`\`@example\` tests > IF_ERROR > IF_ERROR(123 / 0, 0) 1`] = `
+exports[`@example tests > IF_ERROR > IF_ERROR(123 / 0, 0) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -60,7 +60,7 @@ exports[`\`@example\` tests > IF_ERROR > IF_ERROR(123 / 0, 0) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > IF_ERROR > IF_ERROR(123 / 1, 0) 1`] = `
+exports[`@example tests > IF_ERROR > IF_ERROR(123 / 1, 0) 1`] = `
 "
 ┌───┬─────┐
 │   │ A   │
@@ -70,7 +70,7 @@ exports[`\`@example\` tests > IF_ERROR > IF_ERROR(123 / 1, 0) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > NOT > NOT(FALSE()) 1`] = `
+exports[`@example tests > NOT > NOT(FALSE()) 1`] = `
 "
 ┌───┬──────┐
 │   │ A    │
@@ -80,7 +80,7 @@ exports[`\`@example\` tests > NOT > NOT(FALSE()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > NOT > NOT(TRUE()) 1`] = `
+exports[`@example tests > NOT > NOT(TRUE()) 1`] = `
 "
 ┌───┬───────┐
 │   │ A     │
@@ -90,7 +90,7 @@ exports[`\`@example\` tests > NOT > NOT(TRUE()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > OR > OR(TRUE(), TRUE(), FALSE()) 1`] = `
+exports[`@example tests > OR > OR(TRUE(), TRUE(), FALSE()) 1`] = `
 "
 ┌───┬──────┐
 │   │ A    │
@@ -100,7 +100,7 @@ exports[`\`@example\` tests > OR > OR(TRUE(), TRUE(), FALSE()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > OR > OR(TRUE(), TRUE(), TRUE()) 1`] = `
+exports[`@example tests > OR > OR(TRUE(), TRUE(), TRUE()) 1`] = `
 "
 ┌───┬──────┐
 │   │ A    │
@@ -110,7 +110,7 @@ exports[`\`@example\` tests > OR > OR(TRUE(), TRUE(), TRUE()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > SWITCH > SWITCH(1, 1, "st", 2, "nd", 3, "rd", "th") 1`] = `
+exports[`@example tests > SWITCH > SWITCH(1, 1, "st", 2, "nd", 3, "rd", "th") 1`] = `
 "
 ┌───┬──────┐
 │   │ A    │
@@ -120,7 +120,7 @@ exports[`\`@example\` tests > SWITCH > SWITCH(1, 1, "st", 2, "nd", 3, "rd", "th"
 "
 `;
 
-exports[`\`@example\` tests > SWITCH > SWITCH(2, 1, "st", 2, "nd", 3, "rd", "th") 1`] = `
+exports[`@example tests > SWITCH > SWITCH(2, 1, "st", 2, "nd", 3, "rd", "th") 1`] = `
 "
 ┌───┬──────┐
 │   │ A    │
@@ -130,7 +130,7 @@ exports[`\`@example\` tests > SWITCH > SWITCH(2, 1, "st", 2, "nd", 3, "rd", "th"
 "
 `;
 
-exports[`\`@example\` tests > SWITCH > SWITCH(3, 1, "st", 2, "nd", 3, "rd", "th") 1`] = `
+exports[`@example tests > SWITCH > SWITCH(3, 1, "st", 2, "nd", 3, "rd", "th") 1`] = `
 "
 ┌───┬──────┐
 │   │ A    │
@@ -140,7 +140,7 @@ exports[`\`@example\` tests > SWITCH > SWITCH(3, 1, "st", 2, "nd", 3, "rd", "th"
 "
 `;
 
-exports[`\`@example\` tests > SWITCH > SWITCH(4, 1, "st", 2, "nd", 3, "rd", "th") 1`] = `
+exports[`@example tests > SWITCH > SWITCH(4, 1, "st", 2, "nd", 3, "rd", "th") 1`] = `
 "
 ┌───┬──────┐
 │   │ A    │
@@ -150,7 +150,7 @@ exports[`\`@example\` tests > SWITCH > SWITCH(4, 1, "st", 2, "nd", 3, "rd", "th"
 "
 `;
 
-exports[`\`@example\` tests > SWITCH > SWITCH(5, 1, "st", 2, "nd", 3, "rd", "th") 1`] = `
+exports[`@example tests > SWITCH > SWITCH(5, 1, "st", 2, "nd", 3, "rd", "th") 1`] = `
 "
 ┌───┬──────┐
 │   │ A    │
@@ -160,7 +160,7 @@ exports[`\`@example\` tests > SWITCH > SWITCH(5, 1, "st", 2, "nd", 3, "rd", "th"
 "
 `;
 
-exports[`\`@example\` tests > TRUE() 1`] = `
+exports[`@example tests > TRUE() 1`] = `
 "
 ┌───┬──────┐
 │   │ A    │

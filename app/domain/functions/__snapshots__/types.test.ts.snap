@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`\`@example\` tests > AS_BOOLEAN > AS_BOOLEAN("0") 1`] = `
+exports[`@example tests > AS_BOOLEAN > AS_BOOLEAN("0") 1`] = `
 "
 ┌───┬───────┐
 │   │ A     │
@@ -10,7 +10,7 @@ exports[`\`@example\` tests > AS_BOOLEAN > AS_BOOLEAN("0") 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_BOOLEAN > AS_BOOLEAN("123") 1`] = `
+exports[`@example tests > AS_BOOLEAN > AS_BOOLEAN("123") 1`] = `
 "
 ┌───┬──────┐
 │   │ A    │
@@ -20,7 +20,7 @@ exports[`\`@example\` tests > AS_BOOLEAN > AS_BOOLEAN("123") 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_BOOLEAN > AS_BOOLEAN(0) 1`] = `
+exports[`@example tests > AS_BOOLEAN > AS_BOOLEAN(0) 1`] = `
 "
 ┌───┬───────┐
 │   │ A     │
@@ -30,7 +30,7 @@ exports[`\`@example\` tests > AS_BOOLEAN > AS_BOOLEAN(0) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_BOOLEAN > AS_BOOLEAN(1) 1`] = `
+exports[`@example tests > AS_BOOLEAN > AS_BOOLEAN(1) 1`] = `
 "
 ┌───┬──────┐
 │   │ A    │
@@ -40,7 +40,7 @@ exports[`\`@example\` tests > AS_BOOLEAN > AS_BOOLEAN(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_BOOLEAN > AS_BOOLEAN(FALSE()) 1`] = `
+exports[`@example tests > AS_BOOLEAN > AS_BOOLEAN(FALSE()) 1`] = `
 "
 ┌───┬───────┐
 │   │ A     │
@@ -50,7 +50,7 @@ exports[`\`@example\` tests > AS_BOOLEAN > AS_BOOLEAN(FALSE()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_BOOLEAN > AS_BOOLEAN(NOW()) 1`] = `
+exports[`@example tests > AS_BOOLEAN > AS_BOOLEAN(NOW()) 1`] = `
 "
 ┌───┬──────┐
 │   │ A    │
@@ -60,7 +60,7 @@ exports[`\`@example\` tests > AS_BOOLEAN > AS_BOOLEAN(NOW()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_BOOLEAN > AS_BOOLEAN(TRUE()) 1`] = `
+exports[`@example tests > AS_BOOLEAN > AS_BOOLEAN(TRUE()) 1`] = `
 "
 ┌───┬──────┐
 │   │ A    │
@@ -70,7 +70,7 @@ exports[`\`@example\` tests > AS_BOOLEAN > AS_BOOLEAN(TRUE()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_BOOLEANS(0, 1, "123", "0", TRUE(), FALSE(), NOW()) 1`] = `
+exports[`@example tests > AS_BOOLEANS(0, 1, "123", "0", TRUE(), FALSE(), NOW()) 1`] = `
 "
 ┌───┬───────┬──────┬──────┬───────┬──────┬───────┬──────┐
 │   │ A     │ B    │ C    │ D     │ E    │ F     │ G    │
@@ -80,7 +80,7 @@ exports[`\`@example\` tests > AS_BOOLEANS(0, 1, "123", "0", TRUE(), FALSE(), NOW
 "
 `;
 
-exports[`\`@example\` tests > AS_CHAR > AS_CHAR(65) 1`] = `
+exports[`@example tests > AS_CHAR > AS_CHAR(65) 1`] = `
 "
 ┌───┬─────┐
 │   │ A   │
@@ -90,7 +90,7 @@ exports[`\`@example\` tests > AS_CHAR > AS_CHAR(65) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_CHAR > AS_CHAR(97) 1`] = `
+exports[`@example tests > AS_CHAR > AS_CHAR(97) 1`] = `
 "
 ┌───┬─────┐
 │   │ A   │
@@ -100,7 +100,7 @@ exports[`\`@example\` tests > AS_CHAR > AS_CHAR(97) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_NUMBER > AS_NUMBER("123") 1`] = `
+exports[`@example tests > AS_NUMBER > AS_NUMBER("123") 1`] = `
 "
 ┌───┬─────┐
 │   │ A   │
@@ -110,7 +110,7 @@ exports[`\`@example\` tests > AS_NUMBER > AS_NUMBER("123") 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_NUMBER > AS_NUMBER("million") 1`] = `
+exports[`@example tests > AS_NUMBER > AS_NUMBER("million") 1`] = `
 "
 ┌───┬───────┐
 │   │ A     │
@@ -124,7 +124,7 @@ Errors:
 "
 `;
 
-exports[`\`@example\` tests > AS_NUMBER > AS_NUMBER(1) 1`] = `
+exports[`@example tests > AS_NUMBER > AS_NUMBER(1) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -134,7 +134,7 @@ exports[`\`@example\` tests > AS_NUMBER > AS_NUMBER(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_NUMBER > AS_NUMBER(FALSE()) 1`] = `
+exports[`@example tests > AS_NUMBER > AS_NUMBER(FALSE()) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -144,7 +144,7 @@ exports[`\`@example\` tests > AS_NUMBER > AS_NUMBER(FALSE()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_NUMBER > AS_NUMBER(NOW()) 1`] = `
+exports[`@example tests > AS_NUMBER > AS_NUMBER(NOW()) 1`] = `
 "
 ┌───┬───────────────┐
 │   │ A             │
@@ -154,7 +154,7 @@ exports[`\`@example\` tests > AS_NUMBER > AS_NUMBER(NOW()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_NUMBER > AS_NUMBER(TRUE()) 1`] = `
+exports[`@example tests > AS_NUMBER > AS_NUMBER(TRUE()) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -164,7 +164,7 @@ exports[`\`@example\` tests > AS_NUMBER > AS_NUMBER(TRUE()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_NUMBERS(1, "123", "million", TRUE(), FALSE(), NOW()) 1`] = `
+exports[`@example tests > AS_NUMBERS(1, "123", "million", TRUE(), FALSE(), NOW()) 1`] = `
 "
 ┌───┬───┬─────┬───────┬───┬───┬───────────────┐
 │   │ A │ B   │ C     │ D │ E │ F             │
@@ -178,7 +178,7 @@ Errors:
 "
 `;
 
-exports[`\`@example\` tests > AS_STRING > AS_STRING("123") 1`] = `
+exports[`@example tests > AS_STRING > AS_STRING("123") 1`] = `
 "
 ┌───┬───────┐
 │   │ A     │
@@ -188,7 +188,7 @@ exports[`\`@example\` tests > AS_STRING > AS_STRING("123") 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_STRING > AS_STRING(1) 1`] = `
+exports[`@example tests > AS_STRING > AS_STRING(1) 1`] = `
 "
 ┌───┬─────┐
 │   │ A   │
@@ -198,7 +198,7 @@ exports[`\`@example\` tests > AS_STRING > AS_STRING(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_STRING > AS_STRING(FALSE()) 1`] = `
+exports[`@example tests > AS_STRING > AS_STRING(FALSE()) 1`] = `
 "
 ┌───┬─────────┐
 │   │ A       │
@@ -208,7 +208,7 @@ exports[`\`@example\` tests > AS_STRING > AS_STRING(FALSE()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_STRING > AS_STRING(NOW()) 1`] = `
+exports[`@example tests > AS_STRING > AS_STRING(NOW()) 1`] = `
 "
 ┌───┬───────────────────────┐
 │   │ A                     │
@@ -218,7 +218,7 @@ exports[`\`@example\` tests > AS_STRING > AS_STRING(NOW()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_STRING > AS_STRING(TIME()) 1`] = `
+exports[`@example tests > AS_STRING > AS_STRING(TIME()) 1`] = `
 "
 ┌───┬────────────┐
 │   │ A          │
@@ -228,7 +228,7 @@ exports[`\`@example\` tests > AS_STRING > AS_STRING(TIME()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_STRING > AS_STRING(TRUE()) 1`] = `
+exports[`@example tests > AS_STRING > AS_STRING(TRUE()) 1`] = `
 "
 ┌───┬────────┐
 │   │ A      │
@@ -238,7 +238,7 @@ exports[`\`@example\` tests > AS_STRING > AS_STRING(TRUE()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > AS_STRINGS(1, "123", TRUE(), FALSE(), NOW(), TIME()) 1`] = `
+exports[`@example tests > AS_STRINGS(1, "123", TRUE(), FALSE(), NOW(), TIME()) 1`] = `
 "
 ┌───┬─────┬───────┬────────┬─────────┬───────────────────────┬────────────┐
 │   │ A   │ B     │ C      │ D       │ E                     │ F          │
@@ -248,7 +248,7 @@ exports[`\`@example\` tests > AS_STRINGS(1, "123", TRUE(), FALSE(), NOW(), TIME(
 "
 `;
 
-exports[`\`@example\` tests > TYPE > TYPE("hello") 1`] = `
+exports[`@example tests > TYPE > TYPE("hello") 1`] = `
 "
 ┌───┬──────────┐
 │   │ A        │
@@ -258,7 +258,7 @@ exports[`\`@example\` tests > TYPE > TYPE("hello") 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > TYPE > TYPE(1) 1`] = `
+exports[`@example tests > TYPE > TYPE(1) 1`] = `
 "
 ┌───┬──────────┐
 │   │ A        │
@@ -268,7 +268,7 @@ exports[`\`@example\` tests > TYPE > TYPE(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > TYPE > TYPE(B1) 1`] = `
+exports[`@example tests > TYPE > TYPE(B1) 1`] = `
 "
 ┌───┬─────────┐
 │   │ A       │
@@ -278,7 +278,7 @@ exports[`\`@example\` tests > TYPE > TYPE(B1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > TYPE > TYPE(NOW()) 1`] = `
+exports[`@example tests > TYPE > TYPE(NOW()) 1`] = `
 "
 ┌───┬────────────┐
 │   │ A          │
@@ -288,7 +288,7 @@ exports[`\`@example\` tests > TYPE > TYPE(NOW()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > TYPE > TYPE(TRUE()) 1`] = `
+exports[`@example tests > TYPE > TYPE(TRUE()) 1`] = `
 "
 ┌───┬───────────┐
 │   │ A         │
@@ -298,7 +298,7 @@ exports[`\`@example\` tests > TYPE > TYPE(TRUE()) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > TYPE > TYPE(UNKNOWN_FUNCTION()) 1`] = `
+exports[`@example tests > TYPE > TYPE(UNKNOWN_FUNCTION()) 1`] = `
 "
 ┌───┬─────────┐
 │   │ A       │

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`\`@example\` tests > ABS(1) 1`] = `
+exports[`@example tests > ABS(1) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -10,7 +10,7 @@ exports[`\`@example\` tests > ABS(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > ACOS(1) 1`] = `
+exports[`@example tests > ACOS(1) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -20,7 +20,7 @@ exports[`\`@example\` tests > ACOS(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > ACOSH(1) 1`] = `
+exports[`@example tests > ACOSH(1) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -30,7 +30,7 @@ exports[`\`@example\` tests > ACOSH(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > ADD(1, 2) 1`] = `
+exports[`@example tests > ADD(1, 2) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -40,7 +40,7 @@ exports[`\`@example\` tests > ADD(1, 2) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > ASIN(1) 1`] = `
+exports[`@example tests > ASIN(1) 1`] = `
 "
 ┌───┬────────────────────┐
 │   │ A                  │
@@ -50,7 +50,7 @@ exports[`\`@example\` tests > ASIN(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > ASINH(1) 1`] = `
+exports[`@example tests > ASINH(1) 1`] = `
 "
 ┌───┬───────────────────┐
 │   │ A                 │
@@ -60,7 +60,7 @@ exports[`\`@example\` tests > ASINH(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > ATAN(1) 1`] = `
+exports[`@example tests > ATAN(1) 1`] = `
 "
 ┌───┬────────────────────┐
 │   │ A                  │
@@ -70,7 +70,7 @@ exports[`\`@example\` tests > ATAN(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > ATAN2(1, 1) 1`] = `
+exports[`@example tests > ATAN2(1, 1) 1`] = `
 "
 ┌───┬────────────────────┐
 │   │ A                  │
@@ -80,7 +80,7 @@ exports[`\`@example\` tests > ATAN2(1, 1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > ATANH(1) 1`] = `
+exports[`@example tests > ATANH(1) 1`] = `
 "
 ┌───┬──────────┐
 │   │ A        │
@@ -90,7 +90,7 @@ exports[`\`@example\` tests > ATANH(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > CBRT(1) 1`] = `
+exports[`@example tests > CBRT(1) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -100,7 +100,7 @@ exports[`\`@example\` tests > CBRT(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > CEIL(1.5) 1`] = `
+exports[`@example tests > CEIL(1.5) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -110,7 +110,7 @@ exports[`\`@example\` tests > CEIL(1.5) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > CLZ32(1) 1`] = `
+exports[`@example tests > CLZ32(1) 1`] = `
 "
 ┌───┬────┐
 │   │ A  │
@@ -120,7 +120,7 @@ exports[`\`@example\` tests > CLZ32(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > COS(1) 1`] = `
+exports[`@example tests > COS(1) 1`] = `
 "
 ┌───┬────────────────────┐
 │   │ A                  │
@@ -130,7 +130,7 @@ exports[`\`@example\` tests > COS(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > COSH(1) 1`] = `
+exports[`@example tests > COSH(1) 1`] = `
 "
 ┌───┬────────────────────┐
 │   │ A                  │
@@ -140,7 +140,7 @@ exports[`\`@example\` tests > COSH(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > DIVIDE(6, 3) 1`] = `
+exports[`@example tests > DIVIDE(6, 3) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -150,7 +150,7 @@ exports[`\`@example\` tests > DIVIDE(6, 3) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > EXP(1) 1`] = `
+exports[`@example tests > EXP(1) 1`] = `
 "
 ┌───┬───────────────────┐
 │   │ A                 │
@@ -160,7 +160,7 @@ exports[`\`@example\` tests > EXP(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > FLOOR(1.5) 1`] = `
+exports[`@example tests > FLOOR(1.5) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -170,7 +170,7 @@ exports[`\`@example\` tests > FLOOR(1.5) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > IMUL(1, 2) 1`] = `
+exports[`@example tests > IMUL(1, 2) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -180,7 +180,7 @@ exports[`\`@example\` tests > IMUL(1, 2) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > LOG(1) 1`] = `
+exports[`@example tests > LOG(1) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -190,7 +190,7 @@ exports[`\`@example\` tests > LOG(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > LOG10(1) 1`] = `
+exports[`@example tests > LOG10(1) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -200,7 +200,7 @@ exports[`\`@example\` tests > LOG10(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > MOD(5, 2) 1`] = `
+exports[`@example tests > MOD(5, 2) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -210,7 +210,7 @@ exports[`\`@example\` tests > MOD(5, 2) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > MULTIPLY(2, 3) 1`] = `
+exports[`@example tests > MULTIPLY(2, 3) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -220,7 +220,7 @@ exports[`\`@example\` tests > MULTIPLY(2, 3) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > PI() 1`] = `
+exports[`@example tests > PI() 1`] = `
 "
 ┌───┬───────────────────┐
 │   │ A                 │
@@ -230,7 +230,7 @@ exports[`\`@example\` tests > PI() 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > POWER(2, 3) 1`] = `
+exports[`@example tests > POWER(2, 3) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -240,7 +240,7 @@ exports[`\`@example\` tests > POWER(2, 3) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > PRODUCT(2, 3, 4) 1`] = `
+exports[`@example tests > PRODUCT(2, 3, 4) 1`] = `
 "
 ┌───┬────┐
 │   │ A  │
@@ -250,7 +250,7 @@ exports[`\`@example\` tests > PRODUCT(2, 3, 4) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > ROUND > ROUND(1.5) 1`] = `
+exports[`@example tests > ROUND > ROUND(1.5) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -260,7 +260,7 @@ exports[`\`@example\` tests > ROUND > ROUND(1.5) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > ROUND > ROUND(PI(), 2) 1`] = `
+exports[`@example tests > ROUND > ROUND(PI(), 2) 1`] = `
 "
 ┌───┬──────┐
 │   │ A    │
@@ -270,7 +270,7 @@ exports[`\`@example\` tests > ROUND > ROUND(PI(), 2) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > SIN(1) 1`] = `
+exports[`@example tests > SIN(1) 1`] = `
 "
 ┌───┬────────────────────┐
 │   │ A                  │
@@ -280,7 +280,7 @@ exports[`\`@example\` tests > SIN(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > SINH(1) 1`] = `
+exports[`@example tests > SINH(1) 1`] = `
 "
 ┌───┬────────────────────┐
 │   │ A                  │
@@ -290,7 +290,7 @@ exports[`\`@example\` tests > SINH(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > SQRT(1) 1`] = `
+exports[`@example tests > SQRT(1) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -300,7 +300,7 @@ exports[`\`@example\` tests > SQRT(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > SUBTRACT(2, 1) 1`] = `
+exports[`@example tests > SUBTRACT(2, 1) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -310,7 +310,7 @@ exports[`\`@example\` tests > SUBTRACT(2, 1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > SUM(1, 2, 3) 1`] = `
+exports[`@example tests > SUM(1, 2, 3) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
@@ -320,7 +320,7 @@ exports[`\`@example\` tests > SUM(1, 2, 3) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > TAN(1) 1`] = `
+exports[`@example tests > TAN(1) 1`] = `
 "
 ┌───┬────────────────────┐
 │   │ A                  │
@@ -330,7 +330,7 @@ exports[`\`@example\` tests > TAN(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > TANH(1) 1`] = `
+exports[`@example tests > TANH(1) 1`] = `
 "
 ┌───┬────────────────────┐
 │   │ A                  │
@@ -340,7 +340,7 @@ exports[`\`@example\` tests > TANH(1) 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > TAU() 1`] = `
+exports[`@example tests > TAU() 1`] = `
 "
 ┌───┬───────────────────┐
 │   │ A                 │
@@ -350,7 +350,7 @@ exports[`\`@example\` tests > TAU() 1`] = `
 "
 `;
 
-exports[`\`@example\` tests > TRUNC(1) 1`] = `
+exports[`@example tests > TRUNC(1) 1`] = `
 "
 ┌───┬───┐
 │   │ A │
