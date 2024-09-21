@@ -771,8 +771,8 @@ Returns the bitwise left shift of a number.
 #### Example:
 
 ```ts
-=BIT_RSHIFT(5, 3)
-// 0
+=BIT_RSHIFT(128, 2)
+// 32
 ```
 
 ---

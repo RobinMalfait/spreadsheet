@@ -223,7 +223,7 @@ export const BIT_RSHIFT = expose(
     @description Returns the bitwise left shift of a number.
     @param value The number to shift.
     @param amount The number of bits to shift.
-    @example BIT_RSHIFT(5, 3)
+    @example BIT_RSHIFT(128, 2)
     BIT_RSHIFT(value: NUMBER, amount: NUMBER)
   `,
   (value: EvaluationResultNumber, amount: EvaluationResultNumber) => {
