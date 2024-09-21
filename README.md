@@ -447,6 +447,8 @@ The current year of the given date.
 
 Convert a binary number to decimal
 
+- `value`: The binary number to convert.
+
 #### Example:
 
 ```ts
@@ -462,6 +464,8 @@ Convert a binary number to decimal
 [Back to top](#functions)
 
 Convert a binary number to hexadecimal
+
+- `value`: The binary number to convert.
 
 #### Example:
 
@@ -479,6 +483,8 @@ Convert a binary number to hexadecimal
 
 Convert a binary number to octal
 
+- `value`: The binary number to convert.
+
 #### Example:
 
 ```ts
@@ -494,6 +500,8 @@ Convert a binary number to octal
 [Back to top](#functions)
 
 Convert a decimal number to binary
+
+- `value`: The decimal number to convert.
 
 #### Example:
 
@@ -511,6 +519,8 @@ Convert a decimal number to binary
 
 Convert a decimal number to binary
 
+- `value`: The decimal number to convert.
+
 #### Example:
 
 ```ts
@@ -527,6 +537,8 @@ Convert a decimal number to binary
 
 Convert a decimal number to binary
 
+- `value`: The decimal number to convert.
+
 #### Example:
 
 ```ts
@@ -542,6 +554,8 @@ Convert a decimal number to binary
 [Back to top](#functions)
 
 Convert a decimal number to binary
+
+- `value`: The hexadecimal number to convert.
 
 #### Examples:
 
@@ -564,6 +578,8 @@ Convert a decimal number to binary
 
 Convert a decimal number to binary
 
+- `value`: The hexadecimal number to convert.
+
 #### Examples:
 
 ```ts
@@ -584,6 +600,8 @@ Convert a decimal number to binary
 [Back to top](#functions)
 
 Convert a decimal number to binary
+
+- `value`: The hexadecimal number to convert.
 
 #### Examples:
 
@@ -606,6 +624,8 @@ Convert a decimal number to binary
 
 Convert a decimal number to binary
 
+- `value`: The octal number to convert.
+
 #### Example:
 
 ```ts
@@ -622,6 +642,8 @@ Convert a decimal number to binary
 
 Convert an octal number to hexadecimal
 
+- `value`: The octal number to convert.
+
 #### Example:
 
 ```ts
@@ -637,6 +659,8 @@ Convert an octal number to hexadecimal
 [Back to top](#functions)
 
 Convert an octal number to hexadecimal
+
+- `value`: The octal number to convert.
 
 #### Example:
 

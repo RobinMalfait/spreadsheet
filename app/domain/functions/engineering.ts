@@ -8,6 +8,7 @@ import { expose } from '~/domain/function-utils'
 export const BIN2DEC = expose(
   `
     @description Convert a binary number to decimal
+    @param value The binary number to convert.
     @example BIN2DEC(1101)
     BIN2DEC(value: STRING | NUMBER)
   `,
@@ -30,6 +31,7 @@ export const BIN2DEC = expose(
 export const BIN2HEX = expose(
   `
     @description Convert a binary number to hexadecimal
+    @param value The binary number to convert.
     @example BIN2HEX(1101)
     BIN2HEX(value: STRING | NUMBER)
   `,
@@ -52,6 +54,7 @@ export const BIN2HEX = expose(
 export const BIN2OCT = expose(
   `
     @description Convert a binary number to octal
+    @param value The binary number to convert.
     @example BIN2OCT(111111111)
     BIN2OCT(value: STRING | NUMBER)
   `,
@@ -74,6 +77,7 @@ export const BIN2OCT = expose(
 export const DEC2BIN = expose(
   `
     @description Convert a decimal number to binary
+    @param value The decimal number to convert.
     @example DEC2BIN(13)
     DEC2BIN(value: STRING | NUMBER)
   `,
@@ -88,6 +92,7 @@ export const DEC2BIN = expose(
 export const DEC2OCT = expose(
   `
     @description Convert a decimal number to binary
+    @param value The decimal number to convert.
     @example DEC2OCT(13)
     DEC2OCT(value: NUMBER)
   `,
@@ -102,6 +107,7 @@ export const DEC2OCT = expose(
 export const DEC2HEX = expose(
   `
     @description Convert a decimal number to binary
+    @param value The decimal number to convert.
     @example DEC2HEX(13)
     DEC2HEX(value: NUMBER)
   `,
@@ -116,6 +122,7 @@ export const DEC2HEX = expose(
 export const HEX2BIN = expose(
   `
     @description Convert a decimal number to binary
+    @param value The hexadecimal number to convert.
     @example HEX2BIN("FF")
     @example HEX2BIN("1234")
     HEX2BIN(value: STRING | NUMBER)
@@ -139,6 +146,7 @@ export const HEX2BIN = expose(
 export const HEX2DEC = expose(
   `
     @description Convert a decimal number to binary
+    @param value The hexadecimal number to convert.
     @example HEX2DEC("FF")
     @example HEX2DEC("1234")
     HEX2DEC(value: STRING | NUMBER)
@@ -162,6 +170,7 @@ export const HEX2DEC = expose(
 export const HEX2OCT = expose(
   `
     @description Convert a decimal number to binary
+    @param value The hexadecimal number to convert.
     @example HEX2OCT("FF")
     @example HEX2OCT("1234")
     HEX2OCT(value: STRING | NUMBER)
@@ -185,6 +194,7 @@ export const HEX2OCT = expose(
 export const OCT2BIN = expose(
   `
     @description Convert a decimal number to binary
+    @param value The octal number to convert.
     @example OCT2BIN(777)
     OCT2BIN(value: STRING | NUMBER)
   `,
@@ -207,6 +217,7 @@ export const OCT2BIN = expose(
 export const OCT2DEC = expose(
   `
     @description Convert an octal number to hexadecimal
+    @param value The octal number to convert.
     @example OCT2DEC(777)
     OCT2DEC(value: STRING | NUMBER)
   `,
@@ -229,6 +240,7 @@ export const OCT2DEC = expose(
 export const OCT2HEX = expose(
   `
     @description Convert an octal number to hexadecimal
+    @param value The octal number to convert.
     @example OCT2HEX(777)
     OCT2HEX(value: STRING | NUMBER)
   `,
