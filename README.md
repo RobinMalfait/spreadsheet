@@ -65,7 +65,7 @@ There are **118** built-in functions available.
    - [BIN2DEC(value: STRING | NUMBER)](#bin2dec)
    - [BIN2HEX(value: STRING | NUMBER)](#bin2hex)
    - [BIN2OCT(value: STRING | NUMBER)](#bin2oct)
-   - [DEC2BIN(value: STRING | NUMBER)](#dec2bin)
+   - [DEC2BIN(value: NUMBER)](#dec2bin)
    - [DEC2HEX(value: NUMBER)](#dec2hex)
    - [DEC2OCT(value: NUMBER)](#dec2oct)
    - [HEX2BIN(value: STRING | NUMBER)](#hex2bin)
@@ -495,7 +495,7 @@ Convert a binary number to octal
 ---
 
 <a name="dec2bin"></a>
-#### DEC2BIN(value: STRING | NUMBER)
+#### DEC2BIN(value: NUMBER)
 
 [Back to top](#functions)
 

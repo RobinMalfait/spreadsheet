@@ -79,7 +79,7 @@ export const DEC2BIN = expose(
     @description Convert a decimal number to binary
     @param value The decimal number to convert.
     @example DEC2BIN(13)
-    DEC2BIN(value: STRING | NUMBER)
+    DEC2BIN(value: NUMBER)
   `,
   (value: EvaluationResultNumber) => {
     return {
