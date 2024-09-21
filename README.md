@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **107** built-in functions available.
+There are **113** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -62,12 +62,18 @@ There are **107** built-in functions available.
    - [TODAY()](#today)
    - [YEAR(date: DATETIME)](#year)
 - [Engineering functions](#engineering-functions)
-   - [BIN2DEC(value: NUMBER)](#bin2dec)
-   - [BIN2HEX(value: NUMBER)](#bin2hex)
-   - [BIN2OCT(value: NUMBER)](#bin2oct)
+   - [BIN2DEC(value: STRING | NUMBER)](#bin2dec)
+   - [BIN2HEX(value: STRING | NUMBER)](#bin2hex)
+   - [BIN2OCT(value: STRING | NUMBER)](#bin2oct)
    - [DEC2BIN(value: STRING | NUMBER)](#dec2bin)
+   - [DEC2HEX(value: NUMBER)](#dec2hex)
+   - [DEC2OCT(value: NUMBER)](#dec2oct)
    - [HEX2BIN(value: STRING | NUMBER)](#hex2bin)
+   - [HEX2DEC(value: STRING | NUMBER)](#hex2dec)
+   - [HEX2OCT(value: STRING | NUMBER)](#hex2oct)
    - [OCT2BIN(value: STRING | NUMBER)](#oct2bin)
+   - [OCT2DEC(value: STRING | NUMBER)](#oct2dec)
+   - [OCT2HEX(value: STRING | NUMBER)](#oct2hex)
 - [Logic functions](#logic-functions)
    - [AND(...expressions: T)](#and)
    - [FALSE()](#false)
@@ -430,7 +436,7 @@ The current year of the given date.
 ### Engineering functions
 
 <a name="bin2dec"></a>
-#### BIN2DEC(value: NUMBER)
+#### BIN2DEC(value: STRING | NUMBER)
 
 [Back to top](#functions)
 
@@ -446,7 +452,7 @@ Convert a binary number to decimal
 ---
 
 <a name="bin2hex"></a>
-#### BIN2HEX(value: NUMBER)
+#### BIN2HEX(value: STRING | NUMBER)
 
 [Back to top](#functions)
 
@@ -462,7 +468,7 @@ Convert a binary number to hexadecimal
 ---
 
 <a name="bin2oct"></a>
-#### BIN2OCT(value: NUMBER)
+#### BIN2OCT(value: STRING | NUMBER)
 
 [Back to top](#functions)
 
@@ -488,7 +494,39 @@ Convert a decimal number to binary
 
 ```ts
 =DEC2BIN(13)
-// 1101
+// "1101"
+```
+
+---
+
+<a name="dec2hex"></a>
+#### DEC2HEX(value: NUMBER)
+
+[Back to top](#functions)
+
+Convert a decimal number to binary
+
+#### Example:
+
+```ts
+=DEC2HEX(13)
+// "d"
+```
+
+---
+
+<a name="dec2oct"></a>
+#### DEC2OCT(value: NUMBER)
+
+[Back to top](#functions)
+
+Convert a decimal number to binary
+
+#### Example:
+
+```ts
+=DEC2OCT(13)
+// "15"
 ```
 
 ---
@@ -514,6 +552,48 @@ Convert a decimal number to binary
 
 ---
 
+<a name="hex2dec"></a>
+#### HEX2DEC(value: STRING | NUMBER)
+
+[Back to top](#functions)
+
+Convert a decimal number to binary
+
+#### Examples:
+
+```ts
+=HEX2DEC("FF")
+// 255
+```
+
+```ts
+=HEX2DEC("1234")
+// 4660
+```
+
+---
+
+<a name="hex2oct"></a>
+#### HEX2OCT(value: STRING | NUMBER)
+
+[Back to top](#functions)
+
+Convert a decimal number to binary
+
+#### Examples:
+
+```ts
+=HEX2OCT("FF")
+// "377"
+```
+
+```ts
+=HEX2OCT("1234")
+// "11064"
+```
+
+---
+
 <a name="oct2bin"></a>
 #### OCT2BIN(value: STRING | NUMBER)
 
@@ -526,6 +606,38 @@ Convert a decimal number to binary
 ```ts
 =OCT2BIN(777)
 // "111111111"
+```
+
+---
+
+<a name="oct2dec"></a>
+#### OCT2DEC(value: STRING | NUMBER)
+
+[Back to top](#functions)
+
+Convert an octal number to hexadecimal
+
+#### Example:
+
+```ts
+=OCT2DEC(777)
+// 511
+```
+
+---
+
+<a name="oct2hex"></a>
+#### OCT2HEX(value: STRING | NUMBER)
+
+[Back to top](#functions)
+
+Convert an octal number to hexadecimal
+
+#### Example:
+
+```ts
+=OCT2HEX(777)
+// "1ff"
 ```
 
 ### Logic functions
