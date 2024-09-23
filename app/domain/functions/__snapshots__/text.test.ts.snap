@@ -220,6 +220,16 @@ exports[`@example tests > TEXT_SLICE > TEXT_SLICE("The quick brown fox jumps ove
 "
 `;
 
+exports[`@example tests > TEXT_WINDOW("ABCDE", 2) 1`] = `
+"
+┌───┬──────┬──────┬──────┬──────┐
+│   │ A    │ B    │ C    │ D    │
+├───┼──────┼──────┼──────┼──────┤
+│ 1 │ "AB" │ "BC" │ "CD" │ "DE" │
+└───┴──────┴──────┴──────┴──────┘
+"
+`;
+
 exports[`@example tests > TRIM("  Hello, World!  ") 1`] = `
 "
 ┌───┬─────────────────┐

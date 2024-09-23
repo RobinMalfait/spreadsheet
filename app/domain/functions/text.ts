@@ -370,3 +370,25 @@ export const TEXT_CHUNK = expose(
     return chunks
   },
 )
+
+export const TEXT_WINDOW = expose(
+  `
+    @description Returns a sliding window of a specified length over a string.
+    @param value The string to window.
+    @param length The length of the window.
+    @example TEXT_WINDOW("ABCDE", 2)
+    TEXT_WINDOW(value: STRING, length: NUMBER)
+  `,
+  (value: EvaluationResultString, length: EvaluationResultNumber) => {
+    let chunks: EvaluationResultString[] = []
+
+    for (let i = 0; i < value.value.length - length.value + 1; i++) {
+      chunks.push({
+        kind: EvaluationResultKind.STRING,
+        value: value.value.slice(i, i + length.value),
+      })
+    }
+
+    return chunks
+  },
+)

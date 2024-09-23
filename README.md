@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **119** built-in functions available.
+There are **120** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -157,6 +157,7 @@ There are **119** built-in functions available.
    - [SPLIT(value: STRING, delimiter: STRING)](#split)
    - [TEXT_CHUNK(value: STRING, length: NUMBER)](#text_chunk)
    - [TEXT_SLICE(value: STRING, start: NUMBER, end?: NUMBER)](#text_slice)
+   - [TEXT_WINDOW(value: STRING, length: NUMBER)](#text_window)
    - [TRIM(value: STRING)](#trim)
    - [UPPER(value: T)](#upper)
 - [Type functions](#type-functions)
@@ -2290,6 +2291,29 @@ Returns a section of a string.
 ```ts
 =TEXT_SLICE("The quick brown fox jumps over the lazy dog", 10, 19)
 // "brown fox"
+```
+
+---
+
+<a name="text_window"></a>
+#### TEXT_WINDOW(value: STRING, length: NUMBER)
+
+[Back to top](#functions)
+
+Returns a sliding window of a specified length over a string.
+
+- `value`: The string to window.
+- `length`: The length of the window.
+
+#### Example:
+
+```ts
+=TEXT_WINDOW("ABCDE", 2)
+// ┌───┬──────┬──────┬──────┬──────┐
+// │   │ A    │ B    │ C    │ D    │
+// ├───┼──────┼──────┼──────┼──────┤
+// │ 1 │ "AB" │ "BC" │ "CD" │ "DE" │
+// └───┴──────┴──────┴──────┴──────┘
 ```
 
 ---
