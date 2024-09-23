@@ -348,3 +348,25 @@ export const CHAR_CODE_AT = expose(
     }
   },
 )
+
+export const TEXT_CHUNK = expose(
+  `
+    @description Chunk a string into smaller strings of a specified length.
+    @param value The string to chunk.
+    @param length The length of each chunk.
+    @example TEXT_CHUNK("ABCDE", 2)
+    TEXT_CHUNK(value: STRING, length: NUMBER)
+  `,
+  (value: EvaluationResultString, length: EvaluationResultNumber) => {
+    let chunks: EvaluationResultString[] = []
+
+    for (let i = 0; i < value.value.length; i += length.value) {
+      chunks.push({
+        kind: EvaluationResultKind.STRING,
+        value: value.value.slice(i, i + length.value),
+      })
+    }
+
+    return chunks
+  },
+)

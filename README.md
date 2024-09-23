@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **118** built-in functions available.
+There are **119** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -155,6 +155,7 @@ There are **118** built-in functions available.
    - [LOWER(value: T)](#lower)
    - [REPLACE_ALL(haystack: STRING, ...zip?: STRING | NUMBER)](#replace_all)
    - [SPLIT(value: STRING, delimiter: STRING)](#split)
+   - [TEXT_CHUNK(value: STRING, length: NUMBER)](#text_chunk)
    - [TEXT_SLICE(value: STRING, start: NUMBER, end?: NUMBER)](#text_slice)
    - [TRIM(value: STRING)](#trim)
    - [UPPER(value: T)](#upper)
@@ -2231,6 +2232,29 @@ Splits a string into an array of substrings separated by a delimiter.
 // ├───┼─────────┼─────────┤
 // │ 1 │ "Hello" │ "World" │
 // └───┴─────────┴─────────┘
+```
+
+---
+
+<a name="text_chunk"></a>
+#### TEXT_CHUNK(value: STRING, length: NUMBER)
+
+[Back to top](#functions)
+
+Chunk a string into smaller strings of a specified length.
+
+- `value`: The string to chunk.
+- `length`: The length of each chunk.
+
+#### Example:
+
+```ts
+=TEXT_CHUNK("ABCDE", 2)
+// ┌───┬──────┬──────┬─────┐
+// │   │ A    │ B    │ C   │
+// ├───┼──────┼──────┼─────┤
+// │ 1 │ "AB" │ "CD" │ "E" │
+// └───┴──────┴──────┴─────┘
 ```
 
 ---

@@ -170,6 +170,16 @@ exports[`@example tests > SPLIT("Hello World", " ") 1`] = `
 "
 `;
 
+exports[`@example tests > TEXT_CHUNK("ABCDE", 2) 1`] = `
+"
+┌───┬──────┬──────┬─────┐
+│   │ A    │ B    │ C   │
+├───┼──────┼──────┼─────┤
+│ 1 │ "AB" │ "CD" │ "E" │
+└───┴──────┴──────┴─────┘
+"
+`;
+
 exports[`@example tests > TEXT_SLICE > TEXT_SLICE("The quick brown fox jumps over the lazy dog", -3) 1`] = `
 "
 ┌───┬───────┐
