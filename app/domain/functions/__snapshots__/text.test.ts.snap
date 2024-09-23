@@ -150,6 +150,26 @@ exports[`@example tests > LOWER("Hello, World!") 1`] = `
 "
 `;
 
+exports[`@example tests > PAD_END("123", 5, "0") 1`] = `
+"
+┌───┬─────────┐
+│   │ A       │
+├───┼─────────┤
+│ 1 │ "12300" │
+└───┴─────────┘
+"
+`;
+
+exports[`@example tests > PAD_START("123", 5, "0") 1`] = `
+"
+┌───┬─────────┐
+│   │ A       │
+├───┼─────────┤
+│ 1 │ "00123" │
+└───┴─────────┘
+"
+`;
+
 exports[`@example tests > REPLACE_ALL("The quick brown fox jumps over the lazy dog", "fox", "cat", "dog", "wolf") 1`] = `
 "
 ┌───┬────────────────────────────────────────────────┐

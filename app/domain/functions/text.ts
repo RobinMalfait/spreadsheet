@@ -392,3 +392,45 @@ export const TEXT_WINDOW = expose(
     return chunks
   },
 )
+
+export const PAD_START = expose(
+  `
+    @description Pads the start of a string with a specified character.
+    @param value The string to pad.
+    @param length The length of the resulting string.
+    @param character The character to pad with.
+    @example PAD_START("123", 5, "0")
+    PAD_START(value: STRING | NUMBER, length: NUMBER, character: STRING | NUMBER)
+  `,
+  (
+    value: EvaluationResultString | EvaluationResultNumber,
+    length: EvaluationResultNumber,
+    character: EvaluationResultString,
+  ) => {
+    return {
+      kind: EvaluationResultKind.STRING,
+      value: value.value.toString().padStart(length.value, character.value),
+    }
+  },
+)
+
+export const PAD_END = expose(
+  `
+    @description Pads the end of a string with a specified character.
+    @param value The string to pad.
+    @param length The length of the resulting string.
+    @param character The character to pad with.
+    @example PAD_END("123", 5, "0")
+    PAD_END(value: STRING | NUMBER, length: NUMBER, character: STRING | NUMBER)
+  `,
+  (
+    value: EvaluationResultString | EvaluationResultNumber,
+    length: EvaluationResultNumber,
+    character: EvaluationResultString,
+  ) => {
+    return {
+      kind: EvaluationResultKind.STRING,
+      value: value.value.toString().padEnd(length.value, character.value),
+    }
+  },
+)

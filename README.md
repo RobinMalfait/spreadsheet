@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **120** built-in functions available.
+There are **122** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -153,6 +153,8 @@ There are **120** built-in functions available.
    - [JOIN(delimiter: STRING, ...values: T)](#join)
    - [LEN(value: STRING)](#len)
    - [LOWER(value: T)](#lower)
+   - [PAD_END(value: STRING | NUMBER, length: NUMBER, character: STRING | NUMBER)](#pad_end)
+   - [PAD_START(value: STRING | NUMBER, length: NUMBER, character: STRING | NUMBER)](#pad_start)
    - [REPLACE_ALL(haystack: STRING, ...zip?: STRING | NUMBER)](#replace_all)
    - [SPLIT(value: STRING, delimiter: STRING)](#split)
    - [TEXT_CHUNK(value: STRING, length: NUMBER)](#text_chunk)
@@ -2191,6 +2193,46 @@ Converts a string to lowercase.
 ```ts
 =LOWER("Hello, World!")
 // "hello, world!"
+```
+
+---
+
+<a name="pad_end"></a>
+#### PAD_END(value: STRING | NUMBER, length: NUMBER, character: STRING | NUMBER)
+
+[Back to top](#functions)
+
+Pads the end of a string with a specified character.
+
+- `value`: The string to pad.
+- `length`: The length of the resulting string.
+- `character`: The character to pad with.
+
+#### Example:
+
+```ts
+=PAD_END("123", 5, "0")
+// "12300"
+```
+
+---
+
+<a name="pad_start"></a>
+#### PAD_START(value: STRING | NUMBER, length: NUMBER, character: STRING | NUMBER)
+
+[Back to top](#functions)
+
+Pads the start of a string with a specified character.
+
+- `value`: The string to pad.
+- `length`: The length of the resulting string.
+- `character`: The character to pad with.
+
+#### Example:
+
+```ts
+=PAD_START("123", 5, "0")
+// "00123"
 ```
 
 ---
