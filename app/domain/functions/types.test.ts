@@ -3,12 +3,11 @@ import { Spreadsheet } from '~/domain/spreadsheet'
 import { visualizeSpreadsheet } from '~/test/utils'
 import { exampleTests } from '~/test/utils'
 import * as functions from './types'
+await exampleTests(functions)
 
 beforeAll(() => {
   vi.setSystemTime(new Date(2013, 0, 21, 8, 15, 20))
 })
-
-await exampleTests(functions)
 
 describe('AS_NUMBER()', () => {
   it('should error when the argument is not provided', () => {
