@@ -7,7 +7,11 @@ import type { Signature } from '~/domain/signature/parser'
 import { Spreadsheet } from '~/domain/spreadsheet'
 
 export async function exampleTests(functions: Record<string, { signature: Signature }>) {
-  let { describe, expect, it } = await import('vitest')
+  let { beforeAll, describe, expect, it, vi } = await import('vitest')
+
+  beforeAll(() => {
+    vi.setSystemTime(new Date(2013, 0, 21, 8, 15, 20))
+  })
 
   describe('@example tests', () => {
     for (let [name, { signature }] of Object.entries(functions)) {
