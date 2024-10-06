@@ -952,7 +952,7 @@ export default function Index() {
                 data-cell={id}
                 className={clsx(
                   'group/cell relative grid',
-                  'border-0.5 border-gray-200',
+                  'border-[0.5px] border-gray-200',
 
                   // Scrollable area offsets for sticky headers
                   '[--offset-padding:var(--spacing-2)]',
