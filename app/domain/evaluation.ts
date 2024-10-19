@@ -8,7 +8,7 @@ import {
 import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
 import { printLocation } from '~/domain/expression'
 import * as functions from '~/domain/functions'
-import * as privilegedFunctions from '~/domain/functions/privileged'
+import * as intrinsicFunctions from '~/domain/functions/intrinsics'
 import type { Spreadsheet } from '~/domain/spreadsheet'
 
 export interface Context {
@@ -140,14 +140,14 @@ export function evaluateExpression(
 
     case AstKind.FUNCTION: {
       // Privileged functions are functions that have access to the spreadsheet.
-      if (Object.hasOwn(privilegedFunctions, ast.name)) {
+      if (Object.hasOwn(intrinsicFunctions, ast.name)) {
         let ctx: Context = {
           ast,
           spreadsheet,
           cell,
         }
 
-        return privilegedFunctions[ast.name as keyof typeof privilegedFunctions](ctx)
+        return intrinsicFunctions[ast.name as keyof typeof intrinsicFunctions](ctx)
       }
 
       if (!Object.hasOwn(functions, ast.name)) {

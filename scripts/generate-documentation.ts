@@ -5,10 +5,10 @@ import { EvaluationResultKind } from '~/domain/evaluation-result'
 import { parse, printExpression } from '~/domain/expression'
 import * as dateFunctions from '~/domain/functions/date'
 import * as engineeringFunctions from '~/domain/functions/engineering'
+import * as intrinsicFunctions from '~/domain/functions/intrinsics'
 import * as logicFunctions from '~/domain/functions/logic'
 import * as lookupFunctions from '~/domain/functions/lookup'
 import * as mathFunctions from '~/domain/functions/math'
-import * as privilegedFunctions from '~/domain/functions/privileged'
 import * as sequenceFunctions from '~/domain/functions/sequence'
 import * as statisticsFunctions from '~/domain/functions/statistics'
 import * as textFunctions from '~/domain/functions/text'
@@ -34,7 +34,7 @@ const categories = [
   ['Statistical functions', statisticsFunctions],
   ['Text functions', textFunctions],
   ['Type functions', typeFunctions],
-  ['Privileged functions', privilegedFunctions],
+  ['Intrinsics', intrinsicFunctions],
 ] as const
 const ALL_FUNCTION_NAMES = new Map(categories.flatMap(([_, fns]) => Object.entries(fns)))
 

@@ -171,7 +171,7 @@ There are **122** built-in functions available.
    - [AS_STRING(value: T)](#as_string)
    - [AS_STRINGS(...values: T)](#as_strings)
    - [TYPE(value: T)](#type)
-- [Privileged functions](#privileged-functions)
+- [Intrinsics](#intrinsics)
    - [COL(cell?: CELL)](#col)
    - [INHERIT_FORMULA(cell: CELL)](#inherit_formula)
    - [MAP(list: T, lambda: Expression)](#map)
@@ -2716,7 +2716,7 @@ Returns the type of a value.
 // "empty"
 ```
 
-### Privileged functions
+### Intrinsics
 
 <a name="col"></a>
 #### COL(cell?: CELL)

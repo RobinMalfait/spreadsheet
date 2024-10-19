@@ -524,7 +524,7 @@ describe('expressions', () => {
   })
 })
 
-describe('privileged functions', () => {
+describe('intrinsics', () => {
   it('should be possible to inherit a formula from another cell via `INHERIT_FORMULA`', () => {
     let spreadsheet = new Spreadsheet()
     spreadsheet.set('A1', 'Hours')
