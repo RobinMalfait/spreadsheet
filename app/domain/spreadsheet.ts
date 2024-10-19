@@ -95,8 +95,29 @@ export class Spreadsheet {
     // Value must be filled in
     if (value.trim() === '') return null
 
+    let expression = value
+
+    // We have an explicit expression, starting with a '='
+    if (expression[0] === '=') {
+      expression = expression.slice(1)
+    }
+
+    // We don't have an explicit expression, so we'll try to coerce the value to
+    // an expression
+    else {
+      // 1. If the value looks like a number, keep it as a number
+      let asNumber = Number(value)
+      if (!Number.isNaN(asNumber)) {
+        // Nothing to do, keep the number
+      }
+
+      // 2. The value is a string, so we'll coerce it to a string expression
+      else {
+        expression = `"${value}"`
+      }
+    }
+
     // Expression should exist
-    let expression = value[0] === '=' ? value.slice(1) : `"${value}"`
     if (expression.trim() === '') return null
 
     // Track the raw value

@@ -30,20 +30,8 @@ export function evaluateExpression(
     case AstKind.NUMBER_LITERAL:
       return { kind: EvaluationResultKind.NUMBER, value: ast.value }
 
-    case AstKind.STRING_LITERAL: {
-      if (ast.value.trim() === '') {
-        return { kind: EvaluationResultKind.STRING, value: ast.value }
-      }
-
-      // Try to coerce the string to a number, and if it works, return a number
-      // instead of a string
-      let asNumber = Number(ast.value)
-      if (!Number.isNaN(asNumber)) {
-        return { kind: EvaluationResultKind.NUMBER, value: asNumber }
-      }
-
+    case AstKind.STRING_LITERAL:
       return { kind: EvaluationResultKind.STRING, value: ast.value }
-    }
 
     case AstKind.CELL: {
       let out = spreadsheet.evaluate(ast.name, returnFullValue)
