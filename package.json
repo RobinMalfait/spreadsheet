@@ -14,11 +14,11 @@
     "generate:docs": "bun ./scripts/generate-documentation.ts"
   },
   "dependencies": {
-    "@headlessui/react": "^2.1.8",
+    "@headlessui/react": "^2.1.10",
     "@heroicons/react": "^2.1.5",
-    "@remix-run/node": "^2.12.0",
-    "@remix-run/react": "^2.12.0",
-    "@remix-run/serve": "^2.12.0",
+    "@remix-run/node": "^2.13.1",
+    "@remix-run/react": "^2.13.1",
+    "@remix-run/serve": "^2.13.1",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "isbot": "^5.1.17",
@@ -26,20 +26,20 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.1",
-    "@remix-run/dev": "^2.12.0",
-    "@tailwindcss/vite": "4.0.0-alpha.26",
-    "@types/bun": "^1.1.9",
+    "@biomejs/biome": "1.9.4",
+    "@remix-run/dev": "^2.13.1",
+    "@tailwindcss/vite": "4.0.0-alpha.28",
+    "@types/bun": "^1.1.11",
     "@types/cli-table": "^0.3.4",
-    "@types/react": "^18.3.6",
-    "@types/react-dom": "^18.3.0",
-    "@vitest/coverage-v8": "^2.1.1",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@vitest/coverage-v8": "^2.1.3",
     "cli-table": "^0.3.11",
-    "tailwindcss": "4.0.0-alpha.26",
-    "typescript": "^5.6.2",
-    "vite": "^5.4.5",
+    "tailwindcss": "4.0.0-alpha.28",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.9",
     "vite-tsconfig-paths": "^5.0.1",
-    "vitest": "^2.1.1"
+    "vitest": "^2.1.3"
   },
   "engines": {
     "node": ">=20.0.0"
