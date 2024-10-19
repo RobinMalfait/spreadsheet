@@ -2065,6 +2065,11 @@ Returns the first needle found in the haystack.
 // "fox"
 ```
 
+```ts
+=FIND_FIRST("12345", "5", "4", "3", "2", "1")
+// "1"
+```
+
 ---
 
 <a name="find_first_index"></a>
