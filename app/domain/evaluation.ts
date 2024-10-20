@@ -15,6 +15,7 @@ export interface Context {
   ast: AstFunction
   spreadsheet: Spreadsheet
   cell: string
+  parent?: { name: string; idx: number }
 }
 
 export function evaluateExpression(
@@ -22,6 +23,7 @@ export function evaluateExpression(
   spreadsheet: Spreadsheet,
   cell: string,
   returnFullValue = false,
+  parent?: { name: string; idx: number },
 ): EvaluationResult | EvaluationResult[] | EvaluationResult[][] {
   switch (ast.kind) {
     case AstKind.EVALUATION_RESULT:
@@ -133,6 +135,7 @@ export function evaluateExpression(
           ast,
           spreadsheet,
           cell,
+          parent,
         }
 
         return intrinsicFunctions[ast.name as keyof typeof intrinsicFunctions](ctx)
@@ -146,12 +149,15 @@ export function evaluateExpression(
       }
 
       let fn = functions[ast.name as keyof typeof functions]
-      let args = ast.args.map((arg) => {
+      let args = ast.args.map((arg, idx) => {
         if (arg?.kind === AstKind.EVALUATION_RESULT) {
           return arg.value
         }
 
-        return evaluateExpression(arg, spreadsheet, cell, returnFullValue)
+        return evaluateExpression(arg, spreadsheet, cell, returnFullValue, {
+          name: ast.name,
+          idx,
+        })
       })
 
       // @ts-expect-error Each function has a different number of arguments, but
