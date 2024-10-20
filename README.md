@@ -45,7 +45,7 @@ Once you write a formula, you will get some syntax highlighting.
 
 <!-- start:functions -->
 
-There are **122** built-in functions available.
+There are **123** built-in functions available.
 
 - [Date functions](#date-functions)
    - [ADD_DAYS(date: DATETIME, days: NUMBER)](#add_days)
@@ -174,6 +174,7 @@ There are **122** built-in functions available.
 - [Intrinsics](#intrinsics)
    - [COL(cell?: CELL)](#col)
    - [INHERIT_FORMULA(cell: CELL)](#inherit_formula)
+   - [INTO(value: T)](#into)
    - [MAP(list: T, lambda: Expression)](#map)
    - [OFFSET_COL()](#offset_col)
    - [OFFSET_ROW()](#offset_row)
@@ -2750,6 +2751,15 @@ Get the col number of a cell. If no cell is provided, the current cell will be u
 [Back to top](#functions)
 
 Inherit a formula from another cell. References to other cells in the formula will be updated to be relative to the current cell.
+
+---
+
+<a name="into"></a>
+#### INTO(value: T)
+
+[Back to top](#functions)
+
+Try to coerce a value into the type expected by the function argument's type.
 
 ---
 

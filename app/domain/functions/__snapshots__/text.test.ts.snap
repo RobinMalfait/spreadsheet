@@ -40,6 +40,16 @@ exports[`@example tests > CONCAT("hello", " ", "world") 1`] = `
 "
 `;
 
+exports[`@example tests > FIND_FIRST > FIND_FIRST("321", INTO(DIGITS())) 1`] = `
+"
+┌───┬─────┐
+│   │ A   │
+├───┼─────┤
+│ 1 │ "3" │
+└───┴─────┘
+"
+`;
+
 exports[`@example tests > FIND_FIRST > FIND_FIRST("12345", "5", "4", "3", "2", "1") 1`] = `
 "
 ┌───┬─────┐

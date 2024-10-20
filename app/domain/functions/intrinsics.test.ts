@@ -2,6 +2,57 @@ import { describe, expect, it } from 'vitest'
 import { Spreadsheet } from '~/domain/spreadsheet'
 import { visualizeSpreadsheet } from '~/test/utils'
 
+describe('INTO()', () => {
+  it('should not be possible to use `INTO()` top-level', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=INTO(123)')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ Error │
+      └───┴───────┘
+
+      Errors:
+
+      · A1: INTO() can only be used inside of a function
+      "
+    `)
+  })
+
+  it('should try to coerce the value to the expected type', () => {
+    let spreadsheet = new Spreadsheet()
+    spreadsheet.set('A1', '=ABS(INTO("2"))')
+    spreadsheet.set('A2', '=FIND_FIRST(INTO(123), INTO(3 - 2))')
+    spreadsheet.set('A3', '=LEN(INTO(123))')
+    spreadsheet.set('A4', '=NOT(INTO("abc"))')
+    spreadsheet.set('A5', '=NOT(INTO(1))')
+    spreadsheet.set('A6', '=NOT(INTO(0))')
+
+    expect(visualizeSpreadsheet(spreadsheet)).toMatchInlineSnapshot(`
+      "
+      ┌───┬───────┐
+      │   │ A     │
+      ├───┼───────┤
+      │ 1 │ 2     │
+      ├───┼───────┤
+      │ 2 │ "1"   │
+      ├───┼───────┤
+      │ 3 │ 3     │
+      ├───┼───────┤
+      │ 4 │ FALSE │
+      ├───┼───────┤
+      │ 5 │ FALSE │
+      ├───┼───────┤
+      │ 6 │ TRUE  │
+      └───┴───────┘
+      "
+    `)
+  })
+})
+
 describe('INHERIT_FORMULA()', () => {
   it('should error when the passed argument is missing', () => {
     let spreadsheet = new Spreadsheet()

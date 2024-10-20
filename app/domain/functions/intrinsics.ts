@@ -1,10 +1,59 @@
 import { type AST, type AstEvaluationResult, AstKind } from '~/domain/ast'
 import { evaluateExpression } from '~/domain/evaluation'
-import { EvaluationResultKind } from '~/domain/evaluation-result'
+import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
 import { applyLocationDelta, locationDelta, parseLocation } from '~/domain/expression'
 import { withSignature } from '~/domain/function-utils'
+import * as functions from '~/domain/functions'
 import { WalkAction, walk } from '~/domain/walk-ast'
 import { ensureMatrix } from '~/utils/matrix'
+import type { Signature } from '../signature/parser'
+import { matchesTypes, tryCoerceValue } from '../type-checker'
+
+function resolveTypesAt(args: Signature['args'], idx: number) {
+  for (let [i, arg] of args.slice(0, idx + 1).entries()) {
+    if (arg.variadic) {
+      return arg.types.map((t) => `${t}[]`)
+    }
+
+    if (i === idx) {
+      return arg.types
+    }
+  }
+
+  return []
+}
+
+export const INTO = withSignature(
+  `
+    @description Try to coerce a value into the type expected by the function argument's type.
+    INTO(value: T)
+  `,
+  (ctx) => {
+    if (ctx.parent === undefined) {
+      return {
+        kind: EvaluationResultKind.ERROR,
+        value: 'INTO() can only be used inside of a function',
+      }
+    }
+
+    let arg = ctx.ast.args[0]
+
+    if (!arg || ctx.ast.args.length !== 1) {
+      return {
+        kind: EvaluationResultKind.ERROR,
+        value: 'INTO(value: T) Argument `value` was not provided',
+      }
+    }
+
+    let fn = functions[ctx.parent.name as keyof typeof functions]
+    let argTypes = fn.signature.args
+
+    let types = resolveTypesAt(argTypes, ctx.parent.idx)
+    let myValue = evaluateExpression(arg, ctx.spreadsheet, ctx.cell)
+
+    return matchesTypes(myValue, types) ? myValue : tryCoerceValue(myValue, types)
+  },
+)
 
 export const INHERIT_FORMULA = withSignature(
   `

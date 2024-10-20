@@ -124,6 +124,7 @@ export const FIND_FIRST = expose(
     @example FIND_FIRST("The quick brown fox jumps over the lazy dog", "fox", "dog")
     @example FIND_FIRST("The quick brown fox jumps over the lazy dog", "dog", "fox")
     @example FIND_FIRST("12345", "5", "4", "3", "2", "1")
+    @example FIND_FIRST("321", INTO(DIGITS()))
     FIND_FIRST(haystack: STRING, ...needles: STRING)
   `,
   (haystack: EvaluationResultString, ...needles: EvaluationResultString[]) => {
