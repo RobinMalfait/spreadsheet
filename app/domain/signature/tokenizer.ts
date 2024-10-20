@@ -13,7 +13,9 @@ const QUESTION_MARK = 63 // ?
 const AT = 64 // @
 const UPPER_A = 65 // A
 const UPPER_Z = 90 // Z
+const CLOSE_BRACKET = 93 // ]
 const UNDERSCORE = 95 // _
+const OPEN_BRACKET = 91 // [
 const LOWER_A = 97 // a
 const LOWER_Z = 122 // z
 const OR = 124 // |
@@ -34,6 +36,8 @@ export enum TokenKind {
   COMMA = 'COMMA',
   OPEN_PAREN = 'OPEN_PAREN',
   CLOSE_PAREN = 'CLOSE_PAREN',
+  OPEN_BRACKET = 'OPEN_BRACKET',
+  CLOSE_BRACKET = 'CLOSE_BRACKET',
   UNKNOWN = 'UNKNOWN',
 }
 
@@ -48,6 +52,8 @@ export type Token = (
   | { kind: TokenKind.COMMA }
   | { kind: TokenKind.OPEN_PAREN }
   | { kind: TokenKind.CLOSE_PAREN }
+  | { kind: TokenKind.OPEN_BRACKET }
+  | { kind: TokenKind.CLOSE_BRACKET }
   | { kind: TokenKind.UNKNOWN }
 ) & { raw: string; span: Span }
 
@@ -180,6 +186,26 @@ export function tokenize(input: string): Token[] {
       tokens.push({
         kind: TokenKind.CLOSE_PAREN,
         raw: ')',
+        span: { start: idx, end: idx + 1 },
+      })
+      continue
+    }
+
+    // Open bracket
+    if (char === OPEN_BRACKET) {
+      tokens.push({
+        kind: TokenKind.OPEN_BRACKET,
+        raw: '[',
+        span: { start: idx, end: idx + 1 },
+      })
+      continue
+    }
+
+    // Close bracket
+    if (char === CLOSE_BRACKET) {
+      tokens.push({
+        kind: TokenKind.CLOSE_BRACKET,
+        raw: ']',
         span: { start: idx, end: idx + 1 },
       })
       continue

@@ -201,6 +201,28 @@ export function parse(tokens: Token[]): Signature {
     arg.types.push(next.value)
     next = tokens.shift()
 
+    // FOO(x: NUMBER[])
+    //              ^^
+    if (next?.kind === TokenKind.OPEN_BRACKET) {
+      next = tokens.shift()
+      if (next?.kind !== TokenKind.CLOSE_BRACKET) {
+        throw new Error('Expected a closing bracket')
+      }
+      arg.types[arg.types.length - 1] += '[]'
+      next = tokens.shift()
+    }
+
+    // FOO(x: NUMBER[][])
+    //                ^^
+    if (next?.kind === TokenKind.OPEN_BRACKET) {
+      next = tokens.shift()
+      if (next?.kind !== TokenKind.CLOSE_BRACKET) {
+        throw new Error('Expected a closing bracket')
+      }
+      arg.types[arg.types.length - 1] += '[]'
+      next = tokens.shift()
+    }
+
     // FOO(x: NUMBER, y: NUMBER, z: NUMBER)
     //     ^^^^^^^^^  ^^^^^^^^^  ^^^^^^^^^
     while (next?.kind !== TokenKind.COMMA && next?.kind !== TokenKind.CLOSE_PAREN) {
@@ -208,7 +230,7 @@ export function parse(tokens: Token[]): Signature {
       //               ^
       if (next?.kind !== TokenKind.OR) {
         throw new Error(
-          `Expected a \`|\`, \`,\` or \`)\`, got ${next ? `\`${next.kind}(${next.raw})\`` : '<nothing>'}`,
+          `Expected a \`|\`, \`,\`, \`[\` or \`)\`, got ${next ? `\`${next.kind}(${next.raw})\`` : '<nothing>'}`,
         )
       }
 
@@ -222,6 +244,28 @@ export function parse(tokens: Token[]): Signature {
 
       arg.types.push(next.value)
       next = tokens.shift()
+
+      // FOO(x: NUMBER[])
+      //              ^^
+      if (next?.kind === TokenKind.OPEN_BRACKET) {
+        next = tokens.shift()
+        if (next?.kind !== TokenKind.CLOSE_BRACKET) {
+          throw new Error('Expected a closing bracket')
+        }
+        arg.types[arg.types.length - 1] += '[]'
+        next = tokens.shift()
+      }
+
+      // FOO(x: NUMBER[][])
+      //                ^^
+      if (next?.kind === TokenKind.OPEN_BRACKET) {
+        next = tokens.shift()
+        if (next?.kind !== TokenKind.CLOSE_BRACKET) {
+          throw new Error('Expected a closing bracket')
+        }
+        arg.types[arg.types.length - 1] += '[]'
+        next = tokens.shift()
+      }
     }
 
     args.push(arg)

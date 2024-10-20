@@ -100,6 +100,48 @@ it('should parse a function with an optional variadic argument', () => {
   `)
 })
 
+it('should parse a function with a 1D array type', () => {
+  expect(parse(tokenize('SUM(values: NUMBER[])'))).toMatchInlineSnapshot(json`
+    {
+      "args": [
+        {
+          "name": "values",
+          "optional": false,
+          "types": [
+            "NUMBER[]",
+          ],
+          "variadic": false,
+        },
+      ],
+      "description": [Function],
+      "internal": false,
+      "name": "SUM",
+      "tags": [],
+    }
+  `)
+})
+
+it('should parse a function with a 2D array type', () => {
+  expect(parse(tokenize('SUM(values: NUMBER[][])'))).toMatchInlineSnapshot(json`
+    {
+      "args": [
+        {
+          "name": "values",
+          "optional": false,
+          "types": [
+            "NUMBER[][]",
+          ],
+          "variadic": false,
+        },
+      ],
+      "description": [Function],
+      "internal": false,
+      "name": "SUM",
+      "tags": [],
+    }
+  `)
+})
+
 it('should parse a function that accepts multiple types', () => {
   expect(parse(tokenize('FOO(x: NUMBER | STRING)'))).toMatchInlineSnapshot(json`
     {
@@ -117,6 +159,52 @@ it('should parse a function that accepts multiple types', () => {
       "description": [Function],
       "internal": false,
       "name": "FOO",
+      "tags": [],
+    }
+  `)
+})
+
+it('should parse a function with multiple 1D array type', () => {
+  expect(parse(tokenize('SUM(values: NUMBER[] | STRING[])'))).toMatchInlineSnapshot(json`
+    {
+      "args": [
+        {
+          "name": "values",
+          "optional": false,
+          "types": [
+            "NUMBER[]",
+            "STRING[]",
+          ],
+          "variadic": false,
+        },
+      ],
+      "description": [Function],
+      "internal": false,
+      "name": "SUM",
+      "tags": [],
+    }
+  `)
+})
+
+it('should parse a function with multiple 2D array type', () => {
+  expect(
+    parse(tokenize('SUM(values: NUMBER[][] | STRING[][])')),
+  ).toMatchInlineSnapshot(json`
+    {
+      "args": [
+        {
+          "name": "values",
+          "optional": false,
+          "types": [
+            "NUMBER[][]",
+            "STRING[][]",
+          ],
+          "variadic": false,
+        },
+      ],
+      "description": [Function],
+      "internal": false,
+      "name": "SUM",
       "tags": [],
     }
   `)
@@ -276,7 +364,7 @@ describe('error handling', () => {
 
   it('should throw when `|` is missing between multiple types', () => {
     expect(() => parse(tokenize('FOO(x: NUMBER STRING)'))).toThrowError(
-      'Expected a `|`, `,` or `)`, got `IDENTIFIER(STRING)`',
+      'Expected a `|`, `,`, `[` or `)`, got `IDENTIFIER(STRING)`',
     )
   })
 
@@ -288,7 +376,7 @@ describe('error handling', () => {
 
   it('should throw when `,` is missing between multiple arguments', () => {
     expect(() => parse(tokenize('FOO(x: NUMBER y: STRING)'))).toThrowError(
-      'Expected a `|`, `,` or `)`, got `IDENTIFIER(y)`',
+      'Expected a `|`, `,`, `[` or `)`, got `IDENTIFIER(y)`',
     )
   })
 })
