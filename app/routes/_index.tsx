@@ -247,7 +247,7 @@ export default function Index() {
 
       vcs.commit(
         'B9',
-        '=AS_NUMBER(FIND_FIRST(A9, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(A9, AS_STRINGS(DIGITS())))',
+        '=AS_NUMBER(FIND_FIRST(A9, INTO(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(A9, INTO(DIGITS())))',
       )
       vcs.commit('B10:B12', '=INHERIT_FORMULA(B9)')
 
@@ -270,7 +270,7 @@ export default function Index() {
 
       vcs.commit(
         'E9',
-        '=AS_NUMBER(FIND_FIRST(D9, AS_STRINGS(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(D9, AS_STRINGS(DIGITS())))',
+        '=AS_NUMBER(FIND_FIRST(D9, INTO(DIGITS()))) * 10 + AS_NUMBER(FIND_LAST(D9, INTO(DIGITS())))',
       )
       vcs.commit('E10:E15', '=INHERIT_FORMULA(E9)')
 
