@@ -9,7 +9,7 @@
     "lint": "biome check .",
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc",
-    "test": "vitest",
+    "test": "vitest --hideSkippedTests",
     "format": "biome format --write .",
     "generate:docs": "bun ./scripts/generate-documentation.ts"
   },
