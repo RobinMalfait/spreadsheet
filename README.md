@@ -135,7 +135,7 @@ There are **123** built-in functions available.
    - [MATRIX(rows: NUMBER, cols: NUMBER, fill: T)](#matrix)
    - [OCT_DIGITS()](#oct_digits)
    - [RANGE(min: NUMBER, max?: NUMBER)](#range)
-   - [TRANSPOSE(...value: T)](#transpose)
+   - [TRANSPOSE(value: T | T[] | T[][])](#transpose)
 - [Statistical functions](#statistical-functions)
    - [AVERAGE(...values: T)](#average)
    - [COUNT(...values: T)](#count)
@@ -1839,7 +1839,7 @@ Generate a sequence of numbers from start to end.
 ---
 
 <a name="transpose"></a>
-#### TRANSPOSE(...value: T)
+#### TRANSPOSE(value: T | T[] | T[][])
 
 [Back to top](#functions)
 
@@ -2069,6 +2069,20 @@ Returns the first needle found in the haystack.
 ```ts
 =FIND_FIRST("12345", "5", "4", "3", "2", "1")
 // "1"
+```
+
+```ts
+// Dependencies:
+=INTO(DIGITS()) // ERROR: INTO() can only be used inside of a function
+=DIGITS()
+// ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐
+// │   │ A │ B │ C │ D │ E │ F │ G │ H │ I │ J │
+// ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤
+// │ 1 │ 0 │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │
+// └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘
+
+=FIND_FIRST("321", INTO(DIGITS()))
+// "3"
 ```
 
 ---
