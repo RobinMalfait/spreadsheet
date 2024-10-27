@@ -10,6 +10,8 @@ import { printLocation } from '~/domain/expression'
 import * as functions from '~/domain/functions'
 import * as intrinsicFunctions from '~/domain/functions/intrinsics'
 import type { Spreadsheet } from '~/domain/spreadsheet'
+import type { Argument } from './signature/parser'
+import { matchesTypes, resolveTypesAt } from './type-checker'
 
 export interface Context {
   ast: AstFunction
@@ -23,7 +25,7 @@ export function evaluateExpression(
   spreadsheet: Spreadsheet,
   cell: string,
   returnFullValue = false,
-  parent?: { name: string; idx: number },
+  parent?: { name: string; idx: number; types: Argument[] },
 ): EvaluationResult | EvaluationResult[] | EvaluationResult[][] {
   switch (ast.kind) {
     case AstKind.EVALUATION_RESULT:
@@ -35,10 +37,8 @@ export function evaluateExpression(
     case AstKind.STRING_LITERAL:
       return { kind: EvaluationResultKind.STRING, value: ast.value }
 
-    case AstKind.CELL: {
-      let out = spreadsheet.evaluate(ast.name, returnFullValue)
-      return out
-    }
+    case AstKind.CELL:
+      return spreadsheet.evaluate(ast.name, returnFullValue)
 
     case AstKind.RANGE: {
       let matrix: EvaluationResult[][] = []
@@ -65,7 +65,7 @@ export function evaluateExpression(
         }
       }
 
-      return matrix
+      return parent ? [matrix] : matrix
     }
 
     case AstKind.BINARY_EXPRESSION: {
@@ -138,7 +138,23 @@ export function evaluateExpression(
           parent,
         }
 
-        return intrinsicFunctions[ast.name as keyof typeof intrinsicFunctions](ctx)
+        let result = intrinsicFunctions[ast.name as keyof typeof intrinsicFunctions](ctx)
+        if (parent) {
+          let [resolvedTypes, variadic] = resolveTypesAt(parent.types, parent.idx)
+
+          // Auto spread variadic arguments
+          if (
+            variadic &&
+            Array.isArray(result) &&
+            result.every((x) => matchesTypes(x, resolvedTypes))
+          ) {
+            return result
+          }
+
+          return [result]
+        }
+
+        return result
       }
 
       if (!Object.hasOwn(functions, ast.name)) {
@@ -149,20 +165,56 @@ export function evaluateExpression(
       }
 
       let fn = functions[ast.name as keyof typeof functions]
-      let args = ast.args.map((arg, idx) => {
+      let argTypes = fn.signature.args
+
+      let args = ast.args.flatMap((arg, idx) => {
+        let [resolvedTypes, variadic] = resolveTypesAt(argTypes, idx)
         if (arg?.kind === AstKind.EVALUATION_RESULT) {
-          return arg.value
+          if (variadic) {
+            if (matchesTypes(arg.value, resolvedTypes)) {
+              return [arg.value]
+            }
+
+            // Auto spread variadic arguments
+            if (
+              Array.isArray(arg.value) &&
+              arg.value.every((x) => matchesTypes(x, resolvedTypes))
+            ) {
+              return arg.value
+            }
+          }
+
+          return [arg.value]
         }
 
         return evaluateExpression(arg, spreadsheet, cell, returnFullValue, {
           name: ast.name,
           idx,
+          types: argTypes,
         })
       })
 
-      // @ts-expect-error Each function has a different number of arguments, but
-      // everything is typed and will be checked at runtime.
-      return fn(...args)
+      // @ts-expect-error Each function has a different number of arguments, but everything is typed and will be checked at runtime.
+      let result = fn(...args)
+
+      // We were called as part of a parent function. Let's make sure the types
+      // are correct.
+      if (parent) {
+        let [resolvedTypes, variadic] = resolveTypesAt(parent.types, parent.idx)
+
+        // Auto spread variadic arguments
+        if (
+          variadic &&
+          Array.isArray(result) &&
+          result.every((x) => matchesTypes(x, resolvedTypes))
+        ) {
+          return result
+        }
+
+        return [result]
+      }
+
+      return result
     }
   }
 }

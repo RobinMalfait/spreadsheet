@@ -1,5 +1,6 @@
 import {
   type EvaluationResult,
+  type EvaluationResultBoolean,
   EvaluationResultKind,
   type EvaluationResultNumber,
 } from '~/domain/evaluation-result'
@@ -149,7 +150,7 @@ export const NOT = expose(
     @example NOT(FALSE())
     NOT(value: BOOLEAN)
   `,
-  (lhs: EvaluationResult) => {
+  (lhs: EvaluationResultBoolean) => {
     return lhs.value ? FALSE() : TRUE()
   },
 )

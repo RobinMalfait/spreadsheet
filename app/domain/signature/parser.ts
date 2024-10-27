@@ -1,6 +1,6 @@
 import { type Token, TokenKind } from '~/domain/signature/tokenizer'
 
-interface Argument {
+export interface Argument {
   name: string
   types: string[]
 

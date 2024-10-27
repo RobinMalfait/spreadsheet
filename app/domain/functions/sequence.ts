@@ -115,7 +115,7 @@ export const TRANSPOSE = expose(
     @description Transpose an array.
     @param value The array to transpose.
     @example TRANSPOSE(DIGITS())
-    TRANSPOSE(...value: T)
+    TRANSPOSE(value: T | T[] | T[][])
   `,
   // @ts-expect-error we are not really setup to use matrices yet
   (value: EvaluationResult | EvaluationResult[] | EvaluationResult[][]) => {

@@ -7,21 +7,7 @@ import * as functions from '~/domain/functions'
 import { WalkAction, walk } from '~/domain/walk-ast'
 import { ensureMatrix } from '~/utils/matrix'
 import type { Signature } from '../signature/parser'
-import { matchesTypes, tryCoerceValue } from '../type-checker'
-
-function resolveTypesAt(args: Signature['args'], idx: number) {
-  for (let [i, arg] of args.slice(0, idx + 1).entries()) {
-    if (arg.variadic) {
-      return arg.types.map((t) => `${t}[]`)
-    }
-
-    if (i === idx) {
-      return arg.types
-    }
-  }
-
-  return []
-}
+import { matchesTypes, resolveTypesAt, tryCoerceValue } from '../type-checker'
 
 export const INTO = withSignature(
   `
@@ -48,10 +34,21 @@ export const INTO = withSignature(
     let fn = functions[ctx.parent.name as keyof typeof functions]
     let argTypes = fn.signature.args
 
-    let types = resolveTypesAt(argTypes, ctx.parent.idx)
+    let [types, variadic] = resolveTypesAt(argTypes, ctx.parent.idx)
     let myValue = evaluateExpression(arg, ctx.spreadsheet, ctx.cell)
 
-    return matchesTypes(myValue, types) ? myValue : tryCoerceValue(myValue, types)
+    if (
+      matchesTypes(myValue, types) ||
+      (variadic && Array.isArray(myValue) && myValue.every((x) => matchesTypes(x, types)))
+    ) {
+      return myValue
+    }
+
+    if (variadic && Array.isArray(myValue)) {
+      return myValue.map((x) => tryCoerceValue(x, types))
+    }
+
+    return tryCoerceValue(myValue, types)
   },
 )
 
