@@ -1,7 +1,7 @@
 import { setSystemTime } from 'bun:test'
 import { AstKind } from '~/domain/ast'
 import { printEvaluationResult } from '~/domain/evaluation'
-import { EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
+import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
 import { parse, printExpression } from '~/domain/expression'
 import * as dateFunctions from '~/domain/functions/date'
 import * as engineeringFunctions from '~/domain/functions/engineering'
