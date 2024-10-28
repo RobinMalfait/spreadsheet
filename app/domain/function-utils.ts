@@ -11,7 +11,15 @@ export function expose<
   let sig = parse(tokenize(signature))
 
   return Object.assign(
-    (...args: EvaluationResult[]) => {
+    (
+      // Due to the spread, there is an additional set of brackets around the
+      // types for the arguments.
+      ...args: (
+        | EvaluationResult // Unit
+        | EvaluationResult[] // 1D
+        | EvaluationResult[][] // 2D
+      )[]
+    ) => {
       // Validate
       let errors = validate(sig, args)
       if (errors) return errors
@@ -24,10 +32,19 @@ export function expose<
   )
 }
 
-export function withSignature<
-  T extends EvaluationResult[],
-  R extends EvaluationResult | EvaluationResult[] | EvaluationResult[][],
->(signature: string, handle: (ctx: Context, ...args: T) => R) {
+export function withSignature(
+  signature: string,
+  handle: (
+    ctx: Context,
+    // Due to the spread, there is an additional set of brackets around the
+    // types for the arguments.
+    ...args: (
+      | EvaluationResult // Unit
+      | EvaluationResult[] // 1D
+      | EvaluationResult[][] // 2D
+    )[]
+  ) => EvaluationResult | EvaluationResult[] | EvaluationResult[][],
+) {
   let sig = parse(tokenize(signature))
 
   return Object.assign(handle, { signature: sig })

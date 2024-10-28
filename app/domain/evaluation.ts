@@ -65,6 +65,9 @@ export function evaluateExpression(
         }
       }
 
+      // @ts-expect-error When a parent is defined, we know that the result will
+      // be used in a flatMap. Therefore we need to return an array that
+      // encapsulates this matrix.
       return parent ? [matrix] : matrix
     }
 
@@ -151,6 +154,9 @@ export function evaluateExpression(
             return result
           }
 
+          // @ts-expect-error When a parent is defined, we know that the result
+          // will be used in a flatMap. Therefore we need to return an array
+          // that encapsulates this result.
           return [result]
         }
 
@@ -211,6 +217,9 @@ export function evaluateExpression(
           return result
         }
 
+        // @ts-expect-error When a parent is defined, we know that the result
+        // will be used in a flatMap. Therefore we need to return an array that
+        // encapsulates this result.
         return [result]
       }
 

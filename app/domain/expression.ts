@@ -475,6 +475,8 @@ export function printExpression(input: AST, depth = 0): string {
       return depth === 0
         ? `${printExpression(input.lhs, depth + 1)} ${printBinaryOperator(input.operator)} ${printExpression(input.rhs, depth + 1)}`
         : `(${printExpression(input.lhs, depth + 1)} ${printBinaryOperator(input.operator)} ${printExpression(input.rhs, depth + 1)})`
+    case AstKind.EVALUATION_RESULT:
+      return '<EVALUATION_RESULT>' // TODO: Maybe improve this type?
   }
 }
 

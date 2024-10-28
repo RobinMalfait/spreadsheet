@@ -6,7 +6,6 @@ import { withSignature } from '~/domain/function-utils'
 import * as functions from '~/domain/functions'
 import { WalkAction, walk } from '~/domain/walk-ast'
 import { ensureMatrix } from '~/utils/matrix'
-import type { Signature } from '../signature/parser'
 import { matchesTypes, resolveTypesAt, tryCoerceValue } from '../type-checker'
 
 export const INTO = withSignature(
@@ -45,7 +44,7 @@ export const INTO = withSignature(
     }
 
     if (variadic && Array.isArray(myValue)) {
-      return myValue.map((x) => tryCoerceValue(x, types))
+      return myValue.map((x) => tryCoerceValue(x, types)) as EvaluationResult[]
     }
 
     return tryCoerceValue(myValue, types)
@@ -154,7 +153,7 @@ export const VALUE = withSignature(
     @internal
     VALUE()
   `,
-  (ctx) => {
+  () => {
     return {
       kind: EvaluationResultKind.ERROR,
       value: 'VALUE() can only be used inside of a MAP() function',
@@ -168,7 +167,7 @@ export const OFFSET_ROW = withSignature(
     @internal
     OFFSET_ROW()
   `,
-  (ctx) => {
+  () => {
     return {
       kind: EvaluationResultKind.ERROR,
       value: 'OFFSET_ROW() can only be used inside of a MAP() function',
@@ -182,7 +181,7 @@ export const OFFSET_COL = withSignature(
     @internal
     OFFSET_COL()
   `,
-  (ctx) => {
+  () => {
     return {
       kind: EvaluationResultKind.ERROR,
       value: 'OFFSET_COL() can only be used inside of a MAP() function',
@@ -244,6 +243,6 @@ export const MAP = withSignature(
 
         return evaluateExpression(fn, ctx.spreadsheet, ctx.cell)
       })
-    })
+    }) as EvaluationResult[][]
   },
 )

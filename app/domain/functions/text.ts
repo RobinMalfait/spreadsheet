@@ -321,6 +321,7 @@ export const TEXT_SLICE = expose(
     @example TEXT_SLICE("The quick brown fox jumps over the lazy dog", 10, 19)
     TEXT_SLICE(value: STRING, start: NUMBER, end?: NUMBER)
   `,
+  // @ts-expect-error Types are not generated from the definition above yet.
   (
     value: EvaluationResultString,
     start: EvaluationResultNumber,

@@ -89,7 +89,7 @@ There are **123** built-in functions available.
    - [SWITCH(value: T, ...cases: T, default?: T)](#switch)
    - [TRUE()](#true)
 - [Lookup functions](#lookup-functions)
-   - [LOOKUP(value: T, lhs: T, rhs: T, fallback?: T)](#lookup)
+   - [LOOKUP(value: T, lhs: T | T[], rhs: T | T[], fallback?: T)](#lookup)
 - [Math functions](#math-functions)
    - [ABS(x: NUMBER)](#abs)
    - [ACOS(x: NUMBER)](#acos)
@@ -164,12 +164,12 @@ There are **123** built-in functions available.
    - [UPPER(value: T)](#upper)
 - [Type functions](#type-functions)
    - [AS_BOOLEAN(value: T)](#as_boolean)
-   - [AS_BOOLEANS(...values: T)](#as_booleans)
+   - [AS_BOOLEANS(...values: T | T[] | T[][])](#as_booleans)
    - [AS_CHAR(value: T)](#as_char)
    - [AS_NUMBER(value: T)](#as_number)
-   - [AS_NUMBERS(...values: T)](#as_numbers)
+   - [AS_NUMBERS(...values: T | T[] | T[][])](#as_numbers)
    - [AS_STRING(value: T)](#as_string)
-   - [AS_STRINGS(...values: T)](#as_strings)
+   - [AS_STRINGS(...values: T | T[] | T[][])](#as_strings)
    - [TYPE(value: T)](#type)
 - [Intrinsics](#intrinsics)
    - [COL(cell?: CELL)](#col)
@@ -987,7 +987,7 @@ The boolean value true.
 ### Lookup functions
 
 <a name="lookup"></a>
-#### LOOKUP(value: T, lhs: T, rhs: T, fallback?: T)
+#### LOOKUP(value: T, lhs: T | T[], rhs: T | T[], fallback?: T)
 
 [Back to top](#functions)
 
@@ -2474,7 +2474,7 @@ Tries to convert a value to a boolean.
 ---
 
 <a name="as_booleans"></a>
-#### AS_BOOLEANS(...values: T)
+#### AS_BOOLEANS(...values: T | T[] | T[][])
 
 [Back to top](#functions)
 
@@ -2576,7 +2576,7 @@ Tries to convert a value to a number.
 ---
 
 <a name="as_numbers"></a>
-#### AS_NUMBERS(...values: T)
+#### AS_NUMBERS(...values: T | T[] | T[][])
 
 [Back to top](#functions)
 
@@ -2662,7 +2662,7 @@ Tries to convert a value to a string.
 ---
 
 <a name="as_strings"></a>
-#### AS_STRINGS(...values: T)
+#### AS_STRINGS(...values: T | T[] | T[][])
 
 [Back to top](#functions)
 

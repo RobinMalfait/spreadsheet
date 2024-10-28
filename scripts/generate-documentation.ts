@@ -1,7 +1,7 @@
 import { setSystemTime } from 'bun:test'
 import { AstKind } from '~/domain/ast'
 import { printEvaluationResult } from '~/domain/evaluation'
-import { EvaluationResultKind } from '~/domain/evaluation-result'
+import { EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
 import { parse, printExpression } from '~/domain/expression'
 import * as dateFunctions from '~/domain/functions/date'
 import * as engineeringFunctions from '~/domain/functions/engineering'
@@ -138,11 +138,7 @@ function generateDocs() {
                   .map((line) => `// ${line}`)
                   .join('\n')}\n`
               } else {
-                out += `=${dep} // ${
-                  result?.kind === EvaluationResultKind.STRING
-                    ? `"${printEvaluationResult(result)}"`
-                    : printEvaluationResult(result)
-                }\n`
+                out += `=${dep} ${printResults(result)}`
               }
             }
             out += '\n'
@@ -161,14 +157,11 @@ function generateDocs() {
               .map((line) => `// ${line}`)
               .join('\n')
           } else {
-            if (result?.kind === EvaluationResultKind.STRING) {
-              out += `// "${printEvaluationResult(result)}"`
-            } else {
-              out += `// ${printEvaluationResult(result)}`
-            }
+            out += printResults(result)
           }
 
           // End of the example block
+          out = out.trim()
           out += '\n```\n'
         }
       }
@@ -185,6 +178,40 @@ function generateDocs() {
   out = `There are **${totalFns}** built-in functions available.\n\n${out}`
 
   return out.trim().replace(/\n{3,}/g, '\n\n')
+}
+
+function printResults(
+  input: EvaluationResult | EvaluationResult[] | EvaluationResult[][],
+  depth = 0,
+) {
+  let out = ''
+
+  // 2D
+  if (Array.isArray(input) && Array.isArray(input[0])) {
+    let values = input as EvaluationResult[][]
+    for (let row of values) {
+      out += `// ${row.map((cell) => printResults(cell, depth + 1))}\n`
+    }
+    return out
+  }
+
+  // 1D
+  if (Array.isArray(input)) {
+    let values = input as EvaluationResult[]
+    out += `// ${values.map((cell) => printResults(cell, depth + 1))}\n`
+    return out
+  }
+
+  // Unit
+  if (input.kind === EvaluationResultKind.STRING) {
+    return depth === 0
+      ? `// "${printEvaluationResult(input)}"\n`
+      : `"${printEvaluationResult(input)}"\n`
+  }
+
+  return depth === 0
+    ? `// ${printEvaluationResult(input)}\n`
+    : `${printEvaluationResult(input)}\n`
 }
 
 Bun.write(

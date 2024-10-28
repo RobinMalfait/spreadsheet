@@ -1,5 +1,5 @@
 import { printEvaluationResult } from '~/domain/evaluation'
-import { EvaluationResultKind } from '~/domain/evaluation-result'
+import { type EvaluationResult, EvaluationResultKind } from '~/domain/evaluation-result'
 import { expose } from '~/domain/function-utils'
 
 export const TYPE = expose(
@@ -89,9 +89,10 @@ export const AS_NUMBERS = expose(
     @description Tries to convert a list of values to numbers.
     @param values The values to convert.
     @example AS_NUMBERS(1, "123", "million", TRUE(), FALSE(), NOW())
-    AS_NUMBERS(...values: T)
+    AS_NUMBERS(...values: T | T[] | T[][])
   `,
-  (...values) => {
+  (...values): EvaluationResult[] | EvaluationResult[][] => {
+    // @ts-expect-error Types are not generated from the definition above yet.
     return values.map((value) => {
       if (Array.isArray(value)) {
         return AS_NUMBERS(...value)
@@ -133,9 +134,10 @@ export const AS_STRINGS = expose(
     @description Tries to convert a list of values to strings.
     @param values The values to convert.
     @example AS_STRINGS(1, "123", TRUE(), FALSE(), NOW(), TIME())
-    AS_STRINGS(...values: T)
+    AS_STRINGS(...values: T | T[] | T[][])
   `,
-  (...values) => {
+  (...values): EvaluationResult[] | EvaluationResult[][] => {
+    // @ts-expect-error Types are not generated from the definition above yet.
     return values.map((value) => {
       if (Array.isArray(value)) {
         return AS_STRINGS(...value)
@@ -186,9 +188,10 @@ export const AS_BOOLEANS = expose(
     @description Tries to convert a list of values to booleans.
     @param values The values to convert.
     @example AS_BOOLEANS(0, 1, "123", "0", TRUE(), FALSE(), NOW())
-    AS_BOOLEANS(...values: T)
+    AS_BOOLEANS(...values: T | T[] | T[][])
   `,
-  (...values) => {
+  (...values): EvaluationResult[] | EvaluationResult[][] => {
+    // @ts-expect-error Types are not generated from the definition above yet.
     return values.map((value) => {
       if (Array.isArray(value)) {
         return AS_BOOLEANS(...value)

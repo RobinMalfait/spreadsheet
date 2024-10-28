@@ -4,7 +4,11 @@ import { flatten } from '~/utils/flatten'
 
 export function validate(
   signature: Signature,
-  args: EvaluationResult[],
+  args: (
+    | EvaluationResult // Unit
+    | EvaluationResult[] // 1D
+    | EvaluationResult[][] // 2D
+  )[],
 ): EvaluationResult | null {
   // Got arguments but function does not take any
   if (signature.args.length === 0 && args.length > 0) {

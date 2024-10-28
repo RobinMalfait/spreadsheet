@@ -6,8 +6,9 @@ export const LOOKUP = expose(
   `
     @description Lookup a value in a range, and return the value in the same position from another range.
     @example LOOKUP(2, RANGE(1, 3), RANGE(4, 6))
-    LOOKUP(value: T, lhs: T, rhs: T, fallback?: T)
+    LOOKUP(value: T, lhs: T | T[], rhs: T | T[], fallback?: T)
   `,
+  // @ts-expect-error Types are not generated from the definition above yet.
   (
     value: EvaluationResult,
     lhs: EvaluationResult[],
