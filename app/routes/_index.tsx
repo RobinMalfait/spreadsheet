@@ -773,7 +773,7 @@ export default function Index() {
                         className="group relative w-full cursor-default select-none px-3 py-2 text-gray-900 data-focus:bg-slate-100"
                       >
                         <span className="font-mono">{printSignature(signature)}</span>
-                        <p className="text-xs group-not-data-focus:hidden">
+                        <p className="not-group-data-focus:hidden text-xs">
                           {signature.description()}
                         </p>
                       </ComboboxOption>
@@ -1125,7 +1125,7 @@ export default function Index() {
                     : undefined
                 }
               >
-                <div className="absolute top-0 bottom-0 left-0 z-10 flex group-not-hover/cell:hidden">
+                <div className="absolute top-0 bottom-0 left-0 z-10 flex hidden group-hover/cell:block">
                   {isInjectable && (
                     <button
                       type="button"
