@@ -762,7 +762,7 @@ export default function Index() {
                 <ComboboxOptions
                   modal={false}
                   anchor="bottom start"
-                  className="inset-ring-1 inset-ring-black/10 z-20 w-96 overflow-auto rounded-md bg-white py-1.5 text-base shadow-lg [--anchor-gap:var(--spacing-2)] [--anchor-padding:var(--spacing-2)] empty:invisible focus:outline-none sm:text-sm"
+                  className="inset-ring-1 inset-ring-black/10 z-20 w-96 overflow-auto rounded-md bg-white py-1.5 text-base shadow-lg [--anchor-gap:calc(var(--spacing)*2)] [--anchor-padding:calc(var(--spacing)*2)] empty:invisible focus:outline-none sm:text-sm"
                 >
                   {({ option }: { option: keyof typeof functions }) => {
                     let signature = functions[option].signature
@@ -827,8 +827,8 @@ export default function Index() {
           {
             '--columns': WIDTH,
             '--rows': HEIGHT,
-            '--row-header-width': 'var(--spacing-16)',
-            '--col-header-height': 'var(--spacing-9)',
+            '--row-header-width': 'calc(var(--spacing) * 16)',
+            '--col-header-height': 'calc(var(--spacing) * 9)',
           } as CSSProperties
         }
       >
@@ -955,7 +955,7 @@ export default function Index() {
                   'border-[0.5px] border-gray-200',
 
                   // Scrollable area offsets for sticky headers
-                  '[--offset-padding:var(--spacing-2)]',
+                  '[--offset-padding:calc(var(--spacing)*2)]',
                   'scroll-mt-[calc(var(--col-header-height)+var(--offset-padding))]',
                   'scroll-ml-[calc(var(--row-header-width)+var(--offset-padding))]',
 
