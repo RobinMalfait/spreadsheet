@@ -656,7 +656,7 @@ export default function Index() {
                 <ComboboxInput
                   ref={inputRef}
                   className={clsx(
-                    'flex-1 border-none px-2 py-1.5 focus:outline-none',
+                    'flex-1 border-none px-2 py-1.5 focus:outline-hidden',
                     value[0] === '=' && 'font-mono',
                   )}
                   autoComplete="off"
@@ -762,7 +762,7 @@ export default function Index() {
                 <ComboboxOptions
                   modal={false}
                   anchor="bottom start"
-                  className="inset-ring-1 inset-ring-black/10 z-20 w-96 overflow-auto rounded-md bg-white py-1.5 text-base shadow-lg [--anchor-gap:calc(var(--spacing)*2)] [--anchor-padding:calc(var(--spacing)*2)] empty:invisible focus:outline-none sm:text-sm"
+                  className="inset-ring-1 inset-ring-black/10 z-20 w-96 overflow-auto rounded-md bg-white py-1.5 text-base shadow-lg [--anchor-gap:calc(var(--spacing)*2)] [--anchor-padding:calc(var(--spacing)*2)] empty:invisible focus:outline-hidden sm:text-sm"
                 >
                   {({ option }: { option: keyof typeof functions }) => {
                     let signature = functions[option].signature
@@ -1193,7 +1193,7 @@ export default function Index() {
                       inputRef.current?.select()
                     }
                   }}
-                  className="min-w-0 px-2 py-1.5 focus:outline-none has-data-error:p-0"
+                  className="min-w-0 px-2 py-1.5 focus:outline-hidden has-data-error:p-0"
                   title={alt ?? undefined}
                 >
                   {contents}
