@@ -1261,7 +1261,7 @@ export default function Index() {
 
               return (
                 <>
-                  <div className="sticky top-0 flex h-[var(--col-header-height)] justify-between border-gray-200 border-b bg-white">
+                  <div className="sticky top-0 flex h-(--col-header-height) justify-between border-gray-200 border-b bg-white">
                     <div className="flex items-center gap-2 px-2">
                       <span>Cell:</span>
                       <small>{cell}</small>
